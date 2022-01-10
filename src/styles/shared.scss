@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+
+$sans: Nunito, sans-serif;
+$weight-regular: 400;
+$weight-bold: 700;
+$book-primary: #34a;
+$book-secondary: #def;
+$comic-primary: #86398d;
+$comic-secondary: rgb(251, 221, 255);
+$background: #f3f3f3;
+$background2: #e7e7e7;
+// $comic-primary: #de3333;
+// $comic-secondary: #fed;
+$grey4: rgb(221, 221, 221);
+$grey3: rgb(196, 196, 196);
+$grey2: rgb(155, 155, 155);
+$grey1: rgb(100, 100, 100);
+
+%reset-button {
+	border: none;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	overflow: visible;
+
+	background: transparent;
+
+	/* inherit font & color from ancestor */
+	color: inherit;
+	font: inherit;
+
+	/* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+	line-height: normal;
+
+	/* Corrects font smoothing for webkit */
+	-webkit-font-smoothing: inherit;
+	-moz-osx-font-smoothing: inherit;
+
+	/* Corrects inability to style clickable `input` types in iOS */
+	-webkit-appearance: none;
+}
+
+%cell-fit-content {
+	width: 1px;
+	white-space: nowrap;
+}

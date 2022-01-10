@@ -1,0 +1,67 @@
+STAR WARS MEDIA TIMELINE
+
+EASY TO CONTRIBUTE
+
+TOGGLE: Distinct coloring for different series of comics/books (how to even do this with 1 table approach? Shades of one color aren't distinct enough... maybe disable this toggle unless only comics are selected in filters)
+Clearly indicate when a search finds entries that are being filtered out (someone searches for something without realizing the filters they have on)
+RANGES: limit timeline to specified range, make it easy to select "between movie a and b" or "empire era"
+switch between comic issues, arcs, and series (same for tv shows, books)
+also toggle between comic arc and trade paperback (in the same row, radio button)
+TPB and omnibuses on different timeline
+disable trade paperback checkobx when sorting by date, and add a tooltip explaining (?)
+toggle sorting between release order and chronological
+dynamic searching (show result as you type)
+links to wookieepedia
+show: release date, in-universe year, authors, artists/colorist(not by default), color coded type (adult book, junior comic, short story etc.), publisher
+have a section for reference books
+include stuff with questionable canon status and mark it as such
+filters/sorting on the side, fixed position
+save filtering and sorting (and presets) in localstorage
+PRESET: a set of filtering settings
+default preset: the most relevant non-junior media
+default preset 2: movies and tv shows
+allow users to create presets
+option: collapse episodes: group episodes are chronologically in order (e.g. TCW s3e1 s3e3 s1e1-s1e15 s1e17-s1e21)
+tv show seasons color coded (tints of one color?)
+selecting an entry highlights related entries (same story arc, series etc.) (and maybe shows details on the side)
+
+When something spans a lot of time, treat it as its beginning (further research)
+
+Have a checkbox to ignore filters when searcing ("Search in all" or "Ignore filters")
+Click entry to expand showing more information, including a "Included in:" section with all TBPs and collections that include this issue/arc
+
+
+maybe/future:
+mark stuff as viewed/read, and have option to hide those entries
+
+
+STRUCTURE:
+MAIN TABLE:
+single issues, story arcs, series << Include a link to the collecting table to all collections which include a given issue, story arc, (a part of a) series
+books, audiobooks, vovelizations
+tv shows, seasons, episodes
+movies
+video games
+COLLECTING TABLE:
+tpbs, collections, reference books
+
+
+
+REFERENCE:
+https://starwars.fandom.com/wiki/Timeline_of_canon_media
+
+OTHER TIMELINES:
+http://www.starwarsdatapad.com/star-wars-canon-timeline-release-dates/
+https://www.jeditemplearchives.com/specialreports/graphicnovels/
+[local] http://starwarstimelinealmanac.com/
+https://www.ultimatestarwarstimeline.com/canon-timeline
+[local] https://www.reddit.com/r/starwarscanon/comments/kodal5/the_complete_star_wars_canon_timeline_january/
+[discontinued] https://starwarsfanworks.com/wp-content/uploads/2020/04/SWTG56StoryGroupCanon.pdf
+[local][canon & legends] https://www.facebook.com/TheStarWarsChronologicalCompanion/
+[legends focused] http://www.starwarstimeline.net/
+https://mythbank.com/star-wars-canon-timeline/
+https://starwarscanontimeline.com/
+https://www.youtini.com/timelines/canon-timeline
+https://www.reddit.com/r/starwarscanon/comments/kq8uzu/the_complete_star_wars_canon_by_release_date/
+https://starwarsreadingorder.com/canon_order.php
+[release order] https://docs.google.com/spreadsheets/d/15o_QVeX-arkkpzhYrCTRou_AOyhpa0iywkPt4IrHgxc/edit#gid=0

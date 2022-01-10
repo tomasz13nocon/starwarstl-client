@@ -1,0 +1,141 @@
+@use "./shared.scss" as *;
+
+table {
+	//table-layout: fixed;
+	width: 100%;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+td,
+th {
+	border: 1px solid black;
+	$padding: 2px;
+	padding: $padding $padding + 5px;
+
+	&.cover {
+		width: 50px;
+	}
+	&.date {
+		@extend %cell-fit-content;
+	}
+	&.author {
+		@extend %cell-fit-content;
+	}
+	&.releaseDate {
+		@extend %cell-fit-content;
+	}
+}
+
+th {
+	background-color: #444;
+	color: white;
+	text-transform: capitalize;
+	cursor: pointer;
+
+	.icon {
+		padding-left: 4px;
+		vertical-align: sub;
+		color: #e6a34e;
+	}
+
+	width: auto;
+}
+
+tr.standard-row {
+	td.title {
+		font-weight: $weight-bold;
+		font-size: 1em;
+		cursor: pointer;
+		button {
+			@extend %reset-button;
+			pointer-events: none;
+		}
+	}
+
+	td.cover {
+		img {
+			max-width: 100%;
+			display: block;
+		}
+	}
+
+	td {
+		font-size: 0.8em;
+	}
+}
+
+tr.details-row {
+	td {
+		padding: 0;
+	}
+	.details {
+		overflow: hidden;
+		height: 0;
+	}
+
+	.cover {
+		float: left;
+		margin: 12px;
+		box-shadow: 2px 2px 8px #000;
+		//border: 1px solid #000;
+		//box-sizing: border-box;
+	}
+	.text {
+		// Left margin so that the content doesn't shift when the cover hasn't loaded
+		// It's value is image width + image left margin + margin we want between image and text
+		margin: 12px 0 12px 232px;
+		font-size: 18px;
+		.title {
+			margin: 0 0 12px 0;
+			line-height: 0.95;
+			font-size: 36px;
+		}
+		dl {
+			margin: 0;
+			> div {
+				display: flex;
+				// &:nth-child(even) {
+				// 	background-color: $background2;
+				// }
+			}
+			dt,
+			dd {
+				display: inline-block;
+			}
+			dt {
+				font-weight: $weight-bold;
+			}
+			dd {
+				margin: 0;
+				max-height: 150px;
+				//overflow-y: auto;
+			}
+
+			.note {
+				font-size: 14px;
+				color: #666;
+				vertical-align: middle;
+			}
+
+			.type-indicator {
+				padding: 0 9px 0px 9px;
+				border-radius: 9999px;
+				text-transform: capitalize;
+				//font-weight: 600;
+			}
+		}
+	}
+}
+
+.wookiee-link {
+	img {
+		margin-left: 0.3em;
+		width: 1em;
+		position: relative;
+		top: 0.15em;
+		transition: transform 0.1s;
+	}
+	&:hover img {
+		//transform: scale(1.5);
+	}
+}
