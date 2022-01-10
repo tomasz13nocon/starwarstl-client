@@ -17,7 +17,9 @@ module.exports = (env) => {
 		],*/
     //target: dev ? "web" : "browserslist",
     devServer: {
+      static: path.resolve(__dirname),
       historyApiFallback: true,
+      hot: true,
     },
     module: {
       rules: [
@@ -38,7 +40,7 @@ module.exports = (env) => {
       ],
     },
     plugins: [
-      dev && new webpack.HotModuleReplacementPlugin(),
+      //dev && new webpack.HotModuleReplacementPlugin(),
       dev && new ReactRefreshWebpackPlugin(),
     ].filter(Boolean),
   };

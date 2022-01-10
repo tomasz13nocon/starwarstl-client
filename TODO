@@ -1,6 +1,6 @@
 TODO:parser - things to do/change when switching from wtf_wikipedia to a different parser
 
-
+Highlight more important entries in timeline row details (like Writer and Artist of the comic are more important than inker)
 only single table row can be expanded
 linking to stuff like Author: "Various"
 handle lists everywhere we're getting text() from infobox
