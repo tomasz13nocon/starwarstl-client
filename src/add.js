@@ -9,7 +9,6 @@ import "./styles/add.scss";
 
 const extend = () => {
   wtf.extend((models, templates) => {
-    // TODO refactor once wtf updates to v9
     let parse = models.parse;
 
     templates.c = (tmpl, list) => {
@@ -31,7 +30,7 @@ const extend = () => {
     };
   });
 };
-//extend();
+extend();
 
 /* const fetchWookiee = title => wtf.fetch(title, {
 	domain: "starwars.fandom.com",
@@ -46,7 +45,7 @@ const fetchWookiee = async (title) => {
   )}&rvprop=content&format=json&rvslots=main&origin=*&maxage=86400`;
   const resp = await fetch(apiUrl);
   const json = await resp.json();
-  return wtf(Object.values(json.query.pages)[0].revisions[0].slots.main["*"]);
+  return wtf(Object.values(json.query.pages)[0].revisions?.[0].slots.main["*"]);
 };
 
 // Returns a promise resolving to a target audience string from wtf doc
@@ -258,7 +257,7 @@ export default function Add() {
     let doc = await fetchWookiee(title);
     console.log(doc);
 
-    if (_.isEmpty(doc)) {
+    if (doc._wiki === "") {
       showError(
         "There doesn't seem to be anything there. Please check that you've entered the correct title or link."
       );
@@ -266,10 +265,11 @@ export default function Add() {
     }
 
     // Check for canon status
+    console.log(doc.templates());
     let isCanon = doc
       .templates()
-      .find((t) => t.template === "top")
-      ?.list.includes("can");
+      .find((t) => t.data.template === "top")
+      ?.data.list.includes("can");
     if (!isCanon) {
       // TODO add a mention of legends
       // TODO should this be a warning? canonicity seems to be implied.
