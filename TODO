@@ -1,5 +1,6 @@
 TODO:parser - things to do/change when switching from wtf_wikipedia to a different parser
 
+Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
 Highlight more important entries in timeline row details (like Writer and Artist of the comic are more important than inker)
 only single table row can be expanded
 linking to stuff like Author: "Various"

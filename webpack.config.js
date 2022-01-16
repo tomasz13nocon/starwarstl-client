@@ -17,7 +17,7 @@ module.exports = (env) => {
 		],*/
     //target: dev ? "web" : "browserslist",
     devServer: {
-      static: path.resolve(__dirname),
+      //static: path.resolve(__dirname),
       historyApiFallback: true,
       hot: true,
     },

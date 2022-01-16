@@ -31,7 +31,7 @@ const extend = () => {
     };
   });
 };
-extend();
+//extend();
 
 /* const fetchWookiee = title => wtf.fetch(title, {
 	domain: "starwars.fandom.com",
@@ -295,6 +295,7 @@ export default function Add() {
 
     let type, subtype;
     // It hurts the eyes a little to see capitalized and non capitalized values next to each other but the reason for this is the filter structure explained in home.js `createState` function.
+    console.log(infobox._type);
     switch (infobox._type) {
       case "book":
         type = "book";
@@ -327,6 +328,7 @@ export default function Add() {
         break;
       case "short story":
         type = "short story";
+        break;
       case "reference book":
         type = "reference book";
         break;
@@ -360,10 +362,11 @@ export default function Add() {
         .get("image")
         ?.text()
         .match(/\[\[File:(.*)\]\]/)[1],
-      series: infobox.get("series")?.text(),
+      //series: infobox.get("series")?.text(),
       precededBy: infobox.get("preceded by")?.text(),
       followedBy: infobox.get("followed by")?.text(),
     };
+    console.log(infobox.get("followed by"));
 
     // These properties can have multiple values
     for (const [key, value] of Object.entries({
@@ -377,6 +380,7 @@ export default function Add() {
       illustrator: infobox.get("illustrator"),
       editor: infobox.get("editor"),
       mediaType: infobox.get("media type"),
+      series: infobox.get("series"),
     })) {
       draft[key] = process(value);
     }
