@@ -93,10 +93,11 @@ const normalizeDate = (str) => {
     .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 };
 
-// Takes a text node, returns an array of text and note nodes.
+// Takes a text node, returns an array of text and note nodes. Also removes italics/bold... (I really need a new parser...)
 // If no notes in text, the array contains just the text node.
 // If text node has an empty note and nothing else: "(())" returns empty array
 const processNotes = (textNode) => {
+  textNode.text = textNode.text.replace(/'{2,}/g, "");
   let nodes = [];
   let matches = textNode.text.split(/\(\((.*?)\)\)/);
   for (let [i, match] of matches.entries()) {
