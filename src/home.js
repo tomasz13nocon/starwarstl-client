@@ -5,7 +5,7 @@ import Timeline from "./timeline.js";
 import Legend from "./legend.js";
 import Filters from "./filters.js";
 
-import rawData from "./data.json";
+//import rawData from "./data.json";
 
 const filtersTemplate = {
   type: {
@@ -137,6 +137,13 @@ export default function Home() {
       return createState(filtersTemplate);
     }
   );
+
+  const [rawData, setRawData] = React.useState([]);
+
+  React.useEffect(async () => {
+    let res = await fetch("http://localhost:5000/media");
+    setRawData(await res.json());
+  }, []);
 
   return (
     <>

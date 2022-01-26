@@ -27,11 +27,18 @@ const process = (value, link = true) => {
         arr.push(item.text);
         break;
       case "list":
-        for (let e of item.data) {
-          arr.push(...process(e, link));
-          arr.push(<br />);
-        }
-        arr.pop();
+        arr.push(
+          <ul>
+            {item.data.map((e) => (
+              <li>{process(e, link)}</li>
+            ))}
+          </ul>
+        );
+        //for (let e of item.data) {
+        //arr.push(...process(e, link));
+        //arr.push(<br />);
+        //}
+        //arr.pop();
         break;
       case "note":
         arr.push(<small className="note">({item.text})</small>);
@@ -50,9 +57,10 @@ const process = (value, link = true) => {
         // TODO:parser
         break;
     }
-    arr.push("\u00A0");
+    //arr.push("\u00A0");
   }
-  arr.pop();
+  console.log(arr);
+  //arr.pop();
   return arr;
 };
 
@@ -85,6 +93,7 @@ const getData = (item) => {
       break;
     case "short story":
       type = "Short story";
+      break;
     default:
       type = "Unknown";
   }
@@ -101,6 +110,7 @@ const getData = (item) => {
     if (isNaN(date)) {
       date = "Unknown";
     } else {
+      // TODO: query for locale?
       date = date.toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",
@@ -114,6 +124,7 @@ const getData = (item) => {
       },
     ];
     if (dateObj.note) {
+      ret[0].text += " ";
       ret.push({
         type: "note",
         text: dateObj.note,
@@ -147,8 +158,10 @@ const getData = (item) => {
     ISBN: process(item.isbn, false),
   };
   for (const [key, value] of Object.entries(ret)) {
-    value ?? delete ret[key];
+    //value ?? delete ret[key];
+    if (_.isEmpty(value)) delete ret[key];
   }
+  console.log(ret);
   return ret;
 };
 
@@ -169,7 +182,7 @@ export default function TimelineRowDetails({ expanded = true, item, colspan }) {
   const imageLoaded = () => {
     detailsRef.current.style.height = detailsRef.current.scrollHeight + "px";
   };
-  console.log(item.title);
+  console.log(item);
 
   return (
     <CSSTransition
@@ -196,10 +209,10 @@ export default function TimelineRowDetails({ expanded = true, item, colspan }) {
               <dl>
                 {Object.entries(getData(item)).map(([key, value]) => {
                   return (
-                    <div key={key}>
+                    <React.Fragment key={key}>
                       <dt>{key}:&nbsp;</dt>
                       <dd>{value}</dd>
-                    </div>
+                    </React.Fragment>
                   );
                 })}
               </dl>

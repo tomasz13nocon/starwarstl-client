@@ -31,6 +31,7 @@ const extend = () => {
   });
 };
 extend();
+console.log(wtf);
 
 /* const fetchWookiee = title => wtf.fetch(title, {
 	domain: "starwars.fandom.com",
@@ -105,8 +106,8 @@ const processNotes = (textNode) => {
         nodes.push({ ...textNode, type: "note", text: match });
       }
       // text
-      else if (match.trim()) {
-        nodes.push({ ...textNode, text: match.trim() });
+      else if (match) {
+        nodes.push({ ...textNode, text: match });
       }
     }
   }
@@ -130,6 +131,7 @@ const process = (sentence) => {
     // If it's not a text node, just push
     if (astNode.type !== "text") {
       // TODO delete unwanted properties. Like "raw" on links
+      delete astNode.raw;
       current.push(astNode);
       continue;
     }
@@ -230,8 +232,21 @@ export default function Add() {
     setIsFetching(false);
   };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
+    if (!data) {
+      setError("There is nothing to submit.");
+      return;
+    }
+
+    console.log(data);
+    let res = await fetch("http://localhost:5000/media", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
   };
 
   const fetchAndParse = async () => {
@@ -362,11 +377,7 @@ export default function Add() {
         .get("image")
         ?.text()
         .match(/\[\[File:(.*)\]\]/)[1],
-      //series: infobox.get("series")?.text(),
-      precededBy: infobox.get("preceded by")?.text(),
-      followedBy: infobox.get("followed by")?.text(),
     };
-    console.log(infobox.get("followed by"));
 
     // These properties can have multiple values
     for (const [key, value] of Object.entries({
@@ -381,13 +392,17 @@ export default function Add() {
       editor: infobox.get("editor"),
       mediaType: infobox.get("media type"),
       series: infobox.get("series"),
+      precededBy: infobox.get("preceded by"),
+      followedBy: infobox.get("followed by"),
     })) {
+      console.log(`===== ${key} =====`);
       draft[key] = process(value);
     }
 
     // Delete empty values
     for (const [key, value] of Object.entries(draft)) {
-      value ?? delete draft[key];
+      //value ?? delete draft[key];
+      value || delete draft[key];
     }
 
     console.log(draft);
@@ -416,6 +431,7 @@ export default function Add() {
         }
       }
     }
+    console.log(draft.releaseDate);
 
     setData(draft);
 

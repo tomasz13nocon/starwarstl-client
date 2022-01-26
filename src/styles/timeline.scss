@@ -92,8 +92,10 @@ tr.details-row {
 		}
 		dl {
 			margin: 0;
+			display: grid;
+			grid-template-columns: max-content auto;
+			column-gap: 12px;
 			> div {
-				display: flex;
 				// &:nth-child(even) {
 				// 	background-color: $background2;
 				// }
@@ -101,14 +103,24 @@ tr.details-row {
 			dt,
 			dd {
 				display: inline-block;
+				//margin: 2px 0;
 			}
 			dt {
 				font-weight: $weight-bold;
+				text-align: left;
 			}
 			dd {
-				margin: 0;
+				border-bottom: 1px solid #bbb;
+				margin-left: 0;
 				max-height: 150px;
 				//overflow-y: auto;
+				ul {
+					//list-style-type: none;
+					padding: 0 20px;
+				}
+			}
+			dd:nth-child(2), dd:last-child {
+				border-bottom: none;
 			}
 
 			.note {
