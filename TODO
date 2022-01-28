@@ -1,10 +1,6 @@
 TODO:parser - things to do/change when switching from wtf_wikipedia to a different parser
 
-remove italics/bold when processing
-
-Include Nav templates (like https://starwars.fandom.com/wiki/Template:ThrawnTrilogy)
 Button to disable filtering without discarding filter setup
-when sorting the table calendar arrow should be reversed?
 Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
 Highlight more important entries in timeline row details (like Writer and Artist of the comic are more important than inker)
 only single table row can be expanded
@@ -22,6 +18,7 @@ main.js is 12MB!! <- is this dev bundle problem?
 reduce library size (code splitting??)
 
 LONG TERM:
+Include Nav templates (like https://starwars.fandom.com/wiki/Template:ThrawnTrilogy)
 Clicking on author's name shows all entries by this author
 Searching appearances. Search "R2D2" click on "Character: RD2D" bullet that appears, and get all media that features R2
 

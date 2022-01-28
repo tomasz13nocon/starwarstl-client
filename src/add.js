@@ -5,6 +5,7 @@ import { decode } from "html-entities";
 import TimelineRowDetails from "./timelineRowDetails.js";
 import Error from "./error.js";
 import Spinner from "./spinner.js";
+import { SERVER } from "./common.js";
 import "./styles/add.scss";
 
 const extend = () => {
@@ -241,13 +242,19 @@ export default function Add() {
     }
 
     console.log(data);
-    let res = await fetch("http://localhost:5000/media", {
-      method: "POST",
+    setIsFetching(true);
+    let res = await fetch(`${SERVER}/media/${data.title}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
+    let body = await res.json();
+    setIsFetching(false);
+    setError(
+      `Status: ${res.status}, Updated existing: ${body.updatedExisting}`
+    );
   };
 
   const fetchAndParse = async () => {

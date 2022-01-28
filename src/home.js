@@ -4,6 +4,7 @@ import produce from "immer";
 import Timeline from "./timeline.js";
 import Legend from "./legend.js";
 import Filters from "./filters.js";
+import { SERVER } from "./common.js";
 
 //import rawData from "./data.json";
 
@@ -141,7 +142,7 @@ export default function Home() {
   const [rawData, setRawData] = React.useState([]);
 
   React.useEffect(async () => {
-    let res = await fetch("http://localhost:5000/media");
+    let res = await fetch(SERVER + "/media");
     setRawData(await res.json());
   }, []);
 
