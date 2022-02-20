@@ -1,5 +1,13 @@
 TODO:parser - things to do/change when switching from wtf_wikipedia to a different parser
 
+make multiple authors into a list or <br> at list
+make columns like "cover" not sortable/clickable
+treat 2022 as dec 31
+mark unreleased media
+make yr pink
+short story brighter cyan
+
+Add useMemo everywhere it fits
 Button to disable filtering without discarding filter setup
 Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
 Highlight more important entries in timeline row details (like Writer and Artist of the comic are more important than inker)
@@ -16,8 +24,17 @@ try fetching: https://starwars.fandom.com/wiki/Special:WhatLinksHere/Template:Bo
 and other stuff, and see if there's an error in the console
 main.js is 12MB!! <- is this dev bundle problem?
 reduce library size (code splitting??)
+test ul dot (it's a weird unicode char, some ppl might not have a font supporting it)
 
 LONG TERM:
+accessiblity
+fetch all book series, story collections, reference books, comic tpbs/omnibuses etc., comic arcs etc. How? Somehow.
+* https://starwars.fandom.com/wiki/Category:Canon_reference_books
+* https://starwars.fandom.com/wiki/Category:Canon_Young_Readers
+* other stuff through pages in the timeline? e.g. series entry in comic issue infobox and tpbs in a table in series article etc.
+* or just get the wiki dump, go through all pages and look for appropriate infoboxes
+at the top of the page show random event from: https://starwars.fandom.com/wiki/Timeline_of_galactic_history
+also show random event OOU that happend on current day from one of these pages: https://starwars.fandom.com/wiki/2001
 Include Nav templates (like https://starwars.fandom.com/wiki/Template:ThrawnTrilogy)
 Clicking on author's name shows all entries by this author
 Searching appearances. Search "R2D2" click on "Character: RD2D" bullet that appears, and get all media that features R2

@@ -1,10 +1,10 @@
 import React from "react";
 import produce from "immer";
 
-import Timeline from "./timeline.js";
-import Legend from "./legend.js";
-import Filters from "./filters.js";
 import { SERVER } from "./common.js";
+import Filters from "./filters.js";
+import Legend from './legend';
+import Timeline from "./timeline.js";
 
 //import rawData from "./data.json";
 
@@ -64,6 +64,26 @@ const filtersTemplate = {
             },
           },
         },
+      },
+      "short story": {
+        name: "Short Stories",
+        value: true,
+      },
+      yr: {
+        name: "Young Readers",
+        value: true,
+      },
+      film: {
+        name: "Films",
+        value: true,
+      },
+      tv: {
+        name: "TV",
+        value: true,
+      },
+      game: {
+        name: "Video Games",
+        value: true,
       },
     },
   },
@@ -148,6 +168,7 @@ export default function Home() {
 
   return (
     <>
+      <Legend />
       <Filters
         filterText={filterText}
         filterTextChanged={setFilterText}
@@ -155,7 +176,6 @@ export default function Home() {
         filtersChanged={dispatch}
         filtersTemplate={filtersTemplate}
       />
-      <Legend />
       <Timeline filterText={filterText} filters={filters} rawData={rawData} />
     </>
   );

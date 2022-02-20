@@ -55,6 +55,7 @@ header {
 }
 
 footer {
+	margin-top: auto;
 	flex-shrink: 0;
 	text-align: center;
 	padding: 20px;
@@ -95,6 +96,31 @@ a.external {
 .short-story {
 	background-color: $short-story-primary;
 	color: $short-story-secondary;
+}
+
+.tv {
+	background-color: $tv-primary;
+	color: $tv-secondary;
+}
+
+.film {
+	background-color: $film-primary;
+	color: $film-secondary;
+}
+
+.yr {
+	background-color: $yr-primary;
+	color: $yr-secondary;
+}
+
+.game {
+	background-color: $game-primary;
+	color: $game-secondary;
+}
+
+.reference-book {
+	background-color: $reference-book-primary;
+	color: $reference-book-secondary;
 }
 
 .error-box {

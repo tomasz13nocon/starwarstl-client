@@ -59,7 +59,6 @@ const process = (value, link = true) => {
     }
     //arr.push("\u00A0");
   }
-  console.log(arr);
   //arr.pop();
   return arr;
 };
@@ -94,10 +93,21 @@ const getData = (item) => {
     case "short story":
       type = "Short story";
       break;
+    case "game":
+      type = "Video game";
+      break;
+    case "tv":
+      type = "TV series";
+      break;
+    case "film":
+      type = "Film";
+      break;
+    case "yr":
+      type = "Young Reader";
+      break;
     default:
       type = "Unknown";
   }
-  console.log(item.type);
   type = (
     <span className={"type-indicator " + item.type.replace(" ", "-")}>
       {type}
@@ -106,6 +116,7 @@ const getData = (item) => {
 
   let releaseDate;
   const processDate = (dateObj) => {
+    if (!_.isObject(dateObj)) dateObj = { date: dateObj };
     let date = new Date(dateObj.date);
     if (isNaN(date)) {
       date = "Unknown";
@@ -132,7 +143,6 @@ const getData = (item) => {
     }
     return ret;
   };
-  // Date is an object or an array of objects
   releaseDate = Array.isArray(item.releaseDate)
     ? [{ type: "list", data: item.releaseDate.map((e) => processDate(e)) }]
     : processDate(item.releaseDate);
@@ -140,7 +150,7 @@ const getData = (item) => {
   let ret = {
     Type: type,
     "Release date": process(releaseDate, false),
-    Chronology: process(item.date),
+    Date: process(item.date),
     Author: process(item.author),
     Writer: process(item.writer),
     Penciler: process(item.penciller),
@@ -161,13 +171,13 @@ const getData = (item) => {
     //value ?? delete ret[key];
     if (_.isEmpty(value)) delete ret[key];
   }
-  console.log(ret);
   return ret;
 };
 
+export const ANIMATION_TIME = 200;
+
 export default function TimelineRowDetails({ expanded = true, item, colspan }) {
   const detailsRef = React.useRef();
-  const ANIMATION_TIME = 200;
   const detailsRowRef = React.useRef();
 
   React.useEffect(() => {
@@ -182,7 +192,6 @@ export default function TimelineRowDetails({ expanded = true, item, colspan }) {
   const imageLoaded = () => {
     detailsRef.current.style.height = detailsRef.current.scrollHeight + "px";
   };
-  console.log(item);
 
   return (
     <CSSTransition

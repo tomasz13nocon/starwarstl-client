@@ -1,11 +1,12 @@
 import React from "react";
+import "react-virtualized/styles.css";
+import { Column, Table, WindowScroller, AutoSizer } from "react-virtualized";
 import Icon from "@mdi/react";
 import {
   mdiSortAlphabeticalAscending,
   mdiSortAlphabeticalDescending,
   mdiChevronUp,
   mdiChevronDown,
-  mdiMenuUp,
   mdiMenuDown,
   mdiSortCalendarAscending,
   mdiSortCalendarDescending,
@@ -15,14 +16,17 @@ import TimelineRow from "./timelineRow.js";
 import "./styles/timeline.scss";
 
 const filterItem = (filters, item) => {
-  console.log(filters, item);
   // TODO remove or handle
-  if (filters === undefined)
+  if (filters === undefined) {
+    console.log(item);
     console.error(
       "This probably means a value from data not being present in filters (like type === 'whatever')"
     );
+    return false;
+  }
 
   return Object.entries(filters).reduce((acc, [key, value]) => {
+    if (item[key] === undefined) return acc;
     // boolean key in data
     if (typeof value === "boolean") {
       // equivalent: item[key] ? value : true;
@@ -33,15 +37,14 @@ const filterItem = (filters, item) => {
       // leaf filter
       // TODO handle "Other" and "Unknown". This is related to the todo above. This for leafs, above for non leafs
       /*if (!(item[key] in value)) {
-				return value["Other"];
-			}
-			else*/
+                return value["Other"];
+            }
+            else*/
       if (typeof value[item[key]] === "boolean") {
         return acc && value[item[key]];
       }
       // Non leaf filter
       else {
-        console.log(`KEY: ${key}`);
         return acc && filterItem(value[item[key]], item);
       }
     }
@@ -60,14 +63,22 @@ export default function Timeline({ filterText, filters, rawData }) {
     type: false,
     cover: false,
     title: true,
-    author: true,
+    writer: true,
     releaseDate: true,
   });
-  const [sorting, setSorting] = React.useState({ by: "date", ascending: true });
-  const reducer = (state, action) => {};
-  const [expandedRow, dispatch] = React.useReducer(reducer);
+  const [sorting, setSorting] = React.useState({
+    by: "date",
+    ascending: true,
+  });
   /////////////////
 
+  const columnNames = React.useMemo(
+    () => ({
+      date: "Date",
+      releaseDate: "Release Date",
+    }),
+    []
+  );
   const activeColumns = Object.keys(columns).filter((name) => columns[name]);
 
   const toggleSorting = (name) => {
@@ -78,10 +89,10 @@ export default function Timeline({ filterText, filters, rawData }) {
   };
 
   // Sort and filter data
-  let data = [...rawData];
+  let data = []; // = [...rawData];
   if (dataLoaded) {
     // Filter
-    data = data.filter((item) => filterItem(filters, item));
+    data = rawData.filter((item) => filterItem(filters, item));
 
     // Search
     if (filterText) {
@@ -95,7 +106,7 @@ export default function Timeline({ filterText, filters, rawData }) {
             (acc, value) =>
               acc &&
               (item.title.toLowerCase().includes(value) ||
-                item.author?.toLowerCase().includes(value)),
+                item.writer?.toLowerCase().includes(value)),
             true
           )
       );
@@ -103,8 +114,10 @@ export default function Timeline({ filterText, filters, rawData }) {
 
     // Sort
     data.sort((a, b) => {
-      if (a[sorting.by] < b[sorting.by]) return sorting.ascending ? -1 : 1;
-      if (a[sorting.by] > b[sorting.by]) return sorting.ascending ? 1 : -1;
+      let by = sorting.by;
+      if (by === "date") by = "chronology";
+      if (a[by] < b[by]) return sorting.ascending ? -1 : 1;
+      if (a[by] > b[by]) return sorting.ascending ? 1 : -1;
       return 0;
     });
   }
@@ -112,7 +125,7 @@ export default function Timeline({ filterText, filters, rawData }) {
   // TODO move somewhere like useeffect
   const sortingIcons = new Proxy(
     {
-      "title|author": {
+      "title|writer": {
         ascending: mdiSortAlphabeticalAscending,
         descending: mdiSortAlphabeticalDescending,
       },
@@ -136,6 +149,37 @@ export default function Timeline({ filterText, filters, rawData }) {
 
   return (
     <div className="container">
+      {/* <WindowScroller> */}
+      {/*   {({ height, isScrolling, onChildScroll, scrollTop }) => ( */}
+      {/*     <AutoSizer> */}
+      {/*       {({ width }) => ( */}
+      {/*         <> */}
+      {/*           <Table */}
+      {/*             width={width} */}
+      {/*             autoHeight */}
+      {/*             height={height} */}
+      {/*             isScrolling={isScrolling} */}
+      {/*             onScroll={onChildScroll} */}
+      {/*             scrollTop={scrollTop} */}
+      {/*             headerHeight={50} */}
+      {/*             rowHeight={50} */}
+      {/*             rowCount={data.length} */}
+      {/*             rowGetter={({ index }) => data[index]} */}
+      {/*           > */}
+      {/*             {activeColumns.map((column) => ( */}
+      {/*               <Column */}
+      {/*                 label={columnNames[column] || column} */}
+      {/*                 dataKey={column} */}
+      {/*                 width={200} */}
+      {/*               /> */}
+      {/*             ))} */}
+      {/*           </Table> */}
+      {/*         </> */}
+      {/*       )} */}
+      {/*     </AutoSizer> */}
+      {/*   )} */}
+      {/* </WindowScroller> */}
+
       {dataLoaded ? (
         <table id="timeline">
           <thead>
@@ -146,7 +190,7 @@ export default function Timeline({ filterText, filters, rawData }) {
                   key={name}
                   className={name}
                 >
-                  {name}
+                  {columnNames[name] || name}
                   {sorting.by === name ? (
                     <Icon
                       path={
@@ -161,16 +205,14 @@ export default function Timeline({ filterText, filters, rawData }) {
               ))}
             </tr>
           </thead>
-          <tbody>
-            {data.map((item) => (
-              <TimelineRow
-                key={item.id}
-                item={item}
-                activeColumns={activeColumns}
-                expanded={expandedRow === item.id}
-              />
-            ))}
-          </tbody>
+          {data.map((item) => (
+            <TimelineRow
+              key={item._id}
+              item={item}
+              activeColumns={activeColumns}
+              //expanded={expandedRow === item.id}
+            />
+          ))}
         </table>
       ) : (
         <div>Loading...</div>

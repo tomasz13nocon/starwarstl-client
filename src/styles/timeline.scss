@@ -1,5 +1,9 @@
 @use "./shared.scss" as *;
 
+.BaseTable__row {
+	//overflow: hidden;
+}
+
 table {
 	//table-layout: fixed;
 	width: 100%;
@@ -11,19 +15,6 @@ th {
 	border: 1px solid black;
 	$padding: 2px;
 	padding: $padding $padding + 5px;
-
-	&.cover {
-		width: 50px;
-	}
-	&.date {
-		@extend %cell-fit-content;
-	}
-	&.author {
-		@extend %cell-fit-content;
-	}
-	&.releaseDate {
-		@extend %cell-fit-content;
-	}
 }
 
 th {
@@ -39,6 +30,19 @@ th {
 	}
 
 	width: auto;
+	&.cover {
+		width: 50px;
+	}
+	&.date {
+		width: 90px;
+	}
+	&.writer {
+		width: 160px;
+	}
+	&.releaseDate {
+		// @extend %cell-fit-content;
+		width: 90px;
+	}
 }
 
 tr.standard-row {
@@ -61,6 +65,16 @@ tr.standard-row {
 
 	td {
 		font-size: 0.8em;
+		ul {
+			// list-style: disc;
+			// padding-left: 15px;
+			list-style: "・";
+			padding-left: 13px;
+			margin: 0;
+			li:nth-child(n+2) {
+				// border-top: 1px solid #777;
+			}
+		}
 	}
 }
 
@@ -127,13 +141,6 @@ tr.details-row {
 				font-size: 14px;
 				color: #666;
 				vertical-align: middle;
-			}
-
-			.type-indicator {
-				padding: 0 9px 0px 9px;
-				border-radius: 9999px;
-				text-transform: capitalize;
-				//font-weight: 600;
 			}
 		}
 	}

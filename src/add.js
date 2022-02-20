@@ -49,6 +49,7 @@ const fetchWookiee = async (title) => {
   const json = await resp.json();
   return wtf(Object.values(json.query.pages)[0].revisions?.[0].slots.main["*"]);
 };
+console.log(fetchWookiee);
 
 // Returns a promise resolving to a target audience string from wtf doc
 // TODO for Disney LF press books link to https://books.disney.com/?s=${title} for ppl to confirm age range
@@ -56,6 +57,7 @@ const getAudience = async (doc) => {
   let categories = doc.categories();
   if (categories.includes("Canon adult novels")) return "Adult";
   if (categories.includes("Canon young-adult novels")) return "Young Adult";
+  if (categories.includes("Canon Young Readers")) return "Young Readers";
   let sentence = doc.sentence(0).text();
   //let mediaType = doc.infobox().get("media type").text();
   const reg = (str) => {

@@ -2,6 +2,20 @@ STAR WARS MEDIA TIMELINE
 
 EASY TO CONTRIBUTE
 
+MEDIA TYPES:
+novel
+-adult
+-ya
+-junior/middle grade/ages 9-12
+young reader story
+-short stories in a collection
+-yr book
+-choose your adventure
+comic
+-adult
+-junior (can we even do this?)
+
+
 TOGGLE: Distinct coloring for different series of comics/books (how to even do this with 1 table approach? Shades of one color aren't distinct enough... maybe disable this toggle unless only comics are selected in filters)
 Clearly indicate when a search finds entries that are being filtered out (someone searches for something without realizing the filters they have on)
 RANGES: limit timeline to specified range, make it easy to select "between movie a and b" or "empire era"

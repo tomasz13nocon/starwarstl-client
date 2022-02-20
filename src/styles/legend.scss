@@ -1,0 +1,48 @@
+@use "./shared.scss" as *;
+
+.legend {
+	position: fixed;
+	bottom: 12px;
+	right: 12px;
+	.button {
+		@extend %reset-button;
+		cursor: pointer;
+		width: 70px;
+		height: 70px;
+		background: conic-gradient( 
+			$book-primary, 
+			$comic-primary,
+			$tv-primary,
+			$yr-primary,
+			$book-primary
+		);
+		border-radius: 35px;
+		color: white;
+		text-shadow: 0 0 3px black;
+		&:hover {
+			background-color: #606060;
+		}
+		font-weight: bold;
+		font-size: 1.5em;
+
+
+		transition-property: width, height, border-radius, background;
+		transition-duration: 2.3s;
+		overflow: hidden;
+		&.expanded {
+			text-shadow: none;
+			background: $background;
+			// border: 2px solid black;
+			box-shadow: 0 0 5px black;
+			width: 160px;
+			height: 280px;
+			border-radius: 10px;
+			font-weight: normal;
+			font-size: 1em;
+			.type-indicator {
+				width: fit-content;
+				margin: 5px auto;
+			}
+		}
+	}
+}
