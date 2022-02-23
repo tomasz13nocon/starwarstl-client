@@ -12,16 +12,13 @@ table {
 	border-collapse: collapse;
 }
 td,
-th,
-.ReactVirtualized__Table__rowColumn,
-.ReactVirtualized__Table__headerColumn {
+th {
 	border: 1px solid black;
 	$padding: 2px;
 	padding: $padding $padding + 5px;
 }
 
-th,
-.ReactVirtualized__Table__headerColumn {
+th {
 	background-color: #444;
 	color: white;
 	text-transform: capitalize;
@@ -50,9 +47,7 @@ th,
 	}
 }
 
-tr.standard-row,
-.ReactVirtualized__Table__rowColumn {
-	    margin:-1px 0 0 -1px;
+tr.standard-row {
 	td.title {
 		font-weight: $weight-bold;
 		font-size: 1em;
