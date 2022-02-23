@@ -4,12 +4,23 @@
 $sans: Nunito, sans-serif;
 $weight-regular: 400;
 $weight-bold: 700;
-$game-primary: #FFEB3B;
-$game-secondary: #403a01;
+
+$game-primary: #d42b26;
+$game-secondary: #fff7f6;
 $tv-primary: #E37322;
 $tv-secondary: #3C1900;
-$yr-primary: #9C27B0;
-$yr-secondary: #FADEFF;
+// purple
+// $yr-primary: #9C27B0;
+// $yr-secondary: #FADEFF;
+// pink
+// $yr-primary: #FF58C5;
+// $yr-secondary: #41004D;
+// yellow
+$yr-primary: #FFEB3B;
+$yr-secondary: #403a01;
+// grey
+// $yr-primary: #d2d2d2;
+// $yr-secondary: #202020;
 $reference-book-primary: #00BCD4;
 $reference-book-secondary: #fff;
 $film-primary: #212121;
@@ -18,7 +29,7 @@ $book-primary: #3F51B5;
 $book-secondary: #deefff;
 $comic-primary: #4CAF50;
 $comic-secondary: #003502;
-$short-story-primary: #00BCD4;
+$short-story-primary: #00C8E1;
 $short-story-secondary: #003840;
 
 // OLD:
@@ -29,6 +40,7 @@ $short-story-secondary: #003840;
 // $short-story-primary: #4ed0d7;
 // $short-story-secondary: #135457;
 
+$focus: #fb8500;
 $background: #f3f3f3;
 $background2: #e7e7e7;
 // $comic-primary: #de3333;
@@ -71,7 +83,8 @@ $grey1: rgb(100, 100, 100);
 
 .type-indicator {
 	&.game {
-		border: 1px solid black;
+		// yellow could use a border (yellow on white) (what about dark theme?)
+		// border: 1px solid black;
 	}
 	padding: 0 9px 0px 9px;
 	border-radius: 999px;

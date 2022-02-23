@@ -9,39 +9,45 @@
 		cursor: pointer;
 		width: 70px;
 		height: 70px;
+		// TODO: fix the order to reflect the color circle once the colors are settled
 		background: conic-gradient( 
 			$book-primary, 
+			$short-story-primary,
 			$comic-primary,
-			$tv-primary,
 			$yr-primary,
+			$tv-primary,
+			$game-primary,
 			$book-primary
 		);
 		border-radius: 35px;
 		color: white;
-		text-shadow: 0 0 3px black;
+		text-shadow: 0 0 6px black;
 		&:hover {
-			background-color: #606060;
 		}
 		font-weight: bold;
-		font-size: 1.5em;
+		font-size: 2.0em;
 
 
 		transition-property: width, height, border-radius, background;
-		transition-duration: 2.3s;
+		transition-duration: 0.3s;
 		overflow: hidden;
 		&.expanded {
+			// put it out of flow for animation to work
+			position: absolute;
+			right: 0;
+			bottom: 0;
 			text-shadow: none;
-			background: $background;
+			background: #ccc;//$background;
 			// border: 2px solid black;
 			box-shadow: 0 0 5px black;
-			width: 160px;
-			height: 280px;
-			border-radius: 10px;
+			width: 154px;
+			height: 230px;
+			border-radius: 8px;
 			font-weight: normal;
 			font-size: 1em;
 			.type-indicator {
-				width: fit-content;
-				margin: 5px auto;
+				width: max-content;
+				margin: 4px 4px 4px auto;
 			}
 		}
 	}

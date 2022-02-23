@@ -1,6 +1,4 @@
 import React from "react";
-import "react-virtualized/styles.css";
-import { Column, Table, WindowScroller, AutoSizer } from "react-virtualized";
 import Icon from "@mdi/react";
 import {
   mdiSortAlphabeticalAscending,
@@ -106,18 +104,35 @@ export default function Timeline({ filterText, filters, rawData }) {
             (acc, value) =>
               acc &&
               (item.title.toLowerCase().includes(value) ||
-                item.writer?.toLowerCase().includes(value)),
+                item.writer?.reduce(
+                  (acc, writer) => acc && writer?.toLowerCase().includes(value),
+                  true
+                )),
             true
           )
       );
     }
 
     // Sort
+    if (sorting.by === "chronology")
+      // Remove items with unknown placement, the ones from the other table
+      // TODO: maybe notify user that some items have been hidden?
+      data.filter((item) => item.chronology != null);
     data.sort((a, b) => {
       let by = sorting.by;
       if (by === "date") by = "chronology";
-      if (a[by] < b[by]) return sorting.ascending ? -1 : 1;
-      if (a[by] > b[by]) return sorting.ascending ? 1 : -1;
+      let av = a[by], bv = b[by];
+      // TODO: micro optimization: make seperate sorting functions based on value of "by" instead of checking it per item
+      if (by === "releaseDate") {
+        // Unknown release date always means unreleased, therefore the newest
+        // == is intended (null or undefined)
+        if (av == null) return sorting.ascending ? 1 : -1;
+        if (bv == null) return sorting.ascending ? -1 : 1;
+        if (/^\d{4}$/.test(av)) av = `${av}-12-31`;
+        if (/^\d{4}$/.test(bv)) bv = `${bv}-12-31`;
+      }
+      if (av < bv) return sorting.ascending ? -1 : 1;
+      if (av > bv) return sorting.ascending ? 1 : -1;
       return 0;
     });
   }
@@ -175,11 +190,9 @@ export default function Timeline({ filterText, filters, rawData }) {
       {/*             ))} */}
       {/*           </Table> */}
       {/*         </> */}
-      {/*       )} */}
-      {/*     </AutoSizer> */}
+      {/*       )} */} {/*     </AutoSizer> */}
       {/*   )} */}
       {/* </WindowScroller> */}
-
       {dataLoaded ? (
         <table id="timeline">
           <thead>
@@ -205,14 +218,16 @@ export default function Timeline({ filterText, filters, rawData }) {
               ))}
             </tr>
           </thead>
-          {data.map((item) => (
-            <TimelineRow
-              key={item._id}
-              item={item}
-              activeColumns={activeColumns}
-              //expanded={expandedRow === item.id}
-            />
-          ))}
+          <tbody>
+            {data.map((item) => (
+              <TimelineRow
+                key={item._id}
+                item={item}
+                activeColumns={activeColumns}
+                //expanded={expandedRow === item.id}
+              />
+            ))}
+          </tbody>
         </table>
       ) : (
         <div>Loading...</div>

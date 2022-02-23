@@ -6,6 +6,7 @@ import {
 } from "./timelineRowDetails";
 
 export default React.memo(function TimelineRow({ item, activeColumns }) {
+  if (item === undefined) return null;
   const timeoutId = React.useRef();
   // shown - state encompassing the hiding animation
   // expanded - instantly changing state
@@ -25,7 +26,7 @@ export default React.memo(function TimelineRow({ item, activeColumns }) {
         inside = <img src={item.cover} />;
         break;
       case "writer":
-        if (Array.isArray(item.writer)) {
+        if (item.writer?.length > 1) {
           inside = (
             <ul>
               {item.writer.map((writer) => (

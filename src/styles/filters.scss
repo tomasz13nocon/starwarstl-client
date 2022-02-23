@@ -1,23 +1,30 @@
 @use "shared.scss" as *;
 
 .filter {
+	width: 285px;
+	margin-right: 10px;
 	.search {
-		margin: 16px 0;
+		// margin: 16px 0;
+		position: relative;
 		input {
-			padding: 7px 32px 7px 7px;
+			padding: 5px 30px 5px 6px;
 			border: 3px solid $grey3;
-			width: 240px;
+			// width: 240px;
 			&:focus {
 				outline: none;
+				border-color: $focus;
 			}
 			+ button.clear-input {
 				@extend %reset-button;
-				position: relative;
-				right: 28px;
-				top: 5px;
-				font-size: 32px;
+				position: absolute;
+				right: 7px;
+				top: 16px;
+				font-size: 36px;
 				cursor: pointer;
 				line-height: 0;
+				&:focus {
+					outline: none;
+				}
 			}
 		}
 
@@ -101,8 +108,10 @@
 			}
 			// FOCUS
 			input:focus + span.checkbox {
-				outline: auto;
-				outline-offset: 4px;
+				// outline: auto;
+				outline: 2px solid $focus;
+				// outline-color: $focus;
+				outline-offset: 3px;
 			}
 
 			span.checkbox {

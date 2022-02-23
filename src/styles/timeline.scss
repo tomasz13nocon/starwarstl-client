@@ -1,23 +1,27 @@
 @use "./shared.scss" as *;
 
-.BaseTable__row {
-	//overflow: hidden;
+.timeline-container {
+	display: flex;
+	margin: 0 12px;
 }
 
 table {
 	//table-layout: fixed;
-	width: 100%;
+	width: 800px;
 	margin: 0 auto;
 	border-collapse: collapse;
 }
 td,
-th {
+th,
+.ReactVirtualized__Table__rowColumn,
+.ReactVirtualized__Table__headerColumn {
 	border: 1px solid black;
 	$padding: 2px;
 	padding: $padding $padding + 5px;
 }
 
-th {
+th,
+.ReactVirtualized__Table__headerColumn {
 	background-color: #444;
 	color: white;
 	text-transform: capitalize;
@@ -34,18 +38,21 @@ th {
 		width: 50px;
 	}
 	&.date {
-		width: 90px;
+		width: 80px;
 	}
 	&.writer {
-		width: 160px;
+		width: 140px;
 	}
 	&.releaseDate {
 		// @extend %cell-fit-content;
-		width: 90px;
+		// width: 0px;
+		width: min-content;
 	}
 }
 
-tr.standard-row {
+tr.standard-row,
+.ReactVirtualized__Table__rowColumn {
+	    margin:-1px 0 0 -1px;
 	td.title {
 		font-weight: $weight-bold;
 		font-size: 1em;
@@ -53,6 +60,7 @@ tr.standard-row {
 		button {
 			@extend %reset-button;
 			pointer-events: none;
+			text-align: left;
 		}
 	}
 

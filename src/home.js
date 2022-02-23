@@ -3,7 +3,7 @@ import produce from "immer";
 
 import { SERVER } from "./common.js";
 import Filters from "./filters.js";
-import Legend from './legend';
+import Legend from "./legend";
 import Timeline from "./timeline.js";
 
 //import rawData from "./data.json";
@@ -169,14 +169,16 @@ export default function Home() {
   return (
     <>
       <Legend />
-      <Filters
-        filterText={filterText}
-        filterTextChanged={setFilterText}
-        filters={filters}
-        filtersChanged={dispatch}
-        filtersTemplate={filtersTemplate}
-      />
-      <Timeline filterText={filterText} filters={filters} rawData={rawData} />
+      <div className="timeline-container">
+        <Filters
+          filterText={filterText}
+          filterTextChanged={setFilterText}
+          filters={filters}
+          filtersChanged={dispatch}
+          filtersTemplate={filtersTemplate}
+        />
+        <Timeline filterText={filterText} filters={filters} rawData={rawData} />
+      </div>
     </>
   );
 }

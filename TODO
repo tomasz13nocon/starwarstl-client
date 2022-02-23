@@ -1,12 +1,11 @@
 TODO:parser - things to do/change when switching from wtf_wikipedia to a different parser
 
-make multiple authors into a list or <br> at list
 make columns like "cover" not sortable/clickable
-treat 2022 as dec 31
 mark unreleased media
-make yr pink
-short story brighter cyan
 
+reddit-like vertical lines to collapse filters
+add padlock button to a filter to make it show regardless of search/filters (useful to always show movies)
+save the "Exact placement unknown" symbol into DB as a bool flag and show it in timeline by changing Date's bg or sth
 Add useMemo everywhere it fits
 Button to disable filtering without discarding filter setup
 Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
