@@ -174,7 +174,7 @@ const getData = (item) => {
   return ret;
 };
 
-export const ANIMATION_TIME = 200;
+export const ANIMATION_TIME = 140;
 
 export default function TimelineRowDetails({ expanded = true, item, colspan }) {
   const detailsRef = React.useRef();

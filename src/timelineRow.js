@@ -5,7 +5,7 @@ import {
   ANIMATION_TIME,
 } from "./timelineRowDetails";
 
-export default React.memo(function TimelineRow({ item, activeColumns }) {
+export default React.memo(function TimelineRow({ item, activeColumns, style }) {
   if (item === undefined) return null;
   const timeoutId = React.useRef();
   // shown - state encompassing the hiding animation
@@ -62,7 +62,7 @@ export default React.memo(function TimelineRow({ item, activeColumns }) {
 
   return (
     <>
-      <tr className={"standard-row"}>{cells}</tr>
+      <tr className={"standard-row"} style={style}>{cells}</tr>
       {shown ? (
         <TimelineRowDetails
           expanded={expanded}

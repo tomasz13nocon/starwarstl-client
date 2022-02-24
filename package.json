@@ -28,7 +28,8 @@
 		"react-transition-group": "^4.4.2",
 		"react-virtualized": "^9.22.3",
 		"react-window": "^1.8.6",
-		"wtf_wikipedia": "file:wtf_wikipedia"
+		"wtf_wikipedia": "file:wtf_wikipedia",
+		"react-virtual": "file:react-virtual"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.17.5",

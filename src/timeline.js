@@ -1,4 +1,5 @@
 import React from "react";
+import { useVirtual, useVirtualWindow } from "react-virtual";
 import Icon from "@mdi/react";
 import {
   mdiSortAlphabeticalAscending,
@@ -98,18 +99,18 @@ export default function Timeline({ filterText, filters, rawData }) {
       // Words seperated by space
       data = data.filter((item) =>
         filterText
-          .toLowerCase()
-          .split(" ")
-          .reduce(
-            (acc, value) =>
-              acc &&
-              (item.title.toLowerCase().includes(value) ||
-                item.writer?.reduce(
-                  (acc, writer) => acc && writer?.toLowerCase().includes(value),
-                  true
-                )),
-            true
-          )
+        .toLowerCase()
+        .split(" ")
+        .reduce(
+          (acc, value) =>
+          acc &&
+          (item.title.toLowerCase().includes(value) ||
+            item.writer?.reduce(
+              (acc, writer) => acc && writer?.toLowerCase().includes(value),
+              true
+            )),
+          true
+        )
       );
     }
 
@@ -162,38 +163,74 @@ export default function Timeline({ filterText, filters, rawData }) {
     }
   );
 
+  const parentRef = React.useRef();
+  const windowRef = React.useRef(window);
+
+  const rowVirtualizer = useVirtualWindow({
+    overscan: 5,
+    size: data.length,
+    parentRef,
+    windowRef,
+    // estimateSize: React.useCallback(() => 24, []),
+  });
+
   return (
     <div className="container">
-      {/* <WindowScroller> */}
-      {/*   {({ height, isScrolling, onChildScroll, scrollTop }) => ( */}
-      {/*     <AutoSizer> */}
-      {/*       {({ width }) => ( */}
-      {/*         <> */}
-      {/*           <Table */}
-      {/*             width={width} */}
-      {/*             autoHeight */}
-      {/*             height={height} */}
-      {/*             isScrolling={isScrolling} */}
-      {/*             onScroll={onChildScroll} */}
-      {/*             scrollTop={scrollTop} */}
-      {/*             headerHeight={50} */}
-      {/*             rowHeight={50} */}
-      {/*             rowCount={data.length} */}
-      {/*             rowGetter={({ index }) => data[index]} */}
-      {/*           > */}
-      {/*             {activeColumns.map((column) => ( */}
-      {/*               <Column */}
-      {/*                 label={columnNames[column] || column} */}
-      {/*                 dataKey={column} */}
-      {/*                 width={200} */}
-      {/*               /> */}
-      {/*             ))} */}
-      {/*           </Table> */}
-      {/*         </> */}
-      {/*       )} */} {/*     </AutoSizer> */}
-      {/*   )} */}
-      {/* </WindowScroller> */}
-      {dataLoaded ? (
+      <table ref={parentRef} style={{ width: `300px` }}>
+        <thead>
+          <tr>
+            {activeColumns.map((name) => (
+              <th
+                onClick={(e) => toggleSorting(name, e)}
+                key={name}
+                className={name}
+              >
+                {columnNames[name] || name}
+                {sorting.by === name ? (
+                  <Icon
+                    path={
+                      sortingIcons[name][
+                        sorting.ascending ? "ascending" : "descending"
+                      ]
+                    }
+                    className="icon"
+                  />
+                ) : null}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody
+          style={{
+            height: `${rowVirtualizer.totalSize}px`,
+            position: 'relative',
+          }}
+        >
+          {rowVirtualizer.virtualItems.map(virtualRow => (
+            <TimelineRow 
+              key={virtualRow.index}
+              item={data[virtualRow.index]}
+              activeColumns={activeColumns}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                transform: `translateY(${virtualRow.start}px)`,
+              }}
+            />
+          ))}
+        </tbody>
+      </table>
+      {/* {rowVirtualizer.virtualItems.map(virtualRow => ( */}
+      {/*   <TimelineRow */}
+      {/*     key={data[virtualRow.index]._id} */}
+      {/*     item={data[virtualRow.index]} */}
+      {/*     activeColumns={activeColumns} */}
+      {/*     //expanded={expandedRow === item.id} */}
+      {/*   /> */}
+      {/* ))} */}
+      {false ? (
         <table id="timeline">
           <thead>
             <tr>
@@ -219,14 +256,22 @@ export default function Timeline({ filterText, filters, rawData }) {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {rowVirtualizer.virtualItems.map(virtualRow => (
               <TimelineRow
-                key={item._id}
-                item={item}
+                key={data[virtualRow.index]._id}
+                item={data[virtualRow.index]}
                 activeColumns={activeColumns}
                 //expanded={expandedRow === item.id}
               />
             ))}
+            {/* {data.map((item) => ( */}
+            {/*   <TimelineRow */}
+            {/*     key={item._id} */}
+            {/*     item={item} */}
+            {/*     activeColumns={activeColumns} */}
+            {/*     //expanded={expandedRow === item.id} */}
+            {/*   /> */}
+            {/* ))} */}
           </tbody>
         </table>
       ) : (
