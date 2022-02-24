@@ -5,20 +5,74 @@
 	margin: 0 12px;
 }
 
-table {
+table, .table {
 	//table-layout: fixed;
 	width: 800px;
 	margin: 0 auto;
 	border-collapse: collapse;
 }
-td,
-th {
-	border: 1px solid black;
+
+td, .td,
+th, .th {
+	// border: 1px solid #222;
 	$padding: 2px;
 	padding: $padding $padding + 5px;
+	$border-width: 1px;
+	$border-color: #111;
+	// TODO: profile this shit...
+	box-shadow: 
+		$border-width 0 0 0 $border-color, 
+		0 $border-width 0 0 $border-color, 
+		$border-width $border-width 0 0 $border-color,   /* Just to fix the corner */
+		$border-width 0 0 0 $border-color inset, 
+		0 $border-width 0 0 $border-color inset;
+
+	// width: auto;
+	&.cover {
+		width: 50px;
+	}
+	&.date {
+		min-width: 80px;
+	}
+	&.title {
+		min-width: 437px;
+	}
+	&.writer {
+		min-width: 140px;
+	}
+	&.releaseDate {
+		// @extend %cell-fit-content;
+		// width: 0px;
+		// width: min-content;
+		min-width: 82px;
+	}
 }
 
-th {
+.thead {
+	display: flex;
+	text-align: center;
+	// align-items: stretch;
+}
+.th {
+	.th-inner {
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	// &.date {
+	// 	width: 80px;
+	// }
+	// &.title {
+	// 	width: 437px;
+	// }
+	// &.writer {
+	// 	width: 140px;
+	// }
+	// &.releaseDate {
+	// 	width: 82px;
+	// }
+}
+th, .th {
 	background-color: #444;
 	color: white;
 	text-transform: capitalize;
@@ -29,26 +83,11 @@ th {
 		vertical-align: sub;
 		color: #e6a34e;
 	}
-
-	width: auto;
-	&.cover {
-		width: 50px;
-	}
-	&.date {
-		width: 80px;
-	}
-	&.writer {
-		width: 140px;
-	}
-	&.releaseDate {
-		// @extend %cell-fit-content;
-		// width: 0px;
-		width: min-content;
-	}
 }
 
-tr.standard-row {
-	td.title {
+tr.standard-row, .tr.standard-row {
+	width: 800px;
+	td.title, .td.title {
 		font-weight: $weight-bold;
 		font-size: 1em;
 		cursor: pointer;
@@ -59,14 +98,18 @@ tr.standard-row {
 		}
 	}
 
-	td.cover {
+	td.cover, .td.cover {
 		img {
 			max-width: 100%;
 			display: block;
 		}
 	}
+	.td.releaseDate.unreleased {
+		background-color: #fcc;
+	}
 
-	td {
+	td, .td {
+		// border-top: 0px;
 		font-size: 0.8em;
 		ul {
 			// list-style: disc;
@@ -81,8 +124,8 @@ tr.standard-row {
 	}
 }
 
-tr.details-row {
-	td {
+tr.details-row, .tr.details-row {
+	td, .td {
 		padding: 0;
 	}
 	.details {

@@ -5,7 +5,7 @@ import {
   ANIMATION_TIME,
 } from "./timelineRowDetails";
 
-export default React.memo(function TimelineRow({ item, activeColumns, style }) {
+export default React.memo(function TimelineRow({ item, activeColumns, style, measureRef, useDivs = false }) {
   if (item === undefined) return null;
   const timeoutId = React.useRef();
   // shown - state encompassing the hiding animation
@@ -20,7 +20,7 @@ export default React.memo(function TimelineRow({ item, activeColumns, style }) {
   }, false);
 
   const cells = activeColumns.map((columnName) => {
-    let inside;
+    let inside, classNames = "";
     switch (columnName) {
       case "cover":
         inside = <img src={item.cover} />;
@@ -42,19 +42,36 @@ export default React.memo(function TimelineRow({ item, activeColumns, style }) {
       case "title":
         // Button for accessiblity
         return (
+          useDivs ? 
+          <div
+            key={item.id + columnName}
+            className={columnName + " " + item.type.replace(" ", "-") + " td"}
+            onClick={toggleExpanded}
+          >
+            <button name="expand">{item[columnName]}</button>
+          </div>
+          :
           <td
             key={item.id + columnName}
-            className={columnName + " " + item.type.replace(" ", "-")}
+            className={columnName + " " + item.type.replace(" ", "-") + " td"}
             onClick={toggleExpanded}
           >
             <button name="expand">{item[columnName]}</button>
           </td>
         );
+      case "releaseDate":
+        let d = new Date(/^\d{4}$/.test(item.releaseDate) ? `${item.releaseDate}-12-31` : item.releaseDate);
+        if (isNaN(d) || d > Date.now()) classNames += " unreleased";
       default:
         inside = item[columnName];
     }
     return (
-      <td key={item.id + columnName} className={columnName}>
+      useDivs ? 
+      <div key={item.id + columnName} className={columnName + " td" + classNames}>
+        {inside}
+      </div>
+      :
+      <td key={item.id + columnName} className={columnName + " td" + classNames}>
         {inside}
       </td>
     );
@@ -62,7 +79,11 @@ export default React.memo(function TimelineRow({ item, activeColumns, style }) {
 
   return (
     <>
-      <tr className={"standard-row"} style={style}>{cells}</tr>
+      {useDivs ? 
+      <div ref={measureRef} className={"standard-row tr"} style={style}>{cells}</div>
+      :
+      <tr ref={measureRef} className={"standard-row tr"} style={style}>{cells}</tr>
+      }
       {shown ? (
         <TimelineRowDetails
           expanded={expanded}

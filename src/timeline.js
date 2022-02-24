@@ -99,18 +99,18 @@ export default function Timeline({ filterText, filters, rawData }) {
       // Words seperated by space
       data = data.filter((item) =>
         filterText
-        .toLowerCase()
-        .split(" ")
-        .reduce(
-          (acc, value) =>
-          acc &&
-          (item.title.toLowerCase().includes(value) ||
-            item.writer?.reduce(
-              (acc, writer) => acc && writer?.toLowerCase().includes(value),
-              true
-            )),
-          true
-        )
+          .toLowerCase()
+          .split(" ")
+          .reduce(
+            (acc, value) =>
+              acc &&
+              (item.title.toLowerCase().includes(value) ||
+                item.writer?.reduce(
+                  (acc, writer) => acc || writer?.toLowerCase().includes(value),
+                  false
+                )),
+            true
+          )
       );
     }
 
@@ -167,7 +167,7 @@ export default function Timeline({ filterText, filters, rawData }) {
   const windowRef = React.useRef(window);
 
   const rowVirtualizer = useVirtualWindow({
-    overscan: 5,
+    overscan: 3,
     size: data.length,
     parentRef,
     windowRef,
@@ -175,8 +175,69 @@ export default function Timeline({ filterText, filters, rawData }) {
   });
 
   return (
-    <div className="container">
-      <table ref={parentRef} style={{ width: `300px` }}>
+    <div className="container table">
+      <div className="thead">
+        {activeColumns.map((name) => (
+          <div
+            onClick={(e) => toggleSorting(name, e)}
+            key={name}
+            className={name + " th"}
+          >
+            <div className="th-inner">
+              {columnNames[name] || name}
+              {sorting.by === name ? (
+                <Icon
+                  path={
+                    sortingIcons[name][
+                      sorting.ascending ? "ascending" : "descending"
+                    ]
+                  }
+                  className="icon"
+                />
+              ) : null}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div
+        ref={parentRef}
+        className="List"
+        style={{
+          // width: `400px`,
+        }}
+      >
+        <div
+          style={{
+            height: rowVirtualizer.totalSize,
+            width: '100%',
+            position: 'relative',
+          }}
+        >
+          {rowVirtualizer.virtualItems.map(virtualRow => (
+            <div
+              key={data[virtualRow.index]._id}
+              ref={virtualRow.measureRef}
+              className={virtualRow.index % 2 ? 'ListItemOdd' : 'ListItemEven'}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                transform: `translateY(${virtualRow.start}px)`,
+              }}
+            >
+              <TimelineRow 
+                item={data[virtualRow.index]}
+                activeColumns={activeColumns}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      {/*
+      <table ref={parentRef}
+        // style={{ width: `600px`, overflow: `auto` }}
+      >
         <thead>
           <tr>
             {activeColumns.map((name) => (
@@ -203,25 +264,27 @@ export default function Timeline({ filterText, filters, rawData }) {
         <tbody
           style={{
             height: `${rowVirtualizer.totalSize}px`,
+            width: "100%",
             position: 'relative',
-          }}
-        >
+          }}>
           {rowVirtualizer.virtualItems.map(virtualRow => (
             <TimelineRow 
-              key={virtualRow.index}
+              key={data[virtualRow.index]._id}
+              measureRef={virtualRow.measureRef}
               item={data[virtualRow.index]}
               activeColumns={activeColumns}
               style={{
                 position: 'absolute',
                 top: 0,
-                left: 0,
+                  // left: -1,
                 width: '100%',
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             />
           ))}
         </tbody>
-      </table>
+        </table>
+        */}
       {/* {rowVirtualizer.virtualItems.map(virtualRow => ( */}
       {/*   <TimelineRow */}
       {/*     key={data[virtualRow.index]._id} */}
@@ -275,7 +338,7 @@ export default function Timeline({ filterText, filters, rawData }) {
           </tbody>
         </table>
       ) : (
-        <div>Loading...</div>
+        <div>{/*Loading...*/}</div>
       )}
     </div>
   );
