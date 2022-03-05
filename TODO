@@ -1,8 +1,17 @@
 TODO:parser - things to do/change when switching from wtf_wikipedia to a different parser
 
+multiple publishers filter (If I want to see DLF books, then show me those released by DLF *and* others)
 make columns like "cover" not sortable/clickable
-mark unreleased media
+handle italics (see TPM, "star wars" is in quotes but those are italics!!)
+fix <br> handling? the clone wars film has unknown date
+image filenames need to be normalized from spaces to underscores, otherwise the filename hash is wrong
+see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 
+button to switch to color coding seperate comic series
+profile the filtering code (filter method gets called a lot when scrolling)
+clickable links to other entries in the timeline (mostly in "series" "followed by" "preceded by")
+try switching to display: table to make borders and vertical alignment work without workarounds. (and potentially widths too?)
+	https://stackoverflow.com/questions/17915865/how-to-make-borders-collapse-on-a-div
 reddit-like vertical lines to collapse filters
 add padlock button to a filter to make it show regardless of search/filters (useful to always show movies)
 save the "Exact placement unknown" symbol into DB as a bool flag and show it in timeline by changing Date's bg or sth

@@ -1,5 +1,6 @@
 import React from "react";
 import { useVirtual, useVirtualWindow } from "react-virtual";
+import ItemMeasurer from "./ItemMeasurer.js";
 import Icon from "@mdi/react";
 import {
   mdiSortAlphabeticalAscending,
@@ -14,18 +15,20 @@ import {
 import TimelineRow from "./timelineRow.js";
 import "./styles/timeline.scss";
 
+// TODO remove the todos (???)
 const filterItem = (filters, item) => {
+  // if (item.title === "Off the Rails")
+    // console.log(filters);
   // TODO remove or handle
   if (filters === undefined) {
-    console.log(item);
-    console.error(
-      "This probably means a value from data not being present in filters (like type === 'whatever')"
-    );
+    // console.error(
+    //   "This probably means a value from data not being present in filters (like type === 'whatever')"
+    // );
     return false;
   }
 
   return Object.entries(filters).reduce((acc, [key, value]) => {
-    if (item[key] === undefined) return acc;
+    if (item[key] === undefined) return value["Other"] ?? value["Unknown"] ?? acc;
     // boolean key in data
     if (typeof value === "boolean") {
       // equivalent: item[key] ? value : true;
@@ -34,12 +37,16 @@ const filterItem = (filters, item) => {
     // string key in data
     else {
       // leaf filter
+      // if all values are true or all are false, skip this filter
+      if (Object.values(value).reduce((acc, v) => acc && (acc === v), true) && key !== "type") {
+        console.log("lul");
+        return acc;
+      }
       // TODO handle "Other" and "Unknown". This is related to the todo above. This for leafs, above for non leafs
-      /*if (!(item[key] in value)) {
-                return value["Other"];
-            }
-            else*/
-      if (typeof value[item[key]] === "boolean") {
+      if (!(item[key] in value)) {
+        return value["Other"] || value["Unknown"];
+      }
+      else if (typeof value[item[key]] === "boolean") {
         return acc && value[item[key]];
       }
       // Non leaf filter
@@ -167,10 +174,11 @@ export default function Timeline({ filterText, filters, rawData }) {
   const windowRef = React.useRef(window);
 
   const rowVirtualizer = useVirtualWindow({
-    overscan: 3,
+    overscan: 5,
     size: data.length,
     parentRef,
     windowRef,
+    keyExtractor: (i) => data[i]._id,
     // estimateSize: React.useCallback(() => 24, []),
   });
 
@@ -191,8 +199,7 @@ export default function Timeline({ filterText, filters, rawData }) {
                     sortingIcons[name][
                       sorting.ascending ? "ascending" : "descending"
                     ]
-                  }
-                  className="icon"
+                  } className="icon"
                 />
               ) : null}
             </div>
@@ -201,28 +208,25 @@ export default function Timeline({ filterText, filters, rawData }) {
       </div>
       <div
         ref={parentRef}
-        className="List"
-        style={{
-          // width: `400px`,
-        }}
+        className="tbody"
       >
         <div
           style={{
             height: rowVirtualizer.totalSize,
-            width: '100%',
+            // width: '100%',
             position: 'relative',
           }}
         >
           {rowVirtualizer.virtualItems.map(virtualRow => (
-            <div
+            <ItemMeasurer
               key={data[virtualRow.index]._id}
-              ref={virtualRow.measureRef}
-              className={virtualRow.index % 2 ? 'ListItemOdd' : 'ListItemEven'}
+              measure={virtualRow.measureRef}
+              tagName="div"
               style={{
                 position: 'absolute',
                 top: 0,
                 left: 0,
-                width: '100%',
+                // width: '100%',
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             >
@@ -230,69 +234,11 @@ export default function Timeline({ filterText, filters, rawData }) {
                 item={data[virtualRow.index]}
                 activeColumns={activeColumns}
               />
-            </div>
+            </ItemMeasurer>
           ))}
         </div>
       </div>
-      {/*
-      <table ref={parentRef}
-        // style={{ width: `600px`, overflow: `auto` }}
-      >
-        <thead>
-          <tr>
-            {activeColumns.map((name) => (
-              <th
-                onClick={(e) => toggleSorting(name, e)}
-                key={name}
-                className={name}
-              >
-                {columnNames[name] || name}
-                {sorting.by === name ? (
-                  <Icon
-                    path={
-                      sortingIcons[name][
-                        sorting.ascending ? "ascending" : "descending"
-                      ]
-                    }
-                    className="icon"
-                  />
-                ) : null}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody
-          style={{
-            height: `${rowVirtualizer.totalSize}px`,
-            width: "100%",
-            position: 'relative',
-          }}>
-          {rowVirtualizer.virtualItems.map(virtualRow => (
-            <TimelineRow 
-              key={data[virtualRow.index]._id}
-              measureRef={virtualRow.measureRef}
-              item={data[virtualRow.index]}
-              activeColumns={activeColumns}
-              style={{
-                position: 'absolute',
-                top: 0,
-                  // left: -1,
-                width: '100%',
-                transform: `translateY(${virtualRow.start}px)`,
-              }}
-            />
-          ))}
-        </tbody>
-        </table>
-        */}
-      {/* {rowVirtualizer.virtualItems.map(virtualRow => ( */}
-      {/*   <TimelineRow */}
-      {/*     key={data[virtualRow.index]._id} */}
-      {/*     item={data[virtualRow.index]} */}
-      {/*     activeColumns={activeColumns} */}
-      {/*     //expanded={expandedRow === item.id} */}
-      {/*   /> */}
-      {/* ))} */}
+      
       {false ? (
         <table id="timeline">
           <thead>

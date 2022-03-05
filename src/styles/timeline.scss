@@ -5,46 +5,47 @@
 	margin: 0 12px;
 }
 
-table, .table {
+.table {
 	//table-layout: fixed;
-	width: 800px;
+	// width: 800px;
 	margin: 0 auto;
 	border-collapse: collapse;
 }
 
-td, .td,
-th, .th {
-	// border: 1px solid #222;
+.td,
+.th {
 	$padding: 2px;
 	padding: $padding $padding + 5px;
-	$border-width: 1px;
-	$border-color: #111;
-	// TODO: profile this shit...
-	box-shadow: 
-		$border-width 0 0 0 $border-color, 
-		0 $border-width 0 0 $border-color, 
-		$border-width $border-width 0 0 $border-color,   /* Just to fix the corner */
-		$border-width 0 0 0 $border-color inset, 
-		0 $border-width 0 0 $border-color inset;
+
+	border: 1px solid #111;
+	margin: -1px 0 0 -1px;
+	// $border-width: 1px;
+	// $border-color: #111;
+	// box-shadow: 
+	// 	$border-width 0 0 0 $border-color, 
+	// 	0 $border-width 0 0 $border-color, 
+	// 	$border-width $border-width 0 0 $border-color,   /* Just to fix the corner */
+	// 	$border-width 0 0 0 $border-color inset, 
+	// 	0 $border-width 0 0 $border-color inset;
 
 	// width: auto;
 	&.cover {
 		width: 50px;
 	}
 	&.date {
-		min-width: 80px;
+		width: 80px;
 	}
 	&.title {
-		min-width: 437px;
+		width: 442px;
 	}
 	&.writer {
-		min-width: 140px;
+		width: 140px;
 	}
 	&.releaseDate {
 		// @extend %cell-fit-content;
 		// width: 0px;
 		// width: min-content;
-		min-width: 82px;
+		width: 82px;
 	}
 }
 
@@ -59,20 +60,6 @@ th, .th {
 		top: 50%;
 		transform: translateY(-50%);
 	}
-	// &.date {
-	// 	width: 80px;
-	// }
-	// &.title {
-	// 	width: 437px;
-	// }
-	// &.writer {
-	// 	width: 140px;
-	// }
-	// &.releaseDate {
-	// 	width: 82px;
-	// }
-}
-th, .th {
 	background-color: #444;
 	color: white;
 	text-transform: capitalize;
@@ -85,9 +72,10 @@ th, .th {
 	}
 }
 
-tr.standard-row, .tr.standard-row {
-	width: 800px;
-	td.title, .td.title {
+.tr.standard-row {
+	display: flex;
+	flex-flow: wrap;
+	.td.title {
 		font-weight: $weight-bold;
 		font-size: 1em;
 		cursor: pointer;
@@ -98,17 +86,19 @@ tr.standard-row, .tr.standard-row {
 		}
 	}
 
-	td.cover, .td.cover {
+	.td.cover {
 		img {
 			max-width: 100%;
 			display: block;
 		}
 	}
-	.td.releaseDate.unreleased {
-		background-color: #fcc;
-	}
 
-	td, .td {
+	.td {
+		.td-inner {
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+		}
 		// border-top: 0px;
 		font-size: 0.8em;
 		ul {
@@ -124,37 +114,41 @@ tr.standard-row, .tr.standard-row {
 	}
 }
 
-tr.details-row, .tr.details-row {
-	td, .td {
+.tr.details-row {
+	width: 100%;
+	.td {
 		padding: 0;
 	}
 	.details {
 		overflow: hidden;
 		height: 0;
+		padding: 6px;
+		display: flex;
 	}
 
+	.cover, .text {
+		margin: 6px;
+	}
 	.cover {
-		float: left;
-		margin: 12px;
 		box-shadow: 2px 2px 8px #000;
-		//border: 1px solid #000;
+		margin-right: 14px;
+		align-self: start;
+		// border: 1px solid #000;
 		//box-sizing: border-box;
 	}
 	.text {
-		// Left margin so that the content doesn't shift when the cover hasn't loaded
-		// It's value is image width + image left margin + margin we want between image and text
-		margin: 12px 0 12px 232px;
-		font-size: 18px;
+		font-size: 16px;
 		.title {
 			margin: 0 0 12px 0;
 			line-height: 0.95;
-			font-size: 36px;
+			font-size: 1.8em;
 		}
 		dl {
 			margin: 0;
 			display: grid;
 			grid-template-columns: max-content auto;
 			column-gap: 12px;
+			justify-content: start;
 			> div {
 				// &:nth-child(even) {
 				// 	background-color: $background2;
@@ -163,6 +157,8 @@ tr.details-row, .tr.details-row {
 			dt,
 			dd {
 				display: inline-block;
+				overflow-y: auto;
+				overflow-x: hidden;
 				//margin: 2px 0;
 			}
 			dt {
@@ -193,6 +189,7 @@ tr.details-row, .tr.details-row {
 }
 
 .wookiee-link {
+	user-select: none;
 	img {
 		margin-left: 0.3em;
 		width: 1em;
@@ -201,6 +198,6 @@ tr.details-row, .tr.details-row {
 		transition: transform 0.1s;
 	}
 	&:hover img {
-		//transform: scale(1.5);
+		transform: scale(1.5);
 	}
 }

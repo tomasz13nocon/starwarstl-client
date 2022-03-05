@@ -19,20 +19,19 @@ const filtersTemplate = {
             name: "Publisher",
             children: {
               "Del Rey": true,
-              "Disney–Lucasfilm Press": false,
-              "Golden Books": false,
+              "Disney–Lucasfilm Press": true,
+              "Golden Books": true,
               "China Literature": true,
               "Random House Audio": true,
-              Other: false,
+              Other: true,
             },
           },
           audience: {
             name: "Target audience",
             children: {
-              Adult: true,
-              "Young Adult": true,
-              Junior: false,
-              "Young Readers": false,
+              a: { name: "Adult", value: true },
+              ya: { name: "Young Adult", value: true },
+              jr: { name: "Junior", value: false },
               Unknown: true,
             },
           },
@@ -49,9 +48,9 @@ const filtersTemplate = {
             name: "Publisher",
             children: {
               "Marvel Comics": true,
-              IDW: false,
+              "IDW Publishing": true,
               "Dark Horse Comics": true,
-              Other: false,
+              Other: true,
             },
           },
           subtype: {

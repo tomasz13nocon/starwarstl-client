@@ -1,6 +1,7 @@
 @use "./shared.scss" as *;
 
 .legend {
+	z-index: 5;
 	position: fixed;
 	bottom: 12px;
 	right: 12px;
@@ -26,6 +27,7 @@
 		}
 		font-weight: bold;
 		font-size: 2.0em;
+		box-shadow: 0 0 3px black;
 
 
 		transition-property: width, height, border-radius, background;
@@ -39,7 +41,6 @@
 			text-shadow: none;
 			background: #ccc;//$background;
 			// border: 2px solid black;
-			box-shadow: 0 0 5px black;
 			width: 142px;
 			height: 210px;
 			border-radius: 8px;

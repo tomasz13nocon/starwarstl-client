@@ -5,6 +5,7 @@ import { CSSTransition } from "react-transition-group";
 
 import WookieeLink from "./wookieeLink";
 import ExternalLink from "./externalLink";
+import { Audience } from "./common";
 
 const imgAddress = (filename) => {
   // TODO add a "no cover" image
@@ -12,9 +13,10 @@ const imgAddress = (filename) => {
   if (/^https?:\/\//.test(filename)) return filename;
   let hash = md5(filename);
   // TODO change to self hosting
+  return `https://starwars.fandom.com/wiki/Special:FilePath/${filename}`;
   return `https://static.wikia.nocookie.net/starwars/images/${
     hash[0]
-  }/${hash.slice(0, 2)}/${filename}`;
+  }/${hash.slice(0, 2)}/${filename}/revision/latest/scale-to-width-down/3000`;
 };
 
 const process = (value, link = true) => {
@@ -29,8 +31,8 @@ const process = (value, link = true) => {
       case "list":
         arr.push(
           <ul>
-            {item.data.map((e) => (
-              <li>{process(e, link)}</li>
+            {item.data.map((e, i) => (
+              <li key={i}>{process(e, link)}</li>
             ))}
           </ul>
         );
@@ -57,10 +59,10 @@ const process = (value, link = true) => {
         // TODO:parser
         break;
     }
-    //arr.push("\u00A0");
   }
-  //arr.pop();
-  return arr;
+
+  // We can safely use indices as keys since this is static content.
+  return arr.map((el, i) => <React.Fragment key={i}>{el}</React.Fragment>);
 };
 
 const getData = (item) => {
@@ -68,7 +70,7 @@ const getData = (item) => {
   switch (item.type) {
     case "book":
       type =
-        (item.audience || "") +
+        (Audience[item.audience] || "") +
         "\u00A0" +
         (!item.audience || item.audience === "Young Reader" ? "book" : "novel");
       type = type.trim();
@@ -143,21 +145,33 @@ const getData = (item) => {
     }
     return ret;
   };
-  releaseDate = Array.isArray(item.releaseDate)
-    ? [{ type: "list", data: item.releaseDate.map((e) => processDate(e)) }]
-    : processDate(item.releaseDate);
+  releaseDate = Array.isArray(item.releaseDateDetails)
+    ? [
+        {
+          type: "list",
+          data: item.releaseDateDetails.map((e) => processDate(e)),
+        },
+      ]
+    : processDate(item.releaseDateDetails);
 
   let ret = {
     Type: type,
     "Release date": process(releaseDate, false),
-    Date: process(item.date),
+    Date: process(item.dateDetails),
     Author: process(item.author),
-    Writer: process(item.writer),
+    Director: process(item.director),
+    Writer: process(item.writerDetails),
+    Producer: process(item.producer),
+    Starring: process(item.starring),
+    Music: process(item.music),
+    Runtime: process(item.runtime),
+    Budget: process(item.budget),
+    Language: process(item.language),
     Penciler: process(item.penciller),
     Inker: process(item.inker),
     Letterer: process(item.letterer),
     Colorist: process(item.colorist),
-    Publisher: process(item.publisher),
+    Publisher: process(item.publisherDetails),
     Illustrator: process(item.illustrator),
     "Cover Artist": process(item.coverArtist),
     Pages: process(item.pages, false),
@@ -174,15 +188,16 @@ const getData = (item) => {
   return ret;
 };
 
-export const ANIMATION_TIME = 140;
+export const ANIMATION_TIME = 150;
 
-export default function TimelineRowDetails({ expanded = true, item, colspan }) {
+export default function TimelineRowDetails({ expanded = true, item }) {
   const detailsRef = React.useRef();
   const detailsRowRef = React.useRef();
 
   React.useEffect(() => {
     if (detailsRef.current) {
-      detailsRef.current.style.transition = "height " + ANIMATION_TIME + "ms";
+      detailsRef.current.style.transition =
+        "height " + ANIMATION_TIME + "ms ease-out"; //cubic-bezier(.36,.78,.64,.97)";
       detailsRef.current.style.height = expanded
         ? detailsRef.current.scrollHeight + "px"
         : 0;
@@ -202,33 +217,45 @@ export default function TimelineRowDetails({ expanded = true, item, colspan }) {
       unmountOnExit
       nodeRef={detailsRowRef}
     >
-      <tr className="details-row" ref={detailsRowRef}>
-        <td colSpan={colspan}>
-          <div className="details" ref={detailsRef}>
-            <img
-              /* height={260} */ width={200}
-              src={imgAddress(item.cover)}
-              className="cover"
-              onLoad={imageLoaded}
-            />
+      <div className="tr details-row" ref={detailsRowRef}>
+        <div className="td">
+          <div
+            className="details"
+            ref={detailsRef}
+            style={{
+              backgroundColor: "white",
+              background: `linear-gradient(to left, transparent, #f3f3f3), url(${imgAddress(
+                item.coverWook
+              )})`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "right",
+              backgroundSize: "600px",
+            }}
+          >
+            {item.coverWook ? (
+              <img
+                width={200}
+                src={imgAddress(item.coverWook)}
+                className="cover"
+                onLoad={imageLoaded}
+              />
+            ) : null}
             <div className="text">
               <h3 className="title">
                 <WookieeLink>{item.title}</WookieeLink>
               </h3>
               <dl>
-                {Object.entries(getData(item)).map(([key, value]) => {
-                  return (
-                    <React.Fragment key={key}>
-                      <dt>{key}:&nbsp;</dt>
-                      <dd>{value}</dd>
-                    </React.Fragment>
-                  );
-                })}
+                {Object.entries(getData(item)).map(([key, value]) => (
+                  <React.Fragment key={key}>
+                    <dt>{key}:&nbsp;</dt>
+                    <dd>{value}</dd>
+                  </React.Fragment>
+                ))}
               </dl>
             </div>
           </div>
-        </td>
-      </tr>
+        </div>
+      </div>
     </CSSTransition>
   );
 }

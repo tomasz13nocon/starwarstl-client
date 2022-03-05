@@ -5,7 +5,7 @@ import {
   ANIMATION_TIME,
 } from "./timelineRowDetails";
 
-export default React.memo(function TimelineRow({ item, activeColumns, style, measureRef, useDivs = false }) {
+export default function TimelineRow({ item, activeColumns, style }) {
   if (item === undefined) return null;
   const timeoutId = React.useRef();
   // shown - state encompassing the hiding animation
@@ -20,7 +20,7 @@ export default React.memo(function TimelineRow({ item, activeColumns, style, mea
   }, false);
 
   const cells = activeColumns.map((columnName) => {
-    let inside, classNames = "";
+    let inside, classNames = "", onClick;
     switch (columnName) {
       case "cover":
         inside = <img src={item.cover} />;
@@ -35,30 +35,16 @@ export default React.memo(function TimelineRow({ item, activeColumns, style, mea
             </ul>
           );
         } else {
-          // TODO: remove the "author"?
-          inside = item.author || item.writer;
+          inside = item.writer;
         }
         break;
       case "title":
         // Button for accessiblity
-        return (
-          useDivs ? 
-          <div
-            key={item.id + columnName}
-            className={columnName + " " + item.type.replace(" ", "-") + " td"}
-            onClick={toggleExpanded}
-          >
-            <button name="expand">{item[columnName]}</button>
-          </div>
-          :
-          <td
-            key={item.id + columnName}
-            className={columnName + " " + item.type.replace(" ", "-") + " td"}
-            onClick={toggleExpanded}
-          >
-            <button name="expand">{item[columnName]}</button>
-          </td>
-        );
+        inside = <button name="expand">{item[columnName]}</button>;
+        classNames += ` ${item.type.replace(" ", "-")}`;
+        onClick = toggleExpanded;
+        break;
+
       case "releaseDate":
         let d = new Date(/^\d{4}$/.test(item.releaseDate) ? `${item.releaseDate}-12-31` : item.releaseDate);
         if (isNaN(d) || d > Date.now()) classNames += " unreleased";
@@ -66,31 +52,25 @@ export default React.memo(function TimelineRow({ item, activeColumns, style, mea
         inside = item[columnName];
     }
     return (
-      useDivs ? 
-      <div key={item.id + columnName} className={columnName + " td" + classNames}>
-        {inside}
+      <div key={item.id + columnName} className={columnName + " td" + classNames} onClick={onClick}>
+        <div className="td-inner">
+          {inside}
+        </div>
       </div>
-      :
-      <td key={item.id + columnName} className={columnName + " td" + classNames}>
-        {inside}
-      </td>
     );
   });
 
   return (
     <>
-      {useDivs ? 
-      <div ref={measureRef} className={"standard-row tr"} style={style}>{cells}</div>
-      :
-      <tr ref={measureRef} className={"standard-row tr"} style={style}>{cells}</tr>
-      }
-      {shown ? (
-        <TimelineRowDetails
-          expanded={expanded}
-          item={item}
-          colspan={activeColumns.length}
-        />
-      ) : null}
+      <div className={"standard-row tr"} style={style}>
+        {cells}
+        {shown ? (
+          <TimelineRowDetails
+            expanded={expanded}
+            item={item}
+          />
+        ) : null}
+      </div>
     </>
   );
-});
+};

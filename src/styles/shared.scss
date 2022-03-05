@@ -28,7 +28,7 @@ $film-secondary: #fff;
 $book-primary: #3F51B5;
 $book-secondary: #deefff;
 $comic-primary: #4CAF50;
-$comic-secondary: #003502;
+$comic-secondary: #003102;
 $short-story-primary: #00C8E1;
 $short-story-secondary: #003840;
 
@@ -82,12 +82,30 @@ $grey1: rgb(100, 100, 100);
 }
 
 .type-indicator {
-	&.game {
-		// yellow could use a border (yellow on white) (what about dark theme?)
-		// border: 1px solid black;
-	}
+	box-shadow: 0 0 5px -3px black;
 	padding: 0 9px 0px 9px;
 	border-radius: 999px;
 	text-transform: capitalize;
 	//font-weight: 600;
 }
+
+.show-button, .hide-button {
+	font-size: 0.75em;
+	border-radius: 99px;
+	padding: 1px 5px;
+	margin-right: 8px;
+	color: black;
+	font-weight: bold;
+	cursor: pointer;
+}
+.show-button {
+	background-color: #86cc66;
+}
+.hide-button {
+	background-color: #d55e5e;
+}
+
+.unreleased {
+	background-color: #eacac0;
+}
+
