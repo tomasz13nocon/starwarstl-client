@@ -5,6 +5,7 @@ import { SERVER } from "./common.js";
 import Filters from "./filters.js";
 import Legend from "./legend";
 import Timeline from "./timeline.js";
+import Spinner from "./spinner.js";
 
 //import rawData from "./data.json";
 
@@ -161,7 +162,8 @@ export default function Home() {
   const [rawData, setRawData] = React.useState([]);
 
   React.useEffect(async () => {
-    let res = await fetch(SERVER + "/media");
+    // TODO: show error on network error
+    let res = await fetch(SERVER + "media");
     setRawData(await res.json());
   }, []);
 
@@ -176,7 +178,9 @@ export default function Home() {
           filtersChanged={dispatch}
           filtersTemplate={filtersTemplate}
         />
+        {rawData.length ? 
         <Timeline filterText={filterText} filters={filters} rawData={rawData} />
+        : <Spinner />}
       </div>
     </>
   );

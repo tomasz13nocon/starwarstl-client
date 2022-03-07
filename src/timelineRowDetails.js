@@ -5,18 +5,18 @@ import { CSSTransition } from "react-transition-group";
 
 import WookieeLink from "./wookieeLink";
 import ExternalLink from "./externalLink";
-import { Audience } from "./common";
+import { Audience, SERVER, IMAGE_PATH } from "./common";
 
 const imgAddress = (filename) => {
   // TODO add a "no cover" image
   if (!filename) return null;
   if (/^https?:\/\//.test(filename)) return filename;
-  let hash = md5(filename);
-  // TODO change to self hosting
-  return `https://starwars.fandom.com/wiki/Special:FilePath/${filename}`;
-  return `https://static.wikia.nocookie.net/starwars/images/${
-    hash[0]
-  }/${hash.slice(0, 2)}/${filename}/revision/latest/scale-to-width-down/3000`;
+  return `${IMAGE_PATH}${encodeURIComponent(filename)}`;
+  // return `https://starwars.fandom.com/wiki/Special:FilePath/${filename}`;
+  // let hash = md5(filename);
+  // return `https://static.wikia.nocookie.net/starwars/images/${
+  //   hash[0]
+  // }/${hash.slice(0, 2)}/${filename}/revision/latest/scale-to-width-down/3000`;
 };
 
 const process = (value, link = true) => {
@@ -152,7 +152,7 @@ const getData = (item) => {
           data: item.releaseDateDetails.map((e) => processDate(e)),
         },
       ]
-    : processDate(item.releaseDateDetails);
+    : processDate(item.releaseDateDetails ?? item.releaseDate);
 
   let ret = {
     Type: type,
@@ -175,6 +175,7 @@ const getData = (item) => {
     Illustrator: process(item.illustrator),
     "Cover Artist": process(item.coverArtist),
     Pages: process(item.pages, false),
+    "Published in": process(item.publishedIn),
     Series: process(item.series),
     "Followed by": process(item.followedBy),
     "Preceded by": process(item.precededBy),
@@ -222,20 +223,19 @@ export default function TimelineRowDetails({ expanded = true, item }) {
           <div
             className="details"
             ref={detailsRef}
-            style={{
-              backgroundColor: "white",
-              background: `linear-gradient(to left, transparent, #f3f3f3), url(${imgAddress(
-                item.coverWook
-              )})`,
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "right",
-              backgroundSize: "600px",
-            }}
+            // style={{
+            //   background: `linear-gradient(to left, transparent 50%, #f3f3f3bb, #f3f3f3), url(${imgAddress(
+            //     item.cover
+            //   )})`,
+            //   backgroundRepeat: "no-repeat",
+            //   backgroundPosition: "right",
+            //   backgroundSize: "500px",
+            // }}
           >
-            {item.coverWook ? (
+            {item.cover ? (
               <img
                 width={200}
-                src={imgAddress(item.coverWook)}
+                src={imgAddress(item.cover)}
                 className="cover"
                 onLoad={imageLoaded}
               />

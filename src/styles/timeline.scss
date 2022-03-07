@@ -55,16 +55,16 @@
 	// align-items: stretch;
 }
 .th {
+	background-color: #444;
+	color: white;
+	text-transform: capitalize;
+	cursor: pointer;
+	user-select: none;
 	.th-inner {
 		position: relative;
 		top: 50%;
 		transform: translateY(-50%);
 	}
-	background-color: #444;
-	color: white;
-	text-transform: capitalize;
-	cursor: pointer;
-
 	.icon {
 		padding-left: 4px;
 		vertical-align: sub;
@@ -138,6 +138,10 @@
 	}
 	.text {
 		font-size: 16px;
+		// text-shadow: 0 0 10px white;
+		// .type-indicator {
+		// 	text-shadow: none;
+		// }
 		.title {
 			margin: 0 0 12px 0;
 			line-height: 0.95;

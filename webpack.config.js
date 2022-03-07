@@ -12,9 +12,6 @@ module.exports = (env) => {
       path: path.resolve(__dirname, "dist"),
     },
     devtool: dev ? "inline-source-map" : undefined,
-    /*plugins: [
-			new HtmlWebpackPlugin()
-		],*/
     //target: dev ? "web" : "browserslist",
     devServer: {
       //static: path.resolve(__dirname),
@@ -40,6 +37,10 @@ module.exports = (env) => {
         {
           test: /\.css$/i,
           use: ["style-loader", "css-loader"],
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: "asset/resource",
         },
       ],
     },

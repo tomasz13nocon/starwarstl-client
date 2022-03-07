@@ -245,7 +245,7 @@ export default function Add() {
 
     console.log(data);
     setIsFetching(true);
-    let res = await fetch(`${SERVER}/media/${data.title}`, {
+    let res = await fetch(`${SERVER}media/${data.title}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

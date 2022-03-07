@@ -2,6 +2,7 @@ import React from "react";
 import { useVirtual, useVirtualWindow } from "react-virtual";
 import ItemMeasurer from "./ItemMeasurer.js";
 import Icon from "@mdi/react";
+import useDeepCompareEffect from "use-deep-compare-effect";
 import {
   mdiSortAlphabeticalAscending,
   mdiSortAlphabeticalDescending,
@@ -15,15 +16,8 @@ import {
 import TimelineRow from "./timelineRow.js";
 import "./styles/timeline.scss";
 
-// TODO remove the todos (???)
 const filterItem = (filters, item) => {
-  // if (item.title === "Off the Rails")
-    // console.log(filters);
-  // TODO remove or handle
   if (filters === undefined) {
-    // console.error(
-    //   "This probably means a value from data not being present in filters (like type === 'whatever')"
-    // );
     return false;
   }
 
@@ -37,16 +31,16 @@ const filterItem = (filters, item) => {
     // string key in data
     else {
       // leaf filter
-      // if all values are true or all are false, skip this filter
-      if (Object.values(value).reduce((acc, v) => acc && (acc === v), true) && key !== "type") {
-        console.log("lul");
-        return acc;
-      }
-      // TODO handle "Other" and "Unknown". This is related to the todo above. This for leafs, above for non leafs
       if (!(item[key] in value)) {
         return value["Other"] || value["Unknown"];
       }
       else if (typeof value[item[key]] === "boolean") {
+        // if all values are true or all are false, skip this filter
+          // if (item.title === "The High Republic: Into the Dark")
+          //   console.log(value);
+        // if (Object.values(value).every((v, i, arr) => v === arr[0]) && key !== "type") {
+        //   return acc;
+        // }
         return acc && value[item[key]];
       }
       // Non leaf filter
@@ -59,8 +53,6 @@ const filterItem = (filters, item) => {
 
 export default function Timeline({ filterText, filters, rawData }) {
   ///// STATE /////
-  // TODO change default when switching to a backend API
-  const [dataLoaded, setDataLoaded] = React.useState(true);
   // State representing shown columns.
   // Keys: names of columns corresponding to keys in data
   // Values: wheter they're to be displayed
@@ -76,6 +68,7 @@ export default function Timeline({ filterText, filters, rawData }) {
     by: "date",
     ascending: true,
   });
+  const [data, setData] = React.useState([]);
   /////////////////
 
   const columnNames = React.useMemo(
@@ -95,29 +88,29 @@ export default function Timeline({ filterText, filters, rawData }) {
   };
 
   // Sort and filter data
-  let data = []; // = [...rawData];
-  if (dataLoaded) {
+  useDeepCompareEffect(() => {
+    let tempData = [];
     // Filter
-    data = rawData.filter((item) => filterItem(filters, item));
+    tempData = rawData.filter((item) => filterItem(filters, item));
 
     // Search
     if (filterText) {
       // Filter data to include items, where ALL words in filterText are included in either title OR author
       // Words seperated by space
-      data = data.filter((item) =>
+      tempData = tempData.filter((item) =>
         filterText
-          .toLowerCase()
-          .split(" ")
-          .reduce(
-            (acc, value) =>
-              acc &&
-              (item.title.toLowerCase().includes(value) ||
-                item.writer?.reduce(
-                  (acc, writer) => acc || writer?.toLowerCase().includes(value),
-                  false
-                )),
-            true
-          )
+        .toLowerCase()
+        .split(" ")
+        .reduce(
+          (acc, value) =>
+          acc &&
+          (item.title.toLowerCase().includes(value) ||
+            item.writer?.reduce(
+              (acc, writer) => acc || writer?.toLowerCase().includes(value),
+              false
+            )),
+          true
+        )
       );
     }
 
@@ -125,8 +118,8 @@ export default function Timeline({ filterText, filters, rawData }) {
     if (sorting.by === "chronology")
       // Remove items with unknown placement, the ones from the other table
       // TODO: maybe notify user that some items have been hidden?
-      data.filter((item) => item.chronology != null);
-    data.sort((a, b) => {
+      tempData = tempData.filter((item) => item.chronology != null);
+    tempData = tempData.sort((a, b) => {
       let by = sorting.by;
       if (by === "date") by = "chronology";
       let av = a[by], bv = b[by];
@@ -143,7 +136,8 @@ export default function Timeline({ filterText, filters, rawData }) {
       if (av > bv) return sorting.ascending ? 1 : -1;
       return 0;
     });
-  }
+    setData(tempData);
+  }, [filters, filterText, sorting]);
 
   // TODO move somewhere like useeffect
   const sortingIcons = new Proxy(
@@ -238,7 +232,7 @@ export default function Timeline({ filterText, filters, rawData }) {
           ))}
         </div>
       </div>
-      
+
       {false ? (
         <table id="timeline">
           <thead>

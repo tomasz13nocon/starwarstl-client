@@ -26,10 +26,12 @@
 		"react-router-dom": "^6.2.1",
 		"react-table": "^7.7.0",
 		"react-transition-group": "^4.4.2",
+		"react-virtual": "file:react-virtual",
 		"react-virtualized": "^9.22.3",
 		"react-window": "^1.8.6",
-		"wtf_wikipedia": "file:wtf_wikipedia",
-		"react-virtual": "file:react-virtual"
+		"sharp": "^0.30.2",
+		"use-deep-compare-effect": "^1.8.1",
+		"wtf_wikipedia": "file:wtf_wikipedia"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.17.5",

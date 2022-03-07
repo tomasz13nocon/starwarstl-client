@@ -14,6 +14,9 @@ export default function Header() {
           <li>
             <NavLink to="/add">Add</NavLink>
           </li>
+          <li>
+            <NavLink to="/faq">FAQ</NavLink>
+          </li>
         </ul>
       </nav>
     </header>
