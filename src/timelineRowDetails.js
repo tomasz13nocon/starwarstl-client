@@ -5,19 +5,7 @@ import { CSSTransition } from "react-transition-group";
 
 import WookieeLink from "./wookieeLink";
 import ExternalLink from "./externalLink";
-import { Audience, SERVER, IMAGE_PATH } from "./common";
-
-const imgAddress = (filename) => {
-  // TODO add a "no cover" image
-  if (!filename) return null;
-  if (/^https?:\/\//.test(filename)) return filename;
-  return `${IMAGE_PATH}${encodeURIComponent(filename)}`;
-  // return `https://starwars.fandom.com/wiki/Special:FilePath/${filename}`;
-  // let hash = md5(filename);
-  // return `https://static.wikia.nocookie.net/starwars/images/${
-  //   hash[0]
-  // }/${hash.slice(0, 2)}/${filename}/revision/latest/scale-to-width-down/3000`;
-};
+import { Audience, imgAddress, Size } from "./common";
 
 const process = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -51,12 +39,18 @@ const process = (value, link = true) => {
         break;
       case "external link":
         arr.push(
-          <ExternalLink href={item.site}>{item.text || item.site}</ExternalLink>
+          <ExternalLink href={item.site}>{item.text ?? item.site}</ExternalLink>
         );
         break;
       case "interwiki link":
-        // wtf's support for this is weird and doesn't provide the acutal link
-        // TODO:parser
+        arr.push(
+          <ExternalLink
+            href={"https://" + item.href}
+            title={`${item.wiki}: ${item.page}`}
+          >
+            {item.text ?? item.page}
+          </ExternalLink>
+        );
         break;
     }
   }
@@ -157,10 +151,17 @@ const getData = (item) => {
   let ret = {
     Type: type,
     "Release date": process(releaseDate, false),
-    Date: process(item.dateDetails),
+    Closed: process(item.closed),
+    Chronology: process(item.dateDetails),
+    Series: process(item.seriesDetails),
+    Season: process(item.seasonDetails),
+    Episode: process(item.episode),
+    "Production No.": process(item.production),
+    "Guest star(s)": process(item.guests),
+    Developer: process(item.developer),
     Author: process(item.author),
-    Director: process(item.director),
-    Writer: process(item.writerDetails),
+    "Director(s)": process(item.director),
+    "Writer(s)": process(item.writerDetails),
     Producer: process(item.producer),
     Starring: process(item.starring),
     Music: process(item.music),
@@ -174,11 +175,22 @@ const getData = (item) => {
     Publisher: process(item.publisherDetails),
     Illustrator: process(item.illustrator),
     "Cover Artist": process(item.coverArtist),
-    Pages: process(item.pages, false),
     "Published in": process(item.publishedIn),
-    Series: process(item.series),
-    "Followed by": process(item.followedBy),
-    "Preceded by": process(item.precededBy),
+    Pages: process(item.pages, false),
+    "Game engine": process(item.engine),
+    Genre: process(item.genre),
+    Modes: process(item.modes),
+    "Rating(s)": process(item.ratings),
+    "Platform(s)": process(item.platforms),
+    "Base game": process(item.basegame),
+    Expansions: process(item.expansions),
+    Designer: process(item.designer),
+    Programmer: process(item.programmer),
+    Artist: process(item.artist),
+    Composer: process(item.composer),
+    "Issue number": process(item.issue),
+    "Followed by": process(item.followedBy ?? item.next),
+    "Preceded by": process(item.precededBy ?? item.prev),
     UPC: process(item.upc, false),
     ISBN: process(item.isbn, false),
   };
@@ -191,7 +203,11 @@ const getData = (item) => {
 
 export const ANIMATION_TIME = 150;
 
-export default function TimelineRowDetails({ expanded = true, item }) {
+export default function TimelineRowDetails({
+  expanded = true,
+  item,
+  setShowFullCover,
+}) {
   const detailsRef = React.useRef();
   const detailsRowRef = React.useRef();
 
@@ -225,7 +241,7 @@ export default function TimelineRowDetails({ expanded = true, item }) {
             ref={detailsRef}
             // style={{
             //   background: `linear-gradient(to left, transparent 50%, #f3f3f3bb, #f3f3f3), url(${imgAddress(
-            //     item.cover
+            //     item.cover, Size.FULL
             //   )})`,
             //   backgroundRepeat: "no-repeat",
             //   backgroundPosition: "right",
@@ -234,9 +250,10 @@ export default function TimelineRowDetails({ expanded = true, item }) {
           >
             {item.cover ? (
               <img
-                width={200}
+                width={220}
                 src={imgAddress(item.cover)}
                 className="cover"
+                onClick={() => setShowFullCover(item.cover)}
                 onLoad={imageLoaded}
               />
             ) : null}

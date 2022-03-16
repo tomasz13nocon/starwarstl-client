@@ -32,8 +32,20 @@ export default function Filters({
       </div>
 
       <div className="checkbox-filters">
-        <button className="show-button" onClick={() => filtersChanged({ path: "type", to: true })}>SHOW ALL</button>
-        <button className="hide-button" onClick={() => filtersChanged({ path: "type", to: false })}>HIDE ALL</button>
+        <div className="check-buttons">
+          <button
+            className="show-button"
+            onClick={() => filtersChanged({ path: "type", to: true })}
+          >
+            CHECK ALL
+          </button>
+          <button
+            className="hide-button"
+            onClick={() => filtersChanged({ path: "type", to: false })}
+          >
+            UNCHECK ALL
+          </button>
+        </div>
         <CheckboxGroup state={filters} onChange={filtersChanged}>
           {filtersTemplate}
         </CheckboxGroup>

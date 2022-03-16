@@ -5,6 +5,29 @@
 	margin: 0 12px;
 }
 
+.full-image-container {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	margin: 0 auto;
+	background-color: rgba(0,0,0,0.7);
+	cursor: pointer;
+
+	$padding: 10px;
+	padding: $padding;
+	height: calc(100% - (2 * $padding));
+	width: calc(100% - (2 * $padding));
+	img {
+		max-width: 100%;
+		max-height: 100%;
+	}
+}
+
 .table {
 	//table-layout: fixed;
 	// width: 800px;
@@ -30,7 +53,8 @@
 
 	// width: auto;
 	&.cover {
-		width: 50px;
+		width: 55px;
+		padding: 0;
 	}
 	&.date {
 		width: 80px;
@@ -50,6 +74,9 @@
 }
 
 .thead {
+	position: sticky;
+	top: 0;
+	z-index: 5;
 	display: flex;
 	text-align: center;
 	// align-items: stretch;
@@ -76,13 +103,31 @@
 	display: flex;
 	flex-flow: wrap;
 	.td.title {
-		font-weight: $weight-bold;
+		font-weight: $weight-bolder;
 		font-size: 1em;
 		cursor: pointer;
 		button {
 			@extend %reset-button;
 			pointer-events: none;
 			text-align: left;
+		}
+		.tv-image {
+			// height: 16px;
+			margin: 0 8px;
+			position: relative;
+			top: 2px;
+		}
+		.season-episode {
+			position: relative;
+			top: -2px;
+			border: 1px solid black;
+			border-radius: 4px;
+			padding: 0 4px;
+			background-color: $tv-tertiary;
+			color: white;
+			font-size: 0.75em;
+			white-space: nowrap;
+			overflow: hidden;
 		}
 	}
 
@@ -133,6 +178,7 @@
 		box-shadow: 2px 2px 8px #000;
 		margin-right: 14px;
 		align-self: start;
+		cursor: pointer;
 		// border: 1px solid #000;
 		//box-sizing: border-box;
 	}
@@ -172,7 +218,7 @@
 			dd {
 				border-bottom: 1px solid #bbb;
 				margin-left: 0;
-				max-height: 150px;
+				max-height: 154px;
 				//overflow-y: auto;
 				ul {
 					//list-style-type: none;
@@ -186,7 +232,7 @@
 			.note {
 				font-size: 14px;
 				color: #666;
-				vertical-align: middle;
+				// vertical-align: middle;
 			}
 		}
 	}
@@ -196,6 +242,7 @@
 	user-select: none;
 	img {
 		margin-left: 0.3em;
+		// margin-right: 0.1em;
 		width: 1em;
 		position: relative;
 		top: 0.15em;

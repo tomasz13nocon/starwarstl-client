@@ -23,7 +23,7 @@ export default function WookieeLink({ title, legends = false, children }) {
       <a
         href={
           "https://starwars.fandom.com/wiki/" +
-          linkTitle +
+          encodeURIComponent(linkTitle) +
           (legends ? "/legends" : "")
         }
         target="_blank"

@@ -4,7 +4,7 @@ import Icon from "@mdi/react";
 
 export default function ExternalLink({ children, ...props }) {
 	return (
-		<a className="external" {...props}>
+		<a className="external" target="_blank" {...props}>
 			{children}
 			<Icon path={mdiOpenInNew} className="icon" />
 		</a>

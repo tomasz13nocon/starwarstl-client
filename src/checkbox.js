@@ -22,7 +22,7 @@ export default function Checkbox({ name, value, onChange, path, indeterminate = 
   prevRef.current = current;
 
 	return (
-		<div className="checkbox-wrapper">
+		<div className={`checkbox-wrapper level-${(path.match(/\./g) || []).length}`}>
 			<label>
 				<input
 					type="checkbox"

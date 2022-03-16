@@ -1,6 +1,9 @@
 @use "shared.scss" as *;
 
 .filter {
+	position: sticky;
+	top: 10px;
+	align-self: flex-start;
 	width: 285px;
 	margin-right: 10px;
 	.search {
@@ -51,15 +54,17 @@
 	}
 	
 	.checkbox-filters {
+		height: 80vh; // TODO is this good enough? test different sizes
+		overflow-y: auto;
 		margin: 16px 0;
 		line-height: 1.25;
+		.check-buttons {
+			margin-bottom: 6px;
+		}
 	}
 
+
 	.checkbox-group-title {
-		font-weight: $weight-bold;
-		&.level-1 {
-			font-size: 1.25em;
-		}
 	}
 	.checkbox-group-contents {
 		margin-left: 25px;
@@ -72,6 +77,14 @@
 	$checkbox-appear-function: linear;
 	$delay-transitions: all 0s $checkbox-appear-duration;
 	.checkbox-wrapper {
+		&.level-1 {
+			// font-size: 1.20em;
+			font-weight: $weight-bold;
+		}
+		&.level-2 {
+			// font-size: 1.10em;
+			font-weight: $weight-bolder;
+		}
 		// display: flex;
 		// position: relative;
 		// .solo-button {
@@ -93,6 +106,7 @@
 		// 	display: inline-block;
 		// }
 		label {
+			cursor: pointer;
 			input {
 				opacity: 0;
 			}

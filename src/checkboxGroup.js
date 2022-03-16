@@ -68,7 +68,7 @@ export default function CheckboxGroup({ name, state, onChange, path, children })
 	return (
 		<div className="checkbox-group">
 			{/* group checkbox */}
-			<div className={`checkbox-group-title level-${(path.match(/\./g) || []).length}`}>
+			<div className={`checkbox-group-title`}>
 				<Checkbox
 					name={name}
 					value={childrenChecked === 2}

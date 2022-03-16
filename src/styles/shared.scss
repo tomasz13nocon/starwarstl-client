@@ -1,24 +1,22 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
 
 $sans: Nunito, sans-serif;
 $weight-regular: 400;
+$weight-bolder: 600;
 $weight-bold: 700;
 
 $game-primary: #d42b26;
 $game-secondary: #fff7f6;
 $tv-primary: #E37322;
 $tv-secondary: #3C1900;
-// purple
+$tv-tertiary: #5B2600;
 // $yr-primary: #9C27B0;
 // $yr-secondary: #FADEFF;
-// pink
 // $yr-primary: #FF58C5;
 // $yr-secondary: #41004D;
-// yellow
 $yr-primary: #FFEB3B;
 $yr-secondary: #403a01;
-// grey
 // $yr-primary: #d2d2d2;
 // $yr-secondary: #202020;
 $reference-book-primary: #00BCD4;
@@ -90,13 +88,17 @@ $grey1: rgb(100, 100, 100);
 }
 
 .show-button, .hide-button {
+	@extend %reset-button;
+	font-weight: $weight-bold;
+	border: 2px outset black;
 	font-size: 0.75em;
-	border-radius: 99px;
 	padding: 1px 5px;
 	margin-right: 8px;
 	color: black;
-	font-weight: bold;
 	cursor: pointer;
+	&:active {
+		border-style: inset;
+	}
 }
 .show-button {
 	background-color: #86cc66;

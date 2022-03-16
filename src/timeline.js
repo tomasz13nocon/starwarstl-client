@@ -22,7 +22,8 @@ const filterItem = (filters, item) => {
   }
 
   return Object.entries(filters).reduce((acc, [key, value]) => {
-    if (item[key] === undefined) return value["Other"] ?? value["Unknown"] ?? acc;
+    if (item[key] === undefined)
+      return value["Other"] ?? value["Unknown"] ?? acc;
     // boolean key in data
     if (typeof value === "boolean") {
       // equivalent: item[key] ? value : true;
@@ -30,17 +31,11 @@ const filterItem = (filters, item) => {
     }
     // string key in data
     else {
-      // leaf filter
       if (!(item[key] in value)) {
-        return value["Other"] || value["Unknown"];
+        return acc && (value["Other"] || value["Unknown"]);
       }
+      // leaf filter
       else if (typeof value[item[key]] === "boolean") {
-        // if all values are true or all are false, skip this filter
-          // if (item.title === "The High Republic: Into the Dark")
-          //   console.log(value);
-        // if (Object.values(value).every((v, i, arr) => v === arr[0]) && key !== "type") {
-        //   return acc;
-        // }
         return acc && value[item[key]];
       }
       // Non leaf filter
@@ -51,7 +46,22 @@ const filterItem = (filters, item) => {
   }, true);
 };
 
-export default function Timeline({ filterText, filters, rawData }) {
+// remove sibling values that all equate to false, to mimic shopping websites filters, that treat subgroups of unchecked filters as checked
+const removeAllFalses = (filters) => {
+  let acc = false;
+  for (let [key, value] of Object.entries(filters)) {
+    if (typeof value === "boolean") {
+      acc ||= value;
+    } else {
+      let childrenChecked = removeAllFalses(value);
+      if (!childrenChecked) delete filters[key];
+      acc ||= childrenChecked;
+    }
+  }
+  return acc;
+};
+
+export default function Timeline({ filterText, filters, rawData, ...props }) {
   ///// STATE /////
   // State representing shown columns.
   // Keys: names of columns corresponding to keys in data
@@ -91,7 +101,9 @@ export default function Timeline({ filterText, filters, rawData }) {
   useDeepCompareEffect(() => {
     let tempData = [];
     // Filter
-    tempData = rawData.filter((item) => filterItem(filters, item));
+    let cleanFilters = _.cloneDeep(filters);
+    removeAllFalses(cleanFilters);
+    tempData = rawData.filter((item) => filterItem(cleanFilters, item));
 
     // Search
     if (filterText) {
@@ -99,18 +111,22 @@ export default function Timeline({ filterText, filters, rawData }) {
       // Words seperated by space
       tempData = tempData.filter((item) =>
         filterText
-        .toLowerCase()
-        .split(" ")
-        .reduce(
-          (acc, value) =>
-          acc &&
-          (item.title.toLowerCase().includes(value) ||
-            item.writer?.reduce(
-              (acc, writer) => acc || writer?.toLowerCase().includes(value),
-              false
-            )),
-          true
-        )
+          .toLowerCase()
+          .split(" ")
+          .reduce(
+            (acc, value) =>
+              acc &&
+              (item.title.toLowerCase().includes(value) ||
+                item.writer?.reduce(
+                  (acc, v) => acc || v?.toLowerCase().includes(value),
+                  false
+                ) ||
+                item.series?.reduce(
+                  (acc, v) => acc || v?.toLowerCase().includes(value),
+                  false
+                )),
+            true
+          )
       );
     }
 
@@ -122,7 +138,8 @@ export default function Timeline({ filterText, filters, rawData }) {
     tempData = tempData.sort((a, b) => {
       let by = sorting.by;
       if (by === "date") by = "chronology";
-      let av = a[by], bv = b[by];
+      let av = a[by],
+        bv = b[by];
       // TODO: micro optimization: make seperate sorting functions based on value of "by" instead of checking it per item
       if (by === "releaseDate") {
         // Unknown release date always means unreleased, therefore the newest
@@ -193,93 +210,44 @@ export default function Timeline({ filterText, filters, rawData }) {
                     sortingIcons[name][
                       sorting.ascending ? "ascending" : "descending"
                     ]
-                  } className="icon"
+                  }
+                  className="icon"
                 />
               ) : null}
             </div>
           </div>
         ))}
       </div>
-      <div
-        ref={parentRef}
-        className="tbody"
-      >
+      <div ref={parentRef} className="tbody">
         <div
           style={{
             height: rowVirtualizer.totalSize,
             // width: '100%',
-            position: 'relative',
+            position: "relative",
           }}
         >
-          {rowVirtualizer.virtualItems.map(virtualRow => (
+          {rowVirtualizer.virtualItems.map((virtualRow) => (
             <ItemMeasurer
               key={data[virtualRow.index]._id}
               measure={virtualRow.measureRef}
               tagName="div"
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: 0,
                 left: 0,
                 // width: '100%',
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             >
-              <TimelineRow 
+              <TimelineRow
                 item={data[virtualRow.index]}
                 activeColumns={activeColumns}
+                {...props}
               />
             </ItemMeasurer>
           ))}
         </div>
       </div>
-
-      {false ? (
-        <table id="timeline">
-          <thead>
-            <tr>
-              {activeColumns.map((name) => (
-                <th
-                  onClick={(e) => toggleSorting(name, e)}
-                  key={name}
-                  className={name}
-                >
-                  {columnNames[name] || name}
-                  {sorting.by === name ? (
-                    <Icon
-                      path={
-                        sortingIcons[name][
-                          sorting.ascending ? "ascending" : "descending"
-                        ]
-                      }
-                      className="icon"
-                    />
-                  ) : null}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rowVirtualizer.virtualItems.map(virtualRow => (
-              <TimelineRow
-                key={data[virtualRow.index]._id}
-                item={data[virtualRow.index]}
-                activeColumns={activeColumns}
-                //expanded={expandedRow === item.id}
-              />
-            ))}
-            {/* {data.map((item) => ( */}
-            {/*   <TimelineRow */}
-            {/*     key={item._id} */}
-            {/*     item={item} */}
-            {/*     activeColumns={activeColumns} */}
-            {/*     //expanded={expandedRow === item.id} */}
-            {/*   /> */}
-            {/* ))} */}
-          </tbody>
-        </table>
-      ) : (
-        <div>{/*Loading...*/}</div>
-      )}
     </div>
   );
 }

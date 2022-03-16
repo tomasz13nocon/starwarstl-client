@@ -17,6 +17,9 @@ module.exports = (env) => {
       //static: path.resolve(__dirname),
       historyApiFallback: true,
       hot: true,
+      proxy: {
+        "/api": "http://192.168.18.149:5000",
+      },
     },
     module: {
       rules: [

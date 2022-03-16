@@ -1,7 +1,7 @@
 import React from "react";
 import produce from "immer";
 
-import { SERVER } from "./common.js";
+import { API, imgAddress, Size } from "./common.js";
 import Filters from "./filters.js";
 import Legend from "./legend";
 import Timeline from "./timeline.js";
@@ -54,23 +54,19 @@ const filtersTemplate = {
               Other: true,
             },
           },
-          subtype: {
-            name: "Format",
-            children: {
-              Series: true,
-              "Story arc": true,
-              "Single issue": true,
-              "Trade paperback": false,
-            },
-          },
+          // subtype: {
+          //   name: "Format",
+          //   children: {
+          //     Series: true,
+          //     "Story arc": true,
+          //     "Single issue": true,
+          //     "Trade paperback": false,
+          //   },
+          // },
         },
       },
       "short story": {
         name: "Short Stories",
-        value: true,
-      },
-      yr: {
-        name: "Young Readers",
         value: true,
       },
       film: {
@@ -83,6 +79,10 @@ const filtersTemplate = {
       },
       game: {
         name: "Video Games",
+        value: true,
+      },
+      yr: {
+        name: "Young Readers",
         value: true,
       },
     },
@@ -150,6 +150,7 @@ const reducer = (state, { path, to }) => {
 
 export default function Home() {
   const [filterText, setFilterText] = React.useState("");
+  const [showFullCover, setShowFullCover] = React.useState("");
 
   const [filters, dispatch] = React.useReducer(
     reducer,
@@ -160,15 +161,38 @@ export default function Home() {
   );
 
   const [rawData, setRawData] = React.useState([]);
+  const [tvImages, setTvImages] = React.useState();
 
   React.useEffect(async () => {
     // TODO: show error on network error
-    let res = await fetch(SERVER + "media");
+    let res = await fetch(API + "media");
     setRawData(await res.json());
+    res = await fetch(API + "tv-images");
+    let json = await res.json();
+    let dict = {};
+    for (let item of json) {
+      dict[item.series] = item.filename;
+    }
+    setTvImages(dict);
+    return document.addEventListener(
+      "keydown",
+      (e) => {
+        if (e.key === "Escape") setShowFullCover("");
+      },
+      false
+    );
   }, []);
 
   return (
     <>
+      {showFullCover === "" ? null : (
+        <div
+          className="full-image-container"
+          onClick={() => setShowFullCover("")}
+        >
+          <img src={imgAddress(showFullCover, Size.FULL)} />
+        </div>
+      )}
       <Legend />
       <div className="timeline-container">
         <Filters
@@ -178,9 +202,17 @@ export default function Home() {
           filtersChanged={dispatch}
           filtersTemplate={filtersTemplate}
         />
-        {rawData.length ? 
-        <Timeline filterText={filterText} filters={filters} rawData={rawData} />
-        : <Spinner />}
+        {rawData.length ? (
+          <Timeline
+            filterText={filterText}
+            filters={filters}
+            rawData={rawData}
+            setShowFullCover={setShowFullCover}
+            tvImages={tvImages}
+          />
+        ) : (
+          <Spinner />
+        )}
       </div>
     </>
   );

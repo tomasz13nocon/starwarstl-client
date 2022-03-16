@@ -5,7 +5,7 @@ import { decode } from "html-entities";
 import TimelineRowDetails from "./timelineRowDetails.js";
 import Error from "./error.js";
 import Spinner from "./spinner.js";
-import { SERVER } from "./common.js";
+import { API } from "./common.js";
 import "./styles/add.scss";
 
 const extend = () => {
@@ -245,7 +245,7 @@ export default function Add() {
 
     console.log(data);
     setIsFetching(true);
-    let res = await fetch(`${SERVER}media/${data.title}`, {
+    let res = await fetch(`${API}media/${data.title}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
