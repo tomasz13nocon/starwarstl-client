@@ -57,6 +57,7 @@ Searching appearances. Search "R2D2" click on "Character: RD2D" bullet that appe
 TOOLTIPS for:
 -types (explain junior categorization etc.)
 Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
+legend type-indicators clickable to enable filtering for that type
 
 PARSER:
 "TODO:parser" - things to do when switching from wtf_wikipedia to a different parser

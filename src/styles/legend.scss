@@ -43,19 +43,22 @@
 			background: #ccc;//$background;
 			// border: 2px solid black;
 			padding: 4px;
-			border-radius: 11px;
+			border-radius: 14px;
 			font-weight: normal;
 			font-size: 16px;
 			display: flex;
 			flex-direction: column;
 			gap: 3px;
+			.hr {
+				margin: 1px 0;
+			}
 			.type-indicator {
 				width: max-content;
 				// margin: 4px 4px 4px auto;
 				// margin: 3px;
 				margin-left: auto;
 				&.small {
-					font-size: 0.75em;
+					font-size: 0.8em;
 				}
 			}
 		}

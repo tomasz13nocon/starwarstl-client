@@ -63,11 +63,7 @@ const getData = (item) => {
   let type = "";
   switch (item.type) {
     case "book":
-      type =
-        (Audience[item.audience] || "") +
-        "\u00A0" +
-        (!item.audience || item.audience === "Young Reader" ? "book" : "novel");
-      type = type.trim();
+      type = "Novel";
       break;
     case "comic":
       type = "Comic";
@@ -89,19 +85,14 @@ const getData = (item) => {
     case "short story":
       type = "Short story";
       break;
+    case "audio drama":
+      type = "Audio drama";
+      break;
     case "game":
       type = "Video game";
       break;
     case "tv":
       type = "TV series";
-      switch (item.fullType) {
-        case "tv-animated":
-          type = "Animated TV series";
-          break;
-        case "tv-micro-series":
-          type = "TV micro-series";
-          break;
-      }
       break;
     case "film":
       type = "Film";
@@ -112,6 +103,36 @@ const getData = (item) => {
     default:
       type = "Unknown";
   }
+
+  switch (item.fullType) {
+    case "book-a":
+      type = "Novel";
+      break;
+    case "book-ya":
+      type = "Young adult novel";
+      break;
+    case "book-jr":
+      type = "Junior novel";
+      break;
+    case "game-vr":
+      type = "VR game";
+      break;
+    case "game-mobile":
+      type = "Mobile game";
+      break;
+    case "game-browser":
+      type = "Browser game";
+      break;
+    case "tv-animated":
+      type = "Animated TV series";
+      break;
+    case "tv-micro-series":
+      type = "Micro-series";
+      break;
+  }
+
+  if (item.audiobook) type += " (audiobook)";
+
   type = (
     <span
       className={`type-indicator ${item.type.replace(" ", "-")} ${
@@ -122,47 +143,10 @@ const getData = (item) => {
     </span>
   );
 
-  let releaseDate;
-  const processDate = (dateObj) => {
-    if (!_.isObject(dateObj)) dateObj = { date: dateObj };
-    let date = new Date(dateObj.date);
-    if (isNaN(date)) {
-      date = "Unknown";
-    } else {
-      // TODO: query for locale?
-      date = date.toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      });
-    }
-    let ret = [
-      {
-        type: "text",
-        text: date,
-      },
-    ];
-    if (dateObj.note) {
-      ret[0].text += " ";
-      ret.push({
-        type: "note",
-        text: dateObj.note,
-      });
-    }
-    return ret;
-  };
-  // releaseDate = Array.isArray(item.releaseDateDetails)
-  //   ? [
-  //       {
-  //         type: "list",
-  //         data: item.releaseDateDetails.map((e) => processDate(e)),
-  //       },
-  //     ]
-  //   : processDate(item.releaseDateDetails ?? item.releaseDate);
-
   let ret = {
     Type: type,
-    "Release date": process(item.releaseDateDetails, false),
+    "Release date": process(item.releaseDateDetails ?? "Unknown", false),
+    "Last aired": process(item.lastAired, false), // TODO: first aired when availible instead of release date?
     Closed: process(item.closed),
     Chronology: process(item.dateDetails),
     Series: process(item.seriesDetails),

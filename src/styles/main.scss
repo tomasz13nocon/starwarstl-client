@@ -92,7 +92,7 @@ a.external {
 }
 .book-a {
 	background: $book-a-primary;
-	// color: $book-a-secondary;
+	color: $book-a-secondary;
 }
 .book-ya {
 	background: $book-ya-primary;
@@ -102,9 +102,10 @@ a.external {
 	background: $book-jr-primary;
 	color: $book-jr-secondary;
 }
-.book-audio {
-	background: $book-audio-primary;
-	color: $book-audio-secondary;
+
+.audio-drama {
+	background: $audio-drama-primary;
+	color: $audio-drama-secondary;
 }
 
 .comic {
@@ -143,6 +144,14 @@ a.external {
 .game {
 	background-color: $game-primary;
 	color: $game-secondary;
+}
+.game-vr {
+	background-color: $game-vr-primary;
+	color: $game-vr-secondary;
+}
+.game-mobile, .game-browser {
+	background-color: $game-mobile-primary;
+	color: $game-mobile-secondary;
 }
 
 .reference-book {

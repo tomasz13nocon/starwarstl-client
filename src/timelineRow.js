@@ -1,4 +1,6 @@
 import React from "react";
+import Icon from "@mdi/react";
+import { mdiVolumeHigh } from "@mdi/js";
 import { imgAddress, Size, TV_IMAGE_PATH, unscuffDate } from "./common.js";
 import {
   ANIMATION_TIME,
@@ -79,6 +81,13 @@ export default function TimelineRow({
                 ) : null}
               </>
             ) : null}
+            {item.audiobook && (
+              <Icon
+                path={mdiVolumeHigh}
+                className="icon audiobook-icon"
+                title="audiobook"
+              />
+            )}
           </div>
         );
         classNames += ` ${item.type.replace(" ", "-")} ${item.fullType}`;

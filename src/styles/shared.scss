@@ -8,6 +8,10 @@ $weight-bold: 700;
 
 $game-primary: #d42b26;
 $game-secondary: #fff7f6;
+$game-vr-primary: #C81F4D;
+$game-vr-secondary: #fff7f6;
+$game-mobile-primary: #D85956;
+$game-mobile-secondary: #fff7f6;
 
 $tv-primary: #E37322;
 $tv-secondary: #2F1300;
@@ -36,13 +40,13 @@ $film-secondary: #fff;
 $book-primary: #3F51B5;
 $book-secondary: #deefff;
 $book-a-primary: #3F51B5;
-// $book-a-secondary: #deefff;
+$book-a-secondary: #deefff;
 $book-ya-primary: #616EB9;
 $book-ya-secondary: white;
 $book-jr-primary: #7899D9;
 $book-jr-secondary: #031435;
-$book-audio-primary: #8042bf;
-$book-audio-secondary: #f9f3ff;
+$audio-drama-primary: #8042bf;
+$audio-drama-secondary: #f9f3ff;
 
 $comic-primary: #4CAF50;
 $comic-secondary: #003102;
@@ -103,7 +107,7 @@ $grey1: rgb(100, 100, 100);
 	box-shadow: 0 0 5px -3px black;
 	padding: 0 9px 0px 9px;
 	border-radius: 999px;
-	text-transform: capitalize;
+	// text-transform: capitalize;
 	//font-weight: 600;
 }
 

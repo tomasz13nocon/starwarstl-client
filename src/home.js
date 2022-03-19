@@ -32,7 +32,7 @@ const filtersTemplate = {
             children: {
               a: { name: "Adult", value: true },
               ya: { name: "Young Adult", value: true },
-              jr: { name: "Junior", value: false },
+              jr: { name: "Junior", value: true },
               Unknown: true,
             },
           },
@@ -67,6 +67,10 @@ const filtersTemplate = {
       },
       "short story": {
         name: "Short Stories",
+        value: true,
+      },
+      "audio drama": {
+        name: "Audio Dramas",
         value: true,
       },
       film: {
