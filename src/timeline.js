@@ -15,6 +15,7 @@ import {
 
 import TimelineRow from "./timelineRow.js";
 import "./styles/timeline.scss";
+import { unscuffDate } from "./common.js";
 
 const filterItem = (filters, item) => {
   if (filters === undefined) {
@@ -68,8 +69,8 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
   // Values: wheter they're to be displayed
   const [columns, setColumns] = React.useState({
     date: true,
-    type: false,
     cover: false,
+    series: false,
     title: true,
     writer: true,
     releaseDate: true,
@@ -84,6 +85,10 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
   const columnNames = React.useMemo(
     () => ({
       date: "Date",
+      series: "Series Continuity",
+      cover: "Cover",
+      title: "Title",
+      writer: "Writer",
       releaseDate: "Release Date",
     }),
     []
@@ -146,8 +151,8 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
         // == is intended (null or undefined)
         if (av == null) return sorting.ascending ? 1 : -1;
         if (bv == null) return sorting.ascending ? -1 : 1;
-        if (/^\d{4}$/.test(av)) av = `${av}-12-31`;
-        if (/^\d{4}$/.test(bv)) bv = `${bv}-12-31`;
+        av = unscuffDate(av);
+        bv = unscuffDate(bv);
       }
       if (av < bv) return sorting.ascending ? -1 : 1;
       if (av > bv) return sorting.ascending ? 1 : -1;

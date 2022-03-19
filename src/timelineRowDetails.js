@@ -94,6 +94,14 @@ const getData = (item) => {
       break;
     case "tv":
       type = "TV series";
+      switch (item.fullType) {
+        case "tv-animated":
+          type = "Animated TV series";
+          break;
+        case "tv-micro-series":
+          type = "TV micro-series";
+          break;
+      }
       break;
     case "film":
       type = "Film";
@@ -105,7 +113,11 @@ const getData = (item) => {
       type = "Unknown";
   }
   type = (
-    <span className={"type-indicator " + item.type.replace(" ", "-")}>
+    <span
+      className={`type-indicator ${item.type.replace(" ", "-")} ${
+        item.fullType
+      }`}
+    >
       {type}
     </span>
   );
@@ -139,18 +151,18 @@ const getData = (item) => {
     }
     return ret;
   };
-  releaseDate = Array.isArray(item.releaseDateDetails)
-    ? [
-        {
-          type: "list",
-          data: item.releaseDateDetails.map((e) => processDate(e)),
-        },
-      ]
-    : processDate(item.releaseDateDetails ?? item.releaseDate);
+  // releaseDate = Array.isArray(item.releaseDateDetails)
+  //   ? [
+  //       {
+  //         type: "list",
+  //         data: item.releaseDateDetails.map((e) => processDate(e)),
+  //       },
+  //     ]
+  //   : processDate(item.releaseDateDetails ?? item.releaseDate);
 
   let ret = {
     Type: type,
-    "Release date": process(releaseDate, false),
+    "Release date": process(item.releaseDateDetails, false),
     Closed: process(item.closed),
     Chronology: process(item.dateDetails),
     Series: process(item.seriesDetails),
@@ -160,9 +172,14 @@ const getData = (item) => {
     "Guest star(s)": process(item.guests),
     Developer: process(item.developer),
     Author: process(item.author),
+    "Episode count": process(item.numEpisodes),
+    "No. of seasons": process(item.numSeasons),
+    "Network(s)": process(item.network),
+    "Creator(s)": process(item.creators),
     "Director(s)": process(item.director),
     "Writer(s)": process(item.writerDetails),
     Producer: process(item.producer),
+    "Executive producer(s)": process(item.executiveProducers),
     Starring: process(item.starring),
     Music: process(item.music),
     Runtime: process(item.runtime),

@@ -1,5 +1,5 @@
 import React from "react";
-import { imgAddress, Size, TV_IMAGE_PATH } from "./common.js";
+import { imgAddress, Size, TV_IMAGE_PATH, unscuffDate } from "./common.js";
 import {
   ANIMATION_TIME,
   default as TimelineRowDetails,
@@ -33,7 +33,9 @@ export default function TimelineRow({
       case "cover":
         inside = item.cover ? (
           <img src={imgAddress(item.cover, Size.THUMB)} />
-        ) : null;
+        ) : (
+          (classNames += " no-cover") && null
+        );
         break;
       case "writer":
         if (item.writer?.length > 1) {
@@ -49,9 +51,9 @@ export default function TimelineRow({
         }
         break;
       case "title":
-        // Button for accessiblity
         inside = (
-          <button name="expand">
+          // TODO accessibility
+          <div name="expand">
             {item[columnName]}
             {item.type === "tv" && item.series?.length ? (
               <>
@@ -64,36 +66,37 @@ export default function TimelineRow({
                   src={TV_IMAGE_PATH + tvImages[item.series]}
                 />
                 {item.season || item.episode ? (
-                  <small className="season-episode">
-                    {item.season ? "S" : null}
-                    {item.season}
-                    {item.season && item.episode ? " " : null}
-                    {item.episode ? "E" : null}
-                    {item.episode}
+                  <small
+                    title={`${item.season ? `season ${item.season}` : ""}${
+                      item.seasonNote ? ` ${item.seasonNote}` : ""
+                    }${item.episode ? `\nepisode ${item.episode}` : ""}`.trim()}
+                    className="season-episode"
+                  >
+                    {`${item.season ? "S" + item.season : ""}${
+                      item.seasonNote ? `-${item.seasonNote}` : ""
+                    } ${item.episode ? "E" + item.episode : ""}`.trim()}
                   </small>
                 ) : null}
               </>
             ) : null}
-          </button>
+          </div>
         );
-        classNames += ` ${item.type.replace(" ", "-")}`;
+        classNames += ` ${item.type.replace(" ", "-")} ${item.fullType}`;
         onClick = toggleExpanded;
         break;
-
       case "releaseDate":
-        let d = new Date(
-          /^\d{4}$/.test(item.releaseDate)
-            ? `${item.releaseDate}-12-31`
-            : item.releaseDate
-        );
+        // Figure out if it's been released
+        let d = new Date(unscuffDate(item.releaseDate));
         if (isNaN(d) || d > Date.now()) classNames += " unreleased";
+        inside = item.releaseDate;
+        break;
       default:
         inside = item[columnName];
     }
     return (
       <div
         key={item.id + columnName}
-        className={columnName + " td" + classNames}
+        className={columnName + " td " + classNames}
         onClick={onClick}
       >
         <div className="td-inner">{inside}</div>

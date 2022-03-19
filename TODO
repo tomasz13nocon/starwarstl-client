@@ -26,6 +26,7 @@ LAST:
 yt guides, how to's, tooltips
 
 LONG TERM:
+a "solo" button on the filters (or right click) to unckech everything else but this one
 settings and filter presets to localStorage/account
 user accounts for settings/filters
 fix the ":wikipedia:Page" links (these get interpreted as internal links by wtf, they work in mw as interwiki, but it is an undocumented feature...) (example: Divide and Conquer)
@@ -49,10 +50,13 @@ fetch all book series, story collections, reference books, comic tpbs/omnibuses 
 - or just get the wiki dump, go through all pages and look for appropriate infoboxes
 at the top of the page show random event from: https://starwars.fandom.com/wiki/Timeline_of_galactic_history
 also show random event OOU that happend on current day from one of these pages: https://starwars.fandom.com/wiki/2001
+also show stats about media (number of comic issues and books, for example)
 Include Nav templates (like https://starwars.fandom.com/wiki/Template:ThrawnTrilogy)
 Clicking on author's name shows all entries by this author
 Searching appearances. Search "R2D2" click on "Character: RD2D" bullet that appears, and get all media that features R2
-
+TOOLTIPS for:
+-types (explain junior categorization etc.)
+Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
 
 PARSER:
 "TODO:parser" - things to do when switching from wtf_wikipedia to a different parser
@@ -60,6 +64,7 @@ fetch this for list of supported interwiki prefixes:
 https://starwars.fandom.com/api.php?action=query&meta=siteinfo&siprop=interwikimap
 
 PRODUCTION:
+when fetching details, only fetch fields we're using to save bandwidth
 test diff browsers (including apple)
 try fetching: https://starwars.fandom.com/wiki/Special:WhatLinksHere/Template:Board_game
 and other stuff, and see if there's an error in the console

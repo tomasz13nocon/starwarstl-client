@@ -88,8 +88,23 @@ a.external {
 }
 
 .book {
-	background-color: $book-primary;
 	color: $book-secondary;
+}
+.book-a {
+	background: $book-a-primary;
+	// color: $book-a-secondary;
+}
+.book-ya {
+	background: $book-ya-primary;
+	color: $book-ya-secondary;
+}
+.book-jr {
+	background: $book-jr-primary;
+	color: $book-jr-secondary;
+}
+.book-audio {
+	background: $book-audio-primary;
+	color: $book-audio-secondary;
 }
 
 .comic {
@@ -105,6 +120,14 @@ a.external {
 .tv {
 	background-color: $tv-primary;
 	color: $tv-secondary;
+}
+.tv-animated {
+	background-color: $tv-animated-primary;
+	color: $tv-animated-secondary;
+}
+.tv-micro-series {
+	background-color: $tv-micro-series-primary;
+	color: $tv-micro-series-secondary;
 }
 
 .film {

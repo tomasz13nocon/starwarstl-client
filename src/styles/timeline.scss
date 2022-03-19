@@ -72,6 +72,9 @@
 		width: 82px;
 	}
 }
+.td.cover:not(.no-cover) {
+	background-color: black;
+}
 
 .thead {
 	position: sticky;
@@ -84,7 +87,7 @@
 .th {
 	background-color: #444;
 	color: white;
-	text-transform: capitalize;
+	// text-transform: capitalize;
 	cursor: pointer;
 	user-select: none;
 	.th-inner {
@@ -100,6 +103,7 @@
 }
 
 .tr.standard-row {
+	// max-width: 805px;
 	display: flex;
 	flex-flow: wrap;
 	.td.title {
