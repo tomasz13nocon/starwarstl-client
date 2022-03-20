@@ -24,6 +24,7 @@ const filtersTemplate = {
               "Golden Books": true,
               "China Literature": true,
               "Random House Audio": true,
+              "Egmont UK Ltd": true,
               Other: true,
             },
           },

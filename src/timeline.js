@@ -40,6 +40,17 @@ const sortingIcons = new Proxy(
   }
 );
 
+// Returns result of predicate with value as argument.
+// If value is an array call it for every array item, until true is returned.
+const testArrayOrOther = (value, predicate) => {
+  return Array.isArray(value)
+    ? value.some((v) => predicate(v))
+    : predicate(value);
+};
+
+// TODO rework this entire thing (filters in general)
+// I made them to work at infinite depth but that doesnt make sense
+// all filters should be max 2 depth
 const filterItem = (filters, item) => {
   if (filters === undefined) {
     return false;
@@ -49,21 +60,32 @@ const filterItem = (filters, item) => {
     if (item[key] === undefined)
       return value["Other"] ?? value["Unknown"] ?? acc;
     // boolean key in data
+    // TODO what is this?
     if (typeof value === "boolean") {
       // equivalent: item[key] ? value : true;
       return acc && (!item[key] || value);
     }
     // string key in data
     else {
-      if (!(item[key] in value)) {
+      if (
+        // Array.isArray(item[key])
+        //   ? !item[key].some((v) => v in value)
+        //   : !(item[key] in value)
+        !testArrayOrOther(item[key], (v) => v in value)
+      ) {
         return acc && (value["Other"] || value["Unknown"]);
       }
       // leaf filter
-      else if (typeof value[item[key]] === "boolean") {
-        return acc && value[item[key]];
+      else if (
+        // typeof value[item[key]] === "boolean"
+        testArrayOrOther(item[key], (v) => typeof value[v] === "boolean")
+      ) {
+        // return acc && value[item[key]];
+        return acc && testArrayOrOther(item[key], (v) => value[v]);
       }
       // Non leaf filter
       else {
+        // return acc && filterItem(value[item[key]], item);
         return acc && filterItem(value[item[key]], item);
       }
     }
@@ -103,6 +125,8 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
     ascending: true,
   });
   const [data, setData] = React.useState([]);
+  const [expanded, setExpanded] = React.useState();
+  // return window.getSelection().type === "Range" ? state : !state;
   /////////////////
 
   const columnNames = React.useMemo(
@@ -202,9 +226,10 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
     parentRef,
     windowRef,
     keyExtractor: React.useCallback((i) => data[i]._id, [data]),
-    // TODO: Is this useless optimization?
     rangeExtractor: React.useCallback(
       ({ start, end, overscan, size }) => {
+        // When row expansion animation is in progress, don't recalculate rows to render
+        // Is this useless optimization?
         if (animating !== 0) return rowCache.current;
         const a = Math.max(start - overscan, 0);
         const b = Math.min(end + overscan + 10, size - 1);
@@ -212,12 +237,16 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
         for (let i = a; i <= b; i++) {
           arr.push(i);
         }
+        // always render expanded row to avoid rows moving abruptly when that row comes back into view
+        if (expanded) {
+          let index = data.findIndex((v) => v._id === expanded);
+          if (!arr.includes(index)) arr.push(index);
+        }
         rowCache.current = arr;
         return arr;
       },
       [rowCache, animating]
     ),
-    // estimateSize: React.useCallback(() => 24, []),
   });
 
   return (
@@ -270,6 +299,8 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
                 item={data[virtualRow.index]}
                 activeColumns={activeColumns}
                 setAnimating={setAnimating}
+                expanded={expanded === data[virtualRow.index]._id}
+                setExpanded={setExpanded}
                 {...props}
               />
             </ItemMeasurer>

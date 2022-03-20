@@ -1,5 +1,3 @@
-persist expansion of rows
-  related: only single row can be expanded?
 collapsable filters (this allows for many more filters)
   reddit-like vertical lines to collapse filters
   OR
@@ -20,7 +18,8 @@ include writer in details if it's in the timeline but not in article (like i did
 CTRL-F alternative (second search box in addition to the filtering one)
 partial loading of large images?
 customizable columns ("cover" column) (long term?)
-comic subtypes (comic story, strip, junior (IDW?) and then Single issue vs sereis, vs TPB etc.)
+comic subtypes (comic story, strip, junior (IDW?), Manga and then Single issue vs sereis, vs TPB etc.)
+fetch cover artist from "File:" page
 
 LAST:
 yt guides, how to's, tooltips

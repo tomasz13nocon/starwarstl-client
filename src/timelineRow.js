@@ -5,7 +5,7 @@ import { imgAddress, Size, TV_IMAGE_PATH, unscuffDate } from "./common.js";
 import { default as TimelineRowDetails } from "./timelineRowDetails";
 import { CSSTransition } from "react-transition-group";
 
-export const ANIMATION_TIME = 1150;
+export const ANIMATION_TIME = 180;
 
 export default React.memo(function TimelineRow({
   item,
@@ -13,12 +13,9 @@ export default React.memo(function TimelineRow({
   setShowFullCover,
   tvImages,
   setAnimating,
+  expanded,
+  setExpanded,
 }) {
-  const [expanded, toggleExpanded] = React.useReducer((state) => {
-    // return window.getSelection().type === "Range" ? state : !state;
-    return !state;
-  }, false);
-
   const cells = React.useMemo(
     () =>
       activeColumns.map((columnName) => {
@@ -87,7 +84,7 @@ export default React.memo(function TimelineRow({
               </div>
             );
             classNames += ` ${item.type.replace(" ", "-")} ${item.fullType}`;
-            onClick = toggleExpanded;
+            onClick = () => setExpanded(expanded ? null : item._id);
             break;
           case "releaseDate":
             // Figure out if it's been released
@@ -108,7 +105,7 @@ export default React.memo(function TimelineRow({
           </div>
         );
       }),
-    [activeColumns, item]
+    [activeColumns, item, expanded, setExpanded]
   );
 
   const detailsRef = React.useRef();

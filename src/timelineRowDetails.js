@@ -206,6 +206,7 @@ export default React.memo(function TimelineRowDetails({
   setShowFullCover,
   imageLoaded,
 }) {
+  console.log("qwe");
   return (
     <>
       {item.cover ? (
