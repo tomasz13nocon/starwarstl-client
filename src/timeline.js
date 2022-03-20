@@ -17,6 +17,29 @@ import TimelineRow from "./timelineRow.js";
 import "./styles/timeline.scss";
 import { unscuffDate } from "./common.js";
 
+const sortingIcons = new Proxy(
+  {
+    "title|writer": {
+      ascending: mdiSortAlphabeticalAscending,
+      descending: mdiSortAlphabeticalDescending,
+    },
+    "releaseDate|date": {
+      ascending: mdiSortCalendarAscending,
+      descending: mdiSortCalendarDescending,
+    },
+    default: {
+      ascending: mdiChevronDown,
+      descending: mdiChevronUp,
+    },
+  },
+  {
+    get: (target, property) => {
+      for (let k in target) if (new RegExp(k).test(property)) return target[k];
+      return target.default;
+    },
+  }
+);
+
 const filterItem = (filters, item) => {
   if (filters === undefined) {
     return false;
@@ -93,14 +116,20 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
     }),
     []
   );
-  const activeColumns = Object.keys(columns).filter((name) => columns[name]);
+  const activeColumns = React.useMemo(
+    () => Object.keys(columns).filter((name) => columns[name]),
+    [columns]
+  );
 
-  const toggleSorting = (name) => {
-    setSorting((prevSorting) => ({
-      by: name,
-      ascending: prevSorting.by === name ? !prevSorting.ascending : true,
-    }));
-  };
+  const toggleSorting = React.useCallback(
+    (name) => {
+      setSorting((prevSorting) => ({
+        by: name,
+        ascending: prevSorting.by === name ? !prevSorting.ascending : true,
+      }));
+    },
+    [setSorting]
+  );
 
   // Sort and filter data
   useDeepCompareEffect(() => {
@@ -161,40 +190,33 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
     setData(tempData);
   }, [filters, filterText, sorting]);
 
-  // TODO move somewhere like useeffect
-  const sortingIcons = new Proxy(
-    {
-      "title|writer": {
-        ascending: mdiSortAlphabeticalAscending,
-        descending: mdiSortAlphabeticalDescending,
-      },
-      "releaseDate|date": {
-        ascending: mdiSortCalendarAscending,
-        descending: mdiSortCalendarDescending,
-      },
-      default: {
-        ascending: mdiChevronDown,
-        descending: mdiChevronUp,
-      },
-    },
-    {
-      get: (target, property) => {
-        for (let k in target)
-          if (new RegExp(k).test(property)) return target[k];
-        return target.default;
-      },
-    }
-  );
+  const [animating, setAnimating] = React.useState(0); // integer, to account for simultaneous amnimations
 
   const parentRef = React.useRef();
   const windowRef = React.useRef(window);
 
+  const rowCache = React.useRef();
   const rowVirtualizer = useVirtualWindow({
     overscan: 5,
     size: data.length,
     parentRef,
     windowRef,
-    keyExtractor: (i) => data[i]._id,
+    keyExtractor: React.useCallback((i) => data[i]._id, [data]),
+    // TODO: Is this useless optimization?
+    rangeExtractor: React.useCallback(
+      ({ start, end, overscan, size }) => {
+        if (animating !== 0) return rowCache.current;
+        const a = Math.max(start - overscan, 0);
+        const b = Math.min(end + overscan + 10, size - 1);
+        const arr = [];
+        for (let i = a; i <= b; i++) {
+          arr.push(i);
+        }
+        rowCache.current = arr;
+        return arr;
+      },
+      [rowCache, animating]
+    ),
     // estimateSize: React.useCallback(() => 24, []),
   });
 
@@ -247,6 +269,7 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
               <TimelineRow
                 item={data[virtualRow.index]}
                 activeColumns={activeColumns}
+                setAnimating={setAnimating}
                 {...props}
               />
             </ItemMeasurer>

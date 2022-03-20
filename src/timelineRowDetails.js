@@ -1,7 +1,6 @@
 import { mdiNumeric } from "@mdi/js";
 import React from "react";
 import md5 from "md5";
-import { CSSTransition } from "react-transition-group";
 
 import WookieeLink from "./wookieeLink";
 import ExternalLink from "./externalLink";
@@ -202,78 +201,35 @@ const getData = (item) => {
   return ret;
 };
 
-export const ANIMATION_TIME = 150;
-
-export default function TimelineRowDetails({
-  expanded = true,
+export default React.memo(function TimelineRowDetails({
   item,
   setShowFullCover,
+  imageLoaded,
 }) {
-  const detailsRef = React.useRef();
-  const detailsRowRef = React.useRef();
-
-  React.useEffect(() => {
-    if (detailsRef.current) {
-      detailsRef.current.style.transition =
-        "height " + ANIMATION_TIME + "ms ease-out"; //cubic-bezier(.36,.78,.64,.97)";
-      detailsRef.current.style.height = expanded
-        ? detailsRef.current.scrollHeight + "px"
-        : 0;
-    }
-  }, [expanded]);
-
-  const imageLoaded = () => {
-    detailsRef.current.style.height = detailsRef.current.scrollHeight + "px";
-  };
-
   return (
-    <CSSTransition
-      in={expanded}
-      timeout={ANIMATION_TIME}
-      classNames="slide"
-      mountOnEnter
-      unmountOnExit
-      nodeRef={detailsRowRef}
-    >
-      <div className="tr details-row" ref={detailsRowRef}>
-        <div className="td">
-          <div
-            className="details"
-            ref={detailsRef}
-            // style={{
-            //   background: `linear-gradient(to left, transparent 50%, #f3f3f3bb, #f3f3f3), url(${imgAddress(
-            //     item.cover, Size.FULL
-            //   )})`,
-            //   backgroundRepeat: "no-repeat",
-            //   backgroundPosition: "right",
-            //   backgroundSize: "500px",
-            // }}
-          >
-            {item.cover ? (
-              <img
-                width={220}
-                src={imgAddress(item.cover)}
-                className="cover"
-                onClick={() => setShowFullCover(item.cover)}
-                onLoad={imageLoaded}
-              />
-            ) : null}
-            <div className="text">
-              <h3 className="title">
-                <WookieeLink>{item.title}</WookieeLink>
-              </h3>
-              <dl>
-                {Object.entries(getData(item)).map(([key, value]) => (
-                  <React.Fragment key={key}>
-                    <dt>{key}:&nbsp;</dt>
-                    <dd>{value}</dd>
-                  </React.Fragment>
-                ))}
-              </dl>
-            </div>
-          </div>
-        </div>
+    <>
+      {item.cover ? (
+        <img
+          width={220}
+          src={imgAddress(item.cover)}
+          className="cover"
+          onClick={() => setShowFullCover(item.cover)}
+          onLoad={imageLoaded}
+        />
+      ) : null}
+      <div className="text">
+        <h3 className="title">
+          <WookieeLink>{item.title}</WookieeLink>
+        </h3>
+        <dl>
+          {Object.entries(getData(item)).map(([key, value]) => (
+            <React.Fragment key={key}>
+              <dt>{key}:&nbsp;</dt>
+              <dd>{value}</dd>
+            </React.Fragment>
+          ))}
+        </dl>
       </div>
-    </CSSTransition>
+    </>
   );
-}
+});

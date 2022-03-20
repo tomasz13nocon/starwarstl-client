@@ -168,12 +168,13 @@
 	}
 }
 
+.slide-exit-active {
+}
+
 .tr.details-row {
 	width: 100%;
 	.td {
 		padding: 0;
-	}
-	.details {
 		overflow: hidden;
 		height: 0;
 		padding: 6px;

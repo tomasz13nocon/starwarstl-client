@@ -1,5 +1,5 @@
 persist expansion of rows
-  related: only single table row can be expanded?
+  related: only single row can be expanded?
 collapsable filters (this allows for many more filters)
   reddit-like vertical lines to collapse filters
   OR
@@ -11,7 +11,6 @@ fix <br> handling? the clone wars film has unknown date
 color coded comic/tv series with visual indication of how long it runs (aka swdatapad)
   Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
   button to switch to color coding seperate comic series
-Different color tints based on subtype (target audience for books, animated/liveaction/web for tv, mobile/non-mobile for games, comic issues/comic stories for comics (can we do kid comics? IDW?))
 see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 responsive/mobile version
 dark theme
@@ -21,6 +20,7 @@ include writer in details if it's in the timeline but not in article (like i did
 CTRL-F alternative (second search box in addition to the filtering one)
 partial loading of large images?
 customizable columns ("cover" column) (long term?)
+comic subtypes (comic story, strip, junior (IDW?) and then Single issue vs sereis, vs TPB etc.)
 
 LAST:
 yt guides, how to's, tooltips

@@ -2,129 +2,165 @@ import React from "react";
 import Icon from "@mdi/react";
 import { mdiVolumeHigh } from "@mdi/js";
 import { imgAddress, Size, TV_IMAGE_PATH, unscuffDate } from "./common.js";
-import {
-  ANIMATION_TIME,
-  default as TimelineRowDetails,
-} from "./timelineRowDetails";
+import { default as TimelineRowDetails } from "./timelineRowDetails";
+import { CSSTransition } from "react-transition-group";
 
-export default function TimelineRow({
+export const ANIMATION_TIME = 1150;
+
+export default React.memo(function TimelineRow({
   item,
   activeColumns,
-  style,
   setShowFullCover,
   tvImages,
+  setAnimating,
 }) {
-  if (item === undefined) return null;
-  const timeoutId = React.useRef();
-  // shown - state encompassing the hiding animation
-  // expanded - instantly changing state
-  const [shown, setShown] = React.useState(false);
   const [expanded, toggleExpanded] = React.useReducer((state) => {
-    clearTimeout(timeoutId.current);
-    if (state) {
-      timeoutId.current = setTimeout(() => setShown(false), ANIMATION_TIME);
-    } else setShown(true);
-    return /* window.getSelection().type === "Range" ? state : */ !state;
+    // return window.getSelection().type === "Range" ? state : !state;
+    return !state;
   }, false);
 
-  const cells = activeColumns.map((columnName) => {
-    let inside,
-      classNames = "",
-      onClick;
-    switch (columnName) {
-      case "cover":
-        inside = item.cover ? (
-          <img src={imgAddress(item.cover, Size.THUMB)} />
-        ) : (
-          (classNames += " no-cover") && null
-        );
-        break;
-      case "writer":
-        if (item.writer?.length > 1) {
-          inside = (
-            <ul>
-              {item.writer.map((writer) => (
-                <li key={writer}>{writer}</li>
-              ))}
-            </ul>
-          );
-        } else {
-          inside = item.writer;
-        }
-        break;
-      case "title":
-        inside = (
-          // TODO accessibility
-          <div name="expand">
-            {item[columnName]}
-            {item.type === "tv" && item.series?.length ? (
-              <>
-                <img
-                  // TODO: hover text
-                  title={item.series}
-                  alt={item.series}
-                  className="tv-image"
-                  height="16px"
-                  src={TV_IMAGE_PATH + tvImages[item.series]}
-                />
-                {item.season || item.episode ? (
-                  <small
-                    title={`${item.season ? `season ${item.season}` : ""}${
-                      item.seasonNote ? ` ${item.seasonNote}` : ""
-                    }${item.episode ? `\nepisode ${item.episode}` : ""}`.trim()}
-                    className="season-episode"
-                  >
-                    {`${item.season ? "S" + item.season : ""}${
-                      item.seasonNote ? `-${item.seasonNote}` : ""
-                    } ${item.episode ? "E" + item.episode : ""}`.trim()}
-                  </small>
+  const cells = React.useMemo(
+    () =>
+      activeColumns.map((columnName) => {
+        let inside,
+          classNames = "",
+          onClick;
+        switch (columnName) {
+          case "cover":
+            inside = item.cover ? (
+              <img src={imgAddress(item.cover, Size.THUMB)} />
+            ) : (
+              (classNames += " no-cover") && null
+            );
+            break;
+          case "writer":
+            if (item.writer?.length > 1) {
+              inside = (
+                <ul>
+                  {item.writer.map((writer) => (
+                    <li key={writer}>{writer}</li>
+                  ))}
+                </ul>
+              );
+            } else {
+              inside = item.writer;
+            }
+            break;
+          case "title":
+            inside = (
+              // TODO accessibility
+              <div name="expand">
+                {item[columnName]}
+                {item.type === "tv" && item.series?.length ? (
+                  <>
+                    <img
+                      // TODO: hover text
+                      title={item.series}
+                      alt={item.series}
+                      className="tv-image"
+                      height="16px"
+                      src={TV_IMAGE_PATH + tvImages[item.series]}
+                    />
+                    {item.season || item.episode ? (
+                      <small
+                        title={`${item.season ? `season ${item.season}` : ""}${
+                          item.seasonNote ? ` ${item.seasonNote}` : ""
+                        }${
+                          item.episode ? `\nepisode ${item.episode}` : ""
+                        }`.trim()}
+                        className="season-episode"
+                      >
+                        {`${item.season ? "S" + item.season : ""}${
+                          item.seasonNote ? `-${item.seasonNote}` : ""
+                        } ${item.episode ? "E" + item.episode : ""}`.trim()}
+                      </small>
+                    ) : null}
+                  </>
                 ) : null}
-              </>
-            ) : null}
-            {item.audiobook && (
-              <Icon
-                path={mdiVolumeHigh}
-                className="icon audiobook-icon"
-                title="audiobook"
-              />
-            )}
+                {item.audiobook && (
+                  <Icon
+                    path={mdiVolumeHigh}
+                    className="icon audiobook-icon"
+                    title="audiobook"
+                  />
+                )}
+              </div>
+            );
+            classNames += ` ${item.type.replace(" ", "-")} ${item.fullType}`;
+            onClick = toggleExpanded;
+            break;
+          case "releaseDate":
+            // Figure out if it's been released
+            let d = new Date(unscuffDate(item.releaseDate));
+            if (isNaN(d) || d > Date.now()) classNames += " unreleased";
+            inside = item.releaseDate;
+            break;
+          default:
+            inside = item[columnName];
+        }
+        return (
+          <div
+            key={item.id + columnName}
+            className={columnName + " td " + classNames}
+            onClick={onClick}
+          >
+            <div className="td-inner">{inside}</div>
           </div>
         );
-        classNames += ` ${item.type.replace(" ", "-")} ${item.fullType}`;
-        onClick = toggleExpanded;
-        break;
-      case "releaseDate":
-        // Figure out if it's been released
-        let d = new Date(unscuffDate(item.releaseDate));
-        if (isNaN(d) || d > Date.now()) classNames += " unreleased";
-        inside = item.releaseDate;
-        break;
-      default:
-        inside = item[columnName];
+      }),
+    [activeColumns, item]
+  );
+
+  const detailsRef = React.useRef();
+  React.useEffect(() => {
+    if (detailsRef.current) {
+      detailsRef.current.style.transition =
+        "height " + ANIMATION_TIME + "ms ease-out"; //cubic-bezier(.36,.78,.64,.97)";
+      detailsRef.current.style.height = expanded
+        ? detailsRef.current.scrollHeight + "px"
+        : 0;
     }
-    return (
-      <div
-        key={item.id + columnName}
-        className={columnName + " td " + classNames}
-        onClick={onClick}
-      >
-        <div className="td-inner">{inside}</div>
-      </div>
-    );
-  });
+  }, [expanded]);
+  const imageLoaded = React.useCallback(() => {
+    detailsRef.current.style.height = detailsRef.current.scrollHeight + "px";
+  }, []);
+
+  const incAnim = React.useCallback(
+    () => setAnimating((prev) => prev + 1),
+    [setAnimating]
+  );
+  const decAnim = React.useCallback(
+    () => setAnimating((prev) => prev - 1),
+    [setAnimating]
+  );
 
   return (
     <>
-      <div className={"standard-row tr"} style={style}>
+      <div className="standard-row tr">
         {cells}
-        {shown ? (
-          <TimelineRowDetails
-            expanded={expanded}
-            item={item}
-            setShowFullCover={setShowFullCover}
-          />
-        ) : null}
+        <CSSTransition
+          in={expanded}
+          timeout={ANIMATION_TIME}
+          classNames="slide"
+          mountOnEnter
+          unmountOnExit
+          nodeRef={detailsRef}
+          onEnter={incAnim}
+          onEntered={decAnim}
+          onExit={incAnim}
+          onExited={decAnim}
+        >
+          <div className="tr details-row">
+            <div className="td" ref={detailsRef}>
+              <TimelineRowDetails
+                item={item}
+                setShowFullCover={setShowFullCover}
+                imageLoaded={imageLoaded}
+              />
+            </div>
+          </div>
+        </CSSTransition>
       </div>
     </>
   );
-}
+});

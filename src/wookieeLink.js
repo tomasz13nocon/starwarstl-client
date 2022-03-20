@@ -8,7 +8,11 @@ import React from "react";
  * 	(only for media that has a legends entry!)
  * @returns null if `title` is absent **and** `children` is not string
  */
-export default function WookieeLink({ title, legends = false, children }) {
+export default React.memo(function WookieeLink({
+  title,
+  legends = false,
+  children,
+}) {
   if (title === undefined) {
     if (typeof children !== "string") {
       //console.error("If title is not present the contents need to be a string!");
@@ -34,4 +38,4 @@ export default function WookieeLink({ title, legends = false, children }) {
       </a>
     </>
   );
-}
+});
