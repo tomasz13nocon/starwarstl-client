@@ -2,10 +2,6 @@ collapsable filters (this allows for many more filters)
   reddit-like vertical lines to collapse filters
   OR
   search "series: The Clone Wars" (with autocomplete, suggestions etc.)
-multiple publishers filter (If I want to see DLF books, then show me those released by DLF _and_ others)
-make columns like "cover" not sortable/clickable
-handle italics (see TPM, "star wars" is in quotes but those are italics!!)
-fix <br> handling? the clone wars film has unknown date
 color coded comic/tv series with visual indication of how long it runs (aka swdatapad)
   Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
   button to switch to color coding seperate comic series
@@ -20,13 +16,16 @@ partial loading of large images?
 customizable columns ("cover" column) (long term?)
 comic subtypes (comic story, strip, junior (IDW?), Manga and then Single issue vs sereis, vs TPB etc.)
 fetch cover artist from "File:" page
+make columns like "cover" not sortable/clickable
+settings and filter presets to localStorage/account
 
 LAST:
 yt guides, how to's, tooltips
 
+IDK:
+fix <br> handling? the clone wars film has unknown date
+
 LONG TERM:
-a "solo" button on the filters (or right click) to unckech everything else but this one
-settings and filter presets to localStorage/account
 user accounts for settings/filters
 fix the ":wikipedia:Page" links (these get interpreted as internal links by wtf, they work in mw as interwiki, but it is an undocumented feature...) (example: Divide and Conquer)
 collapse adjacent comic issues/tv episodes

@@ -21,8 +21,6 @@ const filtersTemplate = {
             children: {
               "Del Rey": true,
               "Disney–Lucasfilm Press": true,
-              "Golden Books": true,
-              "China Literature": true,
               "Random House Audio": true,
               "Egmont UK Ltd": true,
               Other: true,
