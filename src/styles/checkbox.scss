@@ -14,6 +14,16 @@ $checkbox-appear-function: linear;
 $delay-transitions: all 0s $checkbox-appear-duration;
 
 .checkbox-wrapper {
+	.expand-button {
+		cursor: pointer;
+		vertical-align: top;
+		transition: background-color 0.1s;
+		margin-left: 4px;
+		border-radius: 4px;
+		&:hover {
+			background-color: $accent;
+		}
+	}
 	&.level-1 {
 		// font-size: 1.20em;
 		font-weight: $weight-bold;
@@ -23,39 +33,6 @@ $delay-transitions: all 0s $checkbox-appear-duration;
 		font-weight: $weight-bolder;
 	}
 	
-	// TODO: remove
-	.solo-button {
-		@extend %reset-button;
-		border: 1px solid grey;
-		width: 11px;
-		height: 11px;
-		text-align: center;
-		// vertical-align: middle;
-		display: none;
-		display: inline-block;
-		// position: absolute;
-		// left: -28px;
-		// margin-left: -26px;
-		overflow: hidden;
-		margin-left: 4px;
-		background-color: #96D486;
-		color: black;
-		cursor: pointer;
-		// padding: 0 6px;
-		font-size: 16px;
-		&:hover {
-			display: inline-block;
-			box-shadow: 0 0 2px black;
-		}
-		span {
-			position: relative;
-			bottom: 6px;
-		}
-	}
-	&:hover .solo-button {
-		display: inline-block;
-	}
-
 	label {
 		cursor: pointer;
 		input {

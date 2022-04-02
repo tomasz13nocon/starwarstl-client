@@ -1,5 +1,7 @@
 import React from "react";
 import _ from "lodash";
+import { mdiClose } from "@mdi/js";
+import Icon from "@mdi/react";
 
 import CheckboxGroup from "./checkboxGroup.js";
 import "./styles/filters.scss";
@@ -10,6 +12,10 @@ export default function Filters({
   filters,
   filtersChanged,
   filtersTemplate,
+  suggestions,
+  setSuggestions,
+  boxFilters,
+  setBoxFilters,
 }) {
   return (
     <div className="filter">
@@ -29,6 +35,43 @@ export default function Filters({
             &times;
           </button>
         ) : null}
+      </div>
+
+      <div className="search-suggestions">
+        {suggestions.map((el) => (
+          <button
+            key={el._id}
+            className={`reset-button suggestion ${el.type}`}
+            onClick={() => {
+              setBoxFilters([...boxFilters, el]);
+              filterTextChanged("");
+              setSuggestions([]);
+            }}
+          >
+            {el.title}
+          </button>
+        ))}
+      </div>
+
+      <div className="box-filters">
+        {boxFilters.map((boxFilter) => (
+          <div
+            key={boxFilter._id}
+            className={`type-indicator ${boxFilter.type}`}
+          >
+            {boxFilter.title}
+            <button
+              className={`reset-button curp remove ${boxFilter.type}-reversed`}
+              onClick={() =>
+                setBoxFilters([
+                  ...boxFilters.filter((el) => el._id !== boxFilter._id),
+                ])
+              }
+            >
+              <Icon className={`icon`} path={mdiClose} />
+            </button>
+          </div>
+        ))}
       </div>
 
       <div className="checkbox-filters">

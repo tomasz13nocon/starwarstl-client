@@ -1,3 +1,4 @@
+import Icon from "@mdi/react";
 import React from "react";
 
 import "./styles/checkbox.scss";
@@ -10,6 +11,8 @@ export default function Checkbox({
   onChange,
   path,
   indeterminate = false,
+  icon,
+  iconOnClick,
 }) {
   const checkboxRef = React.useRef();
   React.useEffect(() => {
@@ -50,11 +53,15 @@ export default function Checkbox({
           ref={checkboxRef}
         />
         <span className={`checkbox ${current} ${animClass}`}></span>
-        {/* <div title="solo" className="solo-button" onClick={solo}> */}
-        {/*   <span>s</span> */}
-        {/* </div> */}
         <span className="checkbox-text">{name}</span>
       </label>
+      {icon !== undefined && (
+        <Icon
+          onClick={iconOnClick}
+          path={icon}
+          className="icon expand-button"
+        />
+      )}
     </div>
   );
 }

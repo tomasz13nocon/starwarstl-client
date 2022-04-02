@@ -21,7 +21,8 @@ export default React.memo(function TimelineRow({
       activeColumns.map((columnName) => {
         let inside,
           classNames = "",
-          onClick;
+          onClick,
+          title;
         switch (columnName) {
           case "cover":
             inside = item.cover ? (
@@ -59,7 +60,7 @@ export default React.memo(function TimelineRow({
                       src={TV_IMAGE_PATH + tvImages[item.series]}
                     />
                     {item.season || item.episode ? (
-                      <small
+                      <span
                         title={`${item.season ? `season ${item.season}` : ""}${
                           item.seasonNote ? ` ${item.seasonNote}` : ""
                         }${
@@ -67,10 +68,14 @@ export default React.memo(function TimelineRow({
                         }`.trim()}
                         className="season-episode"
                       >
-                        {`${item.season ? "S" + item.season : ""}${
-                          item.seasonNote ? `-${item.seasonNote}` : ""
-                        } ${item.episode ? "E" + item.episode : ""}`.trim()}
-                      </small>
+                        {item.season && "S" + item.season}
+                        <small>
+                          {item.seasonNote && ` ${item.seasonNote}`}
+                        </small>
+                        {`${item.season && item.episode ? " " : ""}${
+                          item.episode ? "E" + item.episode : ""
+                        }`}
+                      </span>
                     ) : null}
                   </>
                 ) : null}
@@ -89,7 +94,10 @@ export default React.memo(function TimelineRow({
           case "releaseDate":
             // Figure out if it's been released
             let d = new Date(unscuffDate(item.releaseDate));
-            if (isNaN(d) || d > Date.now()) classNames += " unreleased";
+            if (isNaN(d) || d > Date.now()) {
+              classNames += " unreleased";
+              title = "unreleased";
+            }
             inside = item.releaseDate;
             break;
           default:
@@ -100,6 +108,7 @@ export default React.memo(function TimelineRow({
             key={item.id + columnName}
             className={columnName + " td " + classNames}
             onClick={onClick}
+            title={title}
           >
             <div className="td-inner">{inside}</div>
           </div>

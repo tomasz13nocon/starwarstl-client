@@ -10,7 +10,6 @@ responsive/mobile version
 dark theme
 fetch timeline with basic info only to cut initial load time, then fetch the one with full details
 for tv episodes' (and comis issues?) details show "out of" e.g.: Episode: 8 (out of 16)
-include writer in details if it's in the timeline but not in article (like i did with release dates)
 CTRL-F alternative (second search box in addition to the filtering one)
 partial loading of large images?
 customizable columns ("cover" column) (long term?)
@@ -18,14 +17,18 @@ comic subtypes (comic story, strip, junior (IDW?), Manga and then Single issue v
 fetch cover artist from "File:" page
 make columns like "cover" not sortable/clickable
 settings and filter presets to localStorage/account
+add logo to series in details
 
 LAST:
 yt guides, how to's, tooltips
+the state of the app while data is fetching.
 
 IDK:
+include writer in details if it's in the timeline but not in article (like i did with release dates)
 fix <br> handling? the clone wars film has unknown date
 
 LONG TERM:
+make "Adaptaions" filter work
 user accounts for settings/filters
 fix the ":wikipedia:Page" links (these get interpreted as internal links by wtf, they work in mw as interwiki, but it is an undocumented feature...) (example: Divide and Conquer)
 collapse adjacent comic issues/tv episodes

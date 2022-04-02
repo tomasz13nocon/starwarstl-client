@@ -18,7 +18,8 @@ module.exports = (env) => {
       historyApiFallback: true,
       hot: true,
       proxy: {
-        "/api": "http://192.168.18.149:5000",
+        // "/api": "http://192.168.18.149:5000",
+        "/api": "http://localhost:5000",
       },
     },
     module: {

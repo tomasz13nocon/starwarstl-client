@@ -52,7 +52,55 @@
 			}
 		}
 	}
-	
+
+	.search-suggestions {
+		// margin-top: 6px;
+		font-size: 0.9em;
+		.suggestion {
+			// margin: 1px 0;
+			border: 1px solid black;
+			margin-top: -1px;
+			&:first-child {
+				margin-top: 0;
+			}
+			&:hover {
+				box-shadow: 0 0 2px inset black;
+			}
+			cursor: pointer;
+			width: 100%;
+			// &:active {
+				// border-style: inset;
+			// }
+			// border-radius: 3px;
+			padding: 0 2px;
+		}
+	}
+
+	.box-filters {
+		font-size: 16px;
+			margin: 4px 0;
+		.type-indicator {
+			width: fit-content;
+			padding-right: 0;
+			margin: 4px 0;
+			display: flex;
+			border-top-left-radius: 0;
+			border-bottom-left-radius: 0;
+			.remove {
+				// background: #444;
+				// color: white;
+				border-top-right-radius: 99px;
+				border-bottom-right-radius: 99px;
+				padding-right: 2px;
+				margin-left: 4px;
+				.icon {
+				vertical-align: text-bottom;
+					// font-size: 24px;
+				}
+			}
+		}
+	}
+
 	.checkbox-filters {
 		height: 80vh; // TODO is this good enough? test different sizes
 		overflow-y: auto;

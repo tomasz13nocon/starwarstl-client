@@ -107,7 +107,15 @@ const removeAllFalses = (filters) => {
   return acc;
 };
 
-export default function Timeline({ filterText, filters, rawData, ...props }) {
+export default function Timeline({
+  filterText,
+  filters,
+  rawData,
+  series,
+  setSuggestions,
+  boxFilters,
+  ...props
+}) {
   ///// STATE /////
   // State representing shown columns.
   // Keys: names of columns corresponding to keys in data
@@ -115,7 +123,7 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
   const [columns, setColumns] = React.useState({
     date: true,
     cover: false,
-    series: false,
+    continuity: false,
     title: true,
     writer: true,
     releaseDate: true,
@@ -132,7 +140,7 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
   const columnNames = React.useMemo(
     () => ({
       date: "Date",
-      series: "Series Continuity",
+      continuity: "Continuity",
       cover: "Cover",
       title: "Title",
       writer: "Writer",
@@ -164,28 +172,59 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
     tempData = rawData.filter((item) => filterItem(cleanFilters, item));
 
     // Search
-    if (filterText) {
-      // Filter data to include items, where ALL words in filterText are included in either title OR author
-      // Words seperated by space
-      tempData = tempData.filter((item) =>
-        filterText
-          .toLowerCase()
-          .split(" ")
-          .reduce(
-            (acc, value) =>
-              acc &&
-              (item.title.toLowerCase().includes(value) ||
-                item.writer?.reduce(
-                  (acc, v) => acc || v?.toLowerCase().includes(value),
-                  false
-                ) ||
-                item.series?.reduce(
-                  (acc, v) => acc || v?.toLowerCase().includes(value),
-                  false
-                )),
-            true
-          )
-      );
+    if (filterText || boxFilters.length) {
+      // const re = /"([^"]*?)"/g;
+      // let exact = Array.from(filterText.toLowerCase().matchAll(re));
+      // let queries = filterText.replace(re, "").split(";");
+      let queries = filterText.split(";");
+
+      // Search suggestions
+      let last = queries[queries.length - 1].trim();
+      if (last.length >= 3) {
+        let found = series.filter((item) =>
+          item.title.toLowerCase().includes(last)
+        );
+        if (found.length) {
+          setSuggestions(
+            found.slice(0, 10).filter((el) => !boxFilters.includes(el))
+          ); // TODO sort with priority
+        }
+      } else setSuggestions([]);
+
+      if (boxFilters.length) {
+        tempData = tempData.filter((item) => {
+          for (let boxFilter of boxFilters) {
+            if (item.series && item.series.includes(boxFilter.title)) {
+              //TODO: We want more than series????
+              return true;
+            }
+          }
+        });
+      }
+
+      tempData = tempData.filter((item) => {
+        let r = queries.map((v) => v.trim()).filter((v) => v);
+        return r.length
+          ? r.some((query) =>
+              query
+                .split(" ")
+                .reduce(
+                  (acc, value) =>
+                    acc &&
+                    (item.title.toLowerCase().includes(value) ||
+                      item.writer?.reduce(
+                        (acc, v) => acc || v?.toLowerCase().includes(value),
+                        false
+                      ) ||
+                      item.series?.reduce(
+                        (acc, v) => acc || v?.toLowerCase().includes(value),
+                        false
+                      )),
+                  true
+                )
+            )
+          : r;
+      });
     }
 
     // Sort
@@ -212,7 +251,7 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
       return 0;
     });
     setData(tempData);
-  }, [filters, filterText, sorting]);
+  }, [filters, filterText, sorting, boxFilters]);
 
   const [animating, setAnimating] = React.useState(0); // integer, to account for simultaneous amnimations
 
@@ -282,29 +321,39 @@ export default function Timeline({ filterText, filters, rawData, ...props }) {
             position: "relative",
           }}
         >
-          {rowVirtualizer.virtualItems.map((virtualRow) => (
-            <ItemMeasurer
-              key={data[virtualRow.index]._id}
-              measure={virtualRow.measureRef}
-              tagName="div"
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                // width: '100%',
-                transform: `translateY(${virtualRow.start}px)`,
-              }}
-            >
-              <TimelineRow
-                item={data[virtualRow.index]}
-                activeColumns={activeColumns}
-                setAnimating={setAnimating}
-                expanded={expanded === data[virtualRow.index]._id}
-                setExpanded={setExpanded}
-                {...props}
-              />
-            </ItemMeasurer>
-          ))}
+          {rowVirtualizer.virtualItems.map((virtualRow) => {
+            data[virtualRow.index] === undefined &&
+              console.log(
+                rowVirtualizer.virtualItems,
+                virtualRow,
+                virtualRow.index,
+                data
+              );
+            return (
+              <ItemMeasurer
+                key={data[virtualRow.index]._id}
+                measure={virtualRow.measureRef}
+                tagName="div"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  // width: '100%',
+                  transform: `translateY(${virtualRow.start}px)`,
+                }}
+                className="tr-outer"
+              >
+                <TimelineRow
+                  item={data[virtualRow.index]}
+                  activeColumns={activeColumns}
+                  setAnimating={setAnimating}
+                  expanded={expanded === data[virtualRow.index]._id}
+                  setExpanded={setExpanded}
+                  {...props}
+                />
+              </ItemMeasurer>
+            );
+          })}
         </div>
       </div>
     </div>

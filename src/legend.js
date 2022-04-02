@@ -57,10 +57,10 @@ export default function Legend(props) {
             </div>
             <div className="hr"></div>
             <div className="type-indicator game">Video game</div>
+            <div className="type-indicator game-vr small">VR game</div>
             <div className="type-indicator game-mobile small">
               Mobile/browser game
             </div>
-            <div className="type-indicator game-vr small">VR game</div>
             <div className="hr"></div>
             <div className="type-indicator audio-drama">Audio drama</div>
             <div className="hr"></div>

@@ -21,9 +21,8 @@ const filtersTemplate = {
             children: {
               "Del Rey": true,
               "Disney–Lucasfilm Press": true,
-              "Random House Audio": true,
               "Egmont UK Ltd": true,
-              Other: true,
+              Unknown: true,
             },
           },
           audience: {
@@ -35,10 +34,10 @@ const filtersTemplate = {
               Unknown: true,
             },
           },
-          adaptation: {
-            name: "Adaptations",
-            value: false,
-          },
+          // adaptation: {
+          //   name: "Adaptations",
+          //   value: false,
+          // },
         },
       },
       comic: {
@@ -50,7 +49,8 @@ const filtersTemplate = {
               "Marvel Comics": true,
               "IDW Publishing": true,
               "Dark Horse Comics": true,
-              Other: true,
+              "Egmont UK Ltd": true,
+              Unknown: true,
             },
           },
           // subtype: {
@@ -82,7 +82,29 @@ const filtersTemplate = {
       },
       game: {
         name: "Video Games",
-        value: true,
+        children: {
+          fullType: {
+            name: "Platform",
+            children: {
+              game: {
+                name: "Desktop/console",
+                value: true,
+              },
+              "game-vr": {
+                name: "VR",
+                value: true,
+              },
+              "game-mobile": {
+                name: "Mobile",
+                value: true,
+              },
+              "game-browser": {
+                name: "Browser",
+                value: true,
+              },
+            },
+          },
+        },
       },
       yr: {
         name: "Young Readers",
@@ -164,12 +186,18 @@ export default function Home() {
   );
 
   const [rawData, setRawData] = React.useState([]);
+  const [series, setSeries] = React.useState();
   const [tvImages, setTvImages] = React.useState();
+  const [suggestions, setSuggestions] = React.useState([]);
+  const [boxFilters, setBoxFilters] = React.useState([]);
 
   React.useEffect(async () => {
     // TODO: show error on network error
     let res = await fetch(API + "media");
     setRawData(await res.json());
+    res = await fetch(API + "series");
+    // TODO: defer this possibly to first time user uses search
+    setSeries(await res.json());
     res = await fetch(API + "tv-images");
     let json = await res.json();
     let dict = {};
@@ -204,14 +232,21 @@ export default function Home() {
           filters={filters}
           filtersChanged={dispatch}
           filtersTemplate={filtersTemplate}
+          suggestions={suggestions}
+          setSuggestions={setSuggestions}
+          boxFilters={boxFilters}
+          setBoxFilters={setBoxFilters}
         />
         {rawData.length ? (
           <Timeline
             filterText={filterText}
             filters={filters}
             rawData={rawData}
+            series={series}
             setShowFullCover={setShowFullCover}
             tvImages={tvImages}
+            setSuggestions={setSuggestions}
+            boxFilters={boxFilters}
           />
         ) : (
           <Spinner />

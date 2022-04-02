@@ -59,6 +59,9 @@
 	&.date {
 		width: 80px;
 	}
+	&.continuity {
+		width: 48px;
+	}
 	&.title {
 		width: 442px;
 	}
@@ -71,6 +74,19 @@
 		// width: min-content;
 		width: 82px;
 	}
+}
+.th.continuity {
+	// font-size: 0.8em;
+	overflow-wrap: break-word;
+	// TODO: hyphen
+	hyphens: auto;
+}
+.td.continuity {
+	border-top: none;
+	border-bottom: none;
+}
+.tr-outer:last-child .td.continuity {
+	border-bottom: 1px solid black;
 }
 .td.cover:not(.no-cover) {
 	background-color: black;
@@ -98,7 +114,7 @@
 	.icon {
 		padding-left: 4px;
 		vertical-align: sub;
-		color: #e6a34e;
+		color: $accent;
 	}
 }
 
@@ -187,6 +203,7 @@
 	.cover {
 		box-shadow: 2px 2px 8px #000;
 		margin-right: 14px;
+		margin-bottom: 0; // needed because of weird gap caused by align-self: start
 		align-self: start;
 		cursor: pointer;
 		// border: 1px solid #000;

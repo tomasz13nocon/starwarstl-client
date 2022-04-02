@@ -8,7 +8,7 @@ body {
 body {
 	margin: 0;
 	font-family: $sans;
-	font-weight: $weight-regular;
+	// font-weight: $weight-regular;
 	font-size: 18px;
 	background-color: $background;
 }
@@ -80,83 +80,6 @@ a.external {
 	.icon {
 		width: 1em;
 	}
-}
-
-.icon {
-	width: 1.5rem;
-	vertical-align: sub;
-}
-
-.book {
-	color: $book-secondary;
-}
-.book-a {
-	background: $book-a-primary;
-	color: $book-a-secondary;
-}
-.book-ya {
-	background: $book-ya-primary;
-	color: $book-ya-secondary;
-}
-.book-jr {
-	background: $book-jr-primary;
-	color: $book-jr-secondary;
-}
-
-.audio-drama {
-	background: $audio-drama-primary;
-	color: $audio-drama-secondary;
-}
-
-.comic {
-	background-color: $comic-primary;
-	color: $comic-secondary;
-}
-
-.short-story {
-	background-color: $short-story-primary;
-	color: $short-story-secondary;
-}
-
-.tv {
-	background-color: $tv-primary;
-	color: $tv-secondary;
-}
-.tv-animated {
-	background-color: $tv-animated-primary;
-	color: $tv-animated-secondary;
-}
-.tv-micro-series {
-	background-color: $tv-micro-series-primary;
-	color: $tv-micro-series-secondary;
-}
-
-.film {
-	background-color: $film-primary;
-	color: $film-secondary;
-}
-
-.yr {
-	background-color: $yr-primary;
-	color: $yr-secondary;
-}
-
-.game {
-	background-color: $game-primary;
-	color: $game-secondary;
-}
-.game-vr {
-	background-color: $game-vr-primary;
-	color: $game-vr-secondary;
-}
-.game-mobile, .game-browser {
-	background-color: $game-mobile-primary;
-	color: $game-mobile-secondary;
-}
-
-.reference-book {
-	background-color: $reference-book-primary;
-	color: $reference-book-secondary;
 }
 
 .error-box {

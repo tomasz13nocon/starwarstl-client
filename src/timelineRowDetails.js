@@ -146,7 +146,7 @@ const getData = (item) => {
     Type: type,
     "Release date": process(item.releaseDateDetails ?? "Unknown", false),
     "Last aired": process(item.lastAired, false), // TODO: first aired when availible instead of release date?
-    Closed: process(item.closed),
+    Closed: process(item.closed, false),
     Chronology: process(item.dateDetails),
     Series: process(item.seriesDetails),
     Season: process(item.seasonDetails),
@@ -206,7 +206,6 @@ export default React.memo(function TimelineRowDetails({
   setShowFullCover,
   imageLoaded,
 }) {
-  console.log("qwe");
   return (
     <>
       {item.cover ? (
