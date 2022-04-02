@@ -41,6 +41,7 @@
 			bottom: 0;
 			text-shadow: none;
 			background: #ccc;//$background;
+			background: #c4c6ca;
 			// border: 2px solid black;
 			padding: 4px;
 			border-radius: 14px;
@@ -49,6 +50,10 @@
 			display: flex;
 			flex-direction: column;
 			gap: 3px;
+			.table-cell {
+				color: black;
+				border: 1px solid #333;
+			}
 			.hr {
 				margin: 1px 0;
 			}
@@ -57,9 +62,10 @@
 				// margin: 4px 4px 4px auto;
 				// margin: 3px;
 				margin-left: auto;
-				&.small {
-					font-size: 0.8em;
-				}
+				border: 1px solid black;
+			}
+			.small {
+				font-size: 0.8em;
 			}
 		}
 	}

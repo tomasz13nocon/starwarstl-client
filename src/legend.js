@@ -35,6 +35,14 @@ export default function Legend(props) {
       >
         {expanded ? (
           <>
+            <div className="unreleased table-cell type-indicator small">
+              Unreleased
+            </div>
+            <div className="exact-placement-unknown table-cell type-indicator small">
+              Exact placement currently unknown
+            </div>
+            <div className="hr"></div>
+            <div className="hr"></div>
             {/* TODO: fix the order to reflect the color circle once the colors are settled */}
             <div className="type-indicator book-a">Novel</div>
             <div className="type-indicator book-ya small">

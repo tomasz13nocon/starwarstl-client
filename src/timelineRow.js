@@ -19,7 +19,7 @@ export default React.memo(function TimelineRow({
   const cells = React.useMemo(
     () =>
       activeColumns.map((columnName) => {
-        let inside,
+        let inside = item[columnName],
           classNames = "",
           onClick,
           title;
@@ -40,8 +40,6 @@ export default React.memo(function TimelineRow({
                   ))}
                 </ul>
               );
-            } else {
-              inside = item.writer;
             }
             break;
           case "title":
@@ -98,10 +96,13 @@ export default React.memo(function TimelineRow({
               classNames += " unreleased";
               title = "unreleased";
             }
-            inside = item.releaseDate;
             break;
-          default:
-            inside = item[columnName];
+          case "date":
+            if (item.exactPlacementUnknown) {
+              classNames += " exact-placement-unknown";
+              title = "exact placement currently unknown";
+            }
+            break;
         }
         return (
           <div
