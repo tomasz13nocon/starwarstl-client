@@ -41,6 +41,29 @@ export default function Faq() {
         . <span className="type-indicator audio-drama">Audio dramas</span> are a
         seperate category.
       </p>
+
+      <h2>
+        Something's incorrectly placed on the timeline/Some data is incorrect
+      </h2>
+      <p>
+        All content on this timeline is sourced from{" "}
+        <a href="https://starwars.fandom.com/wiki/Main_Page">Wookieepedia</a>.
+        Please check{" "}
+        <a href="https://starwars.fandom.com/wiki/Timeline_of_canon_media">
+          Wookieepedia's timeline of canon media
+        </a>{" "}
+        or a specific media's article and see if the error exists there. If it
+        does you can edit it. If you're new to editing a wiki check out{" "}
+        <a href="https://starwars.fandom.com/wiki/Wookieepedia:Welcome,_newcomers">
+          this page
+        </a>
+        . The change on Wookieepedia should be reflected here within a day
+        {/* MENTION: script running interval */}.
+      </p>
+      <p>
+        If you however see a mismatch of data between here and Wookieepedia you
+        can message me at {/* TODO: contact info */}
+      </p>
     </div>
   );
 }

@@ -18,7 +18,9 @@ $tv-secondary: #2F1300;
 $tv-tertiary: #5B2600;
 $tv-animated-primary: #F1904D;
 $tv-animated-secondary: #3C1900;
-$tv-micro-series-primary: #D67B4A;
+// $tv-micro-series-primary: #D67B4A;
+$tv-micro-series-primary: #D2865E;
+
 $tv-micro-series-secondary: #1E0A00;
 
 
@@ -53,6 +55,9 @@ $comic-secondary: #003102;
 
 $short-story-primary: #FFEB3B;
 $short-story-secondary: #403a01;
+
+$unknown-primary: #bbb;
+$unknown-secondary: #222;
 
 // OLD:
 // $book-primary: #34a;
@@ -138,10 +143,26 @@ $grey1: rgb(100, 100, 100);
 	background: $book-secondary;
 	color: $book-a-primary;
 }
+.book-a-reversed {
+	background: $book-a-secondary;
+	color: $book-a-primary;
+}
+.book-ya-reversed {
+	background: $book-ya-secondary;
+	color: $book-ya-primary;
+}
+.book-jr-reversed {
+	background: $book-jr-secondary;
+	color: $book-jr-primary;
+}
 
 .audio-drama {
 	background: $audio-drama-primary;
 	color: $audio-drama-secondary;
+}
+.audio-drama-reversed {
+	background: $audio-drama-secondary;
+	color: $audio-drama-primary;
 }
 
 .comic {
@@ -156,6 +177,10 @@ $grey1: rgb(100, 100, 100);
 .short-story {
 	background-color: $short-story-primary;
 	color: $short-story-secondary;
+}
+.short-story-reversed {
+	background-color: $short-story-secondary;
+	color: $short-story-primary;
 }
 
 .tv {
@@ -174,6 +199,14 @@ $grey1: rgb(100, 100, 100);
 	background-color: $tv-secondary;
 	color: $tv-primary;
 }
+.tv-animated-reversed {
+	background-color: $tv-animated-secondary;
+	color: $tv-animated-primary;
+}
+.tv-micro-series-reversed {
+	background-color: $tv-micro-series-secondary;
+	color: $tv-micro-series-primary;
+}
 
 .film {
 	background-color: $film-primary;
@@ -188,6 +221,10 @@ $grey1: rgb(100, 100, 100);
 	background-color: $yr-primary;
 	color: $yr-secondary;
 }
+.yr-reversed {
+	background-color: $yr-secondary;
+	color: $yr-primary;
+}
 
 .game {
 	background-color: $game-primary;
@@ -201,10 +238,43 @@ $grey1: rgb(100, 100, 100);
 	background-color: $game-mobile-primary;
 	color: $game-mobile-secondary;
 }
+.game-reversed {
+	background-color: $game-secondary;
+	color: $game-primary;
+}
+
+.unknown {
+	background-color: $unknown-primary;
+	color: $unknown-secondary;
+}
+.unknown-reversed {
+	background-color: $unknown-secondary;
+	color: $unknown-primary;
+}
 
 .reference-book {
 	background-color: $reference-book-primary;
 	color: $reference-book-secondary;
+}
+
+.multimedia {
+	background: linear-gradient(
+		145deg,
+			#3F51B5DD,
+			#00C8E1DD,
+			#4CAF50DD,
+			#FFEB3BDD,
+			#E37322DD,
+			#d42b26DD,
+			#8042bfDD,
+			// #3F51B5DD,
+	);
+	color: black;
+	text-shadow: 0 0 2px white;
+	.icon {
+		filter: drop-shadow( 0 0 2px white);
+	}
+	// font-weight: $weight-bold;
 }
 
 .type-indicator {
@@ -241,5 +311,6 @@ $grey1: rgb(100, 100, 100);
 
 .exact-placement-unknown {
 	// text-decoration: underline dotted red;
-	background-color: #e1dcdf;
+	background-color: #ded9dc;
+	// box-shadow: 0 0 0 2px inset #eacac0;
 }

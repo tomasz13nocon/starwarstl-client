@@ -81,10 +81,10 @@ const getData = (item) => {
           break;
       }
       break;
-    case "short story":
+    case "short-story":
       type = "Short story";
       break;
-    case "audio drama":
+    case "audio-drama":
       type = "Audio drama";
       break;
     case "game":
@@ -133,17 +133,14 @@ const getData = (item) => {
   if (item.audiobook) type += " (audiobook)";
 
   type = (
-    <span
-      className={`type-indicator ${item.type.replace(" ", "-")} ${
-        item.fullType
-      }`}
-    >
+    <span className={`type-indicator ${item.type} ${item.fullType}`}>
       {type}
     </span>
   );
 
   let ret = {
     Type: type,
+    Notes: process(item.timelineNotes),
     "Release date": process(item.releaseDateDetails ?? "Unknown", false),
     "Last aired": process(item.lastAired, false), // TODO: first aired when availible instead of release date?
     Closed: process(item.closed, false),
@@ -203,7 +200,7 @@ const getData = (item) => {
 
 export default React.memo(function TimelineRowDetails({
   item,
-  setShowFullCover,
+  setFullCover,
   imageLoaded,
 }) {
   return (
@@ -213,7 +210,14 @@ export default React.memo(function TimelineRowDetails({
           width={220}
           src={imgAddress(item.cover)}
           className="cover"
-          onClick={() => setShowFullCover(item.cover)}
+          onClick={() =>
+            setFullCover({
+              name: item.cover,
+              show: true,
+              width: item.coverWidth,
+              height: item.coverHeight,
+            })
+          }
           onLoad={imageLoaded}
         />
       ) : null}
@@ -221,6 +225,15 @@ export default React.memo(function TimelineRowDetails({
         <h3 className="title">
           <WookieeLink>{item.title}</WookieeLink>
         </h3>
+        {/* {item.timelineNotes && ( */}
+        {/*   <ul className="timeline-notes"> */}
+        {/*     {item.timelineNotes.map((note, i) => ( */}
+        {/*       <li className="timeline-note" key={i}> */}
+        {/*         {note} */}
+        {/*       </li> */}
+        {/*     ))} */}
+        {/*   </ul> */}
+        {/* )} */}
         <dl>
           {Object.entries(getData(item)).map(([key, value]) => (
             <React.Fragment key={key}>

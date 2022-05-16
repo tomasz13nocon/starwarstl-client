@@ -64,7 +64,8 @@
 				margin-top: 0;
 			}
 			&:hover {
-				box-shadow: 0 0 2px inset black;
+				// box-shadow: 0 0 0 2px inset $focus;
+				box-shadow: 0 0 2px black;
 			}
 			cursor: pointer;
 			width: 100%;
@@ -78,23 +79,41 @@
 
 	.box-filters {
 		font-size: 16px;
-			margin: 4px 0;
+		margin: 10px 0;
 		.type-indicator {
 			width: fit-content;
 			padding-right: 0;
+			padding-left: 6px;
 			margin: 4px 0;
 			display: flex;
+			border-radius: 32px;
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;
+			.text {
+				margin-top: 2px;
+				.wookiee-link {
+					// vertical-align: middle;
+					// margin-top: 4px;
+					position: relative;
+					top: 1px;
+				}
+			}
 			.remove {
-				// background: #444;
+				// background: #333;
 				// color: white;
-				border-top-right-radius: 99px;
-				border-bottom-right-radius: 99px;
+				border-top-right-radius: 9999px;
+				border-bottom-right-radius: 9999px;
 				padding-right: 2px;
 				margin-left: 4px;
+				border: 2px solid;
+				border-left: none;
+				&.multimedia-reversed {
+					border: none;
+					padding-right: 4px;
+				}
 				.icon {
-				vertical-align: text-bottom;
+					vertical-align: text-bottom;
+					width: 22px;
 					// font-size: 24px;
 				}
 			}
@@ -108,6 +127,9 @@
 		line-height: 1.25;
 		.check-buttons {
 			margin-bottom: 6px;
+			button:hover {
+			box-shadow: 0 0 2px black;
+		}
 		}
 	}
 }

@@ -1,11 +1,11 @@
-import React from "react";
 import produce from "immer";
-
-import { API, imgAddress, Size } from "./common.js";
+import React from "react";
+import { API } from "./common.js";
 import Filters from "./filters.js";
+import FullCoverPreview from "./fullCoverPreview.js";
 import Legend from "./legend";
-import Timeline from "./timeline.js";
 import Spinner from "./spinner.js";
+import Timeline from "./timeline.js";
 
 //import rawData from "./data.json";
 
@@ -25,12 +25,12 @@ const filtersTemplate = {
               Unknown: true,
             },
           },
-          audience: {
+          fullType: {
             name: "Target audience",
             children: {
-              a: { name: "Adult", value: true },
-              ya: { name: "Young Adult", value: true },
-              jr: { name: "Junior", value: true },
+              "book-a": { name: "Adult", value: true },
+              "book-ya": { name: "Young Adult", value: true },
+              "book-jr": { name: "Junior", value: true },
               Unknown: true,
             },
           },
@@ -64,11 +64,11 @@ const filtersTemplate = {
           // },
         },
       },
-      "short story": {
+      "short-story": {
         name: "Short Stories",
         value: true,
       },
-      "audio drama": {
+      "audio-drama": {
         name: "Audio Dramas",
         value: true,
       },
@@ -175,7 +175,7 @@ const reducer = (state, { path, to }) => {
 
 export default function Home() {
   const [filterText, setFilterText] = React.useState("");
-  const [showFullCover, setShowFullCover] = React.useState("");
+  const [fullCover, setFullCover] = React.useState({ name: "", show: false });
 
   const [filters, dispatch] = React.useReducer(
     reducer,
@@ -205,25 +205,11 @@ export default function Home() {
       dict[item.series] = item.filename;
     }
     setTvImages(dict);
-    return document.addEventListener(
-      "keydown",
-      (e) => {
-        if (e.key === "Escape") setShowFullCover("");
-      },
-      false
-    );
   }, []);
 
   return (
     <>
-      {showFullCover === "" ? null : (
-        <div
-          className="full-image-container"
-          onClick={() => setShowFullCover("")}
-        >
-          <img src={imgAddress(showFullCover, Size.FULL)} />
-        </div>
-      )}
+      <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
       <Legend />
       <div className="timeline-container">
         <Filters
@@ -243,7 +229,7 @@ export default function Home() {
             filters={filters}
             rawData={rawData}
             series={series}
-            setShowFullCover={setShowFullCover}
+            setFullCover={setFullCover}
             tvImages={tvImages}
             setSuggestions={setSuggestions}
             boxFilters={boxFilters}

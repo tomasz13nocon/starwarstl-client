@@ -163,6 +163,28 @@ export default function Timeline({
     [setSorting]
   );
 
+  const suggestionPriority = [
+    "film",
+    "tv-live-action",
+    "game",
+    "tv-animated",
+    "tv",
+    "multimedia",
+    "book-a",
+    "book-ya",
+    "comic",
+    "audio-drama",
+    "book",
+    "game-vr",
+    "game-mobile",
+    "book-jr",
+    "short-story",
+    "tv-micro-series",
+    "yr",
+    "game-browser",
+    "unknown",
+  ];
+
   // Sort and filter data
   useDeepCompareEffect(() => {
     let tempData = [];
@@ -176,25 +198,40 @@ export default function Timeline({
       // const re = /"([^"]*?)"/g;
       // let exact = Array.from(filterText.toLowerCase().matchAll(re));
       // let queries = filterText.replace(re, "").split(";");
-      let queries = filterText.split(";");
+      let queries = filterText.toLowerCase().split(";");
 
       // Search suggestions
       let last = queries[queries.length - 1].trim();
-      if (last.length >= 3) {
+      if (last.length >= 2) {
         let found = series.filter((item) =>
-          item.title.toLowerCase().includes(last)
+          item.displayTitle
+            ? item.displayTitle.toLowerCase().includes(last)
+            : item.title.toLowerCase().includes(last)
         );
+        console.log(found);
         if (found.length) {
           setSuggestions(
-            found.slice(0, 10).filter((el) => !boxFilters.includes(el))
-          ); // TODO sort with priority
-        }
+            found
+              .filter((el) => !boxFilters.includes(el))
+              .sort((a, b) => {
+                let ap = suggestionPriority.indexOf(a.fullType || a.type),
+                  bp = suggestionPriority.indexOf(b.fullType || b.type);
+                if (ap > bp) return 1;
+                if (ap < bp) return -1;
+                return 0;
+              })
+              .slice(0, 10)
+          );
+        } else setSuggestions([]);
       } else setSuggestions([]);
 
       if (boxFilters.length) {
         tempData = tempData.filter((item) => {
           for (let boxFilter of boxFilters) {
-            if (item.series && item.series.includes(boxFilter.title)) {
+            if (
+              item.series &&
+              item.series.includes(boxFilter.title) /* && item.*/ // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,
+            ) {
               //TODO: We want more than series????
               return true;
             }
@@ -322,13 +359,15 @@ export default function Timeline({
           }}
         >
           {rowVirtualizer.virtualItems.map((virtualRow) => {
-            data[virtualRow.index] === undefined &&
+            if (data[virtualRow.index] === undefined) {
               console.log(
                 rowVirtualizer.virtualItems,
                 virtualRow,
                 virtualRow.index,
                 data
               );
+              return null;
+            }
             return (
               <ItemMeasurer
                 key={data[virtualRow.index]._id}

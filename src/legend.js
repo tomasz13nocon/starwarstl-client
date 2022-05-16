@@ -37,9 +37,13 @@ export default function Legend(props) {
           <>
             <div className="unreleased table-cell type-indicator small">
               Unreleased
+              <br />
+              <small>(release date column)</small>
             </div>
             <div className="exact-placement-unknown table-cell type-indicator small">
-              Exact placement currently unknown
+              Exact placement currently
+              <br />
+              unknown <small>(date column)</small>
             </div>
             <div className="hr"></div>
             <div className="hr"></div>
@@ -73,6 +77,15 @@ export default function Legend(props) {
             <div className="type-indicator audio-drama">Audio drama</div>
             <div className="hr"></div>
             <div className="type-indicator film">Film</div>
+            <div className="hr"></div>
+            <div className="type-indicator multimedia">Multimedia project</div>
+            <div className="hr"></div>
+            {/* <div */}
+            {/*   className="type-indicator unknown" */}
+            {/*   style={{ border: "1px solid black" }} */}
+            {/* > */}
+            {/*   Unknown */}
+            {/* </div> */}
           </>
         ) : (
           "?"

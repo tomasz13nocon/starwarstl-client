@@ -4,6 +4,7 @@ import { mdiClose } from "@mdi/js";
 import Icon from "@mdi/react";
 
 import CheckboxGroup from "./checkboxGroup.js";
+import WookieeLink from "./wookieeLink.js";
 import "./styles/filters.scss";
 
 export default function Filters({
@@ -41,14 +42,14 @@ export default function Filters({
         {suggestions.map((el) => (
           <button
             key={el._id}
-            className={`reset-button suggestion ${el.type}`}
+            className={`reset-button suggestion ${el.type} ${el.fullType}`}
             onClick={() => {
               setBoxFilters([...boxFilters, el]);
               filterTextChanged("");
               setSuggestions([]);
             }}
           >
-            {el.title}
+            {el.displayTitle || el.title}
           </button>
         ))}
       </div>
@@ -57,11 +58,14 @@ export default function Filters({
         {boxFilters.map((boxFilter) => (
           <div
             key={boxFilter._id}
-            className={`type-indicator ${boxFilter.type}`}
+            className={`type-indicator ${boxFilter.type} ${boxFilter.fullType}`}
           >
-            {boxFilter.title}
+            <span className="text">
+              {boxFilter.displayTitle || boxFilter.title}
+              <WookieeLink title={boxFilter.title}></WookieeLink>
+            </span>
             <button
-              className={`reset-button curp remove ${boxFilter.type}-reversed`}
+              className={`reset-button curp remove ${boxFilter.type}-reversed ${boxFilter.fullType}-reversed`}
               onClick={() =>
                 setBoxFilters([
                   ...boxFilters.filter((el) => el._id !== boxFilter._id),

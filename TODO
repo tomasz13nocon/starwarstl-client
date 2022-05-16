@@ -2,48 +2,54 @@ collapsable filters (this allows for many more filters)
   reddit-like vertical lines to collapse filters
   OR
   search "series: The Clone Wars" (with autocomplete, suggestions etc.)
-color coded comic/tv series with visual indication of how long it runs (aka swdatapad)
+color coded comic/tv series with visual indication of how long it runs (like swdatapad)
   Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
   button to switch to color coding seperate comic series
 see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 responsive/mobile version (mobile alternative to right click filters)
 remove/change CHECK ALL/UNCHECK ALL?
-dark theme
+dark theme (save preference to localStorage)
 fetch timeline with basic info only to cut initial load time, then fetch the one with full details
 for tv episodes' (and comis issues?) details show "out of" e.g.: Episode: 8 (out of 16)
 CTRL-F alternative (second search box in addition to the filtering one)
 partial loading of large images?
 customizable columns ("cover" column) (long term?)
-comic subtypes (comic story, strip, junior (IDW?), Manga and then Single issue vs sereis, vs TPB etc.)
+comic subtypes: comic story, strip, junior (IDW?), Manga and then Single issue vs sereis, vs TPB etc.
 fetch cover artist from "File:" page
 make columns like "cover" not sortable/clickable
-settings and filter presets to localStorage/account
 add logo to series in details
+on accepting suggestions, remove text only up to last semicolon
+do something about the series "Rebels" having a lot of dogshit
+show count of books next to publisher filter, count of episodes in series etc.
+show a list of recently used (box) filters
+Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
 
 LAST:
 yt guides, how to's, tooltips
 the state of the app while data is fetching.
+clear this todo, TODOs in code, console logs, errors/warns when fetching
 
 IDK:
 include writer in details if it's in the timeline but not in article (like i did with release dates)
 fix <br> handling? the clone wars film has unknown date
 
 LONG TERM:
+readlist. Ability to mark stuff as watched/read (and a way to filter those out) and add stuff to watchlist/readlist
+"writer/penciller" in timeline for comics
 make "Adaptaions" filter work
 user accounts for settings/filters
 fix the ":wikipedia:Page" links (these get interpreted as internal links by wtf, they work in mw as interwiki, but it is an undocumented feature...) (example: Divide and Conquer)
 collapse adjacent comic issues/tv episodes
 clickable links to other entries in the timeline (mostly in "series" "followed by" "preceded by")
-add padlock button to a filter to make it show regardless of search/filters (useful to always show movies)
+add padlock button to a filter to make it show regardless of search/filters (useful e.g. to always show movies)
   kinda related: for search add "," as an "OR" operator
-save the "Exact placement unknown" symbol into DB as a bool flag and show it in timeline by changing Date's bg or sth
 Add useMemo everywhere it fits
 ability to save filter presets (and persist them to local storage/account) and switch between them
 Highlight more important entries in timeline row details (like Writer and Artist of the comic are more important than inker)
 Image details when showing full size (credit to artist, copyright notice or link to it)
 resize images to a certain max size (currently unlimited, some are many MBs)
-accessiblity
-link to web episodes (galaxy of adventures etc.)
+check accessiblity
+link to yt for web episodes (galaxy of adventures etc.)
 a toggle to switch between bg covers and normal covers (in settings?)
 fetch all book series, story collections, reference books, comic tpbs/omnibuses etc., comic arcs etc. How? Somehow.
 - https://starwars.fandom.com/wiki/Category:Canon_reference_books
@@ -58,8 +64,13 @@ Clicking on author's name shows all entries by this author
 Searching appearances. Search "R2D2" click on "Character: RD2D" bullet that appears, and get all media that features R2
 TOOLTIPS for:
 -types (explain junior categorization etc.)
-Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
 legend type-indicators clickable to enable filtering for that type
+when changing filters, and currently expanded entry is visible scroll to it after timeline changes
+when fetching articles fetch only timestamps (not revisions aka wikitext), and only fetch revisions for those that ened updating to save bandwidth
+FAQ TOC
+
+FYI:
+A trooper's worth's series field is a link + some text, but we get only link (shouldn't be a big issue for now)
 
 PARSER:
 "TODO:parser" - things to do when switching from wtf_wikipedia to a different parser
@@ -75,7 +86,13 @@ main.js is 12MB!! - is this dev bundle problem?
 reduce library size (code splitting??)
 test ul dot (it's a weird unicode char, some ppl might not have a font supporting it)
 performance/profiing
+before pushing data to DB, backup old data in case of a breaking change. Keep a couple of backups.
 
+WOOKIEEPEDIA EDITS:
+[[Star Wars Rebels Animation-Magazine]] comic strips - either remove this as a "series" field from all the strips or create a page for the series of comic strips and link to that.
+examples:
+https://starwars.fandom.com/wiki/A_Trooper%27s_Worth
+https://starwars.fandom.com/wiki/Learning_Patience
 
 ATTRIBUTIONS:
 fonts

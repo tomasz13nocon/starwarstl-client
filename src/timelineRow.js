@@ -10,7 +10,7 @@ export const ANIMATION_TIME = 180;
 export default React.memo(function TimelineRow({
   item,
   activeColumns,
-  setShowFullCover,
+  setFullCover,
   tvImages,
   setAnimating,
   expanded,
@@ -86,7 +86,7 @@ export default React.memo(function TimelineRow({
                 )}
               </div>
             );
-            classNames += ` ${item.type.replace(" ", "-")} ${item.fullType}`;
+            classNames += ` ${item.type} ${item.fullType}`;
             onClick = () => setExpanded(expanded ? null : item._id);
             break;
           case "releaseDate":
@@ -161,7 +161,7 @@ export default React.memo(function TimelineRow({
             <div className="td" ref={detailsRef}>
               <TimelineRowDetails
                 item={item}
-                setShowFullCover={setShowFullCover}
+                setFullCover={setFullCover}
                 imageLoaded={imageLoaded}
               />
             </div>
