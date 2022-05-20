@@ -262,6 +262,8 @@ export default function Timeline({
             )
           : r;
       });
+    } else {
+      setSuggestions([]);
     }
 
     // Sort

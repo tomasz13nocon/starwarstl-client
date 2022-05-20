@@ -21,8 +21,9 @@ add logo to series in details
 on accepting suggestions, remove text only up to last semicolon
 do something about the series "Rebels" having a lot of dogshit
 show count of books next to publisher filter, count of episodes in series etc.
-show a list of recently used (box) filters
 Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
+when changing filters (remember removing them too) scroll to the expanded entry (advertise this feature, low discoverability)
+"scroll to start of page" button
 
 LAST:
 yt guides, how to's, tooltips
@@ -35,6 +36,7 @@ fix <br> handling? the clone wars film has unknown date
 
 LONG TERM:
 readlist. Ability to mark stuff as watched/read (and a way to filter those out) and add stuff to watchlist/readlist
+show a list of recently used (box) filters
 "writer/penciller" in timeline for comics
 make "Adaptaions" filter work
 user accounts for settings/filters

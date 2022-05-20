@@ -5,7 +5,7 @@ import "./styles/checkbox.scss";
 
 import { blurIfMouse } from "./util.js";
 
-export default function Checkbox({
+export default React.memo(function Checkbox({
   name,
   value,
   onChange,
@@ -41,6 +41,8 @@ export default function Checkbox({
   let animClass = prevRef.current ? prevRef.current + "-to-" + current : "";
   prevRef.current = current;
 
+  if (path === "type.comic.publisher.IDW Publishing") console.log(animClass);
+
   return (
     <div
       className={`checkbox-wrapper level-${(path.match(/\./g) || []).length}`}
@@ -64,4 +66,4 @@ export default function Checkbox({
       )}
     </div>
   );
-}
+});

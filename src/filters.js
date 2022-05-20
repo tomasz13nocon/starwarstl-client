@@ -18,6 +18,25 @@ export default function Filters({
   boxFilters,
   setBoxFilters,
 }) {
+  let checkboxFiltersRef = React.useRef();
+  const [filtersHeight, setFiltersHeight] = React.useState(
+    window.innerHeight - checkboxFiltersRef.current?.getBoundingClientRect().top
+  );
+
+  React.useEffect(() => {
+    const resizeFilters = (e) => {
+      console.log("qwe");
+      let top = checkboxFiltersRef.current.getBoundingClientRect().top;
+      setFiltersHeight(window.innerHeight - top);
+    };
+    document.addEventListener("scroll", resizeFilters);
+    window.addEventListener("resize", resizeFilters);
+    return () => {
+      document.removeEventListener("scroll", resizeFilters);
+      window.removeEventListener("resize", resizeFilters);
+    };
+  }, []);
+
   return (
     <div className="filter">
       <div className="search">
@@ -78,7 +97,11 @@ export default function Filters({
         ))}
       </div>
 
-      <div className="checkbox-filters">
+      <div
+        className="checkbox-filters"
+        ref={checkboxFiltersRef}
+        style={{ height: filtersHeight }}
+      >
         <div className="check-buttons">
           <button
             className="show-button"

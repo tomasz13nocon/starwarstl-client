@@ -40,6 +40,10 @@ const filtersTemplate = {
           // },
         },
       },
+      yr: {
+        name: "Young Readers",
+        value: true,
+      },
       comic: {
         name: "Comics",
         children: {
@@ -68,17 +72,27 @@ const filtersTemplate = {
         name: "Short Stories",
         value: true,
       },
-      "audio-drama": {
-        name: "Audio Dramas",
-        value: true,
-      },
-      film: {
-        name: "Films",
-        value: true,
-      },
       tv: {
         name: "TV",
-        value: true,
+        children: {
+          fullType: {
+            name: "Type",
+            children: {
+              "tv-live-action": {
+                name: "Live-action",
+                value: true,
+              },
+              "tv-animated": {
+                name: "Animated",
+                value: true,
+              },
+              "tv-micro-series": {
+                name: "Micro series",
+                value: true,
+              },
+            },
+          },
+        },
       },
       game: {
         name: "Video Games",
@@ -106,8 +120,12 @@ const filtersTemplate = {
           },
         },
       },
-      yr: {
-        name: "Young Readers",
+      "audio-drama": {
+        name: "Audio Dramas",
+        value: true,
+      },
+      film: {
+        name: "Films",
         value: true,
       },
     },

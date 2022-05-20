@@ -32,7 +32,7 @@ const areChildrenChecked = (children) => {
 // children must be an object
 // path - path in the state object, not template
 // state - sub state of a nested state
-export default function CheckboxGroup({
+export default React.memo(function CheckboxGroup({
   name,
   state,
   onChange,
@@ -101,4 +101,4 @@ export default function CheckboxGroup({
       )}
     </div>
   );
-}
+});
