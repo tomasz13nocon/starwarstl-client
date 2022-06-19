@@ -4,6 +4,7 @@ export default function About() {
   return (
     <>
       <h1>Star Wars Media Timeline</h1>
+      <hr />
       <h2>Features</h2>
       <ul>
         <li>
@@ -24,14 +25,19 @@ export default function About() {
             </li>
             <li>Automatically updated daily.</li>
           </ul>
-          <li>
-            Dynamic table with advanced{" "}
-            <a href={/*TODO*/ "#"}>filtering and search features</a>.
-          </li>
-          <li>Highly optimized</li>
         </li>
+        <li>
+          Dynamic table with advanced{" "}
+          <a href={/*TODO*/ "#"}>filtering and search features</a>.
+        </li>
+        <li>Highly optimized (when I'm done optimizing it)</li>
       </ul>
-      Copyright etc...
+      <h2>Planned features</h2>
+      <ul>
+        <li>Mobile friendly version</li>
+        <li>Legends timeline</li>
+      </ul>
+      Attributions etc...
     </>
   );
 }

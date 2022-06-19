@@ -128,6 +128,15 @@ const getData = (item) => {
     case "tv-micro-series":
       type = "Micro-series";
       break;
+    case "comic-story":
+      type = "Comic story";
+      break;
+    case "comic-strip":
+      type = "Comic strip";
+      break;
+    case "comic-manga":
+      type = "Manga";
+      break;
   }
 
   if (item.audiobook) type += " (audiobook)";

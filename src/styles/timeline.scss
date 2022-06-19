@@ -97,7 +97,7 @@ $full-image-transition: 0.2s;
 		width: 80px;
 	}
 	&.continuity {
-		width: 48px;
+		width: 68px;
 	}
 	&.title {
 		width: 442px;
@@ -121,6 +121,14 @@ $full-image-transition: 0.2s;
 .td.continuity {
 	border-top: none;
 	border-bottom: none;
+	padding: 0;
+	width: 82px;
+	svg {
+		display: block;
+		// width: 62px;
+		// width: 100%;
+		// height: auto;
+	}
 }
 .tr-outer:last-child .td.continuity {
 	border-bottom: 1px solid black;
@@ -155,7 +163,7 @@ $full-image-transition: 0.2s;
 	}
 }
 
-.tr.standard-row {
+.standard-row-inner {
 	// max-width: 805px;
 	display: flex;
 	flex-flow: wrap;

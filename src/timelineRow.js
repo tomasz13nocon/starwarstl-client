@@ -16,6 +16,12 @@ export default React.memo(function TimelineRow({
   expanded,
   setExpanded,
 }) {
+  const [rowHeight, setRowHeight] = React.useState(0);
+  let rowRef = React.useRef();
+  React.useLayoutEffect(() => {
+    setRowHeight(rowRef.current.clientHeight);
+  }, []);
+
   const cells = React.useMemo(
     () =>
       activeColumns.map((columnName) => {
@@ -39,6 +45,104 @@ export default React.memo(function TimelineRow({
                     <li key={writer}>{writer}</li>
                   ))}
                 </ul>
+              );
+            }
+            break;
+          case "continuity":
+            if (rowHeight && item.ongoingContinuity) {
+              let lines = [];
+              const strokeWidth = 8,
+                currentStrokeWidth = strokeWidth + 2,
+                cellWidth = 68 + 14;
+              for (let [title, graph] of Object.entries(
+                item.ongoingContinuity
+              )) {
+                // let xpos = 90 - graph.position * 10 + "%",
+                let xpos =
+                    cellWidth -
+                    (currentStrokeWidth + 8) -
+                    graph.position * strokeWidth +
+                    "px",
+                  x1,
+                  x2,
+                  x3,
+                  x4,
+                  y1,
+                  y2,
+                  y3,
+                  y4;
+                switch (graph.whichInSeries) {
+                  case "first":
+                    x1 = "100%";
+                    x2 = xpos;
+                    y1 = "50%";
+                    y2 = "50%";
+                    x3 = xpos;
+                    x4 = xpos;
+                    y3 = `${rowHeight / 2 - strokeWidth / 2}`;
+                    y4 = "101%";
+                    break;
+                  case "middle":
+                    x1 = x2 = xpos;
+                    y1 = "-1%";
+                    y2 = "101%";
+                    break;
+                  case "last":
+                    x1 = xpos;
+                    x2 = "100%";
+                    y1 = "50%";
+                    y2 = "50%";
+                    x3 = xpos;
+                    x4 = xpos;
+                    y3 = "0%";
+                    y4 = `${rowHeight / 2 + strokeWidth / 2}`;
+                    break;
+                  case "oneshot":
+                    // TODO do this outside of this loop
+                    break;
+                }
+                lines.push(
+                  <line
+                    key={title}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke={graph.color}
+                    strokeWidth={strokeWidth}
+                  />
+                );
+                if (x3) {
+                  lines.push(
+                    <line
+                      key={title + "_2"}
+                      x1={x3}
+                      y1={y3}
+                      x2={x4}
+                      y2={y4}
+                      stroke={graph.color}
+                      strokeWidth={strokeWidth}
+                    />
+                  );
+                }
+                if (item.series.includes(title)) {
+                  lines.push(
+                    <line
+                      key={title + "_current"}
+                      x1={cellWidth - currentStrokeWidth / 2}
+                      y1={-1}
+                      x2={cellWidth - currentStrokeWidth / 2}
+                      y2={rowHeight + 1}
+                      stroke={graph.color}
+                      strokeWidth={currentStrokeWidth}
+                    />
+                  );
+                }
+              }
+              inside = (
+                <svg width="100%" height={rowHeight}>
+                  {lines}
+                </svg>
               );
             }
             break;
@@ -115,7 +219,7 @@ export default React.memo(function TimelineRow({
           </div>
         );
       }),
-    [activeColumns, item, expanded, setExpanded]
+    [activeColumns, item, expanded, setExpanded, rowHeight]
   );
 
   const detailsRef = React.useRef();
@@ -144,7 +248,9 @@ export default React.memo(function TimelineRow({
   return (
     <>
       <div className="standard-row tr">
-        {cells}
+        <div className="standard-row-inner" ref={rowRef}>
+          {cells}
+        </div>
         <CSSTransition
           in={expanded}
           timeout={ANIMATION_TIME}

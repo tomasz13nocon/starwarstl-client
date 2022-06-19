@@ -2,6 +2,7 @@
 
 .filter {
 	position: sticky;
+	height: 1000px;
 	top: 10px;
 	align-self: flex-start;
 	width: 285px;
@@ -122,13 +123,14 @@
 
 	.checkbox-filters {
 		overflow-y: auto;
-		margin: 16px 0;
+		// margin: 16px 0;
+		margin-top: 16px;
 		line-height: 1.25;
 		.check-buttons {
 			margin-bottom: 6px;
 			button:hover {
-			box-shadow: 0 0 2px black;
-		}
+				box-shadow: 0 0 2px black;
+			}
 		}
 	}
 }

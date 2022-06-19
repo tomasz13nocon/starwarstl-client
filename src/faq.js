@@ -26,6 +26,15 @@ export default function Faq() {
         (11 or higher).
       </p>
 
+      <h2>Searching the page doesn't work</h2>
+      <p>
+        In order to have a really fast and large table, a technique called
+        virtualization is employed, which means that only the visible portion of
+        the table is rendered. This makes it really fast to filter, sort etc.
+        but makes the native browser search useless. Please use the search bar
+        on the website instead.
+      </p>
+
       <h2>Audiobooks vs Audio dramas</h2>
       <p>
         Audio dramas are productions that include a cast of actors and they're

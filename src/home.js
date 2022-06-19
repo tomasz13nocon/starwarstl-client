@@ -4,6 +4,7 @@ import { API } from "./common.js";
 import Filters from "./filters.js";
 import FullCoverPreview from "./fullCoverPreview.js";
 import Legend from "./legend";
+import Search from "./search";
 import Spinner from "./spinner.js";
 import Timeline from "./timeline.js";
 
@@ -16,22 +17,22 @@ const filtersTemplate = {
       book: {
         name: "Novels",
         children: {
-          publisher: {
-            name: "Publisher",
-            children: {
-              "Del Rey": true,
-              "Disney–Lucasfilm Press": true,
-              "Egmont UK Ltd": true,
-              Unknown: true,
-            },
-          },
           fullType: {
             name: "Target audience",
             children: {
               "book-a": { name: "Adult", value: true },
               "book-ya": { name: "Young Adult", value: true },
               "book-jr": { name: "Junior", value: true },
-              Unknown: true,
+              // Unknown: true,
+            },
+          },
+          publisher: {
+            name: "Publisher",
+            children: {
+              "Del Rey": true,
+              "Disney–Lucasfilm Press": true,
+              "Egmont UK Ltd": true,
+              Other: true,
             },
           },
           // adaptation: {
@@ -47,6 +48,27 @@ const filtersTemplate = {
       comic: {
         name: "Comics",
         children: {
+          fullType: {
+            name: "Type",
+            children: {
+              comic: {
+                name: "Comic book",
+                value: true,
+              },
+              "comic-strip": {
+                name: "Comic strip",
+                value: true,
+              },
+              "comic-story": {
+                name: "Comic story",
+                value: true,
+              },
+              "comic-manga": {
+                name: "Manga",
+                value: true,
+              },
+            },
+          },
           publisher: {
             name: "Publisher",
             children: {
@@ -204,10 +226,11 @@ export default function Home() {
   );
 
   const [rawData, setRawData] = React.useState([]);
-  const [series, setSeries] = React.useState();
+  const [seriesArr, setSeriesArr] = React.useState([]);
   const [tvImages, setTvImages] = React.useState();
   const [suggestions, setSuggestions] = React.useState([]);
   const [boxFilters, setBoxFilters] = React.useState([]);
+  const timelineContainerRef = React.useRef();
 
   React.useEffect(async () => {
     // TODO: show error on network error
@@ -215,7 +238,7 @@ export default function Home() {
     setRawData(await res.json());
     res = await fetch(API + "series");
     // TODO: defer this possibly to first time user uses search
-    setSeries(await res.json());
+    setSeriesArr(await res.json());
     res = await fetch(API + "tv-images");
     let json = await res.json();
     let dict = {};
@@ -228,8 +251,11 @@ export default function Home() {
   return (
     <>
       <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
-      <Legend />
-      <div className="timeline-container">
+      <div className="circle-buttons">
+        <Legend />
+        <Search />
+      </div>
+      <div className="timeline-container" ref={timelineContainerRef}>
         <Filters
           filterText={filterText}
           filterTextChanged={setFilterText}
@@ -240,13 +266,14 @@ export default function Home() {
           setSuggestions={setSuggestions}
           boxFilters={boxFilters}
           setBoxFilters={setBoxFilters}
+          timelineContainerRef={timelineContainerRef}
         />
-        {rawData.length ? (
+        {rawData.length && seriesArr.length ? (
           <Timeline
             filterText={filterText}
             filters={filters}
             rawData={rawData}
-            series={series}
+            seriesArr={seriesArr}
             setFullCover={setFullCover}
             tvImages={tvImages}
             setSuggestions={setSuggestions}

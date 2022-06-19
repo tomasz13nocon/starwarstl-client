@@ -7,7 +7,7 @@ import CheckboxGroup from "./checkboxGroup.js";
 import WookieeLink from "./wookieeLink.js";
 import "./styles/filters.scss";
 
-export default function Filters({
+export default React.memo(function Filters({
   filterText,
   filterTextChanged,
   filters,
@@ -17,18 +17,46 @@ export default function Filters({
   setSuggestions,
   boxFilters,
   setBoxFilters,
+  timelineContainerRef,
 }) {
   let checkboxFiltersRef = React.useRef();
-  const [filtersHeight, setFiltersHeight] = React.useState(
-    window.innerHeight - checkboxFiltersRef.current?.getBoundingClientRect().top
-  );
+  let filtersRef = React.useRef();
+  const [filtersHeight, setFiltersHeight] = React.useState(0);
+
+  const resizeFilters = React.useCallback(() => {
+    let winH = window.innerHeight;
+    let top = checkboxFiltersRef.current.getBoundingClientRect().top;
+    let timelineContainerBottom = 0;
+    if (timelineContainerRef.current) {
+      timelineContainerBottom =
+        timelineContainerRef.current.getBoundingClientRect().bottom;
+    }
+    if (timelineContainerBottom < winH) {
+      // The footer is showing
+      let topDiff =
+        checkboxFiltersRef.current.getBoundingClientRect().top -
+        filtersRef.current.getBoundingClientRect().top +
+        10; // 10 due to sticky position: 10
+      let newHeight = winH - topDiff - (winH - timelineContainerBottom);
+      setFiltersHeight(newHeight);
+    } else {
+      setFiltersHeight(winH - top);
+    }
+  }, []);
 
   React.useEffect(() => {
-    const resizeFilters = (e) => {
-      console.log("qwe");
-      let top = checkboxFiltersRef.current.getBoundingClientRect().top;
-      setFiltersHeight(window.innerHeight - top);
-    };
+    resizeFilters();
+  }, [suggestions, boxFilters, filterText]);
+
+  React.useEffect(() => {
+    if (checkboxFiltersRef.current) {
+      resizeFilters();
+      if (filtersRef.current) {
+      }
+    }
+  }, [checkboxFiltersRef.current, filtersRef.current]);
+
+  React.useEffect(() => {
     document.addEventListener("scroll", resizeFilters);
     window.addEventListener("resize", resizeFilters);
     return () => {
@@ -38,13 +66,13 @@ export default function Filters({
   }, []);
 
   return (
-    <div className="filter">
+    <div className="filter" ref={filtersRef}>
       <div className="search">
         <input
           type="text"
           value={filterText}
           onChange={(e) => filterTextChanged(e.target.value)}
-          placeholder="Search..."
+          placeholder="Filter..."
         />
         {filterText ? (
           <button
@@ -97,29 +125,30 @@ export default function Filters({
         ))}
       </div>
 
+      <div className="check-buttons">
+        <button
+          className="show-button"
+          onClick={() => filtersChanged({ path: "type", to: true })}
+        >
+          CHECK ALL
+        </button>
+        <button
+          className="hide-button"
+          onClick={() => filtersChanged({ path: "type", to: false })}
+        >
+          UNCHECK ALL
+        </button>
+      </div>
+
       <div
         className="checkbox-filters"
         ref={checkboxFiltersRef}
         style={{ height: filtersHeight }}
       >
-        <div className="check-buttons">
-          <button
-            className="show-button"
-            onClick={() => filtersChanged({ path: "type", to: true })}
-          >
-            CHECK ALL
-          </button>
-          <button
-            className="hide-button"
-            onClick={() => filtersChanged({ path: "type", to: false })}
-          >
-            UNCHECK ALL
-          </button>
-        </div>
         <CheckboxGroup state={filters} onChange={filtersChanged}>
           {filtersTemplate}
         </CheckboxGroup>
       </div>
     </div>
   );
-}
+});

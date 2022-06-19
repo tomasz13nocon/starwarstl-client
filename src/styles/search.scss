@@ -1,0 +1,7 @@
+.search-button {
+	color: black;
+	background: white;
+	&.expanded {
+		width: 400px;
+	}
+}

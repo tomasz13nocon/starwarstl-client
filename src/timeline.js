@@ -1,6 +1,7 @@
 import React from "react";
 import { useVirtual, useVirtualWindow } from "react-virtual";
 import ItemMeasurer from "./ItemMeasurer.js";
+import _ from "lodash";
 import Icon from "@mdi/react";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import {
@@ -16,6 +17,7 @@ import {
 import TimelineRow from "./timelineRow.js";
 import "./styles/timeline.scss";
 import { unscuffDate } from "./common.js";
+import md5 from "md5";
 
 const sortingIcons = new Proxy(
   {
@@ -40,6 +42,31 @@ const sortingIcons = new Proxy(
   }
 );
 
+const colorValues = [
+  "#FFBE0B",
+  // "#FB5607",
+  "#3A86FF",
+  "#d62828",
+  "#8338EC",
+  // "#FF006E",
+  "#00f5d4",
+  // "#8ac926",
+  "#70e000",
+  "#000000",
+  "#774936",
+];
+
+const colorPrefs = [
+  {
+    regex: /\bmaul\b/i,
+    color: "#d62828",
+  },
+  {
+    regex: /\bdarth vader\b/i,
+    color: "#000000",
+  },
+];
+
 // Returns result of predicate with value as argument.
 // If value is an array call it for every array item, until true is returned.
 const testArrayOrOther = (value, predicate) => {
@@ -58,7 +85,7 @@ const filterItem = (filters, item) => {
 
   return Object.entries(filters).reduce((acc, [key, value]) => {
     if (item[key] === undefined)
-      return value["Other"] ?? value["Unknown"] ?? acc;
+      return value["Other"] ?? value["Unknown"] ?? false;
     // boolean key in data
     // TODO what is this?
     if (typeof value === "boolean") {
@@ -111,7 +138,7 @@ export default function Timeline({
   filterText,
   filters,
   rawData,
-  series,
+  seriesArr,
   setSuggestions,
   boxFilters,
   ...props
@@ -123,7 +150,7 @@ export default function Timeline({
   const [columns, setColumns] = React.useState({
     date: true,
     cover: false,
-    continuity: false,
+    continuity: false, // TODO: width of page, responsive, etc. AND oneshots AND only show when comics filtered AND background color of rows
     title: true,
     writer: true,
     releaseDate: true,
@@ -168,18 +195,19 @@ export default function Timeline({
     "tv-live-action",
     "game",
     "tv-animated",
-    "tv",
     "multimedia",
     "book-a",
     "book-ya",
     "comic",
+    "comic-manga",
     "audio-drama",
-    "book",
     "game-vr",
-    "game-mobile",
     "book-jr",
-    "short-story",
     "tv-micro-series",
+    "comic-strip",
+    "comic-story",
+    "game-mobile",
+    "short-story",
     "yr",
     "game-browser",
     "unknown",
@@ -203,7 +231,7 @@ export default function Timeline({
       // Search suggestions
       let last = queries[queries.length - 1].trim();
       if (last.length >= 2) {
-        let found = series.filter((item) =>
+        let found = seriesArr.filter((item) =>
           item.displayTitle
             ? item.displayTitle.toLowerCase().includes(last)
             : item.title.toLowerCase().includes(last)
@@ -289,6 +317,89 @@ export default function Timeline({
       if (av > bv) return sorting.ascending ? 1 : -1;
       return 0;
     });
+
+    // Figure out last entry in each comic series to know when to close the continuity line.
+    if (activeColumns.includes("continuity")) {
+      let lastsInSeries = {},
+        positions = {},
+        colors = {};
+      for (let item of tempData) {
+        if (item.fullType === "comic" && item.series?.length) {
+          for (let series of item.series) {
+            if (seriesArr.find((e) => e.title === series).type === "comic") {
+              lastsInSeries[series] = item.title;
+            }
+          }
+        }
+      }
+
+      let ongoingContinuity = {};
+      for (let item of tempData) {
+        if (item.fullType === "comic" && item.series?.length) {
+          for (let series of item.series) {
+            if (seriesArr.find((e) => e.title === series).type === "comic") {
+              let whichInSeries, currentContinuity;
+              if (positions[series] === undefined) {
+                let i = -1;
+                while (true) if (!Object.values(positions).includes(++i)) break;
+                positions[series] = i;
+                let color, hash, startHash, tempColor;
+                if (
+                  colorPrefs.some(
+                    (e) =>
+                      e.regex.test(series) &&
+                      !Object.values(colors).includes((tempColor = e.color))
+                  )
+                ) {
+                  color = tempColor;
+                } else {
+                  hash = item.wookieepediaId % colorValues.length;
+                  color = colorValues[hash];
+                  startHash = hash; // prevent inf loop
+                  while (Object.values(colors).includes(color)) {
+                    if (item.title === "Kanan 1")
+                      console.log(colorValues.length, hash, startHash);
+                    color =
+                      colorValues[
+                        hash === colorValues.length - 1 ? (hash = 0) : ++hash
+                      ];
+                    if (hash === startHash) {
+                      console.warn("collision loop " + item.title);
+                      break;
+                    }
+                  }
+                }
+                colors[series] = color;
+                whichInSeries = "first";
+              }
+              currentContinuity = {
+                color: colors[series],
+                position: positions[series],
+              };
+              if (lastsInSeries[series] === item.title) {
+                delete positions[series];
+                delete colors[series];
+                if (whichInSeries === "first") whichInSeries = "oneshot";
+                else whichInSeries = "last";
+              }
+              if (whichInSeries === undefined) whichInSeries = "middle";
+
+              currentContinuity.whichInSeries = whichInSeries;
+              ongoingContinuity[series] = currentContinuity;
+              item.ongoingContinuity = _.cloneDeep(ongoingContinuity);
+              if (lastsInSeries[series] === item.title)
+                delete ongoingContinuity[series];
+              if (whichInSeries === "first")
+                ongoingContinuity[series].whichInSeries = "middle";
+            }
+          }
+        }
+        // if (!item.ongoingContinuity) {
+        //   item.ongoingContinuity = _.cloneDeep(ongoingContinuity);
+        // }
+      }
+    }
+
     setData(tempData);
   }, [filters, filterText, sorting, boxFilters]);
 
@@ -361,8 +472,10 @@ export default function Timeline({
           }}
         >
           {rowVirtualizer.virtualItems.map((virtualRow) => {
-            if (data[virtualRow.index] === undefined) {
+            let item = data[virtualRow.index];
+            if (item === undefined) {
               console.log(
+                "item undefined!",
                 rowVirtualizer.virtualItems,
                 virtualRow,
                 virtualRow.index,
@@ -372,7 +485,7 @@ export default function Timeline({
             }
             return (
               <ItemMeasurer
-                key={data[virtualRow.index]._id}
+                key={item._id}
                 measure={virtualRow.measureRef}
                 tagName="div"
                 style={{
@@ -385,10 +498,10 @@ export default function Timeline({
                 className="tr-outer"
               >
                 <TimelineRow
-                  item={data[virtualRow.index]}
+                  item={item}
                   activeColumns={activeColumns}
                   setAnimating={setAnimating}
-                  expanded={expanded === data[virtualRow.index]._id}
+                  expanded={expanded === item._id}
                   setExpanded={setExpanded}
                   {...props}
                 />

@@ -52,6 +52,12 @@ $audio-drama-secondary: #f9f3ff;
 
 $comic-primary: #4CAF50;
 $comic-secondary: #003102;
+$comic-story-primary: #75AC74;
+$comic-story-secondary: #002802;
+$comic-strip-primary: #8AC68C;
+$comic-strip-secondary: #003102;
+$comic-manga-primary: #1f7722;
+$comic-manga-secondary: #f4fff5;
 
 $short-story-primary: #FFEB3B;
 $short-story-secondary: #403a01;
@@ -172,6 +178,30 @@ $grey1: rgb(100, 100, 100);
 .comic-reversed {
 	background-color: $comic-secondary;
 	color: $comic-primary;
+}
+.comic-story {
+	background-color: $comic-story-primary;
+	color: $comic-story-secondary;
+}
+.comic-story-reversed {
+	background-color: $comic-story-secondary;
+	color: $comic-story-primary;
+}
+.comic-strip {
+	background-color: $comic-strip-primary;
+	color: $comic-strip-secondary;
+}
+.comic-strip-reversed {
+	background-color: $comic-strip-secondary;
+	color: $comic-strip-primary;
+}
+.comic-manga {
+	background-color: $comic-manga-primary;
+	color: $comic-manga-secondary;
+}
+.comic-manga-reversed {
+	background-color: $comic-manga-secondary;
+	color: $comic-manga-primary;
 }
 
 .short-story {
@@ -313,4 +343,28 @@ $grey1: rgb(100, 100, 100);
 	// text-decoration: underline dotted red;
 	background-color: #ded9dc;
 	// box-shadow: 0 0 0 2px inset #eacac0;
+}
+
+.circle-buttons {
+	z-index: 5;
+	position: fixed;
+	bottom: 12px;
+	right: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.circle-button {
+	@extend %reset-button;
+	align-self: flex-end;
+	cursor: pointer;
+	border-radius: 40px;
+	box-shadow: 0 0 3px black;
+	width: 70px;
+	height: 70px;
+	font-weight: bold;
+	font-size: 2.0em;
+	.icon {
+		width: 36px;
+	}
 }
