@@ -5,6 +5,7 @@ import Filters from "./filters.js";
 import FullCoverPreview from "./fullCoverPreview.js";
 import Legend from "./legend";
 import Search from "./search";
+import Error from "./error";
 import Spinner from "./spinner.js";
 import Timeline from "./timeline.js";
 
@@ -230,11 +231,17 @@ export default function Home() {
   const [tvImages, setTvImages] = React.useState();
   const [suggestions, setSuggestions] = React.useState([]);
   const [boxFilters, setBoxFilters] = React.useState([]);
+  const [errorMsg, setErrorMsg] = React.useState("");
   const timelineContainerRef = React.useRef();
 
   React.useEffect(async () => {
     // TODO: show error on network error
     let res = await fetch(API + "media");
+    console.log(res);
+    if (!res.ok) {
+      setErrorMsg("Failed to fetch data from the server.");
+      console.error(res.status());
+    }
     setRawData(await res.json());
     res = await fetch(API + "series");
     // TODO: defer this possibly to first time user uses search
@@ -255,6 +262,7 @@ export default function Home() {
         <Legend />
         <Search />
       </div>
+      <Error>{errorMsg}</Error>
       <div className="timeline-container" ref={timelineContainerRef}>
         <Filters
           filterText={filterText}
