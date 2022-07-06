@@ -67,12 +67,13 @@ export default React.memo(function Filters({
 
   return (
     <div className="filter" ref={filtersRef}>
-      <div className="search">
+      <div className="search clear-input-container">
         <input
           type="text"
           value={filterText}
           onChange={(e) => filterTextChanged(e.target.value)}
           placeholder="Filter..."
+          className="input-default"
         />
         {filterText ? (
           <button
@@ -86,6 +87,7 @@ export default React.memo(function Filters({
       </div>
 
       <div className="search-suggestions">
+        {suggestions.length > 0 && <span className="suggestions-heading">Suggestions:</span>}
         {suggestions.map((el) => (
           <button
             key={el._id}

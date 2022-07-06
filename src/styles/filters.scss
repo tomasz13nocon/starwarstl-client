@@ -9,28 +9,6 @@
 	margin-right: 10px;
 	.search {
 		// margin: 16px 0;
-		position: relative;
-		input {
-			padding: 5px 30px 5px 6px;
-			border: 3px solid $grey3;
-			// width: 240px;
-			&:focus {
-				outline: none;
-				border-color: $focus;
-			}
-			+ button.clear-input {
-				@extend %reset-button;
-				position: absolute;
-				right: 7px;
-				top: 16px;
-				font-size: 36px;
-				cursor: pointer;
-				line-height: 0;
-				&:focus {
-					outline: none;
-				}
-			}
-		}
 
 		.cancel-text {
 			position: relative;
@@ -57,6 +35,9 @@
 	.search-suggestions {
 		// margin-top: 6px;
 		font-size: 0.9em;
+    .suggestions-heading {
+      font-size: 0.7em;
+    }
 		.suggestion {
 			// margin: 1px 0;
 			border: 1px solid black;

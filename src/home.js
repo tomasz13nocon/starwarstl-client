@@ -216,6 +216,7 @@ const reducer = (state, { path, to }) => {
 
 export default function Home() {
   const [filterText, setFilterText] = React.useState("");
+  const [searchText, searchTextChanged] = React.useState("");
   const [fullCover, setFullCover] = React.useState({ name: "", show: false });
 
   const [filters, dispatch] = React.useReducer(
@@ -260,7 +261,7 @@ export default function Home() {
       <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
       <div className="circle-buttons">
         <Legend />
-        <Search />
+        <Search searchText={searchText} searchTextChanged={searchTextChanged} />
       </div>
       <Error>{errorMsg}</Error>
       <div className="timeline-container" ref={timelineContainerRef}>
@@ -279,6 +280,7 @@ export default function Home() {
         {rawData.length && seriesArr.length ? (
           <Timeline
             filterText={filterText}
+            searchText={searchText}
             filters={filters}
             rawData={rawData}
             seriesArr={seriesArr}

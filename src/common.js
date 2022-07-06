@@ -39,3 +39,12 @@ export const unscuffDate = (date) => {
   }
   return date;
 };
+
+export const buildTvImagePath = (seriesTitle) => TV_IMAGE_PATH + seriesTitle.replaceAll(" ", "_") + ".webp";
+
+export const replaceInsensitive = function(str, strReplace, strWith) {
+    // See http://stackoverflow.com/a/3561711/556609
+    var esc = strReplace.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    var reg = new RegExp(esc, 'ig');
+    return str.replace(reg, strWith);
+};

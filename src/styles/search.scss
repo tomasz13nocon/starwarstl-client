@@ -1,7 +1,20 @@
-.search-button {
-	color: black;
-	background: white;
-	&.expanded {
-		width: 400px;
-	}
+@use "./shared.scss" as *;
+
+.search-container {
+  input.input-default {
+    max-width: 90vw;
+    width: 500px;
+    height: 70px;
+    border-radius: 35px;
+    padding-left: 22px;
+    padding-right: 52px;
+    font-size: 1.1em;
+  }
+  &.clear-input-container button.clear-input {
+    right: 17px;
+  }
+  .search-button {
+    color: black;
+    background: white;
+  }
 }

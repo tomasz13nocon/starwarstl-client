@@ -365,6 +365,39 @@ $grey1: rgb(100, 100, 100);
 	font-weight: bold;
 	font-size: 2.0em;
 	.icon {
-		width: 36px;
+		// width: 36px;
 	}
+}
+
+input.input-default {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px 30px 5px 6px;
+  border: 3px solid $grey3;
+  // width: 240px;
+  &:focus {
+    outline: none;
+    border-color: $focus;
+  }
+}
+.clear-input-container {
+  position: relative;
+  button.clear-input {
+    @extend %reset-button;
+    position: absolute;
+    right: 7px;
+    top: 16px;
+    font-size: 36px;
+    cursor: pointer;
+    line-height: 0;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.highlight {
+  color: red;
+  background-color: white;
+  font-weight: bold;
 }

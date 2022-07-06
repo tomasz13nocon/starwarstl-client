@@ -1,5 +1,6 @@
 import React from "react";
 import { useVirtual, useVirtualWindow } from "react-virtual";
+import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import ItemMeasurer from "./ItemMeasurer.js";
 import _ from "lodash";
 import Icon from "@mdi/react";
@@ -136,6 +137,7 @@ const removeAllFalses = (filters) => {
 
 export default function Timeline({
   filterText,
+  searchText,
   filters,
   rawData,
   seriesArr,
@@ -236,7 +238,6 @@ export default function Timeline({
             ? item.displayTitle.toLowerCase().includes(last)
             : item.title.toLowerCase().includes(last)
         );
-        console.log(found);
         if (found.length) {
           setSuggestions(
             found
@@ -317,6 +318,7 @@ export default function Timeline({
       if (av > bv) return sorting.ascending ? 1 : -1;
       return 0;
     });
+
 
     // Figure out last entry in each comic series to know when to close the continuity line.
     if (activeColumns.includes("continuity")) {
@@ -438,8 +440,21 @@ export default function Timeline({
     ),
   });
 
+  React.useEffect(() => {
+    if (searchText) {
+      let firstMatch = data.findIndex(e => {
+        return e.title.toLowerCase().includes(searchText.toLowerCase());
+      });
+      if (firstMatch !== -1) {
+        console.log("found match");
+        rowVirtualizer.scrollToIndex(Math.max(0, firstMatch - 1));
+      }
+    }
+  }, [searchText]);
+
   return (
     <div className="container table">
+      <button onClick={() => rowVirtualizer.scrollToIndex(150)}>SCROLL</button>
       <div className="thead">
         {activeColumns.map((name) => (
           <div
@@ -503,6 +518,8 @@ export default function Timeline({
                   setAnimating={setAnimating}
                   expanded={expanded === item._id}
                   setExpanded={setExpanded}
+                  seriesArr={seriesArr}
+                  searchText={searchText}
                   {...props}
                 />
               </ItemMeasurer>

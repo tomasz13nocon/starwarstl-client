@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "@mdi/react";
 import { mdiVolumeHigh } from "@mdi/js";
-import { imgAddress, Size, TV_IMAGE_PATH, unscuffDate } from "./common.js";
+import { imgAddress, Size, buildTvImagePath, unscuffDate, replaceInsensitive } from "./common.js";
 import { default as TimelineRowDetails } from "./timelineRowDetails";
 import { CSSTransition } from "react-transition-group";
 
@@ -11,10 +11,12 @@ export default React.memo(function TimelineRow({
   item,
   activeColumns,
   setFullCover,
+	seriesArr,
   tvImages,
   setAnimating,
   expanded,
   setExpanded,
+  searchText,
 }) {
   const [rowHeight, setRowHeight] = React.useState(0);
   let rowRef = React.useRef();
@@ -150,7 +152,7 @@ export default React.memo(function TimelineRow({
             inside = (
               // TODO accessibility
               <div name="expand">
-                {item[columnName]}
+                <span dangerouslySetInnerHTML={{ __html: replaceInsensitive(item.title, searchText, `<span class="highlight">$&</span>`) }}></span>
                 {item.type === "tv" && item.series?.length ? (
                   <>
                     <img
@@ -159,7 +161,7 @@ export default React.memo(function TimelineRow({
                       alt={item.series}
                       className="tv-image"
                       height="16px"
-                      src={TV_IMAGE_PATH + tvImages[item.series]}
+                      src={buildTvImagePath(item.series.find(e => seriesArr.find(s => s.title === e).type === "tv"))} // TODO: This is horrendous
                     />
                     {item.season || item.episode ? (
                       <span
@@ -219,7 +221,7 @@ export default React.memo(function TimelineRow({
           </div>
         );
       }),
-    [activeColumns, item, expanded, setExpanded, rowHeight]
+    [activeColumns, item, expanded, setExpanded, rowHeight, searchText]
   );
 
   const detailsRef = React.useRef();
