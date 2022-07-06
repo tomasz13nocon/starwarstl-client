@@ -143,6 +143,7 @@ export default function Timeline({
   seriesArr,
   setSuggestions,
   boxFilters,
+  searchExpanded,
   ...props
 }) {
   ///// STATE /////
@@ -411,19 +412,22 @@ export default function Timeline({
   const windowRef = React.useRef(window);
 
   const rowCache = React.useRef();
-  const rowVirtualizer = useVirtualWindow({
+  const rowVirtualizer = useWindowVirtualizer({
     overscan: 5,
-    size: data.length,
-    parentRef,
-    windowRef,
-    keyExtractor: React.useCallback((i) => data[i]._id, [data]),
+    enableSmoothScroll: false,
+    count: data.length,
+    estimateSize: (i) => 29, // 64, 29
+    // parentRef,
+    // windowRef,
+    getItemKey: React.useCallback((i) => data[i]._id, [data]),
+    getScrollElement: () => window,
     rangeExtractor: React.useCallback(
-      ({ start, end, overscan, size }) => {
+      ({ startIndex, endIndex, overscan, count }) => {
         // When row expansion animation is in progress, don't recalculate rows to render
         // Is this useless optimization?
-        if (animating !== 0) return rowCache.current;
-        const a = Math.max(start - overscan, 0);
-        const b = Math.min(end + overscan + 10, size - 1);
+        // if (animating !== 0) return rowCache.current;
+        const a = Math.max(startIndex - overscan, 0);
+        const b = Math.min(endIndex + overscan, count - 1);
         const arr = [];
         for (let i = a; i <= b; i++) {
           arr.push(i);
@@ -441,20 +445,26 @@ export default function Timeline({
   });
 
   React.useEffect(() => {
+    const searchFields = [ "title", "writer", "releaseDate", "date" ];
     if (searchText) {
       let firstMatch = data.findIndex(e => {
-        return e.title.toLowerCase().includes(searchText.toLowerCase());
+        return searchFields.some(field => {
+          if (typeof e[field] === "string")
+            return e[field].toLowerCase().includes(searchText.toLowerCase());
+          else if (Array.isArray(e[field]))
+            return e[field].some(f => f.toLowerCase().includes(searchText.toLowerCase()));
+          else
+            console.error("unknown field type");
+        });
       });
       if (firstMatch !== -1) {
-        console.log("found match");
-        rowVirtualizer.scrollToIndex(Math.max(0, firstMatch - 1));
+        rowVirtualizer.scrollToIndex(Math.max(0, firstMatch), { align: "start" });
       }
     }
   }, [searchText]);
 
   return (
     <div className="container table">
-      <button onClick={() => rowVirtualizer.scrollToIndex(150)}>SCROLL</button>
       <div className="thead">
         {activeColumns.map((name) => (
           <div
@@ -481,12 +491,12 @@ export default function Timeline({
       <div ref={parentRef} className="tbody">
         <div
           style={{
-            height: rowVirtualizer.totalSize,
+            height: `${rowVirtualizer.getTotalSize()}px`,
             // width: '100%',
             position: "relative",
           }}
         >
-          {rowVirtualizer.virtualItems.map((virtualRow) => {
+          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
             let item = data[virtualRow.index];
             if (item === undefined) {
               console.log(
@@ -499,15 +509,14 @@ export default function Timeline({
               return null;
             }
             return (
-              <ItemMeasurer
-                key={item._id}
-                measure={virtualRow.measureRef}
-                tagName="div"
+              <div
+                key={virtualRow.key}
+                ref={virtualRow.measureElement}
                 style={{
                   position: "absolute",
                   top: 0,
                   left: 0,
-                  // width: '100%',
+                  width: '100%',
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
                 className="tr-outer"
@@ -520,9 +529,11 @@ export default function Timeline({
                   setExpanded={setExpanded}
                   seriesArr={seriesArr}
                   searchText={searchText}
+                  searchExpanded={searchExpanded}
+                  measure={rowVirtualizer.measure}
                   {...props}
                 />
-              </ItemMeasurer>
+              </div>
             );
           })}
         </div>

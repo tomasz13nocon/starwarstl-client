@@ -3,8 +3,7 @@ import Icon from "@mdi/react";
 import { mdiMagnify, mdiClose } from "@mdi/js";
 import "./styles/search.scss";
 
-export default function Search({ searchText, searchTextChanged }) {
-  const [expanded, toggleExpanded] = React.useReducer((state, value) => value === undefined ? !state : value, false);
+export default function Search({ searchText, searchTextChanged, expanded, toggleExpanded }) {
   const searchInputRef = React.useRef();
 
   React.useEffect(() => {
@@ -12,6 +11,7 @@ export default function Search({ searchText, searchTextChanged }) {
       if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70) || (e.ctrlKey && e.keyCode === 71)) {
         e.preventDefault();         
         toggleExpanded(true);
+        searchInputRef.current?.focus();
       }      
     });
   }, []);

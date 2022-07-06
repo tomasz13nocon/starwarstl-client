@@ -1,58 +1,67 @@
 @use "./shared.scss" as *;
 
-button.legend-button {
-		// width: 70px;
-		// height: 70px;
-		// TODO: fix the order to reflect the color circle once the colors are settled
-		background: conic-gradient( 
-			#3F51B5,
-			#00C8E1,
-			#4CAF50,
-			#FFEB3B,
-			#E37322,
-			#d42b26,
-			#8042bf,
-			#3F51B5,
-		);
-		color: white;
-		text-shadow: 0 0 6px black;
+div.legend-button {
+  // width: 70px;
+  // height: 70px;
+  // TODO: fix the order to reflect the color circle once the colors are settled
+  background: conic-gradient( 
+    #3F51B5,
+    #00C8E1,
+    #4CAF50,
+    #FFEB3B,
+    #E37322,
+    #d42b26,
+    #8042bf,
+    #3F51B5,
+  );
+  color: white;
+  text-shadow: 0 0 6px black;
+  // text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-		// transition-property: width, height, border-radius, background;
-		// transition-duration: 1.2s;
-		overflow: hidden;
-		&.expanded {
-			// put it out of flow for animation to work
-			position: absolute;
-			right: 0;
-			bottom: 80px;
-			text-shadow: none;
-			background: #ccc;//$background;
-			background: #c4c6ca;
-			// background: #0005;
-			// border: 2px solid black;
-			padding: 4px;
-			border-radius: 14px;
-			font-weight: normal;
-			font-size: 16px;
-			display: flex;
-			flex-direction: column;
-			gap: 3px;
-			.table-cell {
-				color: black;
-				border: 1px solid #333;
-			}
-			.hr {
-				margin: 1px 0;
-			}
-			.type-indicator {
-				width: max-content;
-				// margin: 4px 4px 4px auto;
-				// margin: 3px;
-				margin-left: auto;
-				// border: 1px solid black;
-			}
-			.small {
-				font-size: 0.8em;
-			}
-		}
+  // transition-property: width, height, border-radius, background;
+  // transition-duration: 1.2s;
+  overflow: hidden;
+  &.expanded {
+    align-items: initial;
+    justify-content: initial;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 70px - 12px - 10px - 12px);
+    // put it out of flow for animation to work
+    position: absolute;
+    right: 0;
+    bottom: 80px;
+    text-shadow: none;
+    background: #ccc;//$background;
+    background: #c4c6ca;
+    // background: #0005;
+    // border: 2px solid black;
+    padding: 4px;
+    border-radius: 14px;
+    font-weight: normal;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    .table-cell {
+      color: black;
+      border: 1px solid #333;
+    }
+    .hr {
+      margin: 1px 0;
+    }
+    .type-indicator {
+      width: max-content;
+      // margin: 4px 4px 4px auto;
+      // margin: 3px;
+      margin-left: auto;
+      // border: 1px solid black;
+    }
+    .small {
+      font-size: 0.8em;
+    }
+  }
 }

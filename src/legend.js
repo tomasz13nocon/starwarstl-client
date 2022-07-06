@@ -18,7 +18,7 @@ export default function Legend(props) {
         ANIMATION_TIME +
         "ms ease-out";
       btnRef.current.style.height = expanded
-        ? btnRef.current.scrollHeight + 4 + "px" // The "4" is padding
+        ? Math.min(btnRef.current.scrollHeight/* + 4*/, window.innerHeight - 70 - 12 - 10 - 12) + "px" // The "4" is padding
         : "70px";
       btnRef.current.style.width = expanded
         ? btnRef.current.scrollWidth + 4 + "px"
@@ -27,7 +27,7 @@ export default function Legend(props) {
   }, [expanded]);
 
   return (
-    <button
+    <div
       ref={btnRef}
       onClick={toggleExpanded}
       className={`legend-button circle-button button ${
@@ -36,18 +36,6 @@ export default function Legend(props) {
     >
       {expanded ? (
         <>
-          <div className="unreleased table-cell type-indicator small">
-            Unreleased
-            <br />
-            <small>(release date column)</small>
-          </div>
-          <div className="exact-placement-unknown table-cell type-indicator small">
-            Exact placement currently
-            <br />
-            unknown <small>(date column)</small>
-          </div>
-          <div className="hr"></div>
-          <div className="hr"></div>
           {/* TODO: fix the order to reflect the color circle once the colors are settled */}
           <div className="type-indicator book-a">Novel</div>
           <div className="type-indicator book-ya small">Young Adult Novel</div>
@@ -82,6 +70,16 @@ export default function Legend(props) {
           <div className="hr"></div>
           <div className="type-indicator multimedia">Multimedia project</div>
           <div className="hr"></div>
+          <div className="unreleased table-cell type-indicator small">
+            Unreleased
+            <br />
+            <small>(release date column)</small>
+          </div>
+          <div className="exact-placement-unknown table-cell type-indicator small">
+            Exact placement currently
+            <br />
+            unknown <small>(date column)</small>
+          </div>
           {/* <div */}
           {/*   className="type-indicator unknown" */}
           {/*   style={{ border: "1px solid black" }} */}
@@ -92,6 +90,6 @@ export default function Legend(props) {
       ) : (
         "?"
       )}
-    </button>
+    </div>
   );
 }

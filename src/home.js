@@ -233,12 +233,12 @@ export default function Home() {
   const [suggestions, setSuggestions] = React.useState([]);
   const [boxFilters, setBoxFilters] = React.useState([]);
   const [errorMsg, setErrorMsg] = React.useState("");
+  const [searchExpanded, toggleSearchExpanded] = React.useReducer((state, value) => value === undefined ? !state : value, false);
   const timelineContainerRef = React.useRef();
 
   React.useEffect(async () => {
     // TODO: show error on network error
     let res = await fetch(API + "media");
-    console.log(res);
     if (!res.ok) {
       setErrorMsg("Failed to fetch data from the server.");
       console.error(res.status());
@@ -261,7 +261,7 @@ export default function Home() {
       <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
       <div className="circle-buttons">
         <Legend />
-        <Search searchText={searchText} searchTextChanged={searchTextChanged} />
+        <Search searchText={searchText} searchTextChanged={searchTextChanged} expanded={searchExpanded} toggleExpanded={toggleSearchExpanded} />
       </div>
       <Error>{errorMsg}</Error>
       <div className="timeline-container" ref={timelineContainerRef}>
@@ -288,6 +288,7 @@ export default function Home() {
             tvImages={tvImages}
             setSuggestions={setSuggestions}
             boxFilters={boxFilters}
+            searchExpanded={searchExpanded}
           />
         ) : (
           <Spinner />
