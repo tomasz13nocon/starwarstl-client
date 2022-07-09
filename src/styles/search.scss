@@ -1,17 +1,27 @@
 @use "./shared.scss" as *;
 
 .search-container {
+  position: relative;
+  .button-container {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    button {
+      @extend %reset-button;
+      cursor: pointer;
+    }
+  }
   input.input-default {
     max-width: 90vw;
     width: 500px;
     height: 70px;
     border-radius: 35px;
     padding-left: 22px;
-    padding-right: 52px;
+    padding-right: 152px;
     font-size: 1.1em;
   }
   &.clear-input-container button.clear-input {
-    right: 17px;
+    // right: 17px;
   }
   .search-button {
     color: black;

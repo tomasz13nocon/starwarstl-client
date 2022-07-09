@@ -216,9 +216,7 @@ const reducer = (state, { path, to }) => {
 
 export default function Home() {
   const [filterText, setFilterText] = React.useState("");
-  const [searchText, searchTextChanged] = React.useState("");
   const [fullCover, setFullCover] = React.useState({ name: "", show: false });
-
   const [filters, dispatch] = React.useReducer(
     reducer,
     filtersTemplate,
@@ -226,7 +224,6 @@ export default function Home() {
       return createState(filtersTemplate);
     }
   );
-
   const [rawData, setRawData] = React.useState([]);
   const [seriesArr, setSeriesArr] = React.useState([]);
   const [tvImages, setTvImages] = React.useState();
@@ -234,6 +231,40 @@ export default function Home() {
   const [boxFilters, setBoxFilters] = React.useState([]);
   const [errorMsg, setErrorMsg] = React.useState("");
   const [searchExpanded, toggleSearchExpanded] = React.useReducer((state, value) => value === undefined ? !state : value, false);
+  const [searchResults, dispatchSearchResults] = React.useState((state, action) => {
+    switch (action.type) {
+      case "highlightPrev":
+        return {
+          highlight: state.highlight > 0 ?  state.highlight - 1 : state.results.length - 1,
+          results: state.results,
+        };
+        break;
+      case "highlightNext":
+        return {
+          highlight: state.highlight < state.results.length -1 ?  state.highlight + 1 : 0,
+          results: state.results,
+        };
+        break;
+      case "setSearchText":
+        return {
+          text: action.payload.text,
+          highlight: state.highlight,
+          results: [],
+          };
+        break;
+      case "search":
+        let newState = {
+          text: action.payload.text ?? state.text,
+          highlight: 0, // TODO change to -1 if no results
+          results: [],
+        };
+        for () {
+          let indices = [...item.title.matchAll(new RegExp(escapeRegex(action.payload.text), 'gi'))].map(a => a.index);
+        }
+
+        break;
+    }
+  }, { text: "", highlight: -1, results: [] });
   const timelineContainerRef = React.useRef();
 
   React.useEffect(async () => {
@@ -261,7 +292,7 @@ export default function Home() {
       <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
       <div className="circle-buttons">
         <Legend />
-        <Search searchText={searchText} searchTextChanged={searchTextChanged} expanded={searchExpanded} toggleExpanded={toggleSearchExpanded} />
+        <Search expanded={searchExpanded} toggleExpanded={toggleSearchExpanded} searchResults={searchResults} dispatchSearchResults={dispatchSearchResults} />
       </div>
       <Error>{errorMsg}</Error>
       <div className="timeline-container" ref={timelineContainerRef}>
@@ -280,7 +311,6 @@ export default function Home() {
         {rawData.length && seriesArr.length ? (
           <Timeline
             filterText={filterText}
-            searchText={searchText}
             filters={filters}
             rawData={rawData}
             seriesArr={seriesArr}
@@ -289,6 +319,8 @@ export default function Home() {
             setSuggestions={setSuggestions}
             boxFilters={boxFilters}
             searchExpanded={searchExpanded}
+            searchResults={searchResults}
+            dispatchSearchResults={dispatchSearchResults}
           />
         ) : (
           <Spinner />

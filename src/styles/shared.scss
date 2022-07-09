@@ -398,6 +398,9 @@ input.input-default {
 
 .highlight {
   color: red;
-  background-color: white;
+  background-color: yellow;
   font-weight: bold;
+}
+.highlight-current {
+  background-color: purple;
 }

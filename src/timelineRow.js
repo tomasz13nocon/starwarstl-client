@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "@mdi/react";
 import { mdiVolumeHigh } from "@mdi/js";
-import { imgAddress, Size, buildTvImagePath, unscuffDate, replaceInsensitive } from "./common.js";
+import { imgAddress, Size, buildTvImagePath, unscuffDate, replaceInsensitive, escapeRegex } from "./common.js";
 import { default as TimelineRowDetails } from "./timelineRowDetails";
 import { CSSTransition } from "react-transition-group";
 
@@ -19,6 +19,8 @@ export default React.memo(function TimelineRow({
   searchText,
   searchExpanded,
   measure,
+  searchResults,
+  dispatchSearchResults,
 }) {
     const [rowHeight, setRowHeight] = React.useState(0);
     let rowRef = React.useRef();
@@ -33,6 +35,7 @@ export default React.memo(function TimelineRow({
           classNames = "",
           onClick,
           title;
+          // Search for highlighting
           if (searchExpanded && searchText) {
             if (typeof item[columnName] === "string") {
               inside = (
@@ -169,11 +172,18 @@ export default React.memo(function TimelineRow({
               }
               break;
             case "title":
+              let indices = [...item.title.matchAll(new RegExp(escapeRegex(searchText), 'gi'))].map(a => a.index);
+              let last = 0;
               inside = (
                 // TODO accessibility
                 <div name="expand">
-                  {searchExpanded ? 
-                    <span dangerouslySetInnerHTML={{ __html: replaceInsensitive(item.title, searchText, `<span class="highlight">$&</span>`) }}></span>
+                  {searchExpanded && searchText.length ? 
+                    [...indices.map((i) => {
+                      return (<React.Fragment key={i}>
+                        {item.title.substring(last, i)}
+                        <span className="highlight">{item.title.substring(i, last = i + searchText.length)}</span>
+                      </React.Fragment>);
+                    }), item.title.substring(last, item.title.length)]
                     :
                     <span>{item.title}</span>
                 }

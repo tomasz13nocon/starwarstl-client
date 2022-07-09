@@ -144,6 +144,8 @@ export default function Timeline({
   setSuggestions,
   boxFilters,
   searchExpanded,
+  searchResults,
+  dispatchSearchResults,
   ...props
 }) {
   ///// STATE /////
@@ -404,7 +406,7 @@ export default function Timeline({
     }
 
     setData(tempData);
-  }, [filters, filterText, sorting, boxFilters]);
+  }, [filters, filterText, sorting, boxFilters]); // NOW: think about state updates and what needs to happen when search happens/changes
 
   const [animating, setAnimating] = React.useState(0); // integer, to account for simultaneous amnimations
 
@@ -445,6 +447,7 @@ export default function Timeline({
   });
 
   React.useEffect(() => {
+    // Search for scrolling
     const searchFields = [ "title", "writer", "releaseDate", "date" ];
     if (searchText) {
       let firstMatch = data.findIndex(e => {
@@ -453,7 +456,7 @@ export default function Timeline({
             return e[field].toLowerCase().includes(searchText.toLowerCase());
           else if (Array.isArray(e[field]))
             return e[field].some(f => f.toLowerCase().includes(searchText.toLowerCase()));
-          else
+          else if (e[field] !== undefined)
             console.error("unknown field type");
         });
       });
@@ -531,6 +534,8 @@ export default function Timeline({
                   searchText={searchText}
                   searchExpanded={searchExpanded}
                   measure={rowVirtualizer.measure}
+                  searchResults={searchResults}
+                  dispatchSearchResults={dispatchSearchResults}
                   {...props}
                 />
               </div>
