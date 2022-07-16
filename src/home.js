@@ -237,23 +237,71 @@ export default function Home() {
   const [searchResults, dispatchSearchResults] = React.useReducer(
     (state, action) => {
       switch (action.type) {
-        case "highlightPrev": // TODO both of these
-          return {
-            highlight:
-              state.highlight > 0
-                ? state.highlight - 1
-                : state.results.length - 1,
-            results: state.results,
-          };
+        case "highlightPrev":
+          // if no results or one result don't do anything
+          if (
+            !state.highlight ||
+            (state.results.length === 1 &&
+              state.results[0].indices.length === 1)
+          ) {
+            return state;
+          } else {
+            let newHighlight = {
+              indicesIndex: state.highlight.indicesIndex,
+              resultsIndex: state.highlight.resultsIndex,
+            };
+            if (state.highlight.indicesIndex > 0) {
+              newHighlight.indicesIndex--;
+            } else if (state.highlight.resultsIndex > 0) {
+              newHighlight.resultsIndex--;
+              newHighlight.indicesIndex =
+                state.results[newHighlight.resultsIndex].indices.length - 1;
+            } else {
+              newHighlight.resultsIndex = state.results.length - 1;
+              newHighlight.indicesIndex =
+                state.results[newHighlight.resultsIndex].indices.length - 1;
+            }
+            return {
+              text: state.text,
+              highlight: newHighlight,
+              results: state.results,
+            };
+          }
           break;
         case "highlightNext":
-          return {
-            highlight:
-              state.highlight < state.results.length - 1
-                ? state.highlight + 1
-                : 0,
-            results: state.results,
-          };
+          // if no results or one result don't do anything
+          if (
+            !state.highlight ||
+            (state.results.length === 1 &&
+              state.results[0].indices.length === 1)
+          ) {
+            return state;
+          } else {
+            let newHighlight = {
+              indicesIndex: state.highlight.indicesIndex,
+              resultsIndex: state.highlight.resultsIndex,
+            };
+            if (
+              state.highlight.indicesIndex <
+              state.results[state.highlight.resultsIndex].indices.length - 1
+            ) {
+              newHighlight.indicesIndex++;
+            } else if (
+              state.highlight.resultsIndex <
+              state.results.length - 1
+            ) {
+              newHighlight.resultsIndex++;
+              newHighlight.indicesIndex = 0;
+            } else {
+              newHighlight.resultsIndex = 0;
+              newHighlight.indicesIndex = 0;
+            }
+            return {
+              text: state.text,
+              highlight: newHighlight,
+              results: state.results,
+            };
+          }
           break;
         case "setText":
           return {
@@ -269,15 +317,22 @@ export default function Home() {
             highlight = null;
           else {
             // TODO highlight the same thing if it was in previous results, also highlight from "current position" instead of from the start
+            // highlight = {
+            //   globalIndex: 0,
+            //   id: action.payload[0].id,
+            //   field: action.payload[0].field,
+            //   arrayIndex: action.payload[0].arrayIndex ?? -1,
+            //   index: action.payload[0].indices[0],
+            // };
+            // if (highlight.index === undefined)
+            //   throw "search index undefined, this should never happen";
+
+            // highlight = 0;
+
             highlight = {
-              globalIndex: 0,
-              id: action.payload[0].id,
-              field: action.payload[0].field,
-              arrayIndex: action.payload[0].arrayIndex ?? -1,
-              index: action.payload[0].indices[0],
+              resultsIndex: 0,
+              indicesIndex: 0,
             };
-            if (highlight.index === undefined)
-              throw "search index undefined, this should never happen";
           }
           return {
             text: state.text,

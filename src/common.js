@@ -14,6 +14,7 @@ export const Size = Object.freeze({
   SMALL: "small/",
   FULL: "",
 });
+export const searchFields = ["title", "writer", "releaseDate", "date"];
 
 export const imgAddress = (filename, size = Size.SMALL) => {
   // TODO add a "no cover" image

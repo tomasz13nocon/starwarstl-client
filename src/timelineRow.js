@@ -8,6 +8,7 @@ import {
   unscuffDate,
   replaceInsensitive,
   escapeRegex,
+  searchFields,
 } from "./common.js";
 import { default as TimelineRowDetails } from "./timelineRowDetails";
 import { CSSTransition } from "react-transition-group";
@@ -26,6 +27,8 @@ export default React.memo(function TimelineRow({
   searchExpanded,
   measure,
   searchResults,
+  searchText,
+  searchResultsHighlight,
   dispatchSearchResults,
 }) {
   const [rowHeight, setRowHeight] = React.useState(0);
@@ -47,20 +50,25 @@ export default React.memo(function TimelineRow({
           text,
           indices,
           searchTextLength,
-          highlightCurrent = false
+          highlightIndicesIndex // undefined or index within indices array to highlight
         ) => {
-          if (!indices) // No results for this field
+          if (!indices)
+            // No results for this field
             return text;
           let last = 0;
+          // if (item.title === "The High Republic: Convergence")
+            // console.log(highlightIndicesIndex);
           return [
-            ...indices.map((i) => {
+            ...indices.map((index, i) => {
               return (
-                <React.Fragment key={i}>
-                  {text.substring(last, i)}
+                <React.Fragment key={index}>
+                  {text.substring(last, index)}
                   <span
-                    className={`highlight${highlightCurrent ? "-current" : ""}`}
+                    className={`highlight${
+                      highlightIndicesIndex === i ? "-current" : ""
+                    }`}
                   >
-                    {text.substring(i, (last = i + searchTextLength))}
+                    {text.substring(index, (last = index + searchTextLength))}
                   </span>
                 </React.Fragment>
               );
@@ -69,32 +77,37 @@ export default React.memo(function TimelineRow({
           ];
         };
 
-        if (searchExpanded && searchResults.results.length) {
+        if (
+          searchExpanded &&
+          searchResults.length &&
+          searchFields.includes(columnName)
+        ) {
           if (typeof item[columnName] === "string") {
             // since this field is a string, there is only one result object for it in the results array, therefore we use find, not filter, to find the indices
+            let columnResult = searchResults.find(
+              (e) => e.field === columnName
+            );
             inside = highlightText(
               item[columnName],
-              searchResults.results.find(
-                (e) => e.id === item._id && e.field === columnName
-              )?.indices,
-              searchResults.text.length
+              columnResult?.indices,
+              searchText.length,
+              columnResult?.highlight
             );
           } else if (
             Array.isArray(item[columnName]) &&
             item[columnName].every((e) => typeof e === "string")
           ) {
-            inside = item[columnName].map((str, i) =>
-              highlightText(
+            inside = item[columnName].map((str, i) => {
+              let columnItemResult = searchResults.find(
+                (e) => e.field === columnName && e.arrayIndex === i
+              );
+              return highlightText(
                 str,
-                searchResults.results.find(
-                  (e) =>
-                    e.id === item._id &&
-                    e.field === columnName &&
-                    e.arrayIndex === i
-                )?.indices,
-                searchResults.text.length
-              )
-            );
+                columnItemResult?.indices,
+                searchText.length,
+                columnItemResult?.highlight?.indicesIndex
+              );
+            });
           } else if (item[columnName] !== undefined) {
             console.error(
               "Unknown field type (not string or array of strings)"
@@ -220,7 +233,6 @@ export default React.memo(function TimelineRow({
             }
             break;
           case "title":
-            // NOW adjust code below and elsewhere to the new search state format
             let last = 0;
             inside = (
               // TODO accessibility
@@ -305,8 +317,9 @@ export default React.memo(function TimelineRow({
       expanded,
       setExpanded,
       rowHeight,
-      searchResults.results, // TODO this should ideally be results array instead
+      searchResults,
       searchExpanded,
+      searchResultsHighlight,
     ]
   );
 

@@ -17,7 +17,7 @@ import {
 
 import TimelineRow from "./timelineRow.js";
 import "./styles/timeline.scss";
-import { unscuffDate, escapeRegex } from "./common.js";
+import { unscuffDate, escapeRegex, searchFields } from "./common.js";
 import md5 from "md5";
 
 const sortingIcons = new Proxy(
@@ -435,50 +435,62 @@ export default function Timeline({
       [...str.matchAll(new RegExp(escapeRegex(searchText), "gi"))].map(
         (a) => a.index
       ); // NOW we need to check for empty result
-    const searchFields = ["title", "writer", "releaseDate", "date"];
     if (searchExpanded) {
-      let results = [];
-      for (let [rowIndex, item] of data.entries()) {
-        for (let field of searchFields) {
-          if (typeof item[field] === "string") {
-            let indices = findAllIndices(item[field], searchResults.text);
-            if (indices.length) {
-              results.push({
-                rowIndex: rowIndex,
-                id: item._id,
-                field: field,
-                indices: indices,
-              });
-            }
-          } else if (Array.isArray(item[field])) {
-            for (let [arrayIndex, arrayItem] of item[field].entries()) {
-              if (typeof arrayItem !== "string")
-                console.error(
-                  "Unknown field type while searching (array of non strings)"
-                );
-              let indices = findAllIndices(arrayItem, searchResults.text);
+      if (searchResults.text === "") {
+        dispatchSearchResults({ type: "setResults", payload: [] });
+      } else {
+        let results = [];
+        for (let [rowIndex, item] of data.entries()) {
+          for (let field of searchFields) {
+            if (typeof item[field] === "string") {
+              let indices = findAllIndices(item[field], searchResults.text);
               if (indices.length) {
-                results.push({ // TODO should this be a dict with IDs as keys?
+                results.push({
                   rowIndex: rowIndex,
                   id: item._id,
                   field: field,
-                  arrayIndex: arrayIndex,
                   indices: indices,
                 });
               }
+            } else if (Array.isArray(item[field])) {
+              for (let [arrayIndex, arrayItem] of item[field].entries()) {
+                if (typeof arrayItem !== "string")
+                  console.error(
+                    "Unknown field type while searching (array of non strings)"
+                  );
+                let indices = findAllIndices(arrayItem, searchResults.text);
+                if (indices.length) {
+                  results.push({
+                    // TODO should this be a dict with IDs as keys?
+                    rowIndex: rowIndex,
+                    id: item._id,
+                    field: field,
+                    arrayIndex: arrayIndex,
+                    indices: indices,
+                  });
+                }
+              }
+            } else if (item[field] !== undefined) {
+              console.error(
+                "Unknown field type while searching. Expected string or array of strings. Got: " +
+                  typeof item[field]
+              );
             }
-          } else if (item[field] !== undefined) {
-            console.error(
-              "Unknown field type while searching. Expected string or array of strings. Got: " +
-                typeof item[field]
-            );
           }
         }
-      }
 
-      dispatchSearchResults({ type: "setResults", payload: results });
+        dispatchSearchResults({ type: "setResults", payload: results });
+      }
     }
   }, [searchResults.text, data]); // TODO Does `data` need to be here??
+
+  React.useEffect(() => {
+    if (searchResults.highlight)
+      rowVirtualizer.scrollToIndex(
+        searchResults.results[searchResults.highlight.resultsIndex].rowIndex,
+        { align: "start" }
+      );
+  }, [searchResults.highlight]);
 
   const [animating, setAnimating] = React.useState(0); // integer, to account for simultaneous amnimations
 
@@ -517,6 +529,8 @@ export default function Timeline({
       [rowCache, animating]
     ),
   });
+
+  let lastSearchResult = 0;
 
   return (
     <div className="container table">
@@ -563,6 +577,16 @@ export default function Timeline({
               );
               return null;
             }
+            // i is the count of search results within this row
+            let i = 0,
+              searchResultRowIndex;
+            while (
+              (searchResultRowIndex =
+                searchResults.results[lastSearchResult + i]?.rowIndex) ===
+              virtualRow.index
+            ) {
+              i++;
+            }
             return (
               <div
                 key={virtualRow.key}
@@ -585,7 +609,18 @@ export default function Timeline({
                   seriesArr={seriesArr}
                   searchExpanded={searchExpanded}
                   measure={rowVirtualizer.measure}
-                  searchResults={searchResults}
+                  searchResults={searchResults.results.slice(
+                    lastSearchResult,
+                    (lastSearchResult += i)
+                  ).map((result, j) => {
+                    if (searchResults.highlight.resultsIndex === lastSearchResult - i + j) {
+                      result.highlight = searchResults.highlight.indicesIndex;
+                      console.log(searchResults.highlight);
+                    }
+                    return result;
+                  })}
+                  searchText={searchResults.text}
+                  searchResultsHighlight={searchResults.highlight}
                   dispatchSearchResults={dispatchSearchResults}
                   {...props}
                 />
