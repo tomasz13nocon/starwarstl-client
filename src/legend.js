@@ -18,7 +18,10 @@ export default function Legend(props) {
         ANIMATION_TIME +
         "ms ease-out";
       btnRef.current.style.height = expanded
-        ? Math.min(btnRef.current.scrollHeight/* + 4*/, window.innerHeight - 70 - 12 - 10 - 12) + "px" // The "4" is padding
+        ? Math.min(
+            btnRef.current.scrollHeight /* + 4*/,
+            window.innerHeight - 70 - 12 - 10 - 12
+          ) + "px" // The "4" is padding
         : "70px";
       btnRef.current.style.width = expanded
         ? btnRef.current.scrollWidth + 4 + "px"

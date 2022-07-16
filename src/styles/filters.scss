@@ -1,117 +1,117 @@
 @use "./shared.scss" as *;
 
 .filter {
-	position: sticky;
-	height: 1000px;
-	top: 10px;
-	align-self: flex-start;
-	width: 285px;
-	margin-right: 10px;
-	.search {
-		// margin: 16px 0;
+  position: sticky;
+  height: 1000px;
+  top: 10px;
+  align-self: flex-start;
+  width: 285px;
+  margin-right: 10px;
+  .search {
+    // margin: 16px 0;
 
-		.cancel-text {
-			position: relative;
-			&::before,
-			&::after {
-				content: "";
-				background-color: #222;
-				position: absolute;
-				width: 3px;
-				height: 20px;
-				top: 6px;
-				right: 17px;
-				border-radius: 99px;
-			}
-			&::before {
-				transform: rotate(45deg);
-			}
-			&::after {
-				transform: rotate(-45deg);
-			}
-		}
-	}
+    .cancel-text {
+      position: relative;
+      &::before,
+      &::after {
+        content: "";
+        background-color: #222;
+        position: absolute;
+        width: 3px;
+        height: 20px;
+        top: 6px;
+        right: 17px;
+        border-radius: 99px;
+      }
+      &::before {
+        transform: rotate(45deg);
+      }
+      &::after {
+        transform: rotate(-45deg);
+      }
+    }
+  }
 
-	.search-suggestions {
-		// margin-top: 6px;
-		font-size: 0.9em;
+  .search-suggestions {
+    // margin-top: 6px;
+    font-size: 0.9em;
     .suggestions-heading {
       font-size: 0.7em;
     }
-		.suggestion {
-			// margin: 1px 0;
-			border: 1px solid black;
-			margin-top: -1px;
-			&:first-child {
-				margin-top: 0;
-			}
-			&:hover {
-				// box-shadow: 0 0 0 2px inset $focus;
-				box-shadow: 0 0 2px black;
-			}
-			cursor: pointer;
-			width: 100%;
-			// &:active {
-				// border-style: inset;
-			// }
-			// border-radius: 3px;
-			padding: 0 2px;
-		}
-	}
+    .suggestion {
+      // margin: 1px 0;
+      border: 1px solid black;
+      margin-top: -1px;
+      &:first-child {
+        margin-top: 0;
+      }
+      &:hover {
+        // box-shadow: 0 0 0 2px inset $focus;
+        box-shadow: 0 0 2px black;
+      }
+      cursor: pointer;
+      width: 100%;
+      // &:active {
+      // border-style: inset;
+      // }
+      // border-radius: 3px;
+      padding: 0 2px;
+    }
+  }
 
-	.box-filters {
-		font-size: 16px;
-		margin: 10px 0;
-		.type-indicator {
-			width: fit-content;
-			padding-right: 0;
-			padding-left: 6px;
-			margin: 4px 0;
-			display: flex;
-			border-radius: 32px;
-			border-top-left-radius: 0;
-			border-bottom-left-radius: 0;
-			.text {
-				margin-top: 2px;
-				.wookiee-link {
-					// vertical-align: middle;
-					// margin-top: 4px;
-					position: relative;
-					top: 1px;
-				}
-			}
-			.remove {
-				// background: #333;
-				// color: white;
-				border-top-right-radius: 9999px;
-				border-bottom-right-radius: 9999px;
-				padding-right: 2px;
-				margin-left: 4px;
-				border: 2px solid;
-				border-left: none;
-				&.multimedia-reversed {
-					border: none;
-					padding-right: 4px;
-				}
-				.icon {
-					vertical-align: text-bottom;
-					width: 22px;
-					// font-size: 24px;
-				}
-			}
-		}
-	}
+  .box-filters {
+    font-size: 16px;
+    margin: 10px 0;
+    .type-indicator {
+      width: fit-content;
+      padding-right: 0;
+      padding-left: 6px;
+      margin: 4px 0;
+      display: flex;
+      border-radius: 32px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      .text {
+        margin-top: 2px;
+        .wookiee-link {
+          // vertical-align: middle;
+          // margin-top: 4px;
+          position: relative;
+          top: 1px;
+        }
+      }
+      .remove {
+        // background: #333;
+        // color: white;
+        border-top-right-radius: 9999px;
+        border-bottom-right-radius: 9999px;
+        padding-right: 2px;
+        margin-left: 4px;
+        border: 2px solid;
+        border-left: none;
+        &.multimedia-reversed {
+          border: none;
+          padding-right: 4px;
+        }
+        .icon {
+          vertical-align: text-bottom;
+          width: 22px;
+          // font-size: 24px;
+        }
+      }
+    }
+  }
 
-	.checkbox-filters {
-		overflow-y: auto;
-		// margin: 16px 0;
-		margin-top: 16px;
-		line-height: 1.25;
-		.check-buttons {
-			margin-bottom: 6px;
-			button:hover {
-				box-shadow: 0 0 2px black;
-			}
-		}
-	}
+  .checkbox-filters {
+    overflow-y: auto;
+    // margin: 16px 0;
+    margin-top: 16px;
+    line-height: 1.25;
+    .check-buttons {
+      margin-bottom: 6px;
+      button:hover {
+        box-shadow: 0 0 2px black;
+      }
+    }
+  }
 }

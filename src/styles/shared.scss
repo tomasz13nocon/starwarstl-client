@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap");
 
 $sans: Nunito, sans-serif;
 $weight-regular: 400;
@@ -8,58 +8,57 @@ $weight-bold: 700;
 
 $game-primary: #d42b26;
 $game-secondary: #fff7f6;
-$game-vr-primary: #C81F4D;
+$game-vr-primary: #c81f4d;
 $game-vr-secondary: #fff7f6;
-$game-mobile-primary: #D85956;
+$game-mobile-primary: #d85956;
 $game-mobile-secondary: #fff7f6;
 
-$tv-primary: #E37322;
-$tv-secondary: #2F1300;
-$tv-tertiary: #5B2600;
-$tv-animated-primary: #F1904D;
-$tv-animated-secondary: #3C1900;
+$tv-primary: #e37322;
+$tv-secondary: #2f1300;
+$tv-tertiary: #5b2600;
+$tv-animated-primary: #f1904d;
+$tv-animated-secondary: #3c1900;
 // $tv-micro-series-primary: #D67B4A;
-$tv-micro-series-primary: #D2865E;
+$tv-micro-series-primary: #d2865e;
 
-$tv-micro-series-secondary: #1E0A00;
-
+$tv-micro-series-secondary: #1e0a00;
 
 // $yr-primary: #9C27B0;
 // $yr-secondary: #FADEFF;
 // $yr-primary: #FF58C5;
 // $yr-secondary: #41004D;
-$yr-primary: #00C8E1;
+$yr-primary: #00c8e1;
 $yr-secondary: #003840;
 // $yr-primary: #d2d2d2;
 // $yr-secondary: #202020;
 
-$reference-book-primary: #00BCD4;
+$reference-book-primary: #00bcd4;
 $reference-book-secondary: #fff;
 
 $film-primary: #212121;
 $film-secondary: #fff;
 
-$book-primary: #3F51B5;
+$book-primary: #3f51b5;
 $book-secondary: #deefff;
-$book-a-primary: #3F51B5;
+$book-a-primary: #3f51b5;
 $book-a-secondary: #deefff;
-$book-ya-primary: #616EB9;
+$book-ya-primary: #616eb9;
 $book-ya-secondary: white;
-$book-jr-primary: #7899D9;
+$book-jr-primary: #7899d9;
 $book-jr-secondary: #031435;
 $audio-drama-primary: #8042bf;
 $audio-drama-secondary: #f9f3ff;
 
-$comic-primary: #4CAF50;
+$comic-primary: #4caf50;
 $comic-secondary: #003102;
-$comic-story-primary: #75AC74;
+$comic-story-primary: #75ac74;
 $comic-story-secondary: #002802;
-$comic-strip-primary: #8AC68C;
+$comic-strip-primary: #8ac68c;
 $comic-strip-secondary: #003102;
 $comic-manga-primary: #1f7722;
 $comic-manga-secondary: #f4fff5;
 
-$short-story-primary: #FFEB3B;
+$short-story-primary: #ffeb3b;
 $short-story-secondary: #403a01;
 
 $unknown-primary: #bbb;
@@ -85,288 +84,290 @@ $grey2: rgb(155, 155, 155);
 $grey1: rgb(100, 100, 100);
 
 %reset-button {
-	border: none;
-	margin: 0;
-	padding: 0;
-	width: auto;
-	overflow: visible;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
 
-	background: transparent;
+  background: transparent;
 
-	/* inherit font & color from ancestor */
-	color: inherit;
-	font: inherit;
+  /* inherit font & color from ancestor */
+  color: inherit;
+  font: inherit;
 
-	/* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
-	line-height: normal;
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
 
-	/* Corrects font smoothing for webkit */
-	-webkit-font-smoothing: inherit;
-	-moz-osx-font-smoothing: inherit;
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
 
-	/* Corrects inability to style clickable `input` types in iOS */
-	-webkit-appearance: none;
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
 }
 
 %cell-fit-content {
-	// TODO: this acts weird with lots of content in columns. test it
-	width: 1px;
-	white-space: nowrap;
-	overflow: hidden;
+  // TODO: this acts weird with lots of content in columns. test it
+  width: 1px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 // to cheat specificity
 .reset-button {
-	@extend %reset-button;
+  @extend %reset-button;
 }
 
 .curp {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .icon {
-	width: 24px;
-	vertical-align: sub;
+  width: 24px;
+  vertical-align: sub;
 }
 
 .book {
-	background: $book-a-primary;
-	color: $book-secondary;
+  background: $book-a-primary;
+  color: $book-secondary;
 }
 .book-a {
-	background: $book-a-primary;
-	color: $book-a-secondary;
+  background: $book-a-primary;
+  color: $book-a-secondary;
 }
 .book-ya {
-	background: $book-ya-primary;
-	color: $book-ya-secondary;
+  background: $book-ya-primary;
+  color: $book-ya-secondary;
 }
 .book-jr {
-	background: $book-jr-primary;
-	color: $book-jr-secondary;
+  background: $book-jr-primary;
+  color: $book-jr-secondary;
 }
 .book-reversed {
-	background: $book-secondary;
-	color: $book-a-primary;
+  background: $book-secondary;
+  color: $book-a-primary;
 }
 .book-a-reversed {
-	background: $book-a-secondary;
-	color: $book-a-primary;
+  background: $book-a-secondary;
+  color: $book-a-primary;
 }
 .book-ya-reversed {
-	background: $book-ya-secondary;
-	color: $book-ya-primary;
+  background: $book-ya-secondary;
+  color: $book-ya-primary;
 }
 .book-jr-reversed {
-	background: $book-jr-secondary;
-	color: $book-jr-primary;
+  background: $book-jr-secondary;
+  color: $book-jr-primary;
 }
 
 .audio-drama {
-	background: $audio-drama-primary;
-	color: $audio-drama-secondary;
+  background: $audio-drama-primary;
+  color: $audio-drama-secondary;
 }
 .audio-drama-reversed {
-	background: $audio-drama-secondary;
-	color: $audio-drama-primary;
+  background: $audio-drama-secondary;
+  color: $audio-drama-primary;
 }
 
 .comic {
-	background-color: $comic-primary;
-	color: $comic-secondary;
+  background-color: $comic-primary;
+  color: $comic-secondary;
 }
 .comic-reversed {
-	background-color: $comic-secondary;
-	color: $comic-primary;
+  background-color: $comic-secondary;
+  color: $comic-primary;
 }
 .comic-story {
-	background-color: $comic-story-primary;
-	color: $comic-story-secondary;
+  background-color: $comic-story-primary;
+  color: $comic-story-secondary;
 }
 .comic-story-reversed {
-	background-color: $comic-story-secondary;
-	color: $comic-story-primary;
+  background-color: $comic-story-secondary;
+  color: $comic-story-primary;
 }
 .comic-strip {
-	background-color: $comic-strip-primary;
-	color: $comic-strip-secondary;
+  background-color: $comic-strip-primary;
+  color: $comic-strip-secondary;
 }
 .comic-strip-reversed {
-	background-color: $comic-strip-secondary;
-	color: $comic-strip-primary;
+  background-color: $comic-strip-secondary;
+  color: $comic-strip-primary;
 }
 .comic-manga {
-	background-color: $comic-manga-primary;
-	color: $comic-manga-secondary;
+  background-color: $comic-manga-primary;
+  color: $comic-manga-secondary;
 }
 .comic-manga-reversed {
-	background-color: $comic-manga-secondary;
-	color: $comic-manga-primary;
+  background-color: $comic-manga-secondary;
+  color: $comic-manga-primary;
 }
 
 .short-story {
-	background-color: $short-story-primary;
-	color: $short-story-secondary;
+  background-color: $short-story-primary;
+  color: $short-story-secondary;
 }
 .short-story-reversed {
-	background-color: $short-story-secondary;
-	color: $short-story-primary;
+  background-color: $short-story-secondary;
+  color: $short-story-primary;
 }
 
 .tv {
-	background-color: $tv-primary;
-	color: $tv-secondary;
+  background-color: $tv-primary;
+  color: $tv-secondary;
 }
 .tv-animated {
-	background-color: $tv-animated-primary;
-	color: $tv-animated-secondary;
+  background-color: $tv-animated-primary;
+  color: $tv-animated-secondary;
 }
 .tv-micro-series {
-	background-color: $tv-micro-series-primary;
-	color: $tv-micro-series-secondary;
+  background-color: $tv-micro-series-primary;
+  color: $tv-micro-series-secondary;
 }
 .tv-reversed {
-	background-color: $tv-secondary;
-	color: $tv-primary;
+  background-color: $tv-secondary;
+  color: $tv-primary;
 }
 .tv-animated-reversed {
-	background-color: $tv-animated-secondary;
-	color: $tv-animated-primary;
+  background-color: $tv-animated-secondary;
+  color: $tv-animated-primary;
 }
 .tv-micro-series-reversed {
-	background-color: $tv-micro-series-secondary;
-	color: $tv-micro-series-primary;
+  background-color: $tv-micro-series-secondary;
+  color: $tv-micro-series-primary;
 }
 
 .film {
-	background-color: $film-primary;
-	color: $film-secondary;
+  background-color: $film-primary;
+  color: $film-secondary;
 }
 .film-reversed {
-	background-color: $film-secondary;
-	color: $film-primary;
+  background-color: $film-secondary;
+  color: $film-primary;
 }
 
 .yr {
-	background-color: $yr-primary;
-	color: $yr-secondary;
+  background-color: $yr-primary;
+  color: $yr-secondary;
 }
 .yr-reversed {
-	background-color: $yr-secondary;
-	color: $yr-primary;
+  background-color: $yr-secondary;
+  color: $yr-primary;
 }
 
 .game {
-	background-color: $game-primary;
-	color: $game-secondary;
+  background-color: $game-primary;
+  color: $game-secondary;
 }
 .game-vr {
-	background-color: $game-vr-primary;
-	color: $game-vr-secondary;
+  background-color: $game-vr-primary;
+  color: $game-vr-secondary;
 }
-.game-mobile, .game-browser {
-	background-color: $game-mobile-primary;
-	color: $game-mobile-secondary;
+.game-mobile,
+.game-browser {
+  background-color: $game-mobile-primary;
+  color: $game-mobile-secondary;
 }
 .game-reversed {
-	background-color: $game-secondary;
-	color: $game-primary;
+  background-color: $game-secondary;
+  color: $game-primary;
 }
 
 .unknown {
-	background-color: $unknown-primary;
-	color: $unknown-secondary;
+  background-color: $unknown-primary;
+  color: $unknown-secondary;
 }
 .unknown-reversed {
-	background-color: $unknown-secondary;
-	color: $unknown-primary;
+  background-color: $unknown-secondary;
+  color: $unknown-primary;
 }
 
 .reference-book {
-	background-color: $reference-book-primary;
-	color: $reference-book-secondary;
+  background-color: $reference-book-primary;
+  color: $reference-book-secondary;
 }
 
 .multimedia {
-	background: linear-gradient(
-		145deg,
-			#3F51B5DD,
-			#00C8E1DD,
-			#4CAF50DD,
-			#FFEB3BDD,
-			#E37322DD,
-			#d42b26DD,
-			#8042bfDD,
-			// #3F51B5DD,
-	);
-	color: black;
-	text-shadow: 0 0 2px white;
-	.icon {
-		filter: drop-shadow( 0 0 2px white);
-	}
-	// font-weight: $weight-bold;
+  background: linear-gradient(
+    145deg,
+    #3f51b5dd,
+    #00c8e1dd,
+    #4caf50dd,
+    #ffeb3bdd,
+    #e37322dd,
+    #d42b26dd,
+    #8042bfdd,
+    // #3F51B5DD,
+  );
+  color: black;
+  text-shadow: 0 0 2px white;
+  .icon {
+    filter: drop-shadow(0 0 2px white);
+  }
+  // font-weight: $weight-bold;
 }
 
 .type-indicator {
-	box-shadow: 0 0 5px -3px black;
-	padding: 0 9px 0px 9px;
-	border-radius: 999px;
-	// text-transform: capitalize;
-	//font-weight: 600;
+  box-shadow: 0 0 5px -3px black;
+  padding: 0 9px 0px 9px;
+  border-radius: 999px;
+  // text-transform: capitalize;
+  //font-weight: 600;
 }
 
-.show-button, .hide-button {
-	@extend %reset-button;
-	font-weight: $weight-bold;
-	border: 2px outset black;
-	font-size: 0.75em;
-	padding: 1px 5px;
-	margin-right: 8px;
-	color: black;
-	cursor: pointer;
-	&:active {
-		border-style: inset;
-	}
+.show-button,
+.hide-button {
+  @extend %reset-button;
+  font-weight: $weight-bold;
+  border: 2px outset black;
+  font-size: 0.75em;
+  padding: 1px 5px;
+  margin-right: 8px;
+  color: black;
+  cursor: pointer;
+  &:active {
+    border-style: inset;
+  }
 }
 .show-button {
-	background-color: #86cc66;
+  background-color: #86cc66;
 }
 .hide-button {
-	background-color: #d55e5e;
+  background-color: #d55e5e;
 }
 
 .unreleased {
-	background-color: #eacac0;
+  background-color: #eacac0;
 }
 
 .exact-placement-unknown {
-	// text-decoration: underline dotted red;
-	background-color: #ded9dc;
-	// box-shadow: 0 0 0 2px inset #eacac0;
+  // text-decoration: underline dotted red;
+  background-color: #ded9dc;
+  // box-shadow: 0 0 0 2px inset #eacac0;
 }
 
 .circle-buttons {
-	z-index: 5;
-	position: fixed;
-	bottom: 12px;
-	right: 12px;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
+  z-index: 5;
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .circle-button {
-	@extend %reset-button;
-	align-self: flex-end;
-	cursor: pointer;
-	border-radius: 40px;
-	box-shadow: 0 0 3px black;
-	width: 70px;
-	height: 70px;
-	font-weight: bold;
-	font-size: 2.0em;
-	.icon {
-		// width: 36px;
-	}
+  @extend %reset-button;
+  align-self: flex-end;
+  cursor: pointer;
+  border-radius: 40px;
+  box-shadow: 0 0 3px black;
+  width: 70px;
+  height: 70px;
+  font-weight: bold;
+  font-size: 2em;
+  .icon {
+    // width: 36px;
+  }
 }
 
 input.input-default {

@@ -40,15 +40,16 @@ export const unscuffDate = (date) => {
   return date;
 };
 
-export const buildTvImagePath = (seriesTitle) => TV_IMAGE_PATH + seriesTitle.replaceAll(" ", "_") + ".webp";
+export const buildTvImagePath = (seriesTitle) =>
+  TV_IMAGE_PATH + seriesTitle.replaceAll(" ", "_") + ".webp";
 
 export const escapeRegex = (str) => {
-    return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
 };
 
-export const replaceInsensitive = function(str, strReplace, strWith) {
-    // See http://stackoverflow.com/a/3561711/556609
-    let esc = escapeRegex(strReplace);
-    let reg = new RegExp(esc, 'ig');
-    return str.replace(reg, strWith);
+export const replaceInsensitive = function (str, strReplace, strWith) {
+  // See http://stackoverflow.com/a/3561711/556609
+  let esc = escapeRegex(strReplace);
+  let reg = new RegExp(esc, "ig");
+  return str.replace(reg, strWith);
 };

@@ -230,41 +230,65 @@ export default function Home() {
   const [suggestions, setSuggestions] = React.useState([]);
   const [boxFilters, setBoxFilters] = React.useState([]);
   const [errorMsg, setErrorMsg] = React.useState("");
-  const [searchExpanded, toggleSearchExpanded] = React.useReducer((state, value) => value === undefined ? !state : value, false);
-  const [searchResults, dispatchSearchResults] = React.useState((state, action) => {
-    switch (action.type) {
-      case "highlightPrev":
-        return {
-          highlight: state.highlight > 0 ?  state.highlight - 1 : state.results.length - 1,
-          results: state.results,
-        };
-        break;
-      case "highlightNext":
-        return {
-          highlight: state.highlight < state.results.length -1 ?  state.highlight + 1 : 0,
-          results: state.results,
-        };
-        break;
-      case "setSearchText":
-        return {
-          text: action.payload.text,
-          highlight: state.highlight,
-          results: [],
+  const [searchExpanded, toggleSearchExpanded] = React.useReducer(
+    (state, value) => (value === undefined ? !state : value),
+    false
+  );
+  const [searchResults, dispatchSearchResults] = React.useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case "highlightPrev": // TODO both of these
+          return {
+            highlight:
+              state.highlight > 0
+                ? state.highlight - 1
+                : state.results.length - 1,
+            results: state.results,
           };
-        break;
-      case "search":
-        let newState = {
-          text: action.payload.text ?? state.text,
-          highlight: 0, // TODO change to -1 if no results
-          results: [],
-        };
-        for () {
-          let indices = [...item.title.matchAll(new RegExp(escapeRegex(action.payload.text), 'gi'))].map(a => a.index);
-        }
-
-        break;
-    }
-  }, { text: "", highlight: -1, results: [] });
+          break;
+        case "highlightNext":
+          return {
+            highlight:
+              state.highlight < state.results.length - 1
+                ? state.highlight + 1
+                : 0,
+            results: state.results,
+          };
+          break;
+        case "setText":
+          return {
+            text: action.payload,
+            highlight: state.highlight,
+            results: state.results,
+          };
+          break;
+        case "setResults":
+          let highlight;
+          if (action.payload.length === 0 || state.text === "")
+            // no results or empty search string -> reset highlight
+            highlight = null;
+          else {
+            // TODO highlight the same thing if it was in previous results, also highlight from "current position" instead of from the start
+            highlight = {
+              globalIndex: 0,
+              id: action.payload[0].id,
+              field: action.payload[0].field,
+              arrayIndex: action.payload[0].arrayIndex ?? -1,
+              index: action.payload[0].indices[0],
+            };
+            if (highlight.index === undefined)
+              throw "search index undefined, this should never happen";
+          }
+          return {
+            text: state.text,
+            highlight: highlight,
+            results: action.payload,
+          };
+          break;
+      }
+    },
+    { text: "", highlight: null, results: [] }
+  );
   const timelineContainerRef = React.useRef();
 
   React.useEffect(async () => {
@@ -292,7 +316,12 @@ export default function Home() {
       <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
       <div className="circle-buttons">
         <Legend />
-        <Search expanded={searchExpanded} toggleExpanded={toggleSearchExpanded} searchResults={searchResults} dispatchSearchResults={dispatchSearchResults} />
+        <Search
+          expanded={searchExpanded}
+          toggleExpanded={toggleSearchExpanded}
+          searchResults={searchResults}
+          dispatchSearchResults={dispatchSearchResults}
+        />
       </div>
       <Error>{errorMsg}</Error>
       <div className="timeline-container" ref={timelineContainerRef}>

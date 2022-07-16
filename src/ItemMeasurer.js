@@ -2,7 +2,12 @@ import React from "react";
 
 // This basically calls `measure` (from virutalItem) whenever the element resizes
 // stolen from: https://github.com/TanStack/react-virtual/issues/28#issuecomment-817182500
-export default function ItemMeasurer({ children, measure, tagName, ...restProps }) {
+export default function ItemMeasurer({
+  children,
+  measure,
+  tagName,
+  ...restProps
+}) {
   const roRef = React.useRef(null);
   const elRef = React.useRef(null);
 
@@ -51,4 +56,4 @@ export default function ItemMeasurer({ children, measure, tagName, ...restProps 
       {children}
     </Tag>
   );
-};
+}

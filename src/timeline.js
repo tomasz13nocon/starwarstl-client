@@ -17,7 +17,7 @@ import {
 
 import TimelineRow from "./timelineRow.js";
 import "./styles/timeline.scss";
-import { unscuffDate } from "./common.js";
+import { unscuffDate, escapeRegex } from "./common.js";
 import md5 from "md5";
 
 const sortingIcons = new Proxy(
@@ -137,7 +137,6 @@ const removeAllFalses = (filters) => {
 
 export default function Timeline({
   filterText,
-  searchText,
   filters,
   rawData,
   seriesArr,
@@ -226,7 +225,7 @@ export default function Timeline({
     removeAllFalses(cleanFilters);
     tempData = rawData.filter((item) => filterItem(cleanFilters, item));
 
-    // Search
+    // Search (filter by text)
     if (filterText || boxFilters.length) {
       // const re = /"([^"]*?)"/g;
       // let exact = Array.from(filterText.toLowerCase().matchAll(re));
@@ -322,7 +321,6 @@ export default function Timeline({
       return 0;
     });
 
-
     // Figure out last entry in each comic series to know when to close the continuity line.
     if (activeColumns.includes("continuity")) {
       let lastsInSeries = {},
@@ -406,7 +404,81 @@ export default function Timeline({
     }
 
     setData(tempData);
-  }, [filters, filterText, sorting, boxFilters]); // NOW: think about state updates and what needs to happen when search happens/changes
+  }, [filters, filterText, sorting, boxFilters]);
+
+  // React.useEffect(() => {
+  //   // Search for scrolling
+  //   const searchFields = ["title", "writer", "releaseDate", "date"];
+  //   if (searchText) {
+  //     let firstMatch = data.findIndex((e) => {
+  //       return searchFields.some((field) => {
+  //         if (typeof e[field] === "string")
+  //           return e[field].toLowerCase().includes(searchText.toLowerCase());
+  //         else if (Array.isArray(e[field]))
+  //           return e[field].some((f) =>
+  //             f.toLowerCase().includes(searchText.toLowerCase())
+  //           );
+  //         else if (e[field] !== undefined) console.error("unknown field type");
+  //       });
+  //     });
+  //     if (firstMatch !== -1) {
+  //       rowVirtualizer.scrollToIndex(Math.max(0, firstMatch), {
+  //         align: "start",
+  //       });
+  //     }
+  //   }
+  // }, [searchText]);
+
+  // Search (Ctrl-F replacement)
+  React.useEffect(() => {
+    const findAllIndices = (str, searchText) =>
+      [...str.matchAll(new RegExp(escapeRegex(searchText), "gi"))].map(
+        (a) => a.index
+      ); // NOW we need to check for empty result
+    const searchFields = ["title", "writer", "releaseDate", "date"];
+    if (searchExpanded) {
+      let results = [];
+      for (let [rowIndex, item] of data.entries()) {
+        for (let field of searchFields) {
+          if (typeof item[field] === "string") {
+            let indices = findAllIndices(item[field], searchResults.text);
+            if (indices.length) {
+              results.push({
+                rowIndex: rowIndex,
+                id: item._id,
+                field: field,
+                indices: indices,
+              });
+            }
+          } else if (Array.isArray(item[field])) {
+            for (let [arrayIndex, arrayItem] of item[field].entries()) {
+              if (typeof arrayItem !== "string")
+                console.error(
+                  "Unknown field type while searching (array of non strings)"
+                );
+              let indices = findAllIndices(arrayItem, searchResults.text);
+              if (indices.length) {
+                results.push({ // TODO should this be a dict with IDs as keys?
+                  rowIndex: rowIndex,
+                  id: item._id,
+                  field: field,
+                  arrayIndex: arrayIndex,
+                  indices: indices,
+                });
+              }
+            }
+          } else if (item[field] !== undefined) {
+            console.error(
+              "Unknown field type while searching. Expected string or array of strings. Got: " +
+                typeof item[field]
+            );
+          }
+        }
+      }
+
+      dispatchSearchResults({ type: "setResults", payload: results });
+    }
+  }, [searchResults.text, data]); // TODO Does `data` need to be here??
 
   const [animating, setAnimating] = React.useState(0); // integer, to account for simultaneous amnimations
 
@@ -445,26 +517,6 @@ export default function Timeline({
       [rowCache, animating]
     ),
   });
-
-  React.useEffect(() => {
-    // Search for scrolling
-    const searchFields = [ "title", "writer", "releaseDate", "date" ];
-    if (searchText) {
-      let firstMatch = data.findIndex(e => {
-        return searchFields.some(field => {
-          if (typeof e[field] === "string")
-            return e[field].toLowerCase().includes(searchText.toLowerCase());
-          else if (Array.isArray(e[field]))
-            return e[field].some(f => f.toLowerCase().includes(searchText.toLowerCase()));
-          else if (e[field] !== undefined)
-            console.error("unknown field type");
-        });
-      });
-      if (firstMatch !== -1) {
-        rowVirtualizer.scrollToIndex(Math.max(0, firstMatch), { align: "start" });
-      }
-    }
-  }, [searchText]);
 
   return (
     <div className="container table">
@@ -519,7 +571,7 @@ export default function Timeline({
                   position: "absolute",
                   top: 0,
                   left: 0,
-                  width: '100%',
+                  width: "100%",
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
                 className="tr-outer"
@@ -531,7 +583,6 @@ export default function Timeline({
                   expanded={expanded === item._id}
                   setExpanded={setExpanded}
                   seriesArr={seriesArr}
-                  searchText={searchText}
                   searchExpanded={searchExpanded}
                   measure={rowVirtualizer.measure}
                   searchResults={searchResults}

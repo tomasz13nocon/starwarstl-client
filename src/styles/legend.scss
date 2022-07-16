@@ -4,15 +4,15 @@ div.legend-button {
   // width: 70px;
   // height: 70px;
   // TODO: fix the order to reflect the color circle once the colors are settled
-  background: conic-gradient( 
-    #3F51B5,
-    #00C8E1,
-    #4CAF50,
-    #FFEB3B,
-    #E37322,
+  background: conic-gradient(
+    #3f51b5,
+    #00c8e1,
+    #4caf50,
+    #ffeb3b,
+    #e37322,
     #d42b26,
     #8042bf,
-    #3F51B5,
+    #3f51b5
   );
   color: white;
   text-shadow: 0 0 6px black;
@@ -35,7 +35,7 @@ div.legend-button {
     right: 0;
     bottom: 80px;
     text-shadow: none;
-    background: #ccc;//$background;
+    background: #ccc; //$background;
     background: #c4c6ca;
     // background: #0005;
     // border: 2px solid black;

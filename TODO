@@ -82,6 +82,7 @@ fetch this for list of supported interwiki prefixes:
 https://starwars.fandom.com/api.php?action=query&meta=siteinfo&siprop=interwikimap
 
 PRODUCTION:
+"TODO:prod" - things to do before deploying to prod
 when fetching details, only fetch fields we're using to save bandwidth
 test diff browsers (including apple)
 try fetching: https://starwars.fandom.com/wiki/Special:WhatLinksHere/Template:Board_game

@@ -87,7 +87,9 @@ export default React.memo(function Filters({
       </div>
 
       <div className="search-suggestions">
-        {suggestions.length > 0 && <span className="suggestions-heading">Suggestions:</span>}
+        {suggestions.length > 0 && (
+          <span className="suggestions-heading">Suggestions:</span>
+        )}
         {suggestions.map((el) => (
           <button
             key={el._id}
