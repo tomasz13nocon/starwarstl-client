@@ -434,10 +434,11 @@ export default function Timeline({
     const findAllIndices = (str, searchText) =>
       [...str.matchAll(new RegExp(escapeRegex(searchText), "gi"))].map(
         (a) => a.index
-      ); // NOW we need to check for empty result
+      );
     if (searchExpanded) {
+      let overallSize = 0;
       if (searchResults.text === "") {
-        dispatchSearchResults({ type: "setResults", payload: [] });
+        dispatchSearchResults({ type: "setResults", payload: { results: [], overallSize: overallSize } });
       } else {
         let results = [];
         for (let [rowIndex, item] of data.entries()) {
@@ -451,6 +452,7 @@ export default function Timeline({
                   field: field,
                   indices: indices,
                 });
+                overallSize += indices.length;
               }
             } else if (Array.isArray(item[field])) {
               for (let [arrayIndex, arrayItem] of item[field].entries()) {
@@ -468,6 +470,7 @@ export default function Timeline({
                     arrayIndex: arrayIndex,
                     indices: indices,
                   });
+                  overallSize += indices.length;
                 }
               }
             } else if (item[field] !== undefined) {
@@ -479,7 +482,7 @@ export default function Timeline({
           }
         }
 
-        dispatchSearchResults({ type: "setResults", payload: results });
+        dispatchSearchResults({ type: "setResults", payload: { results: results, overallSize: overallSize } });
       }
     }
   }, [searchResults.text, data]); // TODO Does `data` need to be here??
@@ -530,7 +533,7 @@ export default function Timeline({
     ),
   });
 
-  let lastSearchResult = 0;
+  let lastSearchResult = -1;
 
   return (
     <div className="container table">
@@ -577,6 +580,13 @@ export default function Timeline({
               );
               return null;
             }
+
+            if (searchResults.results.length && lastSearchResult === -1) {
+              let row = virtualRow.index - 1;
+              while (lastSearchResult === -1 && ++row < virtualRow.index + rowVirtualizer.getVirtualItems().length) {
+                lastSearchResult = searchResults.results.findIndex(e => e.rowIndex === row);
+              }
+            }
             // i is the count of search results within this row
             let i = 0,
               searchResultRowIndex;
@@ -609,18 +619,12 @@ export default function Timeline({
                   seriesArr={seriesArr}
                   searchExpanded={searchExpanded}
                   measure={rowVirtualizer.measure}
+                  searchResultsHighlight={searchResults.highlight ? { resultsOffset: searchResults.highlight.resultsIndex - lastSearchResult, indicesIndex: searchResults.highlight.indicesIndex} : null} // this has to go before `searchResults` because we increment the `lastSearchResult` there
                   searchResults={searchResults.results.slice(
                     lastSearchResult,
                     (lastSearchResult += i)
-                  ).map((result, j) => {
-                    if (searchResults.highlight.resultsIndex === lastSearchResult - i + j) {
-                      result.highlight = searchResults.highlight.indicesIndex;
-                      console.log(searchResults.highlight);
-                    }
-                    return result;
-                  })}
+                  )}
                   searchText={searchResults.text}
-                  searchResultsHighlight={searchResults.highlight}
                   dispatchSearchResults={dispatchSearchResults}
                   {...props}
                 />

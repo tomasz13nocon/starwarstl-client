@@ -249,6 +249,7 @@ export default function Home() {
             let newHighlight = {
               indicesIndex: state.highlight.indicesIndex,
               resultsIndex: state.highlight.resultsIndex,
+              overallIndex: state.highlight.overallIndex - 1,
             };
             if (state.highlight.indicesIndex > 0) {
               newHighlight.indicesIndex--;
@@ -260,11 +261,13 @@ export default function Home() {
               newHighlight.resultsIndex = state.results.length - 1;
               newHighlight.indicesIndex =
                 state.results[newHighlight.resultsIndex].indices.length - 1;
+              newHighlight.overallIndex = state.overallSize;
             }
             return {
               text: state.text,
               highlight: newHighlight,
               results: state.results,
+              overallSize: state.overallSize,
             };
           }
           break;
@@ -280,6 +283,7 @@ export default function Home() {
             let newHighlight = {
               indicesIndex: state.highlight.indicesIndex,
               resultsIndex: state.highlight.resultsIndex,
+              overallIndex: state.highlight.overallIndex + 1,
             };
             if (
               state.highlight.indicesIndex <
@@ -295,11 +299,13 @@ export default function Home() {
             } else {
               newHighlight.resultsIndex = 0;
               newHighlight.indicesIndex = 0;
+              newHighlight.overallIndex = 1;
             }
             return {
               text: state.text,
               highlight: newHighlight,
               results: state.results,
+              overallSize: state.overallSize,
             };
           }
           break;
@@ -308,11 +314,12 @@ export default function Home() {
             text: action.payload,
             highlight: state.highlight,
             results: state.results,
+            overallSize: state.overallSize,
           };
           break;
         case "setResults":
           let highlight;
-          if (action.payload.length === 0 || state.text === "")
+          if (action.payload.results.length === 0 || state.text === "")
             // no results or empty search string -> reset highlight
             highlight = null;
           else {
@@ -330,6 +337,7 @@ export default function Home() {
             // highlight = 0;
 
             highlight = {
+              overallIndex: 1,
               resultsIndex: 0,
               indicesIndex: 0,
             };
@@ -337,12 +345,13 @@ export default function Home() {
           return {
             text: state.text,
             highlight: highlight,
-            results: action.payload,
+            results: action.payload.results,
+            overallSize: action.payload.overallSize,
           };
           break;
       }
     },
-    { text: "", highlight: null, results: [] }
+    { text: "", highlight: null, results: [], overallSize: 0 }
   );
   const timelineContainerRef = React.useRef();
 

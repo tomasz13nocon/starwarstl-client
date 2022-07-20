@@ -26,9 +26,9 @@ export default React.memo(function TimelineRow({
   setExpanded,
   searchExpanded,
   measure,
+  searchResultsHighlight,
   searchResults,
   searchText,
-  searchResultsHighlight,
   dispatchSearchResults,
 }) {
   const [rowHeight, setRowHeight] = React.useState(0);
@@ -56,8 +56,6 @@ export default React.memo(function TimelineRow({
             // No results for this field
             return text;
           let last = 0;
-          // if (item.title === "The High Republic: Convergence")
-            // console.log(highlightIndicesIndex);
           return [
             ...indices.map((index, i) => {
               return (
@@ -84,28 +82,30 @@ export default React.memo(function TimelineRow({
         ) {
           if (typeof item[columnName] === "string") {
             // since this field is a string, there is only one result object for it in the results array, therefore we use find, not filter, to find the indices
-            let columnResult = searchResults.find(
+            let columnResultIndex = searchResults.findIndex(
               (e) => e.field === columnName
             );
+            let columnResult = searchResults[columnResultIndex];
             inside = highlightText(
               item[columnName],
               columnResult?.indices,
               searchText.length,
-              columnResult?.highlight
+              searchResultsHighlight && columnResultIndex === searchResultsHighlight.resultsOffset ? searchResultsHighlight.indicesIndex : null,
             );
           } else if (
             Array.isArray(item[columnName]) &&
             item[columnName].every((e) => typeof e === "string")
           ) {
             inside = item[columnName].map((str, i) => {
-              let columnItemResult = searchResults.find(
+              let columnItemResultIndex = searchResults.findIndex(
                 (e) => e.field === columnName && e.arrayIndex === i
               );
+              let columnItemResult = searchResults[columnItemResultIndex];
               return highlightText(
                 str,
                 columnItemResult?.indices,
                 searchText.length,
-                columnItemResult?.highlight?.indicesIndex
+                searchResultsHighlight && columnItemResultIndex === searchResultsHighlight.resultsOffset ? searchResultsHighlight.indicesIndex : null,
               );
             });
           } else if (item[columnName] !== undefined) {
@@ -319,7 +319,6 @@ export default React.memo(function TimelineRow({
       rowHeight,
       searchResults,
       searchExpanded,
-      searchResultsHighlight,
     ]
   );
 

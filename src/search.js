@@ -12,7 +12,7 @@ export default function Search({
   const searchInputRef = React.useRef();
 
   React.useEffect(() => {
-    window.addEventListener("keydown", function (e) {
+    let handler = function (e) {
       if (
         e.keyCode === 114 ||
         (e.ctrlKey && e.keyCode === 70) ||
@@ -21,8 +21,16 @@ export default function Search({
         e.preventDefault();
         toggleExpanded(true);
         searchInputRef.current?.focus();
+        if (e.keyCode === 71 || e.keyCode === 114) { // ctrl-g or F3
+          if (e.shiftKey)
+            dispatchSearchResults({ type: "highlightPrev" });
+          else
+            dispatchSearchResults({ type: "highlightNext" });
+        }
       }
-    });
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
   }, []);
 
   return (
@@ -45,7 +53,7 @@ export default function Search({
             onKeyDown={(e) => e.key === "Escape" && toggleExpanded()}
           />
           <div className="button-container">
-            {searchResults.results.length}
+            <span className="result-count">{(searchResults.highlight?.overallIndex ?? 0)}/{searchResults.overallSize}</span>
             <button
               onClick={(e) => dispatchSearchResults({ type: "highlightPrev" })}
               aria-label="Clear search"
