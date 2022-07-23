@@ -19,56 +19,9 @@ export default React.memo(function Filters({
   setBoxFilters,
   timelineContainerRef,
 }) {
-  let checkboxFiltersRef = React.useRef();
-  let filtersRef = React.useRef();
-  const [filtersHeight, setFiltersHeight] = React.useState(0);
-
-  const resizeFilters = React.useCallback(() => {
-      return;
-    let winH = window.innerHeight;
-    let top = checkboxFiltersRef.current.getBoundingClientRect().top;
-    let timelineContainerBottom = 0;
-    if (timelineContainerRef.current) {
-      timelineContainerBottom =
-        timelineContainerRef.current.getBoundingClientRect().bottom;
-    }
-    if (timelineContainerBottom < winH) {
-      // The footer is showing
-      console.log(checkboxFiltersRef.current.getBoundingClientRect().top, filtersRef.current.getBoundingClientRect().top);
-      let topDiff =
-        checkboxFiltersRef.current.getBoundingClientRect().top -
-        filtersRef.current.getBoundingClientRect().top +
-        10; // 10 due to sticky position: 10
-      let newHeight = winH - topDiff - (winH - timelineContainerBottom);
-      setFiltersHeight(newHeight);
-    } else {
-      setFiltersHeight(winH - top);
-    }
-  }, []);
-
-  React.useEffect(() => {
-    resizeFilters();
-  }, [suggestions, boxFilters, filterText]);
-
-  React.useEffect(() => {
-    if (checkboxFiltersRef.current) {
-      resizeFilters();
-      if (filtersRef.current) {
-      }
-    }
-  }, [checkboxFiltersRef.current, filtersRef.current]);
-
-  React.useEffect(() => {
-    document.addEventListener("scroll", resizeFilters);
-    window.addEventListener("resize", resizeFilters);
-    return () => {
-      document.removeEventListener("scroll", resizeFilters);
-      window.removeEventListener("resize", resizeFilters);
-    };
-  }, []);
 
   return (
-    <div className="filter" ref={filtersRef}>
+    <div className="filter">
       <div className="search clear-input-container">
         <input
           type="text"
@@ -148,8 +101,6 @@ export default React.memo(function Filters({
 
       <div
         className="checkbox-filters"
-        ref={checkboxFiltersRef}
-        // style={{ height: filtersHeight }}
       >
         <CheckboxGroup state={filters} onChange={filtersChanged}>
           {filtersTemplate}

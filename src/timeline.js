@@ -406,29 +406,6 @@ export default function Timeline({
     setData(tempData);
   }, [filters, filterText, sorting, boxFilters]);
 
-  // React.useEffect(() => {
-  //   // Search for scrolling
-  //   const searchFields = ["title", "writer", "releaseDate", "date"];
-  //   if (searchText) {
-  //     let firstMatch = data.findIndex((e) => {
-  //       return searchFields.some((field) => {
-  //         if (typeof e[field] === "string")
-  //           return e[field].toLowerCase().includes(searchText.toLowerCase());
-  //         else if (Array.isArray(e[field]))
-  //           return e[field].some((f) =>
-  //             f.toLowerCase().includes(searchText.toLowerCase())
-  //           );
-  //         else if (e[field] !== undefined) console.error("unknown field type");
-  //       });
-  //     });
-  //     if (firstMatch !== -1) {
-  //       rowVirtualizer.scrollToIndex(Math.max(0, firstMatch), {
-  //         align: "start",
-  //       });
-  //     }
-  //   }
-  // }, [searchText]);
-
   // Search (Ctrl-F replacement)
   React.useEffect(() => {
     const findAllIndices = (str, searchText) =>
