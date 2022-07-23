@@ -24,6 +24,7 @@ export default React.memo(function Filters({
   const [filtersHeight, setFiltersHeight] = React.useState(0);
 
   const resizeFilters = React.useCallback(() => {
+      return;
     let winH = window.innerHeight;
     let top = checkboxFiltersRef.current.getBoundingClientRect().top;
     let timelineContainerBottom = 0;
@@ -33,6 +34,7 @@ export default React.memo(function Filters({
     }
     if (timelineContainerBottom < winH) {
       // The footer is showing
+      console.log(checkboxFiltersRef.current.getBoundingClientRect().top, filtersRef.current.getBoundingClientRect().top);
       let topDiff =
         checkboxFiltersRef.current.getBoundingClientRect().top -
         filtersRef.current.getBoundingClientRect().top +
@@ -147,7 +149,7 @@ export default React.memo(function Filters({
       <div
         className="checkbox-filters"
         ref={checkboxFiltersRef}
-        style={{ height: filtersHeight }}
+        // style={{ height: filtersHeight }}
       >
         <CheckboxGroup state={filters} onChange={filtersChanged}>
           {filtersTemplate}

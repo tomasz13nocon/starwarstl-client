@@ -328,12 +328,16 @@ $grey1: rgb(100, 100, 100);
   &:active {
     border-style: inset;
   }
+  &:focus {
+    border-color: $focus;
+  }
+  background-color: #ccc;
 }
 .show-button {
-  background-color: #86cc66;
+  // background-color: #86cc66;
 }
 .hide-button {
-  background-color: #d55e5e;
+  // background-color: #d55e5e;
 }
 
 .unreleased {

@@ -1,7 +1,4 @@
-collapsable filters (this allows for many more filters)
-  reddit-like vertical lines to collapse filters
-  OR
-  search "series: The Clone Wars" (with autocomplete, suggestions etc.)
+search "series: The Clone Wars" (with autocomplete, suggestions etc.) or put series in the filters
 color coded comic/tv series with visual indication of how long it runs (like swdatapad)
   Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
   button to switch to color coding seperate comic series
@@ -35,6 +32,7 @@ include writer in details if it's in the timeline but not in article (like i did
 fix <br> handling? the clone wars film has unknown date
 
 LONG TERM:
+maybe: reddit-like vertical lines to collapse filters
 pressing enter after search should expand the item
 continuity of comics and crossover events (are they a series?)
 readlist. Ability to mark stuff as watched/read (and a way to filter those out) and add stuff to watchlist/readlist
