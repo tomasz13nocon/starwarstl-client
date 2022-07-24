@@ -12,12 +12,8 @@ export default function Faq() {
       <p>
         The covers on this website are in{" "}
         <a href="https://en.wikipedia.org/wiki/WebP">WEBP</a> format, which
-        allows them to be much smaller than the equivalent JPEGs at visually
-        indistingushable quality. They most notably don't work on Safari with
-        MacOS version &lt; 11, because for some reason Apple for the longest
-        time didn't want to play with the other kids, but rather hold the
-        technology of the internet back, so they only added support for it very
-        recently.
+        allows them to be much smaller than equivalent JPEGs. They most notably don't work on Safari with
+        MacOS version &lt; 11, because Apple only recently started to support it.
       </p>
       <p>
         <strong>Solutions:</strong> Use an up to date version of a modern
@@ -31,7 +27,7 @@ export default function Faq() {
         In order to have a really fast and large table, a technique called
         virtualization is employed, which means that only the visible portion of
         the table is rendered. This makes it really fast to filter, sort etc.
-        but makes the native browser search useless. Please use the search bar
+        but makes the native browser search useless. Please use the search button
         on the website instead.
       </p>
 
@@ -66,7 +62,7 @@ export default function Faq() {
         <a href="https://starwars.fandom.com/wiki/Wookieepedia:Welcome,_newcomers">
           this page
         </a>
-        . The change on Wookieepedia should be reflected here within a day
+        . The change on Wookieepedia should be reflected on this website within a day
         {/* MENTION: script running interval */}.
       </p>
       <p>

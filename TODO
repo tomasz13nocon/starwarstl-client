@@ -1,38 +1,35 @@
 search "series: The Clone Wars" (with autocomplete, suggestions etc.) or put series in the filters
+fetch timeline with basic info only to cut initial load time, then fetch the one with full details
+partial loading of large images?
+comic subtypes: comic story, strip, junior (IDW?), Manga and then Single issue vs sereis, vs TPB etc.
+fetch cover artist from "File:" page
+on accepting suggestions, remove text only up to last semicolon OR remove the semicolon feature OR write it properly
+Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
+when changing filters (remember removing them too) scroll to the expanded entry (advertise this feature, low discoverability)
+make columns like "cover" not sortable/clickable
 color coded comic/tv series with visual indication of how long it runs (like swdatapad)
   Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
   button to switch to color coding seperate comic series
-see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 responsive/mobile version (mobile alternative to right click filters)
-remove/change CHECK ALL/UNCHECK ALL?
-dark theme (save preference to localStorage)
-fetch timeline with basic info only to cut initial load time, then fetch the one with full details
-for tv episodes' (and comis issues?) details show "out of" e.g.: Episode: 8 (out of 16)
-CTRL-F alternative (second search box in addition to the filtering one)
-partial loading of large images?
-customizable columns ("cover" column) (long term?)
-comic subtypes: comic story, strip, junior (IDW?), Manga and then Single issue vs sereis, vs TPB etc.
-fetch cover artist from "File:" page
-make columns like "cover" not sortable/clickable
-add logo to series in details
-on accepting suggestions, remove text only up to last semicolon
-do something about the series "Rebels" having a lot of dogshit
-show count of books next to publisher filter, count of episodes in series etc.
-Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
-when changing filters (remember removing them too) scroll to the expanded entry (advertise this feature, low discoverability)
-"scroll to start of page" button
+disable row expansion animation on slow hardware
 
 LAST:
 yt guides, how to's, tooltips
 the state of the app while data is fetching.
+remove/change CHECK ALL/UNCHECK ALL?
 clear this todo, TODOs in code, console logs, errors/warns when fetching
 
 IDK:
+"scroll to start of page" button
 include writer in details if it's in the timeline but not in article (like i did with release dates)
 fix <br> handling? the clone wars film has unknown date
+see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 
 LONG TERM:
+dark theme (save preference to localStorage)
+customizable columns ("cover" column)
 maybe: reddit-like vertical lines to collapse filters
+add logo to series in details
 pressing enter after search should expand the item
 continuity of comics and crossover events (are they a series?)
 readlist. Ability to mark stuff as watched/read (and a way to filter those out) and add stuff to watchlist/readlist
@@ -51,6 +48,8 @@ Highlight more important entries in timeline row details (like Writer and Artist
 Image details when showing full size (credit to artist, copyright notice or link to it)
 resize images to a certain max size (currently unlimited, some are many MBs)
 check accessiblity
+show count of books next to publisher filter, count of episodes in series etc.
+for tv episodes' (and comis issues?) details show "out of" e.g.: Episode: 8 (out of 16)
 link to yt for web episodes (galaxy of adventures etc.)
 a toggle to switch between bg covers and normal covers (in settings?)
 fetch all book series, story collections, reference books, comic tpbs/omnibuses etc., comic arcs etc. How? Somehow.
