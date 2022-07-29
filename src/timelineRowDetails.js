@@ -66,20 +66,21 @@ const getData = (item) => {
       break;
     case "comic":
       type = "Comic";
-      switch (item.subtype) {
-        case "Single issue":
-          type += ", single issue";
-          break;
-        case "Series":
-          type += " series";
-          break;
-        case "Story arc":
-          type += ", story arc";
-          break;
-        case "Trade paperback":
-          type += " (TPB)";
-          break;
-      }
+      // TODO: fullType
+      // switch (item.subtype) {
+      //   case "Single issue":
+      //     type += ", single issue";
+      //     break;
+      //   case "Series":
+      //     type += " series";
+      //     break;
+      //   case "Story arc":
+      //     type += ", story arc";
+      //     break;
+      //   case "Trade paperback":
+      //     type += " (TPB)";
+      //     break;
+      // }
       break;
     case "short-story":
       type = "Short story";
@@ -210,7 +211,7 @@ const getData = (item) => {
 export default React.memo(function TimelineRowDetails({
   item,
   setFullCover,
-  imageLoaded,
+  measure,
 }) {
   return (
     <>
@@ -227,7 +228,7 @@ export default React.memo(function TimelineRowDetails({
               height: item.coverHeight,
             })
           }
-          onLoad={imageLoaded}
+          onLoad={measure}
         />
       ) : null}
       <div className="text">

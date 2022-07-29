@@ -322,59 +322,23 @@ export default React.memo(function TimelineRow({
     ]
   );
 
-  const detailsRef = React.useRef();
-  React.useEffect(() => {
-    if (detailsRef.current) {
-      detailsRef.current.style.transition =
-        "height " + ANIMATION_TIME + "ms ease-out"; //cubic-bezier(.36,.78,.64,.97)";
-      detailsRef.current.style.height = expanded
-        ? detailsRef.current.scrollHeight + "px"
-        : 0;
-    }
-  }, [expanded]);
-  const imageLoaded = React.useCallback(() => {
-    detailsRef.current.style.height = detailsRef.current.scrollHeight + "px";
-  }, []);
-
-  const incAnim = React.useCallback(
-    () => setAnimating((prev) => prev + 1),
-    [setAnimating]
-  );
-  const decAnim = React.useCallback(
-    () =>
-      setAnimating((prev) => prev - 1) ||
-      requestAnimationFrame(() => measure()), // raf is here, because on slow hardware the measure gets called before animation finishes, resulting in content being hidden.
-    [setAnimating]
-  );
-
   return (
     <>
       <div className="standard-row tr">
         <div className="standard-row-inner" ref={rowRef}>
           {cells}
         </div>
-        <CSSTransition
-          in={expanded}
-          timeout={ANIMATION_TIME}
-          classNames="slide"
-          mountOnEnter
-          unmountOnExit
-          nodeRef={detailsRef}
-          onEnter={incAnim}
-          onEntered={decAnim}
-          onExit={incAnim}
-          onExited={decAnim}
-        >
+        {expanded && 
           <div className="tr details-row">
-            <div className="td" ref={detailsRef}>
+            <div className="td">
               <TimelineRowDetails
                 item={item}
                 setFullCover={setFullCover}
-                imageLoaded={imageLoaded}
+                measure={measure}
               />
             </div>
           </div>
-        </CSSTransition>
+        }
       </div>
     </>
   );

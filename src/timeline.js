@@ -510,6 +510,11 @@ export default function Timeline({
     ),
   });
 
+  React.useEffect(() => {
+    rowVirtualizer.measure();
+  }, [expanded]);
+
+
   let lastSearchResult = -1;
 
   return (

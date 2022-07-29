@@ -237,7 +237,6 @@ $full-image-transition: 0.2s;
   .td {
     padding: 0;
     overflow: hidden;
-    height: 0;
     padding: 6px;
     display: flex;
   }
@@ -249,7 +248,7 @@ $full-image-transition: 0.2s;
   .cover {
     box-shadow: 2px 2px 8px #000;
     margin-right: 14px;
-    margin-bottom: 0; // needed because of weird gap caused by align-self: start
+    // margin-bottom: 0; // needed because of weird gap caused by align-self: start
     align-self: start;
     cursor: pointer;
     // border: 1px solid #000;
