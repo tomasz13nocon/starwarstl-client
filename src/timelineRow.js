@@ -334,6 +334,7 @@ export default React.memo(function TimelineRow({
   }, [expanded]);
   const imageLoaded = React.useCallback(() => {
     detailsRef.current.style.height = detailsRef.current.scrollHeight + "px";
+    measure();
   }, []);
 
   const incAnim = React.useCallback(
