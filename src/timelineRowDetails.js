@@ -211,7 +211,7 @@ const getData = (item) => {
 export default React.memo(function TimelineRowDetails({
   item,
   setFullCover,
-  imageLoaded,
+  measure,
 }) {
   return (
     <>
@@ -228,7 +228,7 @@ export default React.memo(function TimelineRowDetails({
               height: item.coverHeight,
             })
           }
-          onLoad={imageLoaded}
+          onLoad={measure}
         />
       ) : null}
       <div className="text">
