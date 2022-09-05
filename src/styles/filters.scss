@@ -1,17 +1,17 @@
 @use "./shared.scss" as *;
 
 .filter {
-  position: sticky;
+  // position: sticky;
   // height: 1000px;
-  overflow-y: auto;
-  top: 10px;
-  align-self: flex-start;
-  // width: 285px;
-  flex: 0 0 235px;
+  // overflow-y: auto;
+  // top: 10px;
+  // align-self: flex-start;
+  // width: 265px;
+  // flex: 0 0 235px;
   margin-right: 10px;
   // max-height: calc(100vh + 10px);
   // height: calc(100vh - 10px - 73px);
-  height: calc(100vh - 10px);
+  // height: calc(100vh - 10px);
   .search {
     // margin: 16px 0;
 

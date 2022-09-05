@@ -2,6 +2,7 @@ import React from "react";
 import _ from "lodash";
 import { mdiClose } from "@mdi/js";
 import Icon from "@mdi/react";
+import StickyBox from "react-sticky-box";
 
 import CheckboxGroup from "./checkboxGroup.js";
 import WookieeLink from "./wookieeLink.js";
@@ -21,6 +22,7 @@ export default React.memo(function Filters({
 }) {
 
   return (
+    <StickyBox offsetTop={10} offsetBottom={10}>
     <div className="filter">
       <div className="search clear-input-container">
         <input
@@ -107,5 +109,6 @@ export default React.memo(function Filters({
         </CheckboxGroup>
       </div>
     </div>
+    </StickyBox>
   );
 });

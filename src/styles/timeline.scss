@@ -3,6 +3,9 @@
 .timeline-container {
   display: flex;
   margin: 0 12px;
+  & > div:first-child {
+    height: fit-content;
+  }
 }
 
 $full-image-transition: 0.2s;

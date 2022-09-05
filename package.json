@@ -29,6 +29,7 @@
 		"react-dom": "^17.0.2",
 		"react-popper-tooltip": "^4.3.1",
 		"react-router-dom": "^6.2.1",
+		"react-sticky-box": "^1.0.2",
 		"react-transition-group": "^4.4.2",
 		"react-virtual": "file:react-virtual",
 		"sharp": "^0.30.2",

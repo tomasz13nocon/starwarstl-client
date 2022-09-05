@@ -1,6 +1,7 @@
 @use "./shared.scss" as *;
 
 .search-container {
+  align-self: flex-end;
   position: relative;
   .button-container {
     position: absolute;
