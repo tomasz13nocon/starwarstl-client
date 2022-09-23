@@ -135,6 +135,9 @@ const removeAllFalses = (filters) => {
   return acc;
 };
 
+// Column names which aren't meant to be sorted by
+const notSortable = [ "cover" ];
+
 export default function Timeline({
   filterText,
   filters,
@@ -153,7 +156,7 @@ export default function Timeline({
   // Values: wheter they're to be displayed
   const [columns, setColumns] = React.useState({
     date: true,
-    cover: false,
+    cover: true,
     continuity: false, // TODO: width of page, responsive, etc. AND oneshots AND only show when comics filtered AND background color of rows
     title: true,
     writer: true,
@@ -186,10 +189,12 @@ export default function Timeline({
 
   const toggleSorting = React.useCallback(
     (name) => {
+      if (notSortable.includes(name)) return;
       setSorting((prevSorting) => ({
         by: name,
         ascending: prevSorting.by === name ? !prevSorting.ascending : true,
       }));
+      rowVirtualizer.measure(); // When changing sorting with cover column active, rows need to be recalculated
     },
     [setSorting]
   );

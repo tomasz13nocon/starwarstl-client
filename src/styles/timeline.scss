@@ -184,6 +184,10 @@ $full-image-transition: 0.2s;
       margin: 0 8px;
       position: relative;
       top: 2px;
+      &[title="Obi-Wan Kenobi (television series)"] {
+        // Remedy for poor visibility
+        filter: drop-shadow(0px 0px 2px black); // TODO: does this hinder performance?
+      }
     }
     .season-episode {
       position: relative;

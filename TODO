@@ -1,19 +1,15 @@
 search "series: The Clone Wars" (with autocomplete, suggestions etc.) or put series in the filters
-fetch timeline with basic info only to cut initial load time, then fetch the one with full details
 partial loading of large images?
 comic subtypes: comic story, strip, junior (IDW?), Manga and then Single issue vs sereis, vs TPB etc.
 fetch cover artist from "File:" page
 on accepting suggestions, remove text only up to last semicolon OR remove the semicolon feature OR write it properly
 Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
 when changing filters (remember removing them too) scroll to the expanded entry (advertise this feature, low discoverability)
-make columns like "cover" not sortable/clickable
 color coded comic/tv series with visual indication of how long it runs (like swdatapad)
   Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
   button to switch to color coding seperate comic series
 responsive/mobile version (mobile alternative to right click filters)
-disable row expansion animation on slow hardware
-recover from "no infobox" maybe?
-Redlinks cause skip, but no infobox causes fetching error. Make them have the same effect (preferably include in timeline with limited data).
+recover from "no infobox" maybe? -- Redlinks cause skip, but no infobox causes fetching error. Make them have the same effect (preferably recover and include in timeline with limited data).
 
 LAST:
 yt guides, how to's, tooltips
@@ -28,6 +24,7 @@ fix <br> handling? the clone wars film has unknown date
 see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 
 LONG TERM:
+fetch timeline with basic info only to cut initial load time, then fetch the one with full details (full one is 250 KB. Is this really necessary?)
 dark theme (save preference to localStorage)
 customizable columns ("cover" column)
 maybe: reddit-like vertical lines to collapse filters
