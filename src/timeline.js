@@ -156,7 +156,7 @@ export default function Timeline({
   // Values: wheter they're to be displayed
   const [columns, setColumns] = React.useState({
     date: true,
-    cover: true,
+    cover: false,
     continuity: false, // TODO: width of page, responsive, etc. AND oneshots AND only show when comics filtered AND background color of rows
     title: true,
     writer: true,
@@ -235,7 +235,8 @@ export default function Timeline({
       // const re = /"([^"]*?)"/g;
       // let exact = Array.from(filterText.toLowerCase().matchAll(re));
       // let queries = filterText.replace(re, "").split(";");
-      let queries = filterText.toLowerCase().split(";");
+      // let queries = filterText.toLowerCase().split(";");
+      let queries = [filterText.toLowerCase()];
 
       // Search suggestions
       let last = queries[queries.length - 1].trim();
