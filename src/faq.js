@@ -24,11 +24,13 @@ export default function Faq() {
 
       <h2>Searching the page doesn't work</h2>
       <p>
+        <strong>Solution:</strong> Please use the search button in the bottom right corner.
+      </p>
+      <p>
         In order to have a really fast and large table, a technique called
         virtualization is employed, which means that only the visible portion of
         the table is rendered. This makes it really fast to filter, sort etc.
-        but makes the native browser search useless. Please use the search button
-        on the website instead.
+        but makes the native browser search useless.
       </p>
 
       <h2>Audiobooks vs Audio dramas</h2>
@@ -42,7 +44,7 @@ export default function Faq() {
           path={mdiVolumeHigh}
           className="icon audiobook-icon"
           title="audiobook"
-        />
+          />
         . <span className="type-indicator audio-drama">Audio dramas</span> are a
         seperate category.
       </p>
@@ -57,8 +59,8 @@ export default function Faq() {
         <a href="https://starwars.fandom.com/wiki/Timeline_of_canon_media">
           Wookieepedia's timeline of canon media
         </a>{" "}
-        or a specific media's article and see if the error exists there. If it
-        does you can edit it. If you're new to editing a wiki check out{" "}
+        or a specific media's article and see if the error also exists there. If it
+        does you can edit the article. If you're new to editing a wiki check out{" "}
         <a href="https://starwars.fandom.com/wiki/Wookieepedia:Welcome,_newcomers">
           this page
         </a>

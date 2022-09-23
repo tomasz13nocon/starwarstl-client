@@ -12,6 +12,8 @@ color coded comic/tv series with visual indication of how long it runs (like swd
   button to switch to color coding seperate comic series
 responsive/mobile version (mobile alternative to right click filters)
 disable row expansion animation on slow hardware
+recover from "no infobox" maybe?
+Redlinks cause skip, but no infobox causes fetching error. Make them have the same effect (preferably include in timeline with limited data).
 
 LAST:
 yt guides, how to's, tooltips

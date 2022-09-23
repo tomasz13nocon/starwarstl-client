@@ -12,8 +12,8 @@ export default function About() {
           <a href="https://starwars.fandom.com/wiki/Timeline_of_canon_media">
             Wookieepedia's timeline of canon media
           </a>{" "}
-          and data about media sourced from Wookieepedia articles by an almost
-          completely automated process.
+          and information about specific media sourced from Wookieepedia articles by a 99%
+          automated process.
           <ul>
             <li>
               Ensures community based information instead of one person's
