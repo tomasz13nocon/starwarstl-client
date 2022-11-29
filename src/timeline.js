@@ -1,5 +1,4 @@
 import React from "react";
-import { useVirtual, useVirtualWindow } from "react-virtual";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import ItemMeasurer from "./ItemMeasurer.js";
 import _ from "lodash";
@@ -167,7 +166,7 @@ export default function Timeline({
     ascending: true,
   });
   const [data, setData] = React.useState([]);
-  const [expanded, setExpanded] = React.useState();
+  const [expanded, setExpanded] = React.useState(null);
   // return window.getSelection().type === "Range" ? state : !state;
   /////////////////
 
@@ -483,7 +482,6 @@ export default function Timeline({
   const parentRef = React.useRef();
   const windowRef = React.useRef(window);
 
-  const rowCache = React.useRef();
   const rowVirtualizer = useWindowVirtualizer({
     overscan: 5,
     enableSmoothScroll: false,
@@ -505,14 +503,13 @@ export default function Timeline({
           arr.push(i);
         }
         // always render expanded row to avoid rows moving abruptly when that row comes back into view
-        if (expanded) {
+        if (expanded !== null) {
           let index = data.findIndex((v) => v._id === expanded);
           if (!arr.includes(index)) arr.push(index);
         }
-        rowCache.current = arr;
         return arr;
       },
-      [rowCache, animating]
+      [animating, expanded]
     ),
   });
 
@@ -558,7 +555,7 @@ export default function Timeline({
         >
           {rowVirtualizer.getVirtualItems().map((virtualRow) => {
             let item = data[virtualRow.index];
-            if (item === undefined) {
+            if (item === undefined) { // TODO FIGURE THIS OUT!!!
               console.log(
                 "item undefined!",
                 rowVirtualizer.virtualItems,

@@ -31,7 +31,6 @@
 		"react-router-dom": "^6.2.1",
 		"react-sticky-box": "^1.0.2",
 		"react-transition-group": "^4.4.2",
-		"react-virtual": "file:react-virtual",
 		"sharp": "^0.30.2",
 		"use-deep-compare-effect": "^1.8.1",
 		"wtf_wikipedia": "file:wtf_wikipedia"
