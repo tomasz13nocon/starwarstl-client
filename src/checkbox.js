@@ -43,9 +43,9 @@ export default React.memo(function Checkbox({
 
   return (
     <div
-      className={`checkbox-wrapper level-${(path.match(/\./g) || []).length}`}
+      className={`checkbox-wrapper level-${(path?.match(/\./g) || []).length}`}
     >
-      <label onContextMenu={solo}>
+        <label onContextMenu={path === undefined ? undefined : solo}>
         <input
           type="checkbox"
           checked={value}

@@ -150,7 +150,7 @@ const getData = (item) => {
 
   let ret = {
     Type: type,
-    Notes: process(item.timelineNotes),
+    "Timeline notes": process(item.timelineNotes),
     "Release date": process(item.releaseDateDetails ?? "Unknown", false),
     "Last aired": process(item.lastAired, false), // TODO: first aired when availible instead of release date?
     Closed: process(item.closed, false),

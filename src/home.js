@@ -1,6 +1,6 @@
 import produce from "immer";
 import React from "react";
-import { API } from "./common.js";
+import { API, unscuffDate } from "./common.js";
 import Filters from "./filters.js";
 import FullCoverPreview from "./fullCoverPreview.js";
 import Legend from "./legend";
@@ -226,7 +226,6 @@ export default function Home() {
   );
   const [rawData, setRawData] = React.useState([]);
   const [seriesArr, setSeriesArr] = React.useState([]);
-  const [tvImages, setTvImages] = React.useState();
   const [suggestions, setSuggestions] = React.useState([]);
   const [boxFilters, setBoxFilters] = React.useState([]);
   const [errorMsg, setErrorMsg] = React.useState("");
@@ -313,7 +312,7 @@ export default function Home() {
           return {
             text: action.payload,
             highlight: state.highlight,
-            results: state.results,
+            results: state.results, // NOW: state updates. Should I infer parts of searchResults to improve perf? Does this matter? Is this the actual cause of the bug? prob not
             overallSize: state.overallSize,
           };
           break;
@@ -323,7 +322,7 @@ export default function Home() {
             // no results or empty search string -> reset highlight
             highlight = null;
           else {
-            // TODO highlight the same thing if it was in previous results, also highlight from "current position" instead of from the start
+            // TODO highlight the same thing if it was in previous results, also highlight from "current position" instead of from the start. Basically make this work the same as chrome's ctrl-f
             // highlight = {
             //   globalIndex: 0,
             //   id: action.payload[0].id,
@@ -354,6 +353,7 @@ export default function Home() {
     { text: "", highlight: null, results: [], overallSize: 0 }
   );
   const timelineContainerRef = React.useRef();
+  const [hideUnreleased, setHideUnreleased] = React.useState(false);
 
   React.useEffect(async () => {
     // TODO: show error on network error
@@ -362,17 +362,20 @@ export default function Home() {
       setErrorMsg("Failed to fetch data from the server.");
       console.error(res.status());
     }
-    setRawData(await res.json());
+    let data = await res.json();
+    // Data preprocessing
+    for (let item of data) {
+      let d = new Date(unscuffDate(item.releaseDate));
+      if (isNaN(d) || d > Date.now()) {
+        item.unreleased = true;
+      }
+    }
+
+    setRawData(data);
+
     res = await fetch(API + "series");
     // TODO: defer this possibly to first time user uses search
     setSeriesArr(await res.json());
-    res = await fetch(API + "tv-images");
-    let json = await res.json();
-    let dict = {};
-    for (let item of json) {
-      dict[item.series] = item.filename;
-    }
-    setTvImages(dict);
   }, []);
 
   return (
@@ -400,6 +403,8 @@ export default function Home() {
           boxFilters={boxFilters}
           setBoxFilters={setBoxFilters}
           timelineContainerRef={timelineContainerRef}
+          hideUnreleased={hideUnreleased}
+          setHideUnreleased={setHideUnreleased}
         />
         {rawData.length && seriesArr.length ? (
           <Timeline
@@ -408,12 +413,13 @@ export default function Home() {
             rawData={rawData}
             seriesArr={seriesArr}
             setFullCover={setFullCover}
-            tvImages={tvImages}
             setSuggestions={setSuggestions}
             boxFilters={boxFilters}
             searchExpanded={searchExpanded}
             searchResults={searchResults}
             dispatchSearchResults={dispatchSearchResults}
+            hideUnreleased={hideUnreleased}
+            setHideUnreleased={setHideUnreleased}
           />
         ) : (
           <Spinner />
