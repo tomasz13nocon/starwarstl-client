@@ -25,7 +25,6 @@ export default React.memo(function TimelineRow({
   expanded,
   setExpanded,
   searchExpanded,
-  measure,
   searchResultsHighlight,
   searchResults,
   searchText,
@@ -334,7 +333,6 @@ export default React.memo(function TimelineRow({
               <TimelineRowDetails
                 item={item}
                 setFullCover={setFullCover}
-                measure={measure}
               />
             </div>
           </div>

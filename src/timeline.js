@@ -1,5 +1,6 @@
 import React from "react";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
+import { Virtuoso } from 'react-virtuoso';
 import ItemMeasurer from "./ItemMeasurer.js";
 import _ from "lodash";
 import Icon from "@mdi/react";
@@ -546,29 +547,23 @@ export default function Timeline({
         ))}
       </div>
       <div ref={parentRef} className="tbody">
-        <div
-          style={{
-            height: `${rowVirtualizer.getTotalSize()}px`,
-            // width: '100%',
-            position: "relative",
-          }}
-        >
-          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-            let item = data[virtualRow.index];
+        <Virtuoso
+          // style={{ position: "relative" }}
+          useWindowScroll={true}
+          data={data}
+          itemContent={(index, item) => {
             if (item === undefined) { // TODO FIGURE THIS OUT!!!
               console.log(
                 "item undefined!",
-                rowVirtualizer.virtualItems,
-                virtualRow,
-                virtualRow.index,
+                index,
                 data
               );
               return null;
             }
 
             if (searchResults.results.length && lastSearchResult === -1) {
-              let row = virtualRow.index - 1;
-              while (lastSearchResult === -1 && ++row < virtualRow.index + rowVirtualizer.getVirtualItems().length) {
+              let row = index - 1;
+              while (lastSearchResult === -1 && ++row < index + /* AMOUNT OF ITEMS TO BE RENDERED */ 0) {
                 lastSearchResult = searchResults.results.findIndex(e => e.rowIndex === row);
               }
             }
@@ -578,20 +573,18 @@ export default function Timeline({
             while (
               (searchResultRowIndex =
                 searchResults.results[lastSearchResult + i]?.rowIndex) ===
-              virtualRow.index
+              index
             ) {
               i++;
             }
             return (
               <div
-                key={virtualRow.key}
-                ref={virtualRow.measureElement}
                 style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  transform: `translateY(${virtualRow.start}px)`,
+                  // position: "absolute",
+                  // top: 0,
+                  // left: 0,
+                  // width: "100%",
+                  // transform: `translateY(${virtualRow.start}px)`,
                 }}
                 className="tr-outer"
               >
@@ -603,7 +596,6 @@ export default function Timeline({
                   setExpanded={setExpanded}
                   seriesArr={seriesArr}
                   searchExpanded={searchExpanded}
-                  measure={rowVirtualizer.measure}
                   searchResultsHighlight={searchResults.highlight ? { resultsOffset: searchResults.highlight.resultsIndex - lastSearchResult, indicesIndex: searchResults.highlight.indicesIndex} : null} // this has to go before `searchResults` because we increment the `lastSearchResult` there
                   searchResults={searchResults.results.slice(
                     lastSearchResult,
@@ -615,8 +607,8 @@ export default function Timeline({
                 />
               </div>
             );
-          })}
-        </div>
+          }}
+          />
       </div>
     </div>
   );
