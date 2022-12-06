@@ -299,7 +299,7 @@ item.episode ? "E" + item.episode : ""
 
     return (
       <>
-        <div className="standard-row tr">
+        {/* <div className="standard-row tr"> */}
           <div className="standard-row-inner" ref={rowRef}>
             {cells}
           </div>
@@ -312,8 +312,8 @@ item.episode ? "E" + item.episode : ""
                   />
               </div>
             </div>
-        }
-        </div>
-        </>
+          }
+        {/* </div> */}
+      </>
     );
   });

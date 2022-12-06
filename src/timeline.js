@@ -66,29 +66,6 @@ const colorPrefs = [
   },
 ];
 
-const suggestionPriority = [
-  "film",
-  "tv-live-action",
-  "game",
-  "tv-animated",
-  "multimedia",
-  "book-a",
-  "book-ya",
-  "comic",
-  "comic-manga",
-  "audio-drama",
-  "game-vr",
-  "book-jr",
-  "tv-micro-series",
-  "comic-strip",
-  "comic-story",
-  "game-mobile",
-  "short-story",
-  "yr",
-  "game-browser",
-  "unknown",
-];
-
 const columnNames = {
   date: "Date",
   continuity: "Continuity",
@@ -200,7 +177,7 @@ export default function Timeline({
     by: "date",
     ascending: true,
   });
-  const [data, setData] = React.useState([]);
+  // const [data, setData] = React.useState([]);
   const [expanded, setExpanded] = React.useState(null);
   // return window.getSelection().type === "Range" ? state : !state;
   /////////////////
@@ -241,7 +218,7 @@ export default function Timeline({
   }, [searchResults.highlight]);
 
   // Sort and filter data
-  useDeepCompareEffect(() => {
+  const data = React.useMemo(() => {
     let tempData = [];
     // Filter
     let cleanFilters = _.cloneDeep(filters);
@@ -252,44 +229,14 @@ export default function Timeline({
       return filterItem(cleanFilters, item);
     });
 
-    // Search (filter by text)
-    if (filterText || boxFilters.length) {
-      // const re = /"([^"]*?)"/g;
-      // let exact = Array.from(filterText.toLowerCase().matchAll(re));
-      // let queries = filterText.replace(re, "").split(";");
-      // let queries = filterText.toLowerCase().split(";");
-      let queries = [filterText.toLowerCase()];
-
-      // Search suggestions
-      let last = queries[queries.length - 1].trim();
-      if (last.length >= 2) {
-        let found = seriesArr.filter((item) =>
-          item.displayTitle
-            ? item.displayTitle.toLowerCase().includes(last)
-            : item.title.toLowerCase().includes(last)
-        );
-        if (found.length) {
-          setSuggestions(
-            found
-              .filter((el) => !boxFilters.includes(el))
-              .sort((a, b) => {
-                let ap = suggestionPriority.indexOf(a.fullType || a.type),
-                bp = suggestionPriority.indexOf(b.fullType || b.type);
-                if (ap > bp) return 1;
-                if (ap < bp) return -1;
-                return 0;
-              })
-              .slice(0, 10)
-          );
-        } else setSuggestions([]);
-      } else setSuggestions([]);
-
+    // Box filters (filters applied when clicked on search suggestions)
+    if (boxFilters.length) {
       if (boxFilters.length) {
         tempData = tempData.filter((item) => {
           for (let boxFilter of boxFilters) {
             if (
               item.series &&
-                item.series.includes(boxFilter.title) /* && item.*/ // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,
+                item.series.includes(boxFilter.title) /* && item.*/
             ) {
               //TODO: We want more than series????
               return true;
@@ -297,7 +244,15 @@ export default function Timeline({
           }
         });
       }
+    }
 
+    // Search (filter by text)
+    if (filterText) {
+      // const re = /"([^"]*?)"/g;
+      // let exact = Array.from(filterText.toLowerCase().matchAll(re));
+      // let queries = filterText.replace(re, "").split(";");
+      // let queries = filterText.toLowerCase().split(";");
+      let queries = [filterText.toLowerCase()];
       tempData = tempData.filter((item) => {
         let r = queries.map((v) => v.trim()).filter((v) => v);
         return r.length
@@ -319,22 +274,21 @@ export default function Timeline({
               true
             )
           )
-          : r;
+          : r; // TODO: This returns empty arr which is truthy. Test this.
       });
-    } else {
-      setSuggestions([]);
     }
 
     // Sort
-    if (sorting.by === "chronology")
-    // Remove items with unknown placement, the ones from the other table
-    // TODO: maybe notify user that some items have been hidden?
-    tempData = tempData.filter((item) => item.chronology != null);
+    if (sorting.by === "chronology") {
+      // Remove items with unknown placement, the ones from the other table
+      // TODO: maybe notify user that some items have been hidden?
+      tempData = tempData.filter((item) => item.chronology != null);
+    }
     tempData = tempData.sort((a, b) => {
       let by = sorting.by;
       if (by === "date") by = "chronology";
       let av = a[by],
-      bv = b[by];
+          bv = b[by];
       // TODO: micro optimization: make seperate sorting functions based on value of "by" instead of checking it per item
       if (by === "releaseDate") {
         // Unknown release date always means unreleased, therefore the newest
@@ -417,7 +371,7 @@ export default function Timeline({
 
               currentContinuity.whichInSeries = whichInSeries;
               ongoingContinuity[series] = currentContinuity;
-              item.ongoingContinuity = _.cloneDeep(ongoingContinuity);
+              item.ongoingContinuity = _.cloneDeep(ongoingContinuity); // assigning to item. Is this okay? This affects rawData.
               if (lastsInSeries[series] === item.title)
               delete ongoingContinuity[series];
               if (whichInSeries === "first")
@@ -431,10 +385,11 @@ export default function Timeline({
       }
     }
 
-    setData(tempData);
+    return tempData;
   }, [filters, filterText, sorting, boxFilters, hideUnreleased]);
 
   // Search (Ctrl-F replacement)
+  // TODO: should this be in useEffect?
   React.useEffect(() => {
     const findAllIndices = (str, searchText) =>
       [...str.matchAll(new RegExp(escapeRegex(searchText), "gi"))].map(

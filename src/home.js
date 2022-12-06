@@ -323,6 +323,7 @@ export default function Home() {
             highlight = null;
           else {
             // TODO highlight the same thing if it was in previous results, also highlight from "current position" instead of from the start. Basically make this work the same as chrome's ctrl-f
+            // Also clicking CHECK ALL scrolls unexpectedly
             // highlight = {
             //   globalIndex: 0,
             //   id: action.payload[0].id,
@@ -405,6 +406,7 @@ export default function Home() {
           timelineContainerRef={timelineContainerRef}
           hideUnreleased={hideUnreleased}
           setHideUnreleased={setHideUnreleased}
+          seriesArr={seriesArr}
         />
         {rawData.length && seriesArr.length ? (
           <Timeline

@@ -9,6 +9,29 @@ import WookieeLink from "./wookieeLink.js";
 import "./styles/filters.scss";
 import Checkbox from "./checkbox.js";
 
+const suggestionPriority = [
+  "film",
+  "tv-live-action",
+  "game",
+  "tv-animated",
+  "multimedia",
+  "book-a",
+  "book-ya",
+  "comic",
+  "comic-manga",
+  "audio-drama",
+  "game-vr",
+  "book-jr",
+  "tv-micro-series",
+  "comic-strip",
+  "comic-story",
+  "game-mobile",
+  "short-story",
+  "yr",
+  "game-browser",
+  "unknown",
+];
+
 export default React.memo(function Filters({
   filterText,
   filterTextChanged,
@@ -22,6 +45,7 @@ export default React.memo(function Filters({
   timelineContainerRef,
   hideUnreleased,
   setHideUnreleased,
+  seriesArr,
 }) {
 
     return (
@@ -31,14 +55,47 @@ export default React.memo(function Filters({
             <input
               type="text"
               value={filterText}
-              onChange={(e) => filterTextChanged(e.target.value)}
+              onChange={(e) => {
+                let newFilterText = e.target.value;
+                filterTextChanged(newFilterText)
+
+                // Search suggestions
+                if (newFilterText) {
+                  let queries = [newFilterText.toLowerCase()];
+                  let last = queries[queries.length - 1].trim();
+                  if (last.length >= 2) {
+                    let found = seriesArr.filter((item) =>
+                      item.displayTitle
+                        ? item.displayTitle.toLowerCase().includes(last)
+                        : item.title.toLowerCase().includes(last)
+                    );
+                    if (found.length) {
+                      setSuggestions(
+                        found
+                          .filter((el) => !boxFilters.includes(el))
+                          .sort((a, b) => {
+                            let ap = suggestionPriority.indexOf(a.fullType || a.type),
+                            bp = suggestionPriority.indexOf(b.fullType || b.type);
+                            if (ap > bp) return 1;
+                            if (ap < bp) return -1;
+                            return 0;
+                          })
+                          .slice(0, 10)
+                      );
+                    } else setSuggestions([]);
+                  } else setSuggestions([]);
+                } else setSuggestions([]);
+              }}
               placeholder="Filter..."
               className="input-default"
               />
             {filterText ? (
               <button
                 className="clear-input"
-                onClick={(e) => filterTextChanged("")}
+                onClick={(e) => {
+                  filterTextChanged("");
+                  setSuggestions([]);
+                }}
                 aria-label="Clear search"
               >
                 &times;
@@ -112,7 +169,7 @@ export default React.memo(function Filters({
               value={hideUnreleased}
               onChange={({ to }) => setHideUnreleased(to)}
               />
-              <br/>
+            <br/>
             <CheckboxGroup state={filters} onChange={filtersChanged}>
               {filtersTemplate}
             </CheckboxGroup>

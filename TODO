@@ -12,6 +12,7 @@ recover from "no infobox" maybe? -- Redlinks cause skip, but no infobox causes f
 figure out the scroll position jumping around when showing/hiding details.
 
 LAST:
+probably remove smooth scrolling on search next/prev
 yt guides, how to's, tooltips
 the state of the app while data is fetching.
 remove/change CHECK ALL/UNCHECK ALL?
