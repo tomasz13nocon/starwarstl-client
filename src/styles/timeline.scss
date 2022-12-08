@@ -92,6 +92,10 @@ $full-image-transition: 0.2s;
   // 	0 $border-width 0 0 $border-color inset;
 
   // width: auto;
+  &.not-sortable {
+    // cursor: auto;
+    pointer-events: none;
+  }
   &.cover {
     width: 55px;
     padding: 0;
@@ -104,6 +108,10 @@ $full-image-transition: 0.2s;
   }
   &.title {
     width: 442px;
+    // &:hover {
+    //   box-shadow: 0 0 2px black;
+    //   z-index: 2;
+    // }
   }
   &.writer {
     width: 140px;
@@ -181,7 +189,7 @@ $full-image-transition: 0.2s;
     }
     .tv-image {
       // height: 16px;
-      // margin-right: 8px;
+      margin-right: 8px;
       position: relative;
       top: 2px;
       border-radius: 2px;
@@ -193,7 +201,7 @@ $full-image-transition: 0.2s;
       }
     }
     .season-episode {
-      margin: 0 8px;
+      margin-right: 8px;
       position: relative;
       top: -2px;
       border: 1px solid black;

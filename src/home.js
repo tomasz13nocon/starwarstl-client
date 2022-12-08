@@ -353,9 +353,20 @@ export default function Home() {
     },
     { text: "", highlight: null, results: [], overallSize: 0 }
   );
-  const timelineContainerRef = React.useRef();
   const [hideUnreleased, setHideUnreleased] = React.useState(false);
   const [collapseAdjacent, setCollapseAdjacent] = React.useState(false);
+  // Keys: names of columns corresponding to keys in data
+  // Values: wheter they're to be displayed
+  const [columns, setColumns] = React.useState({
+    date: true,
+    cover: false,
+    continuity: false, // TODO: width of page, responsive, etc. AND oneshots AND only show when comics filtered AND background color of rows
+    title: true,
+    writer: true,
+    releaseDate: true,
+  });
+
+  const timelineContainerRef = React.useRef();
 
   React.useEffect(async () => {
     // TODO: show error on network error
@@ -410,6 +421,8 @@ export default function Home() {
           setHideUnreleased={setHideUnreleased}
           collapseAdjacent={collapseAdjacent}
           setCollapseAdjacent={setCollapseAdjacent}
+          columns={columns}
+          setColumns={setColumns}
         />
         {rawData.length && seriesArr.length ? (
           <Timeline
@@ -426,6 +439,7 @@ export default function Home() {
             hideUnreleased={hideUnreleased}
             setHideUnreleased={setHideUnreleased}
             collapseAdjacent={collapseAdjacent}
+            columns={columns}
           />
         ) : (
           <Spinner />

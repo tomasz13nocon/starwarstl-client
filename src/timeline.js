@@ -161,19 +161,10 @@ export default function Timeline({
   hideUnreleased,
   setHideUnreleased,
   collapseAdjacent,
+  columns,
   ...props
 }) {
   ///// STATE /////
-  // Keys: names of columns corresponding to keys in data
-  // Values: wheter they're to be displayed
-  const [columns, setColumns] = React.useState({
-    date: true,
-    cover: false,
-    continuity: false, // TODO: width of page, responsive, etc. AND oneshots AND only show when comics filtered AND background color of rows
-    title: true,
-    writer: true,
-    releaseDate: true,
-  });
   const [sorting, setSorting] = React.useState({
     by: "date",
     ascending: true,
@@ -192,7 +183,7 @@ export default function Timeline({
   // No useCallback because we're not passing this down. See: https://stackoverflow.com/questions/64134566/should-we-use-usecallback-in-every-function-handler-in-react-functional-componen
   // useCallback is not about perf, it's about identity
   const toggleSorting = (name) => {
-    if (notSortable.includes(name)) return;
+    // if (notSortable.includes(name)) return;
     setSorting((prevSorting) => ({
       by: name,
       ascending: prevSorting.by === name ? !prevSorting.ascending : true,
@@ -518,7 +509,7 @@ export default function Timeline({
           <div
             onClick={(e) => toggleSorting(name, e)}
             key={name}
-            className={name + " th"}
+            className={name + " th" + (notSortable.includes(name) ? " not-sortable" : "")}
           >
             <div className="th-inner">
               {columnNames[name] || name}

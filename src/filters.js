@@ -48,6 +48,8 @@ export default React.memo(function Filters({
   seriesArr,
   collapseAdjacent,
   setCollapseAdjacent,
+  columns,
+  setColumns,
 }) {
 
   return (
@@ -153,6 +155,11 @@ export default React.memo(function Filters({
             name={"Hide unreleased"}
             value={hideUnreleased}
             onChange={({ to }) => setHideUnreleased(to)}
+          />
+          <Checkbox
+            name={"Show cover thumbnails"}
+            value={columns.cover}
+            onChange={({ to }) => setColumns(state => ({ ...state, cover: to }))}
           />
           <Checkbox
             name={"Collapse adjacent episodes"}
