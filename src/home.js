@@ -15,84 +15,8 @@ const filtersTemplate = {
   type: {
     name: null,
     children: {
-      book: {
-        name: "Novels",
-        children: {
-          fullType: {
-            name: "Target audience",
-            children: {
-              "book-a": { name: "Adult", value: true },
-              "book-ya": { name: "Young Adult", value: true },
-              "book-jr": { name: "Junior", value: true },
-              // Unknown: true,
-            },
-          },
-          publisher: {
-            name: "Publisher",
-            children: {
-              "Del Rey": true,
-              "Disney–Lucasfilm Press": true,
-              "Egmont UK Ltd": true,
-              Other: true,
-            },
-          },
-          // adaptation: {
-          //   name: "Adaptations",
-          //   value: false,
-          // },
-        },
-      },
-      yr: {
-        name: "Young Readers",
-        value: true,
-      },
-      comic: {
-        name: "Comics",
-        children: {
-          fullType: {
-            name: "Type",
-            children: {
-              comic: {
-                name: "Comic book",
-                value: true,
-              },
-              "comic-strip": {
-                name: "Comic strip",
-                value: true,
-              },
-              "comic-story": {
-                name: "Comic story",
-                value: true,
-              },
-              "comic-manga": {
-                name: "Manga",
-                value: true,
-              },
-            },
-          },
-          publisher: {
-            name: "Publisher",
-            children: {
-              "Marvel Comics": true,
-              "IDW Publishing": true,
-              "Dark Horse Comics": true,
-              "Egmont UK Ltd": true,
-              Unknown: true,
-            },
-          },
-          // subtype: {
-          //   name: "Format",
-          //   children: {
-          //     Series: true,
-          //     "Story arc": true,
-          //     "Single issue": true,
-          //     "Trade paperback": false,
-          //   },
-          // },
-        },
-      },
-      "short-story": {
-        name: "Short Stories",
+      film: {
+        name: "Films",
         value: true,
       },
       tv: {
@@ -111,7 +35,7 @@ const filtersTemplate = {
               },
               "tv-micro-series": {
                 name: "Micro series",
-                value: true,
+                value: false,
               },
             },
           },
@@ -129,27 +53,103 @@ const filtersTemplate = {
               },
               "game-vr": {
                 name: "VR",
-                value: true,
+                value: false,
               },
               "game-mobile": {
                 name: "Mobile",
-                value: true,
+                value: false,
               },
               "game-browser": {
                 name: "Browser",
-                value: true,
+                value: false,
               },
             },
           },
+        },
+      },
+      book: {
+        name: "Novels",
+        children: {
+          fullType: {
+            name: "Target audience",
+            children: {
+              "book-a": { name: "Adult", value: true },
+              "book-ya": { name: "Young Adult", value: true },
+              "book-jr": { name: "Junior", value: false },
+              // Unknown: true,
+            },
+          },
+          // publisher: {
+          //   name: "Publisher",
+          //   children: {
+          //     "Del Rey": true,
+          //     "Disney–Lucasfilm Press": true,
+          //     "Egmont UK Ltd": true,
+          //     Other: true,
+          //   },
+          // },
+          // adaptation: {
+          //   name: "Adaptations",
+          //   value: false,
+          // },
         },
       },
       "audio-drama": {
         name: "Audio Dramas",
         value: true,
       },
-      film: {
-        name: "Films",
-        value: true,
+      comic: {
+        name: "Comics",
+        children: {
+          fullType: {
+            name: "Type",
+            children: {
+              comic: {
+                name: "Comic book",
+                value: true,
+              },
+              "comic-manga": {
+                name: "Manga",
+                value: true,
+              },
+              "comic-strip": {
+                name: "Comic strip",
+                value: false,
+              },
+              "comic-story": {
+                name: "Comic story",
+                value: false,
+              },
+            },
+          },
+          // publisher: {
+          //   name: "Publisher",
+          //   children: {
+          //     "Marvel Comics": true,
+          //     "IDW Publishing": true,
+          //     "Dark Horse Comics": true,
+          //     "Egmont UK Ltd": true,
+          //     Unknown: true,
+          //   },
+          // },
+          // subtype: {
+          //   name: "Format",
+          //   children: {
+          //     Series: true,
+          //     "Story arc": true,
+          //     "Single issue": true,
+          //     "Trade paperback": false,
+          //   },
+          // },
+        },
+      },
+      "short-story": {
+        name: "Short Stories",
+        value: false,
+      },
+      yr: {
+        name: "Young Readers",
+        value: false,
       },
     },
   },
@@ -161,10 +161,10 @@ const _createStateFrom = (obj) => {
   for (const [key, value] of Object.entries(obj)) {
     ret[key] =
       typeof value === "boolean"
-        ? value
-        : value.value !== undefined
-        ? value.value
-        : _createStateFrom(value.children || value);
+      ? value
+      : value.value !== undefined
+      ? value.value
+      : _createStateFrom(value.children || value);
     // value.value - object representing a single filter
     // value.children - standard structure
     // value - object with direct children
@@ -355,6 +355,7 @@ export default function Home() {
   );
   const timelineContainerRef = React.useRef();
   const [hideUnreleased, setHideUnreleased] = React.useState(false);
+  const [collapseAdjacent, setCollapseAdjacent] = React.useState(false);
 
   React.useEffect(async () => {
     // TODO: show error on network error
@@ -394,6 +395,7 @@ export default function Home() {
       <Error>{errorMsg}</Error>
       <div className="timeline-container" ref={timelineContainerRef}>
         <Filters
+          seriesArr={seriesArr}
           filterText={filterText}
           filterTextChanged={setFilterText}
           filters={filters}
@@ -406,7 +408,8 @@ export default function Home() {
           timelineContainerRef={timelineContainerRef}
           hideUnreleased={hideUnreleased}
           setHideUnreleased={setHideUnreleased}
-          seriesArr={seriesArr}
+          collapseAdjacent={collapseAdjacent}
+          setCollapseAdjacent={setCollapseAdjacent}
         />
         {rawData.length && seriesArr.length ? (
           <Timeline
@@ -422,6 +425,7 @@ export default function Home() {
             dispatchSearchResults={dispatchSearchResults}
             hideUnreleased={hideUnreleased}
             setHideUnreleased={setHideUnreleased}
+            collapseAdjacent={collapseAdjacent}
           />
         ) : (
           <Spinner />

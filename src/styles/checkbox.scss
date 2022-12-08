@@ -5,6 +5,11 @@
 .checkbox-group-contents {
   margin-left: 25px;
 }
+.grouping-title {
+  margin-left: 25px;
+  font-weight: bold;
+}
+
 
 // CHECKBOX
 $checkbox-appear-duration: 0.2s;
@@ -178,4 +183,10 @@ $delay-transitions: all 0s $checkbox-appear-duration;
       }
     }
   }
+}
+
+.type-indicator-filter {
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 40px;
 }

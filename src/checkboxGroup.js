@@ -39,7 +39,7 @@ export default React.memo(function CheckboxGroup({
   path,
   children,
 }) {
-  const [hidden, setHidden] = React.useState(false);
+  const [hidden, setHidden] = React.useState(true);
 
   let childrenChecked = areChildrenChecked(state);
 
@@ -80,24 +80,32 @@ export default React.memo(function CheckboxGroup({
   // If name was not passed or is null, just recurse without creating the outer divs.
   if (!name) return recursiveGroupOrLeafs;
 
+  let grouping = (path.split(".").length) % 2 !== 0, additionalClass = "";
+
   return (
     <div className="checkbox-group">
       {/* group checkbox */}
       <div className={`checkbox-group-title`}>
-        <Checkbox
-          name={name}
-          value={childrenChecked === 2}
-          indeterminate={childrenChecked === 1}
-          onChange={onChange}
-          path={path}
-          icon={hidden ? mdiChevronDown : mdiChevronUp}
-          iconOnClick={() => setHidden((prev) => !prev)}
-        />
+        {grouping ?
+          <div className="checkbox-wrapper grouping-title">
+            {name}
+          </div>
+          :
+          <Checkbox
+            name={name}
+            value={childrenChecked === 2}
+            indeterminate={childrenChecked === 1}
+            onChange={onChange}
+            path={path}
+            icon={hidden ? mdiChevronDown : mdiChevronUp}
+            iconOnClick={() => setHidden((prev) => !prev)}
+          />
+        }
       </div>
 
       {/* leaf checkboxes or recursive contents of a group */}
-      {!hidden && (
-        <div className="checkbox-group-contents">{recursiveGroupOrLeafs}</div>
+      {(!hidden || grouping) && (
+        <div className={grouping ? "checkbox-group-contents" : ""}>{recursiveGroupOrLeafs}</div>
       )}
     </div>
   );

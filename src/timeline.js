@@ -160,6 +160,7 @@ export default function Timeline({
   dispatchSearchResults,
   hideUnreleased,
   setHideUnreleased,
+  collapseAdjacent,
   ...props
 }) {
   ///// STATE /////
@@ -205,7 +206,7 @@ export default function Timeline({
       let behavior = "auto";
       let highlightIndex = searchResults.results[searchResults.highlight.resultsIndex].rowIndex;
       if (highlightIndex >= renderedRange.current.startIndex &&
-          highlightIndex <= renderedRange.current.endIndex) {
+        highlightIndex <= renderedRange.current.endIndex) {
         behavior = "smooth";
       }
       virtuoso.current.scrollToIndex({
@@ -225,7 +226,7 @@ export default function Timeline({
     removeAllFalses(cleanFilters);
     tempData = rawData.filter((item) => {
       if (hideUnreleased && item.unreleased)
-      return false;
+        return false;
       return filterItem(cleanFilters, item);
     });
 
@@ -236,7 +237,7 @@ export default function Timeline({
           for (let boxFilter of boxFilters) {
             if (
               item.series &&
-                item.series.includes(boxFilter.title) /* && item.*/
+              item.series.includes(boxFilter.title) /* && item.*/
             ) {
               //TODO: We want more than series????
               return true;
@@ -261,16 +262,16 @@ export default function Timeline({
             .split(" ")
             .reduce(
               (acc, value) =>
-                acc &&
-                  (item.title.toLowerCase().includes(value) ||
-                    item.writer?.reduce(
-                      (acc, v) => acc || v?.toLowerCase().includes(value),
-                      false
-                    ) ||
-                    item.series?.reduce(
-                      (acc, v) => acc || v?.toLowerCase().includes(value),
-                      false
-                    )),
+              acc &&
+              (item.title.toLowerCase().includes(value) ||
+                item.writer?.reduce(
+                  (acc, v) => acc || v?.toLowerCase().includes(value),
+                  false
+                ) ||
+                item.series?.reduce(
+                  (acc, v) => acc || v?.toLowerCase().includes(value),
+                  false
+                )),
               true
             )
           )
@@ -288,7 +289,7 @@ export default function Timeline({
       let by = sorting.by;
       if (by === "date") by = "chronology";
       let av = a[by],
-          bv = b[by];
+        bv = b[by];
       // TODO: micro optimization: make seperate sorting functions based on value of "by" instead of checking it per item
       if (by === "releaseDate") {
         // Unknown release date always means unreleased, therefore the newest
@@ -301,13 +302,63 @@ export default function Timeline({
       if (av < bv) return sorting.ascending ? -1 : 1;
       if (av > bv) return sorting.ascending ? 1 : -1;
       return 0;
+    });
+
+    // Collapse adjacent entries
+    if (collapseAdjacent && tempData.length > 2) {
+      let next, first = null, match;
+      const tvEpsRe = /^(\d+)(?:[–-](\d+))?$/;
+      const comicRe = /^(.*?)(\d+)$/;
+
+      tempData = tempData.filter((item, i, arr) => {
+        next = arr[i+1];
+        // Remove data from previous render
+        delete item.collapseUntil;
+        delete item.collapsedCount;
+
+        if (
+          ( item.type === "tv" &&
+            next?.type === "tv" &&
+            item.series?.length &&
+            next.series?.length &&
+            next.series[0] === item.series[0] &&
+            // next?.series?.length === item.series.length &&
+            // next.series.every((el) => item.series.includes(el)) &&
+            next.season === item.season &&
+            (match = item.episode?.match(tvEpsRe)) &&
+            +(match[2] ?? match[1]) + 1 === +(next.episode?.match(tvEpsRe)[1])
+            // pls don't ask about this code. it works. trust me.
+          ) ||
+          ( item.fullType === "comic" &&
+            next?.fullType === "comic" &&
+            item.title.match(comicRe)?.[1] === next.title.match(comicRe)?.[1]
+          )
+        ) {
+          if (first === null) {
+            first = i;
+            return true;
+          }
+          return false;
+        }
+        else if (first !== null) {
+          // Don't collapse just 2 entries
+          if (first !== i - 1) {
+            arr[first].collapseUntil = item;
+            // arr[first].collapsedCount = i - first;
+            first = null;
+            return false;
+          }
+          first = null;
+        }
+        return true;
       });
+    }
 
     // Figure out last entry in each comic series to know when to close the continuity line.
     if (activeColumns.includes("continuity")) {
       let lastsInSeries = {},
-      positions = {},
-      colors = {};
+        positions = {},
+        colors = {};
       for (let item of tempData) {
         if (item.fullType === "comic" && item.series?.length) {
           for (let series of item.series) {
@@ -332,8 +383,8 @@ export default function Timeline({
                 if (
                   colorPrefs.some(
                     (e) =>
-                      e.regex.test(series) &&
-                        !Object.values(colors).includes((tempColor = e.color))
+                    e.regex.test(series) &&
+                    !Object.values(colors).includes((tempColor = e.color))
                   )
                 ) {
                   color = tempColor;
@@ -343,11 +394,11 @@ export default function Timeline({
                   startHash = hash; // prevent inf loop
                   while (Object.values(colors).includes(color)) {
                     if (item.title === "Kanan 1")
-                    console.log(colorValues.length, hash, startHash);
+                      console.log(colorValues.length, hash, startHash);
                     color =
                       colorValues[
-                      hash === colorValues.length - 1 ? (hash = 0) : ++hash
-                    ];
+                        hash === colorValues.length - 1 ? (hash = 0) : ++hash
+                      ];
                     if (hash === startHash) {
                       console.warn("collision loop " + item.title);
                       break;
@@ -373,9 +424,9 @@ export default function Timeline({
               ongoingContinuity[series] = currentContinuity;
               item.ongoingContinuity = _.cloneDeep(ongoingContinuity); // assigning to item. Is this okay? This affects rawData.
               if (lastsInSeries[series] === item.title)
-              delete ongoingContinuity[series];
+                delete ongoingContinuity[series];
               if (whichInSeries === "first")
-              ongoingContinuity[series].whichInSeries = "middle";
+                ongoingContinuity[series].whichInSeries = "middle";
             }
           }
         }
@@ -386,7 +437,20 @@ export default function Timeline({
     }
 
     return tempData;
-  }, [filters, filterText, sorting, boxFilters, hideUnreleased]);
+  }, [filters, filterText, sorting, boxFilters, hideUnreleased, collapseAdjacent]);
+
+  // Scroll to expanded entry on data change.
+  // This effect needs to have the same deps as useMemo above.
+  React.useEffect(() => {
+    if (expanded) {
+      virtuoso.current.scrollToIndex({
+        index: data.findIndex((e) => e._id === expanded),
+        align: "center",
+        // behavior: behavior,
+        // offset: -100,
+      });
+    }
+  }, [filters, filterText, sorting, boxFilters, hideUnreleased, collapseAdjacent]);
 
   // Search (Ctrl-F replacement)
   // TODO: should this be in useEffect?
@@ -417,9 +481,9 @@ export default function Timeline({
             } else if (Array.isArray(item[field])) {
               for (let [arrayIndex, arrayItem] of item[field].entries()) {
                 if (typeof arrayItem !== "string")
-                console.error(
-                  "Unknown field type while searching (array of non strings)"
-                );
+                  console.error(
+                    "Unknown field type while searching (array of non strings)"
+                  );
                 let indices = findAllIndices(arrayItem, searchResults.text);
                 if (indices.length) {
                   results.push({
@@ -436,7 +500,7 @@ export default function Timeline({
             } else if (item[field] !== undefined) {
               console.error(
                 "Unknown field type while searching. Expected string or array of strings. Got: " +
-                  typeof item[field]
+                typeof item[field]
               );
             }
           }
@@ -461,12 +525,12 @@ export default function Timeline({
               {sorting.by === name ? (
                 <Icon
                   path={
-                  sortingIcons[name][
-                  sorting.ascending ? "ascending" : "descending"
-                ]
-                }
+                    sortingIcons[name][
+                      sorting.ascending ? "ascending" : "descending"
+                    ]
+                  }
                   className="icon"
-                  />
+                />
               ) : null}
             </div>
           </div>
@@ -513,19 +577,20 @@ export default function Timeline({
                   seriesArr={seriesArr}
                   searchExpanded={searchExpanded}
                   searchResultsHighlight={searchResults.highlight ?
-                    {
-                      resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
-                      indicesIndex: searchResults.highlight.indicesIndex
-                    } :
-                    null}
+                      {
+                        resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
+                          indicesIndex: searchResults.highlight.indicesIndex
+                      } :
+                      null}
                   rowSearchResults={rowSearchResults}
                   searchText={searchResults.text}
+                  collapseAdjacent={collapseAdjacent}
                   {...props}
-                  />
+                />
               </div>
             );
           }}
-          />
+        />
       </div>
     </div>
   );

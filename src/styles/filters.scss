@@ -107,15 +107,23 @@
     }
   }
 
+  .checkbox-settings {
+    margin: 10px 0;
+  }
+
+  .check-buttons {
+    margin: 10px 0;
+    button:hover {
+      box-shadow: 0 0 2px black;
+    }
+  }
+
   .checkbox-filters {
-    // margin: 16px 0;
-    margin-top: 16px;
+    margin-top: 10px 0;
     line-height: 1.25;
-    .check-buttons {
-      margin-bottom: 6px;
-      button:hover {
-        box-shadow: 0 0 2px black;
-      }
+    .checkbox {
+      margin-top: 3px;
+      margin-bottom: 3px;
     }
   }
 }

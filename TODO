@@ -1,6 +1,6 @@
 search "series: The Clone Wars" (with autocomplete, suggestions etc.) or put series in the filters
 partial loading of large images?
-comic subtypes: comic story, strip, junior (IDW?), Manga and then Single issue vs sereis, vs TPB etc.
+comic subtypes: comic story, strip, junior (IDW?), Manga and then Single issue vs series, vs TPB etc.
 fetch cover artist from "File:" page
 Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
 when changing filters (remember removing them too) scroll to the expanded entry (advertise this feature, low discoverability)
@@ -9,9 +9,17 @@ color coded comic/tv series with visual indication of how long it runs (like swd
   button to switch to color coding seperate comic series
 responsive/mobile version (mobile alternative to right click filters)
 recover from "no infobox" maybe? -- Redlinks cause skip, but no infobox causes fetching error. Make them have the same effect (preferably recover and include in timeline with limited data).
-figure out the scroll position jumping around when showing/hiding details.
 
 LAST:
+"TODO:prod" - things to do before deploying to prod
+when fetching details, only fetch fields we're using to save bandwidth
+test diff browsers (including apple)
+try fetching: https://starwars.fandom.com/wiki/Special:WhatLinksHere/Template:Board_game and other stuff, and see if there's an error in the console
+main.js is 12MB!! - is this dev bundle problem?
+reduce library size (code splitting??)
+test ul dot (it's a weird unicode char, some ppl might not have a font supporting it)
+performance/profiing
+before pushing data to DB, backup old data in case of a breaking change. Keep a couple of backups.
 probably remove smooth scrolling on search next/prev
 yt guides, how to's, tooltips
 the state of the app while data is fetching.
@@ -25,6 +33,13 @@ fix <br> handling? the clone wars film has unknown date
 see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 
 LONG TERM:
+Add wookiee links to timeline notes?
+Link to youtini page for given media?
+amazon/audible referrals
+Pull the entire wookieepedia to compile a list of media releases: ref books, art books, omnibuses, TPBs, lego/non-canon/non-story stuff, magazines, tabletop games. Only release date sorting. https://starwars.fandom.com/wiki/List_of_Star_Wars_media - This is close, but due to rare updates not viable as a source.
+Other Books/entries in this Series (expandable list)
+user made reading orders (interface for reordering and adding/removing entries. Interface for viewing these and upvoting commenting)
+ignore list - add series/entries to ignore list and don't show them on the timeline (persisted with user acc/localStorage)
 on accepting suggestions, remove text only up to last semicolon OR remove the semicolon feature OR write it properly (the last one)
 fetch timeline with basic info only to cut initial load time, then fetch the one with full details (full one is 250 KB. Is this really necessary?)
 dark theme (save preference to localStorage)
@@ -78,18 +93,6 @@ PARSER:
 "TODO:parser" - things to do when switching from wtf_wikipedia to a different parser
 fetch this for list of supported interwiki prefixes:
 https://starwars.fandom.com/api.php?action=query&meta=siteinfo&siprop=interwikimap
-
-PRODUCTION:
-"TODO:prod" - things to do before deploying to prod
-when fetching details, only fetch fields we're using to save bandwidth
-test diff browsers (including apple)
-try fetching: https://starwars.fandom.com/wiki/Special:WhatLinksHere/Template:Board_game
-and other stuff, and see if there's an error in the console
-main.js is 12MB!! - is this dev bundle problem?
-reduce library size (code splitting??)
-test ul dot (it's a weird unicode char, some ppl might not have a font supporting it)
-performance/profiing
-before pushing data to DB, backup old data in case of a breaking change. Keep a couple of backups.
 
 WOOKIEEPEDIA EDITS:
 [[Star Wars Rebels Animation-Magazine]] comic strips - either remove this as a "series" field from all the strips or create a page for the series of comic strips and link to that.

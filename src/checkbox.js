@@ -45,7 +45,7 @@ export default React.memo(function Checkbox({
     <div
       className={`checkbox-wrapper level-${(path?.match(/\./g) || []).length}`}
     >
-        <label onContextMenu={path === undefined ? undefined : solo}>
+      <label onContextMenu={path === undefined ? undefined : solo}>
         <input
           type="checkbox"
           checked={value}
@@ -53,7 +53,7 @@ export default React.memo(function Checkbox({
           ref={checkboxRef}
         />
         <span className={`checkbox ${current} ${animClass}`}></span>
-        <span className="checkbox-text">{name}</span>
+        <span className={`checkbox-text ${path ? "type-indicator-filter" : ""} ${path ? path.split(".").pop() : ""}`}>{name}</span>
       </label>
       {icon !== undefined && (
         <Icon

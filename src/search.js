@@ -75,6 +75,7 @@ export default function Search({
         <button
           className={`circle-button search-button`}
           onClick={toggleExpanded}
+          aria-label="Search"
         >
           <Icon path={mdiMagnify} size={1.5} className="icon" />
         </button>

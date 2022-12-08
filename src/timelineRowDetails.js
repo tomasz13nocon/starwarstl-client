@@ -215,19 +215,22 @@ export default React.memo(function TimelineRowDetails({
   return (
     <>
       {item.cover ? (
-        <img
-          width={220}
-          src={imgAddress(item.cover)}
-          className="cover"
+        <button
+          className="reset-button cover-button"
           onClick={() =>
-            setFullCover({
-              name: item.cover,
-              show: true,
-              width: item.coverWidth,
-              height: item.coverHeight,
-            })
-          }
-        />
+              setFullCover({
+                name: item.cover,
+                show: true,
+                width: item.coverWidth,
+                height: item.coverHeight,
+              })
+          }>
+          <img
+            width={220}
+            src={imgAddress(item.cover)}
+            className="cover"
+          />
+        </button>
       ) : null}
       <div className="text">
         <h3 className="title">

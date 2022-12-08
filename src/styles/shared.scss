@@ -212,7 +212,7 @@ $grey1: rgb(100, 100, 100);
   color: $short-story-primary;
 }
 
-.tv {
+.tv, .tv-live-action {
   background-color: $tv-primary;
   color: $tv-secondary;
 }
@@ -224,7 +224,7 @@ $grey1: rgb(100, 100, 100);
   background-color: $tv-micro-series-primary;
   color: $tv-micro-series-secondary;
 }
-.tv-reversed {
+.tv-reversed, .tv-live-action-reversed {
   background-color: $tv-secondary;
   color: $tv-primary;
 }
