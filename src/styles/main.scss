@@ -39,8 +39,11 @@ ul {
 
 .content {
   flex: 1 0 auto;
-  width: 1070px;
+  width: 1170px;
   margin: 16px auto;
+  @media (max-width: $width-lg) {
+    width: 100%;
+  }
 }
 
 header,
@@ -61,6 +64,7 @@ header {
           color: white;
           &.active {
             background-color: #678;
+            pointer-events: none;
           }
         }
       }
@@ -126,4 +130,15 @@ a.external {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.spinner-container {
+  width: 100%;
+}
+.spinner-text {
+  font-size: 1.3em;
+  // font-weight: bold;
+  font-style: italic;
+  width: max-content;
+  margin: 10px auto;
 }

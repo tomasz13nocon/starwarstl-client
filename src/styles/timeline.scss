@@ -1,10 +1,17 @@
 @use "./shared.scss" as *;
 
+// :root {
+//   --table-width: 905px;
+// }
+
 .timeline-container {
   display: flex;
+  gap: 12px;
   margin: 0 12px;
-  & > div:first-child {
-    height: fit-content;
+  @media (min-width: $width-lg) {
+    & > div:first-child {
+      height: fit-content;
+    }
   }
 }
 
@@ -71,8 +78,10 @@ $full-image-transition: 0.2s;
 .table {
   //table-layout: fixed;
   // width: 800px;
-  margin: 0 auto;
+  // margin: 0 10px;
   border-collapse: collapse;
+  // width: var(--table-width);
+  flex-grow: 1;
 }
 
 .td,
@@ -97,32 +106,40 @@ $full-image-transition: 0.2s;
     pointer-events: none;
   }
   &.cover {
+    min-width: 55px;
     width: 55px;
     padding: 0;
   }
   &.date {
+    min-width: 80px;
     width: 80px;
   }
   &.continuity {
-    width: 68px;
+    // width: 68px;
+    min-width: 82px;
+    width: 82px;
   }
   &.title {
-    width: 442px;
+    // width: 442px;
+    flex-grow: 1;
     // &:hover {
     //   box-shadow: 0 0 2px black;
     //   z-index: 2;
     // }
   }
   &.writer {
+    min-width: 140px;
     width: 140px;
   }
   &.releaseDate {
     // @extend %cell-fit-content;
     // width: 0px;
     // width: min-content;
+    min-width: 82px;
     width: 82px;
   }
 }
+
 .th.continuity {
   // font-size: 0.8em;
   overflow-wrap: break-word;
@@ -133,7 +150,6 @@ $full-image-transition: 0.2s;
   border-top: none;
   border-bottom: none;
   padding: 0;
-  width: 82px;
   svg {
     display: block;
     // width: 62px;
@@ -151,10 +167,11 @@ $full-image-transition: 0.2s;
 .thead {
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   text-align: center;
   // align-items: stretch;
+  // width: var(--table-width);
 }
 .th {
   background-color: #444;
@@ -175,9 +192,9 @@ $full-image-transition: 0.2s;
 }
 
 .standard-row-inner {
-  // max-width: 805px;
   display: flex;
-  flex-flow: wrap;
+  // width: var(--table-width);
+  // flex-wrap: wrap;
   .td.title {
     font-weight: $weight-bolder;
     font-size: 1em;

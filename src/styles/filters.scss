@@ -1,14 +1,83 @@
 @use "./shared.scss" as *;
 
-.filter {
+.filters-container {
+  // margin: 0 10px;
+  transition: transform 0.2s;
+  @media (max-width: $width-lg) {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    height: 100%;
+    transform: translateX(-100%);
+    &.visible {
+      transform: translateX(0);
+    }
+  }
+}
+
+.filters-btn {
+  @media (min-width: $width-lg) {
+    display: none;
+  }
+  display: inline-block;
+  vertical-align: top;
+  transition: transform 0.3s;
+  // &.filters-visible {
+  //   transform: translateX(271px);
+  // }
+  position: absolute;
+  z-index: 7;
+  background: #444;
+  color: $accent;
+  // left: 0;
+  top: 160px;
+  padding: 4px 6px 4px 2px;
+  cursor: pointer;
+  border-radius: 0 14px 14px 0;
+
+  &:before, &:after {
+    border-bottom-left-radius: 24px;
+    // border-radius: 21px;
+    // box-shadow: 0 0 0 9px black;
+    border-left: 12px solid #444;
+    border-bottom: 12px solid #444;
+    // border: 10px solid black;
+    // transform: rotate(45deg);
+    // box-sizing: border-box;
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -12px;
+    width: 20px;
+    height: 20px;
+    z-index: -1;
+  }
+  &:after {
+    top: calc(100% - 14px);
+    transform: rotate(90deg);
+  }
+}
+
+.filters {
+  @media (max-width: $width-lg) {
+    display: inline-block;
+    overflow-y: auto;
+    background: $background;
+    padding: 12px;
+    box-sizing: border-box;
+    height: 100%;
+    border-right: 2px solid #aaa;
+    z-index: 50;
+    position: relative;
+  }
   // position: sticky;
   // height: 1000px;
   // overflow-y: auto;
   // top: 10px;
   // align-self: flex-start;
-  // width: 265px;
+  width: 245px;
   // flex: 0 0 235px;
-  margin-right: 10px;
   // max-height: calc(100vh + 10px);
   // height: calc(100vh - 10px - 73px);
   // height: calc(100vh - 10px);

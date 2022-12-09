@@ -8,6 +8,9 @@ import Search from "./search";
 import Error from "./error";
 import Spinner from "./spinner.js";
 import Timeline from "./timeline.js";
+import { mdiFilterMultiple } from '@mdi/js';
+import Icon from "@mdi/react";
+import { useSwipeable } from "react-swipeable";
 
 //import rawData from "./data.json";
 
@@ -365,8 +368,10 @@ export default function Home() {
     writer: true,
     releaseDate: true,
   });
+  const [showFilters, setShowFilters] = React.useState(false);
 
   const timelineContainerRef = React.useRef();
+  const filtersContainerRef = React.useRef();
 
   React.useEffect(async () => {
     // TODO: show error on network error
@@ -389,8 +394,40 @@ export default function Home() {
     res = await fetch(API + "series");
     // TODO: defer this possibly to first time user uses search
     setSeriesArr(await res.json());
+
+    document.addEventListener("click", (e) => {
+      console.log("click");
+      if (showFilters && !filtersContainerRef.current?.contains(e.target)) {
+        console.log("not contained");
+        setShowFilters(false);
+      }
+      else
+        console.log("conatined");
+    })
   }, []);
 
+
+  const handlers = useSwipeable({
+    // onSwiping: (e) => {
+    //   if (showFilters)
+    //     filtersContainerRef.current.style.transform = `translateX(calc(${e.deltaX}px))`;
+    //   else
+    //     filtersContainerRef.current.style.transform = `translateX(calc(-100% + ${e.deltaX}px))`;
+    // },
+    onSwipedRight: (e) => {
+      if (e.deltaX > 100) {
+        setShowFilters(true);
+      }
+      // filtersContainerRef.current.style.removeProperty("transform");
+    },
+    onSwipedLeft: (e) => {
+      if (e.deltaX < -100) {
+        setShowFilters(false);
+      }
+      // filtersContainerRef.current.style.removeProperty("transform");
+    },
+  });
+  
   return (
     <>
       <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
@@ -404,7 +441,7 @@ export default function Home() {
         />
       </div>
       <Error>{errorMsg}</Error>
-      <div className="timeline-container" ref={timelineContainerRef}>
+      <div className="timeline-container" ref={timelineContainerRef} {...handlers}>
         <Filters
           seriesArr={seriesArr}
           filterText={filterText}
@@ -423,6 +460,9 @@ export default function Home() {
           setCollapseAdjacent={setCollapseAdjacent}
           columns={columns}
           setColumns={setColumns}
+          showFilters={showFilters}
+          setShowFilters={setShowFilters}
+          filtersContainerRef={filtersContainerRef}
         />
         {rawData.length && seriesArr.length ? (
           <Timeline
