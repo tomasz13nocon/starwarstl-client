@@ -55,167 +55,167 @@ export default React.memo(function Filters({
   filtersContainerRef,
 }) {
 
-  const [largeScreen, setLargeScreen] = React.useState(
-    window.matchMedia("(min-width: 1186px)").matches
-  );
+    const [largeScreen, setLargeScreen] = React.useState(
+      window.matchMedia("(min-width: 1186px)").matches
+    );
 
-  React.useEffect(() => {
-    window
-    .matchMedia("(min-width: 1186px)")
-    .addEventListener('change', e => setLargeScreen( e.matches ));
-  }, []);
+    React.useEffect(() => {
+      window
+        .matchMedia("(min-width: 1186px)")
+        .addEventListener('change', e => setLargeScreen( e.matches ));
+    }, []);
 
-  let content = (
-    <div className="filters">
-      <div className="search clear-input-container">
-        <input
-          type="text"
-          value={filterText}
-          onChange={(e) => {
-            let newFilterText = e.target.value;
-            filterTextChanged(newFilterText)
+    let content = (
+      <div className="filters">
+        <div className="search clear-input-container">
+          <input
+            type="text"
+            value={filterText}
+            onChange={(e) => {
+              let newFilterText = e.target.value;
+              filterTextChanged(newFilterText);
 
-            // Search suggestions
-            if (newFilterText) {
-              let queries = [newFilterText.toLowerCase()];
-              let last = queries[queries.length - 1].trim();
-              if (last.length >= 2) {
-                let found = seriesArr.filter((item) =>
-                  item.displayTitle
-                    ? item.displayTitle.toLowerCase().includes(last)
-                    : item.title.toLowerCase().includes(last)
-                );
-                if (found.length) {
-                  setSuggestions(
-                    found
-                    .filter((el) => !boxFilters.includes(el))
-                    .sort((a, b) => {
-                      let ap = suggestionPriority.indexOf(a.fullType || a.type),
-                        bp = suggestionPriority.indexOf(b.fullType || b.type);
-                      if (ap > bp) return 1;
-                      if (ap < bp) return -1;
-                      return 0;
-                    })
-                    .slice(0, 10)
+              // Search suggestions
+              if (newFilterText) {
+                let queries = [newFilterText.toLowerCase()];
+                let last = queries[queries.length - 1].trim();
+                if (last.length >= 2) {
+                  let found = seriesArr.filter((item) =>
+                    item.displayTitle
+                      ? item.displayTitle.toLowerCase().includes(last)
+                      : item.title.toLowerCase().includes(last)
                   );
+                  if (found.length) {
+                    setSuggestions(
+                      found
+                        .filter((el) => !boxFilters.includes(el))
+                        .sort((a, b) => {
+                          let ap = suggestionPriority.indexOf(a.fullType || a.type),
+                          bp = suggestionPriority.indexOf(b.fullType || b.type);
+                          if (ap > bp) return 1;
+                          if (ap < bp) return -1;
+                          return 0;
+                        })
+                        .slice(0, 10)
+                    );
+                  } else setSuggestions([]);
                 } else setSuggestions([]);
               } else setSuggestions([]);
-            } else setSuggestions([]);
-          }}
-          placeholder="Filter..."
-          className="input-default"
-        />
-        {filterText ? (
-          <button
-            className="clear-input"
-            onClick={(e) => {
-              filterTextChanged("");
-              setSuggestions([]);
             }}
-            aria-label="Clear search"
-          >
-            &times;
-          </button>
-        ) : null}
-      </div>
-
-      <div className="search-suggestions">
-        {suggestions.length > 0 && (
-          <span className="suggestions-heading">Suggestions:</span>
-        )}
-        {suggestions.map((el) => (
-          <button
-            key={el._id}
-            className={`reset-button suggestion ${el.type} ${el.fullType}`}
-            onClick={() => {
-              setBoxFilters([...boxFilters, el]);
-              filterTextChanged("");
-              setSuggestions([]);
-            }}
-          >
-            {el.displayTitle || el.title}
-          </button>
-        ))}
-      </div>
-
-      <div className="box-filters">
-        {boxFilters.map((boxFilter) => (
-          <div
-            key={boxFilter._id}
-            className={`type-indicator ${boxFilter.type} ${boxFilter.fullType}`}
-          >
-            <span className="text">
-              {boxFilter.displayTitle || boxFilter.title}
-              <WookieeLink title={boxFilter.title}></WookieeLink>
-            </span>
+            placeholder="Filter..."
+            className="input-default"
+            />
+          {filterText ? (
             <button
-              className={`reset-button curp remove ${boxFilter.type}-reversed ${boxFilter.fullType}-reversed`}
-              onClick={() =>
+              className="clear-input"
+              onClick={(e) => {
+                filterTextChanged("");
+                setSuggestions([]);
+              }}
+              aria-label="Clear search"
+            >
+              &times;
+            </button>
+          ) : null}
+        </div>
+
+        <div className="search-suggestions">
+          {suggestions.length > 0 && (
+            <span className="suggestions-heading">Suggestions:</span>
+          )}
+          {suggestions.map((el) => (
+            <button
+              key={el._id}
+              className={`reset-button suggestion ${el.type} ${el.fullType}`}
+              onClick={() => {
+                setBoxFilters([...boxFilters, el]);
+                filterTextChanged("");
+                setSuggestions([]);
+              }}
+            >
+              {el.displayTitle || el.title}
+            </button>
+          ))}
+        </div>
+
+        <div className="box-filters">
+          {boxFilters.map((boxFilter) => (
+            <div
+              key={boxFilter._id}
+              className={`type-indicator ${boxFilter.type} ${boxFilter.fullType}`}
+            >
+              <span className="text">
+                {boxFilter.displayTitle || boxFilter.title}
+                <WookieeLink title={boxFilter.title}></WookieeLink>
+              </span>
+              <button
+                className={`reset-button curp remove ${boxFilter.type}-reversed ${boxFilter.fullType}-reversed`}
+                onClick={() =>
                   setBoxFilters([
                     ...boxFilters.filter((el) => el._id !== boxFilter._id),
                   ])
               }
-            >
-              <Icon className={`icon`} path={mdiClose} />
-            </button>
+              >
+                <Icon className={`icon`} path={mdiClose} />
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="checkbox-settings">
+          <Checkbox
+            name={"Hide unreleased"}
+            value={hideUnreleased}
+            onChange={({ to }) => setHideUnreleased(to)}
+            />
+          <Checkbox
+            name={"Show cover thumbnails"}
+            value={columns.cover}
+            onChange={({ to }) => setColumns(state => ({ ...state, cover: to }))}
+            />
+          <Checkbox
+            name={"Collapse adjacent episodes"}
+            value={collapseAdjacent}
+            onChange={({ to }) => setCollapseAdjacent(to)}
+            />
+        </div>
+
+        <div className="check-buttons">
+          <button
+            className="show-button"
+            onClick={() => filtersChanged({ path: "type", to: true })}
+          >
+            CHECK ALL
+          </button>
+          <button
+            className="hide-button"
+            onClick={() => filtersChanged({ path: "type", to: false })}
+          >
+            UNCHECK ALL
+          </button>
+        </div>
+
+        <div
+          className="checkbox-filters"
+        >
+          <CheckboxGroup state={filters} onChange={filtersChanged}>
+            {filtersTemplate}
+          </CheckboxGroup>
+        </div>
+      </div>
+    );
+
+    return (
+      largeScreen ? 
+        <StickyBox className={`filters-container ${showFilters ? "visible" : ""}`} offsetTop={12} offsetBottom={12}>
+          {content}
+        </StickyBox>
+        :
+        <div className={`filters-container ${showFilters ? "visible" : ""}`} ref={filtersContainerRef}>
+          {content}
+          <div className={`filters-btn ${showFilters ? "filters-visible" : ""}`} onClick={() => setShowFilters(!showFilters)}>
+            <Icon path={mdiFilterMultiple} size={1.6} className="icon" />
           </div>
-        ))}
-      </div>
-
-      <div className="checkbox-settings">
-        <Checkbox
-          name={"Hide unreleased"}
-          value={hideUnreleased}
-          onChange={({ to }) => setHideUnreleased(to)}
-        />
-        <Checkbox
-          name={"Show cover thumbnails"}
-          value={columns.cover}
-          onChange={({ to }) => setColumns(state => ({ ...state, cover: to }))}
-        />
-        <Checkbox
-          name={"Collapse adjacent episodes"}
-          value={collapseAdjacent}
-          onChange={({ to }) => setCollapseAdjacent(to)}
-        />
-      </div>
-
-      <div className="check-buttons">
-        <button
-          className="show-button"
-          onClick={() => filtersChanged({ path: "type", to: true })}
-        >
-          CHECK ALL
-        </button>
-        <button
-          className="hide-button"
-          onClick={() => filtersChanged({ path: "type", to: false })}
-        >
-          UNCHECK ALL
-        </button>
-      </div>
-
-      <div
-        className="checkbox-filters"
-      >
-        <CheckboxGroup state={filters} onChange={filtersChanged}>
-          {filtersTemplate}
-        </CheckboxGroup>
-      </div>
-    </div>
-  );
-
-  return (
-    largeScreen ? 
-      <StickyBox className={`filters-container ${showFilters ? "visible" : ""}`} offsetTop={12} offsetBottom={12}>
-        {content}
-      </StickyBox>
-    :
-    <div className={`filters-container ${showFilters ? "visible" : ""}`} ref={filtersContainerRef}>
-      {content}
-      <div className={`filters-btn ${showFilters ? "filters-visible" : ""}`} onClick={() => setShowFilters(!showFilters)}>
-        <Icon path={mdiFilterMultiple} size={1.6} className="icon" />
-      </div>
-    </div>
-  );
-});
+        </div>
+    );
+  });

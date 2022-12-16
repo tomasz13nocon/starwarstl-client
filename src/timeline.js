@@ -528,6 +528,16 @@ export default function Timeline({
         ))}
       </div>
       <div className="tbody">
+        {data.length === 0 &&
+          <div className="message-container">
+            <img src="TheVoid.webp" alt="The Void on Abafar from D-squad Clone Wars arc" />
+            <div className="spinner-text">
+              There's nothing here...
+              <br/>
+              <span>(Try changing the filters or the query)</span>
+            </div>
+          </div>
+        }
         <Virtuoso
           // style={{ position: "relative" }}
           ref={virtuoso}

@@ -85,8 +85,9 @@ $grey1: rgb(100, 100, 100);
 
 // RESPONSIVE
 $width-lg: 1186px;
-$width-md: 870px;
-$width-sm: 570px;
+// $width-md: 870px;
+$width-md: 738px;
+$width-sm: 576px;
 
 
 %reset-button {
@@ -111,6 +112,7 @@ $width-sm: 570px;
 
   /* Corrects inability to style clickable `input` types in iOS */
   -webkit-appearance: none;
+  appearance: none;
 }
 
 %cell-fit-content {

@@ -407,7 +407,7 @@ export default function Home() {
   }, []);
 
 
-  const handlers = useSwipeable({
+  const { ref: documentRef } = useSwipeable({
     // onSwiping: (e) => {
     //   if (showFilters)
     //     filtersContainerRef.current.style.transform = `translateX(calc(${e.deltaX}px))`;
@@ -427,7 +427,10 @@ export default function Home() {
       // filtersContainerRef.current.style.removeProperty("transform");
     },
   });
-  
+  React.useEffect(() => {
+    documentRef(document);
+  });
+
   return (
     <>
       <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
@@ -441,7 +444,7 @@ export default function Home() {
         />
       </div>
       <Error>{errorMsg}</Error>
-      <div className="timeline-container" ref={timelineContainerRef} {...handlers}>
+      <div className="timeline-container" ref={timelineContainerRef}>
         <Filters
           seriesArr={seriesArr}
           filterText={filterText}

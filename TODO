@@ -1,11 +1,12 @@
+search not working. again. ...
 improve UX on filters
 responsive/mobile version (mobile alternative to right click filters)
 fetching:
 - Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
 - recover from "no infobox" maybe? -- Redlinks cause skip, but no infobox causes fetching error. Make them have the same effect (preferably recover and include in timeline with limited data).
+instead of responsive display: none, don't render at all
 
 LAST:
-"TODO:prod" - things to do before deploying to prod
 partial loading of large images?
 when fetching details, only fetch fields we're using to save bandwidth
 test diff browsers (including apple)
@@ -22,6 +23,8 @@ remove/change CHECK ALL/UNCHECK ALL?
 clear this todo, TODOs in code, console logs, errors/warns when fetching
 
 IDK:
+Second layout for mobile (see designs)
+for mobile change row click area to the entire row
 "scroll to start of page" button
 include writer in details if it's in the timeline but not in article (like i did with release dates)
 fix <br> handling? the clone wars film has unknown date
@@ -90,7 +93,6 @@ FYI:
 A trooper's worth's series field is a link + some text, but we get only link (shouldn't be a big issue for now)
 
 PARSER:
-"TODO:parser" - things to do when switching from wtf_wikipedia to a different parser
 fetch this for list of supported interwiki prefixes:
 https://starwars.fandom.com/api.php?action=query&meta=siteinfo&siprop=interwikimap
 
