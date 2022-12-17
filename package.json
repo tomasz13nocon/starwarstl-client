@@ -1,78 +1,87 @@
 {
-	"name": "swtimeline",
-	"version": "1.0.0",
-	"description": "",
-	"private": true,
-	"scripts": {
-		"start": "webpack serve --env development",
-		"build": "webpack --env production",
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"@babel/runtime": "^7.17.2",
-		"@mdi/js": "^6.5.95",
-		"@mdi/react": "^1.5.0",
-		"acorn": "^8.7.0",
-		"css-minimizer-webpack-plugin": "^3.4.1",
-		"html-entities": "^2.3.2",
-		"immer": "^9.0.12",
-		"lodash": "^4.17.21",
-		"md5": "^2.3.0",
-		"mini-css-extract-plugin": "^2.6.0",
-		"react": "^17.0.2",
-		"react-animate-height": "^2.0.23",
-		"react-base-table": "^1.13.0",
-		"react-dom": "^17.0.2",
-		"react-popper-tooltip": "^4.3.1",
-		"react-router-dom": "^6.2.1",
-		"react-sticky-box": "^1.0.2",
-		"react-swipeable": "^7.0.0",
-		"react-transition-group": "^4.4.2",
-		"react-virtuoso": "^3.1.5",
-		"sharp": "^0.30.2",
-		"use-deep-compare-effect": "^1.8.1",
-		"wtf_wikipedia": "file:wtf_wikipedia"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.17.5",
-		"@babel/plugin-transform-runtime": "^7.17.0",
-		"@babel/preset-env": "^7.16.11",
-		"@babel/preset-react": "^7.16.7",
-		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
-		"babel-loader": "^8.2.3",
-		"css-loader": "^6.6.0",
-		"eslint": "^8.25.0",
-		"eslint-plugin-react": "^7.31.10",
-		"prettier": "2.5.1",
-		"prop-types": "^15.8.1",
-		"react-refresh": "^0.11.0",
-		"sass": "^1.49.8",
-		"sass-loader": "^12.6.0",
-		"style-loader": "^3.3.1",
-		"webpack": "^5.69.1",
-		"webpack-cli": "^4.9.2",
-		"webpack-dev-server": "^4.7.4"
-	},
-	"babel": {
-		"presets": [
-			[
-				"@babel/env",
-				{
-					"targets": "defaults"
-				}
-			],
-			"@babel/preset-react"
-		],
-		"plugins": [
-			[
-				"@babel/plugin-transform-runtime",
-				{
-					"regenerator": true
-				}
-			]
-		]
-	}
+  "name": "swtimeline",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "sideEffects": [
+    "*.scss"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/runtime": "^7.17.2",
+    "@mdi/js": "^6.5.95",
+    "@mdi/react": "^1.5.0",
+    "@vitejs/plugin-react": "^3.0.0",
+    "acorn": "^8.7.0",
+    "css-minimizer-webpack-plugin": "^3.4.1",
+    "html-entities": "^2.3.2",
+    "html-loader": "^4.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "immer": "^9.0.12",
+    "lodash": "^4.17.21",
+    "md5": "^2.3.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "react": "^17.0.2",
+    "react-animate-height": "^2.0.23",
+    "react-base-table": "^1.13.0",
+    "react-dom": "^17.0.2",
+    "react-popper-tooltip": "^4.3.1",
+    "react-router-dom": "^6.2.1",
+    "react-sticky-box": "^1.0.2",
+    "react-swipeable": "^7.0.0",
+    "react-transition-group": "^4.4.2",
+    "react-virtuoso": "^3.1.5",
+    "sharp": "^0.30.2",
+    "use-deep-compare-effect": "^1.8.1",
+    "vite": "^4.0.1",
+    "wtf_wikipedia": "file:wtf_wikipedia"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
+    "babel-loader": "^8.2.3",
+    "css-loader": "^6.6.0",
+    "eslint": "^8.25.0",
+    "eslint-plugin-react": "^7.31.10",
+    "prettier": "2.5.1",
+    "prop-types": "^15.8.1",
+    "react-refresh": "^0.11.0",
+    "sass": "^1.49.8",
+    "sass-loader": "^12.6.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/env",
+        {
+          "targets": "defaults"
+        }
+      ],
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-transform-runtime",
+        {
+          "regenerator": true
+        }
+      ]
+    ]
+  }
 }

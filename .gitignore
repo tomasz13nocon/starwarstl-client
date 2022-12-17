@@ -2,3 +2,5 @@
 /dist
 /public/images/*
 !/public/images/tv-images
+/src/img/*
+!/src/img/tv-images

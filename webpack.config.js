@@ -1,6 +1,7 @@
 const path = require("path");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const webpack = require("webpack");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env) => {
   const dev = env.development;
@@ -8,10 +9,15 @@ module.exports = (env) => {
     mode: dev ? "development" : "production",
     entry: "./src/index.js",
     output: {
-      filename: dev ? "main.js" : "[name].[contenthash].js",
+      filename: "main.js", // dev ? "main.js" : "[name].[contenthash].js",
       path: path.resolve(__dirname, "dist"),
+      assetModuleFilename: "[name][ext]",
     },
-    devtool: dev ? "inline-source-map" : undefined,
+    devtool: dev ? "inline-source-map" : "source-map",
+    optimization: {
+      usedExports: true,
+    },
+    // sideEffects: [ "*.scss" ],
     //target: dev ? "web" : "browserslist",
     devServer: {
       //static: path.resolve(__dirname),
@@ -43,14 +49,19 @@ module.exports = (env) => {
           use: ["style-loader", "css-loader"],
         },
         {
-          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          test: /\.(png|svg|jpg|jpeg|gif|ico|webp)$/i,
           type: "asset/resource",
         },
+        // {
+        //   test: /\.html$/i,
+        //   loader: "html-loader",
+        // },
       ],
     },
     plugins: [
       //dev && new webpack.HotModuleReplacementPlugin(),
       dev && new ReactRefreshWebpackPlugin(),
+      new HtmlWebpackPlugin({ template: './src/index.html' }),
     ].filter(Boolean),
   };
 };

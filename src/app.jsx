@@ -6,7 +6,7 @@ import Footer from "./footer.js";
 import Header from "./header.js";
 import Home from "./home.js";
 
-export default function Main() {
+export default function App() {
   return (
     <Router>
       <Header />

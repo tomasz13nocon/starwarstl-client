@@ -21,6 +21,9 @@ yt guides, how to's, tooltips
 the state of the app while data is fetching.
 remove/change CHECK ALL/UNCHECK ALL?
 clear this todo, TODOs in code, console logs, errors/warns when fetching
+don't show spinner when error is already shown
+convert wiki icon to webp
+react-responsive - do I need it?
 
 IDK:
 Second layout for mobile (see designs)
