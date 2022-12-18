@@ -1,4 +1,4 @@
-export const API = "http://localhost:5000/api/";
+export const API = window.location.protocol + "//" + window.location.hostname + ":5000/api/";
 // export const API = "/api/";
 export const IMAGE_PATH = "/img/covers/"; // do i need ./ at the start?
 export const TV_IMAGE_PATH = `${IMAGE_PATH}tv-images/thumb/`;

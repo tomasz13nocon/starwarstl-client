@@ -393,17 +393,6 @@ export default function Home() {
     res = await fetch(API + "series");
     // TODO: defer this possibly to first time user uses search
     setSeriesArr(await res.json());
-
-    const hideFilters = (e) => {
-      if (showFilters && !filtersContainerRef.current?.contains(e.target)) {
-        console.log("not contained");
-        setShowFilters(false);
-      }
-      else
-        console.log("contained");
-    };
-    document.addEventListener("click", hideFilters)
-    return () => window.removeEventListener("keyup", hideFilters);
   }, []);
 
 

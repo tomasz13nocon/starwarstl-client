@@ -248,7 +248,7 @@ export default React.memo(function TimelineRow({
                 <EpisodeNumber item={item} />
               </>
             ) : null}
-            {item.title}
+            {inside}
             {collapseAdjacent && item.collapseUntil ?
               <>
                 <br/>

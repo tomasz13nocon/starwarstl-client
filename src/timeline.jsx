@@ -529,7 +529,7 @@ export default function Timeline({
       <div className="tbody">
         {data.length === 0 &&
           <div className="message-container">
-            <img src="img/TheVoid.webp" alt="The Void on Abafar from D-squad Clone Wars arc" />
+            <img src="/img/TheVoid.webp" alt="The Void on Abafar from D-squad Clone Wars arc" />
             <div className="spinner-text">
               There's nothing here...
               <br/>
