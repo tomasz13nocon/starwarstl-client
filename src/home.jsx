@@ -1,16 +1,15 @@
-import produce from "immer";
+import { produce } from "immer";
 import React from "react";
-import { API, unscuffDate } from "./common.js";
-import Filters from "./filters.js";
-import FullCoverPreview from "./fullCoverPreview.js";
+import { API, unscuffDate } from "./common";
+import Filters from "./filters";
+import FullCoverPreview from "./fullCoverPreview";
 import Legend from "./legend";
 import Search from "./search";
 import Error from "./error";
-import Spinner from "./spinner.js";
-import Timeline from "./timeline.js";
-import { mdiFilterMultiple } from '@mdi/js';
-import Icon from "@mdi/react";
+import Spinner from "./spinner";
+import Timeline from "./timeline";
 import { useSwipeable } from "react-swipeable";
+import { _ } from "lodash";
 
 //import rawData from "./data.json";
 
@@ -395,15 +394,16 @@ export default function Home() {
     // TODO: defer this possibly to first time user uses search
     setSeriesArr(await res.json());
 
-    document.addEventListener("click", (e) => {
-      console.log("click");
+    const hideFilters = (e) => {
       if (showFilters && !filtersContainerRef.current?.contains(e.target)) {
         console.log("not contained");
         setShowFilters(false);
       }
       else
-        console.log("conatined");
-    })
+        console.log("contained");
+    };
+    document.addEventListener("click", hideFilters)
+    return () => window.removeEventListener("keyup", hideFilters);
   }, []);
 
 

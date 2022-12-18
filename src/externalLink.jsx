@@ -1,6 +1,6 @@
 import React from "react";
 import { mdiOpenInNew } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 
 export default function ExternalLink({ children, ...props }) {
   return (

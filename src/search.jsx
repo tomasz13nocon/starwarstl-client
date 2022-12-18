@@ -1,5 +1,5 @@
 import React from "react";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import { mdiMagnify, mdiClose, mdiChevronUp, mdiChevronDown } from "@mdi/js";
 import "./styles/search.scss";
 

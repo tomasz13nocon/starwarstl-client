@@ -1,13 +1,13 @@
 import React from "react";
-import _ from "lodash";
+import { _ } from "lodash";
 import { mdiClose, mdiFilterMultiple } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import StickyBox from "react-sticky-box";
 
-import CheckboxGroup from "./checkboxGroup.js";
-import WookieeLink from "./wookieeLink.js";
+import CheckboxGroup from "./checkboxGroup";
+import WookieeLink from "./wookieeLink";
 import "./styles/filters.scss";
-import Checkbox from "./checkbox.js";
+import Checkbox from "./checkbox";
 
 const suggestionPriority = [
   "film",

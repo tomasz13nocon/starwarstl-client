@@ -1,9 +1,9 @@
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import React from "react";
 
 import "./styles/checkbox.scss";
 
-import { blurIfMouse } from "./util.js";
+import { blurIfMouse } from "./util";
 
 export default React.memo(function Checkbox({
   name,

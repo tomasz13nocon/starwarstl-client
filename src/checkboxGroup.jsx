@@ -1,9 +1,8 @@
 import React from "react";
-import _ from "lodash";
+import { _ } from "lodash";
 
-import Checkbox from "./checkbox.js";
-import Icon from "@mdi/react";
-import { mdiChevronDown, mdiChevronUp, mdiChevronRight } from "@mdi/js";
+import Checkbox from "./checkbox";
+import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
 
 // for a given object returns, depending on the state of its children, recursively:
 // 0 - all unchecked

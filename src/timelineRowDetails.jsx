@@ -1,6 +1,5 @@
-import { mdiNumeric } from "@mdi/js";
 import React from "react";
-import md5 from "md5";
+import { _ } from "lodash";
 
 import WookieeLink from "./wookieeLink";
 import ExternalLink from "./externalLink";

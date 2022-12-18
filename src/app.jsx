@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import About from "./about.js";
-import Faq from "./faq.js";
-import Footer from "./footer.js";
-import Header from "./header.js";
-import Home from "./home.js";
+import About from "./about";
+import Faq from "./faq";
+import Footer from "./footer";
+import Header from "./header";
+import Home from "./home";
 
 export default function App() {
   return (

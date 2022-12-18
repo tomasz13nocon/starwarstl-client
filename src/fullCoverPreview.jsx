@@ -1,6 +1,6 @@
 import React from "react";
 import { CSSTransition } from "react-transition-group";
-import { imgAddress, Size } from "./common.js";
+import { imgAddress, Size } from "./common";
 
 export default function FullCoverPreview({ fullCover, setFullCover }) {
   // const [fullCoverLoaded, setFullCoverLoaded] = React.useState(false);

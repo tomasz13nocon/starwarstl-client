@@ -1,8 +1,7 @@
 import React from "react";
 import { Virtuoso } from 'react-virtuoso';
-import _ from "lodash";
-import Icon from "@mdi/react";
-import useDeepCompareEffect from "use-deep-compare-effect";
+import { _ } from "lodash";
+import { Icon } from "@mdi/react";
 import {
   mdiSortAlphabeticalAscending,
   mdiSortAlphabeticalDescending,
@@ -13,9 +12,9 @@ import {
   mdiSortCalendarDescending,
 } from "@mdi/js";
 
-import TimelineRow from "./timelineRow.js";
+import TimelineRow from "./timelineRow";
 import "./styles/timeline.scss";
-import { unscuffDate, escapeRegex, searchFields } from "./common.js";
+import { unscuffDate, escapeRegex, searchFields } from "./common";
 
 
 const sortingIcons = new Proxy(
