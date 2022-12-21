@@ -9,6 +9,8 @@ import {
 } from "./common";
 import TimelineRowDetails from "./timelineRowDetails";
 import EpisodeNumber from "./episodeNumber";
+import Ellipsis from "./ellipsis";
+import MessageImg from "./messageImg";
 
 const highlightText = (
   text,
@@ -49,6 +51,7 @@ export default React.memo(function TimelineRow({
   rowSearchResults,
   searchText,
   collapseAdjacent,
+  dataState,
 }) {
   const [rowHeight, setRowHeight] = React.useState(0);
   let rowRef = React.useRef();
@@ -234,16 +237,11 @@ export default React.memo(function TimelineRow({
               <>
                 <img
                   // TODO: hover text
-                  title={item.series}
-                  alt={item.series}
+                  title={item.series[0]}
+                  alt={item.series[0]}
                   className="tv-image"
                   height="20px"
-                  src={buildTvImagePath(
-                    item.series.find(
-                      (e) =>
-                      seriesArr.find((s) => s.title === e).type === "tv"
-                    )
-                  )}
+                  src={buildTvImagePath(item.series[0])}
                 />
                 <EpisodeNumber item={item} />
               </>
@@ -253,7 +251,7 @@ export default React.memo(function TimelineRow({
               <>
                 <br/>
                 {/* ←{item.collapsedCount - 1} */}
-                ...
+                <span>・・・</span>
                 <br/>
                 {item.type === "tv" && <EpisodeNumber item={item.collapseUntil} />}
                 {item.collapseUntil.title}
@@ -307,14 +305,19 @@ export default React.memo(function TimelineRow({
       {expanded && 
       <div className="tr details-row">
         <div className="td">
+          {dataState === "fetchingDetails" ?
+          <MessageImg img="jediTexts">
+            Accessing sacred Jedi texts<Ellipsis />
+          </MessageImg>
+          :
           <TimelineRowDetails
             item={item}
             setFullCover={setFullCover}
           />
+          }
         </div>
       </div>
       }
-      {/* </div> */}
     </>
   );
 });

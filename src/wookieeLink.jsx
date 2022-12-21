@@ -34,7 +34,7 @@ export default React.memo(function WookieeLink({
         className="wookiee-link"
         title="See on Wookieepedia"
       >
-        <img src="/img/Wiki-shrinkable.png" alt="wookieepedia icon" />
+        <img src="/img/Wiki-shrinkable.webp" alt="wookieepedia icon" />
       </a>
     </>
   );

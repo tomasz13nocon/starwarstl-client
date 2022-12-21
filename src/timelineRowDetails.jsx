@@ -3,7 +3,7 @@ import { _ } from "lodash";
 
 import WookieeLink from "./wookieeLink";
 import ExternalLink from "./externalLink";
-import { Audience, imgAddress, Size } from "./common";
+import { imgAddress } from "./common";
 
 const process = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -150,7 +150,7 @@ const getData = (item) => {
   let ret = {
     Type: type,
     "Timeline notes": process(item.timelineNotes),
-    "Release date": process(item.releaseDateDetails ?? "Unknown", false),
+    "Release date": process(item.releaseDateDetails, false),
     "Last aired": process(item.lastAired, false), // TODO: first aired when availible instead of release date?
     Closed: process(item.closed, false),
     Chronology: process(item.dateDetails),

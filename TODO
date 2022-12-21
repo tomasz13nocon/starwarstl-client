@@ -32,6 +32,7 @@ fix <br> handling? the clone wars film has unknown date
 see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 
 LONG TERM:
+loading indication including for full size images (unclear due to bg img trick)
 chekbox groups unexpand when changing browser width
 color coded comic/tv series with visual indication of how long it runs (like swdatapad)
 - Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)

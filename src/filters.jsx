@@ -85,6 +85,7 @@ export default React.memo(function Filters({
                       ? item.displayTitle.toLowerCase().includes(last)
                       : item.title.toLowerCase().includes(last)
                   );
+                  // TODO: indicate fetching of series
                   if (found.length) {
                     setSuggestions(
                       found

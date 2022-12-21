@@ -5,8 +5,6 @@ import Filters from "./filters";
 import FullCoverPreview from "./fullCoverPreview";
 import Legend from "./legend";
 import Search from "./search";
-import Error from "./error";
-import Spinner from "./spinner";
 import Timeline from "./timeline";
 import { useSwipeable } from "react-swipeable";
 import { _ } from "lodash";
@@ -217,6 +215,7 @@ const reducer = (state, { path, to }) => {
 };
 
 export default function Home() {
+  ///// STATE /////
   const [filterText, setFilterText] = React.useState("");
   const [fullCover, setFullCover] = React.useState({ name: "", show: false });
   const [filters, dispatch] = React.useReducer(
@@ -230,7 +229,6 @@ export default function Home() {
   const [seriesArr, setSeriesArr] = React.useState([]);
   const [suggestions, setSuggestions] = React.useState([]);
   const [boxFilters, setBoxFilters] = React.useState([]);
-  const [errorMsg, setErrorMsg] = React.useState("");
   const [searchExpanded, toggleSearchExpanded] = React.useReducer(
     (state, value) => (value === undefined ? !state : value),
     false
@@ -368,18 +366,38 @@ export default function Home() {
     releaseDate: true,
   });
   const [showFilters, setShowFilters] = React.useState(false);
+  const [dataState, setDataState] = React.useState("fetching"); // fetching, fetchingDetails, ok, error
+  /////////////////
 
   const timelineContainerRef = React.useRef();
   const filtersContainerRef = React.useRef();
 
   React.useEffect(async () => {
-    // TODO: show error on network error
+    // bare media
     let res = await fetch(API + "media");
     if (!res.ok) {
-      setErrorMsg("Failed to fetch data from the server.");
+      setDataState("error");
       console.error(res.status());
     }
     let data = await res.json();
+    setRawData(data);
+    setDataState("fetchingDetails");
+
+    // series data
+    res = await fetch(API + "series");
+    if (!res.ok) {
+      setDataState("error");
+      console.error(res.status());
+    }
+    setSeriesArr(await res.json());
+
+    // media details
+    res = await fetch(API + "media-details");
+    if (!res.ok) {
+      setDataState("error");
+      console.error(res.status());
+    }
+    data = await res.json();
     // Data preprocessing
     for (let item of data) {
       let d = new Date(unscuffDate(item.releaseDate));
@@ -387,12 +405,8 @@ export default function Home() {
         item.unreleased = true;
       }
     }
-
     setRawData(data);
-
-    res = await fetch(API + "series");
-    // TODO: defer this possibly to first time user uses search
-    setSeriesArr(await res.json());
+    setDataState("ok");
   }, []);
 
 
@@ -432,7 +446,6 @@ export default function Home() {
           dispatchSearchResults={dispatchSearchResults}
         />
       </div>
-      <Error>{errorMsg}</Error>
       <div className="timeline-container" ref={timelineContainerRef}>
         <Filters
           seriesArr={seriesArr}
@@ -456,26 +469,23 @@ export default function Home() {
           setShowFilters={setShowFilters}
           filtersContainerRef={filtersContainerRef}
         />
-        {rawData.length && seriesArr.length ? (
-          <Timeline
-            filterText={filterText}
-            filters={filters}
-            rawData={rawData}
-            seriesArr={seriesArr}
-            setFullCover={setFullCover}
-            setSuggestions={setSuggestions}
-            boxFilters={boxFilters}
-            searchExpanded={searchExpanded}
-            searchResults={searchResults}
-            dispatchSearchResults={dispatchSearchResults}
-            hideUnreleased={hideUnreleased}
-            setHideUnreleased={setHideUnreleased}
-            collapseAdjacent={collapseAdjacent}
-            columns={columns}
-          />
-        ) : (
-          <Spinner />
-        )}
+        <Timeline
+          filterText={filterText}
+          filters={filters}
+          rawData={rawData}
+          seriesArr={seriesArr}
+          setFullCover={setFullCover}
+          setSuggestions={setSuggestions}
+          boxFilters={boxFilters}
+          searchExpanded={searchExpanded}
+          searchResults={searchResults}
+          dispatchSearchResults={dispatchSearchResults}
+          hideUnreleased={hideUnreleased}
+          setHideUnreleased={setHideUnreleased}
+          collapseAdjacent={collapseAdjacent}
+          columns={columns}
+          dataState={dataState}
+        />
       </div>
     </>
   );

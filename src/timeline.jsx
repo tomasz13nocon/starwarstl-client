@@ -15,6 +15,8 @@ import {
 import TimelineRow from "./timelineRow";
 import "./styles/timeline.scss";
 import { unscuffDate, escapeRegex, searchFields } from "./common";
+import Ellipsis from "./ellipsis";
+import MessageImg from "./messageImg";
 
 
 const sortingIcons = new Proxy(
@@ -161,6 +163,7 @@ export default function Timeline({
   setHideUnreleased,
   collapseAdjacent,
   columns,
+  dataState,
   ...props
 }) {
   ///// STATE /////
@@ -210,7 +213,9 @@ export default function Timeline({
 
   // Sort and filter data
   const data = React.useMemo(() => {
+    if (rawData.length === 0) return [];
     let tempData = [];
+
     // Filter
     let cleanFilters = _.cloneDeep(filters);
     removeAllFalses(cleanFilters);
@@ -321,7 +326,8 @@ export default function Timeline({
           ) ||
           ( item.fullType === "comic" &&
             next?.fullType === "comic" &&
-            item.title.match(comicRe)?.[1] === next.title.match(comicRe)?.[1]
+            item.title.match(comicRe)?.[1] === next.title.match(comicRe)?.[1] &&
+            +(item.title.match(comicRe)?.[2]) + 1 === +(next.title.match(comicRe)?.[2])
           )
         ) {
           if (first === null) {
@@ -426,8 +432,9 @@ export default function Timeline({
       }
     }
 
+    tempData.incomplete = rawData.incomplete;
     return tempData;
-  }, [filters, filterText, sorting, boxFilters, hideUnreleased, collapseAdjacent]);
+  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, collapseAdjacent]);
 
   // Scroll to expanded entry on data change.
   // This effect needs to have the same deps as useMemo above.
@@ -527,15 +534,27 @@ export default function Timeline({
         ))}
       </div>
       <div className="tbody">
-        {data.length === 0 &&
-          <div className="message-container">
-            <img src="/img/TheVoid.webp" alt="The Void on Abafar from D-squad Clone Wars arc" />
-            <div className="spinner-text">
-              There's nothing here...
-              <br/>
-              <span>(Try changing the filters or the query)</span>
-            </div>
-          </div>
+        {dataState === "fetching" &&
+          <MessageImg img="jediTexts">
+            {/* <div className="loading-indicator-table"></div> */}
+            Accessing sacred Jedi texts<Ellipsis />
+          </MessageImg>
+        }
+        {dataState === "error" &&
+          <MessageImg img="yoda">
+            The dark side clouds everything.
+            <br/>
+            Impossible to see, the server is.
+            <br/>
+            <span className="small">(Error fetching data from the server)</span>
+          </MessageImg>
+        }
+        {dataState === "ok" && data.length === 0 &&
+          <MessageImg img="void">
+            There's nothing here...
+            <br/>
+            <span className="small">(Try changing the filters or the query)</span>
+          </MessageImg>
         }
         <Virtuoso
           // style={{ position: "relative" }}
@@ -585,6 +604,7 @@ export default function Timeline({
                   rowSearchResults={rowSearchResults}
                   searchText={searchResults.text}
                   collapseAdjacent={collapseAdjacent}
+                  dataState={dataState}
                   {...props}
                 />
               </div>
