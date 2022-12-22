@@ -1,46 +1,14 @@
 import React from "react";
 import { Virtuoso } from 'react-virtuoso';
 import { _ } from "lodash";
-import { Icon } from "@mdi/react";
-import {
-  mdiSortAlphabeticalAscending,
-  mdiSortAlphabeticalDescending,
-  mdiChevronUp,
-  mdiChevronDown,
-  mdiMenuDown,
-  mdiSortCalendarAscending,
-  mdiSortCalendarDescending,
-} from "@mdi/js";
 
 import TimelineRow from "./timelineRow";
 import "./styles/timeline.scss";
-import { unscuffDate, escapeRegex, searchFields } from "./common";
+import { unscuffDate, escapeRegex, searchFields, notSortable, columnNames } from "./common";
 import Ellipsis from "./ellipsis";
 import MessageImg from "./messageImg";
+import SortingIcon from "./sortingIcon";
 
-
-const sortingIcons = new Proxy(
-  {
-    "title|writer": {
-      ascending: mdiSortAlphabeticalAscending,
-      descending: mdiSortAlphabeticalDescending,
-    },
-    "releaseDate|date": {
-      ascending: mdiSortCalendarAscending,
-      descending: mdiSortCalendarDescending,
-    },
-    default: {
-      ascending: mdiChevronDown,
-      descending: mdiChevronUp,
-    },
-  },
-  {
-    get: (target, property) => {
-      for (let k in target) if (new RegExp(k).test(property)) return target[k];
-      return target.default;
-    },
-  }
-);
 
 const colorValues = [
   "#FFBE0B",
@@ -66,19 +34,6 @@ const colorPrefs = [
     color: "#000000",
   },
 ];
-
-const columnNames = {
-  date: "Date",
-  continuity: "Continuity",
-  cover: "Cover",
-  title: "Title",
-  writer: "Writer",
-  releaseDate: "Release Date",
-};
-
-// Column names which aren't meant to be sorted by
-const notSortable = [ "cover" ];
-
 
 // Returns result of predicate with value as argument.
 // If value is an array call it for every array item, until true is returned.
@@ -164,13 +119,11 @@ export default function Timeline({
   collapseAdjacent,
   columns,
   dataState,
+  sorting,
+  toggleSorting,
   ...props
 }) {
   ///// STATE /////
-  const [sorting, setSorting] = React.useState({
-    by: "date",
-    ascending: true,
-  });
   // const [data, setData] = React.useState([]);
   const [expanded, setExpanded] = React.useState(null);
   // return window.getSelection().type === "Range" ? state : !state;
@@ -182,16 +135,6 @@ export default function Timeline({
     () => Object.keys(columns).filter((name) => columns[name]),
     [columns]
   );
-  // No useCallback because we're not passing this down. See: https://stackoverflow.com/questions/64134566/should-we-use-usecallback-in-every-function-handler-in-react-functional-componen
-  // useCallback is not about perf, it's about identity
-  const toggleSorting = (name) => {
-    // if (notSortable.includes(name)) return;
-    setSorting((prevSorting) => ({
-      by: name,
-      ascending: prevSorting.by === name ? !prevSorting.ascending : true,
-    }));
-  };
-
 
   // Scroll to highlighted search result
   React.useEffect(() => {
@@ -340,6 +283,8 @@ export default function Timeline({
           // Don't collapse just 2 entries
           if (first !== i - 1) {
             arr[first].collapseUntil = item;
+            arr[first].collapseUntilTitle = item.title; // We need this specifically for search
+            arr[first].collapseUntilSe = item.se; // We need this specifically for search
             // arr[first].collapsedCount = i - first;
             first = null;
             return false;
@@ -450,7 +395,6 @@ export default function Timeline({
   }, [filters, filterText, sorting, boxFilters, hideUnreleased, collapseAdjacent]);
 
   // Search (Ctrl-F replacement)
-  // TODO: should this be in useEffect?
   React.useEffect(() => {
     const findAllIndices = (str, searchText) =>
       [...str.matchAll(new RegExp(escapeRegex(searchText), "gi"))].map(
@@ -463,6 +407,7 @@ export default function Timeline({
       } else {
         let results = [];
         for (let [rowIndex, item] of data.entries()) {
+          if (item.title === "The High Republic — The Blade 1") console.log(item);
           for (let field of searchFields) {
             if (typeof item[field] === "string") {
               let indices = findAllIndices(item[field], searchResults.text);
@@ -513,22 +458,13 @@ export default function Timeline({
       <div className="thead">
         {activeColumns.map((name) => (
           <div
-            onClick={(e) => toggleSorting(name, e)}
+            onClick={(e) => toggleSorting(name)}
             key={name}
             className={name + " th" + (notSortable.includes(name) ? " not-sortable" : "")}
           >
             <div className="th-inner">
               {columnNames[name] || name}
-              {sorting.by === name ? (
-                <Icon
-                  path={
-                    sortingIcons[name][
-                      sorting.ascending ? "ascending" : "descending"
-                    ]
-                  }
-                  className="icon"
-                />
-              ) : null}
+              <SortingIcon sorting={sorting} name={name} />
             </div>
           </div>
         ))}

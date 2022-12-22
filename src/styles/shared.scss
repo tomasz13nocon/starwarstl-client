@@ -74,6 +74,11 @@ $unknown-secondary: #222;
 
 $focus: #fb8500;
 $accent: #e6a34e;
+$active: #39a3e9;
+$active2: #b3d7e9;
+$active3: #123460;
+$active4: #445060;
+$active5: #637487;
 $background: #f3f3f3;
 $background2: #e7e7e7;
 // $comic-primary: #de3333;
@@ -84,7 +89,7 @@ $grey2: rgb(155, 155, 155);
 $grey1: rgb(100, 100, 100);
 
 // RESPONSIVE
-$width-lg: 1186px;
+$width-lg: 1086px;
 // $width-md: 870px;
 $width-md: 738px;
 $width-sm: 576px;
@@ -361,8 +366,8 @@ $width-sm: 576px;
 .circle-buttons {
   z-index: 5;
   position: fixed;
-  bottom: 12px;
-  right: 12px;
+  bottom: 8px;
+  right: 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -387,7 +392,7 @@ input.input-default {
   box-sizing: border-box;
   width: 100%;
   padding: 5px 30px 5px 6px;
-  border: 3px solid $grey3;
+  border: 3px solid $grey2;
   font-size: 0.8em;
   // width: 240px;
   &:focus {

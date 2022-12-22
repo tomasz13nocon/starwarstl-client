@@ -37,6 +37,43 @@ const highlightText = (
   ];
 };
 
+const highlightSearchResults = (searchTarget, columnName, rowSearchResults, searchTextLength, searchResultsHighlight) => {
+  // Surely there's a better way to do this, but perfect is the enemy of good. And good is the enemy of working. *sigh*
+  if (typeof searchTarget === "string") {
+    // since this field is a string, there is only one result object for it in the results array, therefore we use find, not filter, to find the indices
+    let columnResultIndex = rowSearchResults.findIndex(
+      (e) => e.field === columnName
+    );
+    let columnResult = rowSearchResults[columnResultIndex];
+    return highlightText(
+      searchTarget,
+      columnResult?.indices,
+      searchTextLength,
+      searchResultsHighlight && columnResultIndex === searchResultsHighlight.resultsOffset ? searchResultsHighlight.indicesIndex : null,
+    );
+  } else if (
+    Array.isArray(searchTarget) &&
+    searchTarget.every((e) => typeof e === "string")
+  ) {
+    return searchTarget.map((str, i) => {
+      let columnItemResultIndex = rowSearchResults.findIndex(
+        (e) => e.field === columnName && e.arrayIndex === i
+      );
+      let columnItemResult = rowSearchResults[columnItemResultIndex];
+      return highlightText(
+        str,
+        columnItemResult?.indices,
+        searchTextLength,
+        searchResultsHighlight && columnItemResultIndex === searchResultsHighlight.resultsOffset ? searchResultsHighlight.indicesIndex : null,
+      );
+    });
+  } else if (searchTarget !== undefined) {
+    console.error(
+      "Unknown field type (not string or array of strings)"
+    );
+  }
+};
+
 export const ANIMATION_TIME = 180;
 
 export default React.memo(function TimelineRow({
@@ -72,39 +109,7 @@ export default React.memo(function TimelineRow({
       rowSearchResults.length &&
       searchFields.includes(columnName)
     ) {
-      if (typeof item[columnName] === "string") {
-        // since this field is a string, there is only one result object for it in the results array, therefore we use find, not filter, to find the indices
-        let columnResultIndex = rowSearchResults.findIndex(
-          (e) => e.field === columnName
-        );
-        let columnResult = rowSearchResults[columnResultIndex];
-        inside = highlightText(
-          item[columnName],
-          columnResult?.indices,
-          searchText.length,
-          searchResultsHighlight && columnResultIndex === searchResultsHighlight.resultsOffset ? searchResultsHighlight.indicesIndex : null,
-        );
-      } else if (
-        Array.isArray(item[columnName]) &&
-        item[columnName].every((e) => typeof e === "string")
-      ) {
-        inside = item[columnName].map((str, i) => {
-          let columnItemResultIndex = rowSearchResults.findIndex(
-            (e) => e.field === columnName && e.arrayIndex === i
-          );
-          let columnItemResult = rowSearchResults[columnItemResultIndex];
-          return highlightText(
-            str,
-            columnItemResult?.indices,
-            searchText.length,
-            searchResultsHighlight && columnItemResultIndex === searchResultsHighlight.resultsOffset ? searchResultsHighlight.indicesIndex : null,
-          );
-        });
-      } else if (item[columnName] !== undefined) {
-        console.error(
-          "Unknown field type (not string or array of strings)"
-        );
-      }
+      inside = highlightSearchResults(item[columnName], columnName, rowSearchResults, searchText.length, searchResultsHighlight);
     }
 
     switch (columnName) {
@@ -229,7 +234,11 @@ export default React.memo(function TimelineRow({
 
       case "title":
         let last = 0;
+        let collapseUntilTitle = item.collapseUntilTitle;
         const expand = () => setExpanded(expanded ? null : item._id);
+        if (searchExpanded && rowSearchResults.length && collapseAdjacent && collapseUntilTitle) {
+          collapseUntilTitle = highlightSearchResults(collapseUntilTitle, "collapseUntilTitle", rowSearchResults, searchText.length, searchResultsHighlight);
+        }
         inside = (
           // TODO accessibility
           <div name="expand" tabIndex="0" onKeyDown={(e) => e.keyCode === 13 && expand()}>
@@ -243,7 +252,9 @@ export default React.memo(function TimelineRow({
                   height="20px"
                   src={buildTvImagePath(item.series[0])}
                 />
-                <EpisodeNumber item={item} />
+                <EpisodeNumber item={item}>
+                  {highlightSearchResults(item.se, "se", rowSearchResults, searchText.length, searchResultsHighlight)}
+                </EpisodeNumber>
               </>
             ) : null}
             {inside}
@@ -253,8 +264,10 @@ export default React.memo(function TimelineRow({
                 {/* ←{item.collapsedCount - 1} */}
                 <span>・・・</span>
                 <br/>
-                {item.type === "tv" && <EpisodeNumber item={item.collapseUntil} />}
-                {item.collapseUntil.title}
+                <EpisodeNumber item={item.collapseUntil}>
+                  {highlightSearchResults(item.collapseUntil.se, "collapseUntilSe", rowSearchResults, searchText.length, searchResultsHighlight)}
+                </EpisodeNumber>
+                {collapseUntilTitle}
               </>
               : null}
             {item.audiobook && (
@@ -299,7 +312,7 @@ export default React.memo(function TimelineRow({
   return (
     <>
       {/* <div className="standard-row tr"> */}
-      <div className="standard-row-inner" ref={rowRef}>
+      <div className={`standard-row-inner ${!activeColumns.includes("date") && !activeColumns.includes("releaseDate") && !activeColumns.includes("writer") ? "compact" : ""}`} ref={rowRef}>
         {cells}
       </div>
       {expanded && 

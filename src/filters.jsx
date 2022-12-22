@@ -8,6 +8,8 @@ import CheckboxGroup from "./checkboxGroup";
 import WookieeLink from "./wookieeLink";
 import "./styles/filters.scss";
 import Checkbox from "./checkbox";
+import { columnNames, notSortable } from "./common";
+import SortingIcon from "./sortingIcon";
 
 const suggestionPriority = [
   "film",
@@ -53,16 +55,18 @@ export default React.memo(function Filters({
   showFilters,
   setShowFilters,
   filtersContainerRef,
+  sorting,
+  toggleSorting,
 }) {
 
-    const [largeScreen, setLargeScreen] = React.useState(
-      window.matchMedia("(min-width: 1186px)").matches
+    const [smallScreen, setSmallScreen] = React.useState(
+      window.matchMedia("(max-width: 1086px)").matches
     );
 
     React.useEffect(() => {
       window
-        .matchMedia("(min-width: 1186px)")
-        .addEventListener('change', e => setLargeScreen( e.matches ));
+        .matchMedia("(max-width: 1086px)")
+        .addEventListener('change', e => setSmallScreen( e.matches ));
     }, []);
 
     let content = (
@@ -104,7 +108,7 @@ export default React.memo(function Filters({
               } else setSuggestions([]);
             }}
             placeholder="Filter..."
-            className="input-default"
+            className={`input-default ${filterText ? "non-empty" : ""}`}
             />
           {filterText ? (
             <button
@@ -163,7 +167,29 @@ export default React.memo(function Filters({
           ))}
         </div>
 
+        <hr />
+
+        <div className="sorting-mobile">
+          <div className="title">Sort by:</div>
+          <div className="sorting-btns">
+            {Object.keys(columns).filter(c => !notSortable.includes(c)).map((column) => (
+              <div className={`sorting-btn ${sorting.by === column ? "active" : ""}`} key={column} onClick={(e) => toggleSorting(column)}>
+                {columnNames[column]}
+                <SortingIcon sorting={sorting} name={column} />
+              </div>
+            ))}
+          </div>
+
+          <hr />
+        </div>
+
+
         <div className="checkbox-settings">
+          <Checkbox
+            name={"Compact view"}
+            value={columns.date === false && columns.releaseDate === false && columns.writer === false}
+            onChange={({ to }) => setColumns(state => ({ ...state, date: !to, releaseDate: !to, writer: !to }))}
+            />
           <Checkbox
             name={"Hide unreleased"}
             value={hideUnreleased}
@@ -180,6 +206,8 @@ export default React.memo(function Filters({
             onChange={({ to }) => setCollapseAdjacent(to)}
             />
         </div>
+
+        <hr />
 
         <div className="check-buttons">
           <button
@@ -207,16 +235,16 @@ export default React.memo(function Filters({
     );
 
     return (
-      largeScreen ? 
-        <StickyBox className={`filters-container ${showFilters ? "visible" : ""}`} offsetTop={12} offsetBottom={12}>
-          {content}
-        </StickyBox>
-        :
+      smallScreen ?
         <div className={`filters-container ${showFilters ? "visible" : ""}`} ref={filtersContainerRef}>
           {content}
           <div className={`filters-btn ${showFilters ? "filters-visible" : ""}`} onClick={() => setShowFilters(!showFilters)}>
             <Icon path={mdiFilterMultiple} size={1.6} className="icon" />
           </div>
         </div>
+        :
+        <StickyBox className={`filters-container`} offsetTop={12} offsetBottom={12}>
+          {content}
+        </StickyBox>
     );
   });

@@ -41,14 +41,14 @@ ul {
   flex: 1 0 auto;
   width: 1170px;
   margin: 16px auto;
-  @media (max-width: $width-lg) {
+  @media (max-width: 1186px) {
     width: 100%;
   }
 }
 
 header,
 footer {
-  background-color: #456;
+  background-color: $active4;
   color: white;
 }
 
@@ -56,14 +56,22 @@ header {
   nav {
     ul {
       margin: 0;
+      @media (max-width: $width-sm) {
+        padding: 0;
+        display: flex;
+        li {
+          flex-grow: 1;
+        }
+      }
       li {
         display: inline-block;
         a {
-          display: inline-block;
+          display: block;
+          text-align: center;
           padding: 16px 24px;
           color: white;
           &.active {
-            background-color: #678;
+            background-color: $active5;
             pointer-events: none;
           }
         }

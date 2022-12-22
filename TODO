@@ -1,6 +1,8 @@
-figure out search...
+change compact view to manual column selection
+cover thumbnails in mobile always on the left (use grid probably)
+add sorting for mobile view
+responsive/mobile version
 improve UX on filters
-responsive/mobile version (mobile alternative to right click filters)
 fetching:
 - Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
 - recover from "no infobox" maybe? -- Redlinks cause skip, but no infobox causes fetching error. Make them have the same effect (preferably recover and include in timeline with limited data).

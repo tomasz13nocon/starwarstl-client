@@ -14,7 +14,19 @@ export const Size = Object.freeze({
   SMALL: "small/",
   FULL: "",
 });
-export const searchFields = ["title", "writer", "releaseDate", "date"];
+export const searchFields = ["title", "writer", "releaseDate", "date", "collapseUntilTitle", "se", "collapseUntilSe"];
+// Column names which aren't meant to be sorted by
+export const notSortable = [ "cover" ];
+export const columnNames = {
+  date: "Date",
+  continuity: "Continuity",
+  cover: "Cover",
+  title: "Title",
+  writer: "Writer",
+  releaseDate: "Release Date",
+};
+
+
 
 export const imgAddress = (filename, size = Size.SMALL) => {
   // TODO add a "no cover" image

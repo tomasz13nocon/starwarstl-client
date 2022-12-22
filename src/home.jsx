@@ -216,6 +216,19 @@ const reducer = (state, { path, to }) => {
 
 export default function Home() {
   ///// STATE /////
+  const [sorting, toggleSorting] = React.useReducer(
+    (prevSorting, name) => {
+      // if (notSortable.includes(name)) return;
+      return {
+        by: name,
+        ascending: prevSorting.by === name ? !prevSorting.ascending : true,
+      };
+    },
+    {
+      by: "date",
+      ascending: true,
+    }
+  );
   const [filterText, setFilterText] = React.useState("");
   const [fullCover, setFullCover] = React.useState({ name: "", show: false });
   const [filters, dispatch] = React.useReducer(
@@ -360,7 +373,7 @@ export default function Home() {
   const [columns, setColumns] = React.useState({
     date: true,
     cover: false,
-    continuity: false, // TODO: width of page, responsive, etc. AND oneshots AND only show when comics filtered AND background color of rows
+    // continuity: false, // TODO: width of page, responsive, etc. AND oneshots AND only show when comics filtered AND background color of rows
     title: true,
     writer: true,
     releaseDate: true,
@@ -371,6 +384,9 @@ export default function Home() {
 
   const timelineContainerRef = React.useRef();
   const filtersContainerRef = React.useRef();
+
+  // for usage of useCallback see: https://stackoverflow.com/questions/64134566/should-we-use-usecallback-in-every-function-handler-in-react-functional-componen
+  // useCallback is not about perf, it's about identity
 
   React.useEffect(async () => {
     // bare media
@@ -468,6 +484,8 @@ export default function Home() {
           showFilters={showFilters}
           setShowFilters={setShowFilters}
           filtersContainerRef={filtersContainerRef}
+          sorting={sorting}
+          toggleSorting={toggleSorting}
         />
         <Timeline
           filterText={filterText}
@@ -485,6 +503,8 @@ export default function Home() {
           collapseAdjacent={collapseAdjacent}
           columns={columns}
           dataState={dataState}
+          sorting={sorting}
+          toggleSorting={toggleSorting}
         />
       </div>
     </>

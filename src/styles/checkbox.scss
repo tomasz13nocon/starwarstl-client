@@ -89,8 +89,8 @@ $delay-transitions: all 0s $checkbox-appear-duration;
 
       &.checked {
         //background-color: #b9def7;
-        background-color: #39a3e9;
-        border-color: #143867;
+        background-color: $active;
+        border-color: $active3;
         &::before {
           height: 8px;
           top: 8px;
@@ -115,7 +115,7 @@ $delay-transitions: all 0s $checkbox-appear-duration;
       }
       &.indeterminate {
         //background-color: #e3eef3;
-        background-color: #b3d7e9;
+        background-color: $active2;
         &::before {
           height: 0;
           top: 0;
