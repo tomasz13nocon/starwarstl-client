@@ -1,4 +1,3 @@
-change compact view to manual column selection
 cover thumbnails in mobile always on the left (use grid probably)
 add sorting for mobile view
 responsive/mobile version
@@ -34,6 +33,7 @@ fix <br> handling? the clone wars film has unknown date
 see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 
 LONG TERM:
+better visual seperation of sections in details, like wookiee
 loading indication including for full size images (unclear due to bg img trick)
 chekbox groups unexpand when changing browser width
 color coded comic/tv series with visual indication of how long it runs (like swdatapad)

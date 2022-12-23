@@ -385,14 +385,17 @@ export default function Timeline({
   // This effect needs to have the same deps as useMemo above.
   React.useEffect(() => {
     if (expanded) {
-      virtuoso.current.scrollToIndex({
-        index: data.findIndex((e) => e._id === expanded),
-        align: "center",
-        // behavior: behavior,
-        // offset: -100,
-      });
+      let index = data.findIndex((e) => e._id === expanded);
+      if (index !== -1) {
+        virtuoso.current.scrollToIndex({
+          index: index,
+          align: "center",
+          // behavior: behavior,
+          // offset: -100,
+        });
+      }
     }
-  }, [filters, filterText, sorting, boxFilters, hideUnreleased, collapseAdjacent]);
+  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, collapseAdjacent]);
 
   // Search (Ctrl-F replacement)
   React.useEffect(() => {

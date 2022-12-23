@@ -185,6 +185,11 @@
     }
   }
 
+  .title {
+    // font-weight: bold;
+    font-size: 1em;
+  }
+
   .checkbox-settings {
     margin: 10px 0;
   }
@@ -193,9 +198,6 @@
     display:none;
     @media (max-width: $width-lg) {
       display: initial;
-    }
-    .title {
-      font-weight: bold;
     }
     .sorting-btns {
       display:flex;

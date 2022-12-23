@@ -158,12 +158,13 @@ const getData = (item) => {
     Season: process(item.seasonDetails),
     Episode: process(item.episode),
     "Production No.": process(item.production),
-    "Guest star(s)": process(item.guests),
-    Developer: process(item.developer),
-    Author: process(item.author),
     "Episode count": process(item.numEpisodes),
     "No. of seasons": process(item.numSeasons),
     "Network(s)": process(item.network),
+    // "askldjsalkd": "break",
+    "Guest star(s)": process(item.guests),
+    Developer: process(item.developer),
+    Author: process(item.author),
     "Creator(s)": process(item.creators),
     "Director(s)": process(item.director),
     "Writer(s)": process(item.writerDetails),
@@ -247,8 +248,12 @@ export default React.memo(function TimelineRowDetails({
         <dl>
           {Object.entries(getData(item)).map(([key, value]) => (
             <React.Fragment key={key}>
-              <dt>{key}:&nbsp;</dt>
-              <dd>{value}</dd>
+              {/* {value === "break" ? <div className="divider"></div> :  */}
+              {/* <> */}
+                <dt>{key}:&nbsp;</dt>
+                <dd>{value}</dd>
+              {/* </> */}
+              {/* } */}
             </React.Fragment>
           ))}
         </dl>

@@ -170,7 +170,7 @@ export default React.memo(function Filters({
         <hr />
 
         <div className="sorting-mobile">
-          <div className="title">Sort by:</div>
+          <h2 className="title">Sort by:</h2>
           <div className="sorting-btns">
             {Object.keys(columns).filter(c => !notSortable.includes(c)).map((column) => (
               <div className={`sorting-btn ${sorting.by === column ? "active" : ""}`} key={column} onClick={(e) => toggleSorting(column)}>
@@ -183,22 +183,27 @@ export default React.memo(function Filters({
           <hr />
         </div>
 
+        <div className="column-settings">
+          <h2 className="title">Show columns:</h2>
+          {Object.entries(columns)
+              .filter(e => e[0] !== "title") // Don't allow hiding title
+              .map(([column, value]) => (
+            <Checkbox
+              key={column}
+              name={columnNames[column]}
+              value={value}
+              onChange={({ to }) => setColumns(state => ({ ...state, [column]: to }))}
+            />
+          ))}
+        </div>
+
+        <hr />
 
         <div className="checkbox-settings">
-          <Checkbox
-            name={"Compact view"}
-            value={columns.date === false && columns.releaseDate === false && columns.writer === false}
-            onChange={({ to }) => setColumns(state => ({ ...state, date: !to, releaseDate: !to, writer: !to }))}
-            />
           <Checkbox
             name={"Hide unreleased"}
             value={hideUnreleased}
             onChange={({ to }) => setHideUnreleased(to)}
-            />
-          <Checkbox
-            name={"Show cover thumbnails"}
-            value={columns.cover}
-            onChange={({ to }) => setColumns(state => ({ ...state, cover: to }))}
             />
           <Checkbox
             name={"Collapse adjacent episodes"}

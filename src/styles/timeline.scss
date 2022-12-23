@@ -124,18 +124,18 @@ $full-image-transition: 0.2s;
     // cursor: auto;
     pointer-events: none;
   }
+  &.date {
+    // min-width: 80px;
+    width: 80px;
+  }
   &.cover {
-    min-width: 55px;
+    // min-width: 55px;
     width: 55px;
     padding: 0;
   }
-  &.date {
-    min-width: 80px;
-    width: 80px;
-  }
   &.continuity {
     // width: 68px;
-    min-width: 82px;
+    // min-width: 82px;
     width: 82px;
   }
   &.title {
@@ -147,14 +147,14 @@ $full-image-transition: 0.2s;
     // }
   }
   &.writer {
-    min-width: 140px;
+    // min-width: 140px;
     width: 140px;
   }
   &.releaseDate {
     // @extend %cell-fit-content;
     // width: 0px;
     // width: min-content;
-    min-width: 82px;
+    // min-width: 82px;
     width: 82px;
   }
 }
@@ -438,6 +438,10 @@ $full-image-transition: 0.2s;
       dd:nth-child(2),
       dd:last-child {
         border-bottom: none;
+      }
+      .divider {
+        grid-column: 1/3;
+        height: 14px;
       }
 
       .note {
