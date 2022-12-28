@@ -124,6 +124,8 @@ $full-image-transition: 0.2s;
     // cursor: auto;
     pointer-events: none;
   }
+
+  flex-shrink: 0;
   &.date {
     // min-width: 80px;
     width: 80px;
@@ -141,10 +143,7 @@ $full-image-transition: 0.2s;
   &.title {
     // width: 442px;
     flex-grow: 1;
-    // &:hover {
-    //   box-shadow: 0 0 2px black;
-    //   z-index: 2;
-    // }
+    flex-shrink: 1;
   }
   &.writer {
     // min-width: 140px;
@@ -217,6 +216,7 @@ $full-image-transition: 0.2s;
   display: flex;
   // width: var(--table-width);
   @media (max-width: $width-md) {
+    // display: grid;
     flex-wrap: wrap;
     &.compact {
       flex-wrap: nowrap;
@@ -253,25 +253,23 @@ $full-image-transition: 0.2s;
   .td.releaseDate {
     @media (max-width: $width-md) {
       flex-basis: 84px;
-      flex-grow: 0;
-      // border-right: 2px solid black;
+      flex-grow: 1;
     }
   }
   .td.date {
     @media (max-width: $width-md) {
-      flex-grow: 2;
+      flex-grow: 200; // Huge numbers because we want releaseDate to grow, but only when it's the only item in the row.
       flex-basis: 0;
-      max-width: 198px;
-      // border-left: 2px solid black;
+      // max-width: 198px;
     }
   }
   .td.writer {
     @media (max-width: $width-md) {
-      flex-grow: 4;
+      flex-grow: 400;
       flex-basis: 0;
     }
     @media (max-width: $width-sm) {
-      flex-grow: 3;
+      flex-grow: 300;
     }
   }
   .td.cover {
@@ -288,6 +286,10 @@ $full-image-transition: 0.2s;
     font-weight: $weight-bolder;
     font-size: 1em;
     cursor: pointer;
+    &:hover {
+      box-shadow: 0 0 2px black;
+      z-index: 2;
+    }
     button {
       @extend %reset-button;
       pointer-events: none;

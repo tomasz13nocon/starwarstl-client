@@ -1,31 +1,24 @@
-cover thumbnails in mobile always on the left (use grid probably)
-add sorting for mobile view
-responsive/mobile version
-improve UX on filters
-fetching:
-- Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
-- recover from "no infobox" maybe? -- Redlinks cause skip, but no infobox causes fetching error. Make them have the same effect (preferably recover and include in timeline with limited data).
-instead of responsive display: none, don't render at all
+link random media's title to timeline
+add attributions to footer
+display loading indicators on reroll, full image, potentially elsewhere - test
+handle fetching errors everywhere
 
 LAST:
 partial loading of large images?
-when fetching details, only fetch fields we're using to save bandwidth
 test diff browsers (including apple)
 try fetching: https://starwars.fandom.com/wiki/Special:WhatLinksHere/Template:Board_game and other stuff, and see if there's an error in the console
 test ul dot (it's a weird unicode char, some ppl might not have a font supporting it)
 performance/profiing
 before pushing data to DB, backup old data in case of a breaking change. Keep a couple of backups.
-probably remove smooth scrolling on search next/prev
 yt guides, how to's, tooltips
 the state of the app while data is fetching.
 remove/change CHECK ALL/UNCHECK ALL?
 clear this todo, TODOs in code, console logs, errors/warns when fetching
-don't show spinner when error is already shown
-convert wiki icon to webp
 react-responsive - do I need it?
+og meta tags
+CLEANUP: extract filters and timeline and timelineRow code into components (maybe also split timeline styles)
 
 IDK:
-Second layout for mobile (see designs)
 for mobile change row click area to the entire row
 "scroll to start of page" button
 include writer in details if it's in the timeline but not in article (like i did with release dates)
@@ -33,6 +26,13 @@ fix <br> handling? the clone wars film has unknown date
 see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 
 LONG TERM:
+improve UX on filters
+instead of responsive display: none, don't render at all
+fetching:
+- Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
+- recover from "no infobox" maybe? -- Redlinks cause skip, but no infobox causes fetching error. Make them have the same effect (preferably recover and include in timeline with limited data).
+Second layout for mobile (see designs)
+cover thumbnails in mobile always on the left (use grid probably)
 better visual seperation of sections in details, like wookiee
 loading indication including for full size images (unclear due to bg img trick)
 chekbox groups unexpand when changing browser width

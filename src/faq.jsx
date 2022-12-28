@@ -7,8 +7,8 @@ import "./styles/faq.scss";
 export default function Faq() {
   return (
     <div className="faq">
-      <h1>Frequently Asked Questions</h1>
-      <h2>I can't see any covers/images</h2>
+      <h2 className="faq-title">Frequently Asked Questions</h2>
+      <h3>I can't see any covers/images</h3>
       <p>
         The covers on this website are in{" "}
         <a href="https://en.wikipedia.org/wiki/WebP">WEBP</a> format, which
@@ -22,7 +22,7 @@ export default function Faq() {
         (11 or higher).
       </p>
 
-      <h2>Searching the page doesn't work</h2>
+      <h3>Searching the page doesn't work</h3>
       <p>
         <strong>Solution:</strong> Please use the search button in the bottom right corner.
       </p>
@@ -33,7 +33,7 @@ export default function Faq() {
         but makes the native browser search useless.
       </p>
 
-      <h2>Audiobooks vs Audio dramas</h2>
+      <h3>Audiobooks vs Audio dramas</h3>
       <p>
         Audio dramas are productions that include a cast of actors and they're
         written as dramas with only dialogue, whereas audiobooks are read by a
@@ -49,9 +49,9 @@ export default function Faq() {
         seperate category.
       </p>
 
-      <h2>
+      <h3>
         Something's incorrectly placed on the timeline/Some data is incorrect
-      </h2>
+      </h3>
       <p>
         All content on this timeline is sourced from{" "}
         <a href="https://starwars.fandom.com/wiki/Main_Page">Wookieepedia</a>.

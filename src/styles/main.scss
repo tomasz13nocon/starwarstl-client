@@ -39,9 +39,9 @@ ul {
 
 .content {
   flex: 1 0 auto;
-  width: 1170px;
+  width: $main-width;
   margin: 16px auto;
-  @media (max-width: 1186px) {
+  @media (max-width: $width-xl) {
     width: 100%;
   }
 }
@@ -54,11 +54,18 @@ footer {
 
 header {
   nav {
+    width: $main-width;
+    margin: 0 auto;
+    @media (max-width: $width-xl) {
+      width: 100%;
+    }
     ul {
       margin: 0;
+      padding-left: 30px;
       @media (max-width: $width-sm) {
         padding: 0;
         display: flex;
+        flex-wrap: wrap;
         li {
           flex-grow: 1;
         }

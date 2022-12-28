@@ -4,6 +4,8 @@ import { _ } from "lodash";
 import WookieeLink from "./wookieeLink";
 import ExternalLink from "./externalLink";
 import { imgAddress } from "./common";
+import MessageImg from "./messageImg";
+import Ellipsis from "./ellipsis";
 
 const process = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -211,53 +213,64 @@ const getData = (item) => {
 export default React.memo(function TimelineRowDetails({
   item,
   setFullCover,
+  dataState,
 }) {
   return (
-    <>
-      {item.cover ? (
-        <button
-          className="reset-button cover-button"
-          onClick={() =>
-              setFullCover({
-                name: item.cover,
-                show: true,
-                width: item.coverWidth,
-                height: item.coverHeight,
-              })
-          }>
-          <img
-            width={220}
-            src={imgAddress(item.cover)}
-            className="cover"
-          />
-        </button>
-      ) : null}
-      <div className="text">
-        <h3 className="title">
-          <WookieeLink>{item.title}</WookieeLink>
-        </h3>
-        {/* {item.timelineNotes && ( */}
-        {/*   <ul className="timeline-notes"> */}
-        {/*     {item.timelineNotes.map((note, i) => ( */}
-        {/*       <li className="timeline-note" key={i}> */}
-        {/*         {note} */}
-        {/*       </li> */}
-        {/*     ))} */}
-        {/*   </ul> */}
-        {/* )} */}
-        <dl>
-          {Object.entries(getData(item)).map(([key, value]) => (
-            <React.Fragment key={key}>
-              {/* {value === "break" ? <div className="divider"></div> :  */}
-              {/* <> */}
-                <dt>{key}:&nbsp;</dt>
-                <dd>{value}</dd>
-              {/* </> */}
-              {/* } */}
-            </React.Fragment>
-          ))}
-        </dl>
+    <div className="tr details-row">
+      <div className="td">
+        {dataState === "fetchingDetails" ?
+          <MessageImg img="jediTexts">
+            Accessing sacred Jedi texts<Ellipsis />
+          </MessageImg>
+          :
+          <>
+            {item.cover ? (
+              <button
+                className="reset-button cover-button"
+                onClick={() =>
+                    setFullCover({
+                      name: item.cover,
+                      show: true,
+                      width: item.coverWidth,
+                      height: item.coverHeight,
+                    })
+                }>
+                <img
+                  width={220}
+                  src={imgAddress(item.cover)}
+                  className="cover"
+                />
+              </button>
+            ) : null}
+            <div className="text">
+              <h3 className="title">
+                <WookieeLink>{item.title}</WookieeLink>
+              </h3>
+              {/* {item.timelineNotes && ( */}
+              {/*   <ul className="timeline-notes"> */}
+              {/*     {item.timelineNotes.map((note, i) => ( */}
+              {/*       <li className="timeline-note" key={i}> */}
+              {/*         {note} */}
+              {/*       </li> */}
+              {/*     ))} */}
+              {/*   </ul> */}
+              {/* )} */}
+              <dl>
+                {Object.entries(getData(item)).map(([key, value]) => (
+                  <React.Fragment key={key}>
+                    {/* {value === "break" ? <div className="divider"></div> :  */}
+                    {/* <> */}
+                    <dt>{key}:&nbsp;</dt>
+                    <dd>{value}</dd>
+                    {/* </> */}
+                    {/* } */}
+                  </React.Fragment>
+                ))}
+              </dl>
+            </div>
+          </>
+        }
       </div>
-    </>
+    </div>
   );
 });

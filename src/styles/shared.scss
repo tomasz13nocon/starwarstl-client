@@ -88,7 +88,10 @@ $grey3: rgb(196, 196, 196);
 $grey2: rgb(155, 155, 155);
 $grey1: rgb(100, 100, 100);
 
+$main-width: 1170px;
+
 // RESPONSIVE
+$width-xl: 1186px;
 $width-lg: 1086px;
 // $width-md: 870px;
 $width-md: 738px;
@@ -324,6 +327,7 @@ $width-sm: 576px;
   box-shadow: 0 0 5px -3px black;
   padding: 0 9px 0px 9px;
   border-radius: 999px;
+  white-space: nowrap;
   // text-transform: capitalize;
   //font-weight: 600;
 }

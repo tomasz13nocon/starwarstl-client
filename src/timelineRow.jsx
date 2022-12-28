@@ -9,8 +9,6 @@ import {
 } from "./common";
 import TimelineRowDetails from "./timelineRowDetails";
 import EpisodeNumber from "./episodeNumber";
-import Ellipsis from "./ellipsis";
-import MessageImg from "./messageImg";
 
 const highlightText = (
   text,
@@ -315,21 +313,12 @@ export default React.memo(function TimelineRow({
       <div className={`standard-row-inner ${!activeColumns.includes("date") && !activeColumns.includes("releaseDate") && !activeColumns.includes("writer") ? "compact" : ""}`} ref={rowRef}>
         {cells}
       </div>
-      {expanded && 
-      <div className="tr details-row">
-        <div className="td">
-          {dataState === "fetchingDetails" ?
-          <MessageImg img="jediTexts">
-            Accessing sacred Jedi texts<Ellipsis />
-          </MessageImg>
-          :
-          <TimelineRowDetails
-            item={item}
-            setFullCover={setFullCover}
-          />
-          }
-        </div>
-      </div>
+      {expanded &&
+        <TimelineRowDetails
+          item={item}
+          setFullCover={setFullCover}
+          dataState={dataState}
+        />
       }
     </>
   );

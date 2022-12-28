@@ -214,7 +214,7 @@ const reducer = (state, { path, to }) => {
   });
 };
 
-export default function Home() {
+export default function Home({ setFullCover }) {
   ///// STATE /////
   const [sorting, toggleSorting] = React.useReducer(
     (prevSorting, name) => {
@@ -230,7 +230,6 @@ export default function Home() {
     }
   );
   const [filterText, setFilterText] = React.useState("");
-  const [fullCover, setFullCover] = React.useState({ name: "", show: false });
   const [filters, dispatch] = React.useReducer(
     reducer,
     filtersTemplate,
@@ -451,8 +450,7 @@ export default function Home() {
   });
 
   return (
-    <>
-      <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
+    <main className="content">
       <div className="circle-buttons">
         <Legend />
         <Search
@@ -507,6 +505,6 @@ export default function Home() {
           toggleSorting={toggleSorting}
         />
       </div>
-    </>
+    </main>
   );
 }

@@ -7,16 +7,17 @@ export default function Header() {
       <nav>
         <ul>
           <li>
-            <NavLink end to="/">
-              Timeline
-            </NavLink>
+            <NavLink end to="/">Home</NavLink>
           </li>
           <li>
-            <NavLink to="/about">About</NavLink>
+            <NavLink to="/timeline">Timeline</NavLink>
           </li>
-          <li>
-            <NavLink to="/faq">FAQ</NavLink>
-          </li>
+          {/* <li> */}
+          {/*   <NavLink to="/about">About</NavLink> */}
+          {/* </li> */}
+          {/* <li> */}
+          {/*   <NavLink to="/faq">FAQ</NavLink> */}
+          {/* </li> */}
         </ul>
       </nav>
     </header>
