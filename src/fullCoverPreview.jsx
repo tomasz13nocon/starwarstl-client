@@ -1,4 +1,5 @@
 import React from "react";
+import { Blurhash } from "react-blurhash";
 import { CSSTransition } from "react-transition-group";
 import { imgAddress, Size } from "./common";
 
@@ -45,17 +46,20 @@ export default function FullCoverPreview({ fullCover, setFullCover }) {
           className="full-image-container"
           onClick={() => setFullCover({ ...fullCover, show: false })}
         >
-          <img
-            src={imgAddress(fullCover.name, Size.FULL)}
-            // onLoad={() => setFullCoverLoaded(true)}
-            style={{ backgroundImage: `url("${imgAddress(fullCover.name)}")` }}
-            width={fullCoverWidth}
-            height={fullCoverHeight}
-            // style={{ display: fullCoverLoaded ? "initial" : "none" }}
-          />
-          {/* {fullCoverLoaded === false && ( */}
-          {/* <img src={imgAddress(fullCover.name)} /> */}
-          {/* )} */}
+          <div className="full-image-helper">
+            <img
+              src={imgAddress(fullCover.name, Size.FULL)}
+              // onLoad={() => setFullCoverLoaded(true)}
+              // style={{ backgroundImage: `url("${imgAddress(fullCover.name)}")` }}
+              width={fullCoverWidth}
+              height={fullCoverHeight}
+              // style={{ display: fullCoverLoaded ? "initial" : "none" }}
+              />
+            <Blurhash className="blur" hash={fullCover.hash} width={fullCoverWidth} height={fullCoverHeight} />
+            {/* {fullCoverLoaded === false && ( */}
+            {/* <img src={imgAddress(fullCover.name)} /> */}
+            {/* )} */}
+          </div>
         </div>
       </CSSTransition>
     </>

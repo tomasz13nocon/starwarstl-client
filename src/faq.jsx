@@ -33,21 +33,21 @@ export default function Faq() {
         but makes the native browser search useless.
       </p>
 
-      <h3>Audiobooks vs Audio dramas</h3>
-      <p>
-        Audio dramas are productions that include a cast of actors and they're
-        written as dramas with only dialogue, whereas audiobooks are read by a
-        single narrator and written in prose. On the timeline audiobooks are
-        categorized as <span className="type-indicator book-a">books</span> and
-        marked with the speaker icon:
-        <Icon
-          path={mdiVolumeHigh}
-          className="icon audiobook-icon"
-          title="audiobook"
-          />
-        . <span className="type-indicator audio-drama">Audio dramas</span> are a
-        seperate category.
-      </p>
+      {/* <h3>Audiobooks vs Audio dramas</h3> */}
+      {/* <p> */}
+      {/*   Audio dramas are productions that include a cast of actors and they're */}
+      {/*   written as dramas with only dialogue, whereas audiobooks are read by a */}
+      {/*   single narrator and written in prose. On the timeline audiobooks are */}
+      {/*   categorized as <span className="type-indicator book-a">books</span> and */}
+      {/*   marked with the speaker icon: */}
+      {/*   <Icon */}
+      {/*     path={mdiVolumeHigh} */}
+      {/*     className="icon audiobook-icon" */}
+      {/*     title="audiobook" */}
+      {/*     /> */}
+      {/*   . <span className="type-indicator audio-drama">Audio dramas</span> are a */}
+      {/*   seperate category. */}
+      {/* </p> */}
 
       <h3>
         Something's incorrectly placed on the timeline/Some data is incorrect

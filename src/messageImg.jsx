@@ -2,9 +2,18 @@ import React from "react";
 import Ellipsis from "./ellipsis";
 
 const imgs = {
-  jediTexts: { src: "/img/The_original_Jedi_texts.webp", alt: "sacred jedi texts" },
-  yoda: { src: "/img/yoda.webp", alt: "yoda in palpatine's office" },
-  void: { src: "/img/TheVoid.webp", alt: "The Void on Abafar from D-squad Clone Wars arc" },
+  jediTexts: {
+    src: "/img/The_original_Jedi_texts.webp",
+    alt: "sacred jedi texts"
+  },
+  yoda: {
+    src: "/img/yoda.webp",
+    alt: "yoda in palpatine's office"
+  },
+  void: {
+    src: "/img/TheVoid.webp",
+    alt: "The Void on Abafar from D-squad Clone Wars arc"
+  },
 };
 
 export default function MessageImg({ img, children }) {

@@ -6,6 +6,7 @@ import ExternalLink from "./externalLink";
 import { imgAddress } from "./common";
 import MessageImg from "./messageImg";
 import Ellipsis from "./ellipsis";
+import { Blurhash } from "react-blurhash";
 
 const process = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -233,12 +234,16 @@ export default React.memo(function TimelineRowDetails({
                       show: true,
                       width: item.coverWidth,
                       height: item.coverHeight,
+                      hash: item.coverHash,
                     })
                 }>
+                <Blurhash hash={item.coverHash} width={220} height={220 / (item.coverWidth / item.coverHeight)} />
                 <img
+                  key={Math.random()}
                   width={220}
                   src={imgAddress(item.cover)}
-                  className="cover"
+                  alt={`cover of ${item.title}`}
+                  className={`cover`}
                 />
               </button>
             ) : null}

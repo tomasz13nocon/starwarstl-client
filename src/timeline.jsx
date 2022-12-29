@@ -8,6 +8,7 @@ import { unscuffDate, escapeRegex, searchFields, notSortable, columnNames } from
 import Ellipsis from "./ellipsis";
 import MessageImg from "./messageImg";
 import SortingIcon from "./sortingIcon";
+import Error from "./error";
 
 
 const colorValues = [
@@ -480,13 +481,7 @@ export default function Timeline({
           </MessageImg>
         }
         {dataState === "error" &&
-          <MessageImg img="yoda">
-            The dark side clouds everything.
-            <br/>
-            Impossible to see, the server is.
-            <br/>
-            <span className="small">(Error fetching data from the server)</span>
-          </MessageImg>
+          <Error />
         }
         {dataState === "ok" && data.length === 0 &&
           <MessageImg img="void">

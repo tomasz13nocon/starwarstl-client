@@ -1,10 +1,8 @@
-link random media's title to timeline
-add attributions to footer
-display loading indicators on reroll, full image, potentially elsewhere - test
-handle fetching errors everywhere
+fetching error handling try catch
+fix color. On mobile inactive looks like active
 
 LAST:
-partial loading of large images?
+reduce size of full size images?
 test diff browsers (including apple)
 try fetching: https://starwars.fandom.com/wiki/Special:WhatLinksHere/Template:Board_game and other stuff, and see if there's an error in the console
 test ul dot (it's a weird unicode char, some ppl might not have a font supporting it)
@@ -12,7 +10,6 @@ performance/profiing
 before pushing data to DB, backup old data in case of a breaking change. Keep a couple of backups.
 yt guides, how to's, tooltips
 the state of the app while data is fetching.
-remove/change CHECK ALL/UNCHECK ALL?
 clear this todo, TODOs in code, console logs, errors/warns when fetching
 react-responsive - do I need it?
 og meta tags
@@ -26,7 +23,9 @@ fix <br> handling? the clone wars film has unknown date
 see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%94%20The%20Monster%20of%20Temple%20Peak%204
 
 LONG TERM:
+skeleton crew has transparent cover, revealing blur
 improve UX on filters
+remove/change CHECK ALL/UNCHECK ALL?
 instead of responsive display: none, don't render at all
 fetching:
 - Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.

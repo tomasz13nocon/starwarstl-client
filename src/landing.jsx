@@ -7,18 +7,30 @@ import TimelineRowDetails from "./timelineRowDetails";
 import Faq from "./faq";
 import { Icon } from "@mdi/react";
 import { mdiArrowDown, mdiDiceMultipleOutline, mdiVolumeHigh } from '@mdi/js';
+import Error from "./error";
 
 export default function Landing(p) {
   const [randomItem, setRandomItem] = React.useState({});
+  const [randomItemState, setRandomItemState] = React.useState("fetching");
   const landingPageContentRef = React.useRef();
 
   const fetchRandomItem = async () => {
-    let res = await fetch(API + "media-random");
-    if (!res.ok) {
+    setRandomItemState("fetching");
+    let data;
+    try {
+      let res = await fetch(API + "media-random");
+      if (!res.ok) {
+        throw new Error();
+      }
+      data = await res.json();
+    }
+    catch (e) {
+      setRandomItemState("error");
       return;
     }
-    let data = await res.json();
+
     setRandomItem(data);
+    setRandomItemState("ok");
   };
 
   React.useEffect(async () => {
@@ -41,8 +53,12 @@ export default function Landing(p) {
         <div className="random">
           <div>{/* needed for alignment */}
             {/* <h2 className="random-title">Random media</h2> */}
-            <button className="reroll-btn" onClick={fetchRandomItem}><Icon path={mdiDiceMultipleOutline} size={1.5} className="icon" /><span>Reroll</span></button>
-            <TimelineRowDetails item={randomItem} setFullCover={p.setFullCover} />
+            <button className={`reroll-btn ${randomItemState === "fetching" ? "fetching" : ""}`} onClick={fetchRandomItem}><Icon path={mdiDiceMultipleOutline} size={1.5} className="icon" /><span>Reroll</span></button>
+            {randomItemState === "error" ?
+              <Error />
+              :
+              <TimelineRowDetails item={randomItem} setFullCover={p.setFullCover} />
+          }
           </div>
         </div>
         <div className="bg2"></div>

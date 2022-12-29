@@ -141,6 +141,17 @@
       // margin-bottom: 8px;
       display:flex;
       align-items: center;
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      &.fetching .icon {
+        animation: rotate 2s linear infinite;
+      }
       .icon {
         margin-right: 8px;
       }
@@ -163,8 +174,11 @@
         margin-top: 56px;
       }
     }
-    .cover-button, .text {
-      margin: 0 auto;
+    .cover-button {
+      margin: 8px auto 0;
+    }
+    .text {
+      margin: 20px auto 0;
     }
     .title {
       text-align:center;

@@ -19,6 +19,7 @@ export default function App() {
         <Route path="/faq" element={<Faq />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/timeline" element={<Home setFullCover={setFullCover} />}></Route>
+        {/* <Route path="/timeline/:title" element={<Home setFullCover={setFullCover} />}></Route> */}
         <Route path="/" element={<Landing setFullCover={setFullCover} />}></Route>
         <Route path="*" element={<h1>404</h1>}></Route>
       </Routes>
