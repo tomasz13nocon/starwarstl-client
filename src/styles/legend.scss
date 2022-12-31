@@ -3,7 +3,6 @@
 div.legend-button {
   // width: 70px;
   // height: 70px;
-  // TODO: fix the order to reflect the color circle once the colors are settled
   background: conic-gradient(
     #3f51b5,
     #00c8e1,
@@ -28,6 +27,9 @@ div.legend-button {
     align-items: initial;
     justify-content: initial;
     overflow-y: auto;
+    @media (min-height: 720px) {
+      overflow-y: hidden;
+    }
     overflow-x: hidden;
     max-height: calc(100vh - 70px - 12px - 10px - 12px);
     // put it out of flow for animation to work

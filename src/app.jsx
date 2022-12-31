@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import About from "./about";
 import Faq from "./faq";
 import Footer from "./footer";
 import FullCoverPreview from "./fullCoverPreview";
@@ -17,7 +16,6 @@ export default function App() {
       <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
       <Routes>
         <Route path="/faq" element={<Faq />}></Route>
-        <Route path="/about" element={<About />}></Route>
         <Route path="/timeline" element={<Home setFullCover={setFullCover} />}></Route>
         {/* <Route path="/timeline/:title" element={<Home setFullCover={setFullCover} />}></Route> */}
         <Route path="/" element={<Landing setFullCover={setFullCover} />}></Route>

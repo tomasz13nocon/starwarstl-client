@@ -60,9 +60,9 @@ header {
     }
     ul {
       margin: 0;
-      padding-left: 30px;
+      padding: 0 30px;
       @media (max-width: $width-sm) {
-        padding: 0;
+        padding: 0 16px;
         display: flex;
         flex-wrap: wrap;
         li {

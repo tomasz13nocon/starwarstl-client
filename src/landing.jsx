@@ -11,30 +11,30 @@ import Error from "./error";
 
 export default function Landing(p) {
   const [randomItem, setRandomItem] = React.useState({});
-  const [randomItemState, setRandomItemState] = React.useState("fetching");
+  const [randomItemState, setRandomItemState] = React.useState({ state: "fetching" });
   const landingPageContentRef = React.useRef();
 
   const fetchRandomItem = async () => {
-    setRandomItemState("fetching");
+    setRandomItemState({ state: "fetching" });
     let data;
     try {
       let res = await fetch(API + "media-random");
       if (!res.ok) {
-        throw new Error();
+        throw new Error(res.statusText);
       }
       data = await res.json();
     }
     catch (e) {
-      setRandomItemState("error");
+      setRandomItemState({ state: "error", error: e.message });
       return;
     }
 
     setRandomItem(data);
-    setRandomItemState("ok");
+    setRandomItemState({ state: "ok" });
   };
 
   React.useEffect(async () => {
-    fetchRandomItem();
+    await fetchRandomItem();
   }, []);
 
   return (
@@ -53,9 +53,9 @@ export default function Landing(p) {
         <div className="random">
           <div>{/* needed for alignment */}
             {/* <h2 className="random-title">Random media</h2> */}
-            <button className={`reroll-btn ${randomItemState === "fetching" ? "fetching" : ""}`} onClick={fetchRandomItem}><Icon path={mdiDiceMultipleOutline} size={1.5} className="icon" /><span>Reroll</span></button>
-            {randomItemState === "error" ?
-              <Error />
+            <button className={`reroll-btn ${randomItemState.state === "fetching" ? "fetching" : ""}`} onClick={fetchRandomItem}><Icon path={mdiDiceMultipleOutline} size={1.5} className="icon" /><span>Reroll</span></button>
+            {randomItemState.state === "error" ?
+              <Error details={randomItemState.error} />
               :
               <TimelineRowDetails item={randomItem} setFullCover={p.setFullCover} />
           }

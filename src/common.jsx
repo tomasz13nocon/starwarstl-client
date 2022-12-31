@@ -29,7 +29,6 @@ export const columnNames = {
 
 
 export const imgAddress = (filename, size = Size.SMALL) => {
-  // TODO add a "no cover" image
   if (!filename) return null;
   if (/^https?:\/\//.test(filename)) return filename;
   return `${IMAGE_PATH}${size}${encodeURIComponent(filename)}`;

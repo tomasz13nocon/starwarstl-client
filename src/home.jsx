@@ -388,40 +388,44 @@ export default function Home({ setFullCover }) {
   // useCallback is not about perf, it's about identity
 
   React.useEffect(async () => {
-    // bare media
-    let res = await fetch(API + "media");
-    if (!res.ok) {
-      setDataState("error");
-      console.error(res.status());
+    let data, cancelled = false;
+    const fetchToJson = async (apiRoute) => {
+      let res = await fetch(API + apiRoute);
+      if (!res.ok) throw new Error(res.statusText);
+      return await res.json();
     }
-    let data = await res.json();
-    setRawData(data);
-    setDataState("fetchingDetails");
 
-    // series data
-    res = await fetch(API + "series");
-    if (!res.ok) {
-      setDataState("error");
-      console.error(res.status());
-    }
-    setSeriesArr(await res.json());
+    (async () => {
+      try {
+        // bare media
+        setRawData(await fetchToJson("media"));
+        if (cancelled) return;
 
-    // media details
-    res = await fetch(API + "media-details");
-    if (!res.ok) {
-      setDataState("error");
-      console.error(res.status());
-    }
-    data = await res.json();
-    // Data preprocessing
-    for (let item of data) {
-      let d = new Date(unscuffDate(item.releaseDate));
-      if (isNaN(d) || d > Date.now()) {
-        item.unreleased = true;
+        // series data
+        setSeriesArr(await fetchToJson("series"));
+        if (cancelled) return;
+
+        // media details
+        setDataState("fetchingDetails");
+        data = await fetchToJson("media-details");
+        if (cancelled) return;
       }
-    }
-    setRawData(data);
-    setDataState("ok");
+      catch (e) {
+        setDataState("error");
+      }
+
+      // Data preprocessing
+      for (let item of data) {
+        let d = new Date(unscuffDate(item.releaseDate));
+        if (isNaN(d) || d > Date.now()) {
+          item.unreleased = true;
+        }
+      }
+      setRawData(data);
+      setDataState("ok");
+    })();
+
+    return () => cancelled = true;
   }, []);
 
 
@@ -447,6 +451,7 @@ export default function Home({ setFullCover }) {
   });
   React.useEffect(() => {
     documentRef(document);
+    return () => documentRef({});
   });
 
   return (

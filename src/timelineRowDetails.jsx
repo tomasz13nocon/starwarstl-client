@@ -68,21 +68,6 @@ const getData = (item) => {
       break;
     case "comic":
       type = "Comic";
-      // TODO: full types
-      // switch (item.subtype) {
-      //   case "Single issue":
-      //     type += ", single issue";
-      //     break;
-      //   case "Series":
-      //     type += " series";
-      //     break;
-      //   case "Story arc":
-      //     type += ", story arc";
-      //     break;
-      //   case "Trade paperback":
-      //     type += " (TPB)";
-      //     break;
-      // }
       break;
     case "short-story":
       type = "Short story";

@@ -13,9 +13,6 @@ export default function Header() {
             <NavLink to="/timeline">Timeline</NavLink>
           </li>
           {/* <li> */}
-          {/*   <NavLink to="/about">About</NavLink> */}
-          {/* </li> */}
-          {/* <li> */}
           {/*   <NavLink to="/faq">FAQ</NavLink> */}
           {/* </li> */}
         </ul>

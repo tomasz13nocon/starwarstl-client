@@ -57,7 +57,7 @@ const filterItem = (filters, item) => {
       return value["Other"] ?? value["Unknown"] ?? false;
     }
     // boolean key in data
-    // TODO what is this?
+    // TODO what is this? // TODO from future: why is this a todo????
     if (typeof value === "boolean") {
       // equivalent: item[key] ? value : true;
       return acc && (!item[key] || value);
@@ -214,7 +214,7 @@ export default function Timeline({
               true
             )
           )
-          : r; // TODO: This returns empty arr which is truthy. Test this.
+          : r;
       });
     }
 

@@ -12,8 +12,8 @@
     max-width: 100%;
     border: 1px solid darkgrey;
   }
-  span.small {
-    font-size: 0.6em;
+  .small {
+    font-size: 0.7em;
   }
 }
 
@@ -37,28 +37,28 @@
 $full-image-transition: 0.2s;
 .full-image-parent-enter {
   opacity: 0;
-  > img {
+  .cover, .blur {
     transform: translateY(10vh);
   }
 }
 .full-image-parent-enter-active {
   transition: opacity $full-image-transition;
   opacity: 1;
-  > img {
+  .cover, .blur {
     transition: transform $full-image-transition;
     transform: translateY(0px);
   }
 }
 .full-image-parent-exit {
   opacity: 1;
-  > img {
+  .cover, .blur {
     transform: translateY(0px);
   }
 }
 .full-image-parent-exit-active {
   transition: opacity $full-image-transition;
   opacity: 0;
-  > img {
+  .cover, .blur {
     transition: transform $full-image-transition;
     transform: translateY(10vh);
   }
@@ -90,9 +90,11 @@ $full-image-transition: 0.2s;
     align-items: center;
     position:relative;
   }
-  img {
+  .cover, .blur {
     max-width: 95%;
     max-height: 95%;
+  }
+  .cover {
     border: 4px ridge white;
     background-repeat: no-repeat;
     background-size: cover;
@@ -100,8 +102,6 @@ $full-image-transition: 0.2s;
   .blur {
     position:absolute !important;
     z-index: -1;
-    max-width: 95%;
-    max-height: 95%;
   }
 }
 
@@ -315,7 +315,7 @@ $full-image-transition: 0.2s;
       float: left;
       &[title="Obi-Wan Kenobi (television series)"] {
         // Remedy for poor visibility
-        // filter: drop-shadow(0px 0px 1px black); // TODO: does this hinder performance?
+        // filter: drop-shadow(0px 0px 1px black);
         background: #0f0f0f;
       }
     }

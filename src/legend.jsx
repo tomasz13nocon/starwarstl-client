@@ -39,7 +39,6 @@ export default function Legend(props) {
     >
       {expanded ? (
         <>
-          {/* TODO: fix the order to reflect the color circle once the colors are settled */}
           <div className="type-indicator book-a">Novel</div>
           <div className="type-indicator book-ya small">Young Adult Novel</div>
           <div className="type-indicator book-jr small">Junior Novel</div>

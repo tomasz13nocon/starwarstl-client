@@ -44,7 +44,6 @@ export default React.memo(function Filters({
   setSuggestions,
   boxFilters,
   setBoxFilters,
-  timelineContainerRef,
   hideUnreleased,
   setHideUnreleased,
   seriesArr,
@@ -64,9 +63,10 @@ export default React.memo(function Filters({
   );
 
   React.useEffect(() => {
-    window
+    let e = window
       .matchMedia("(max-width: 1086px)")
       .addEventListener('change', e => setSmallScreen( e.matches ));
+    return () => window.removeEventListener('change', e);
   }, []);
 
   let content = (

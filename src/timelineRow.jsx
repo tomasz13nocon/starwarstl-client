@@ -238,12 +238,10 @@ export default React.memo(function TimelineRow({
           collapseUntilTitle = highlightSearchResults(collapseUntilTitle, "collapseUntilTitle", rowSearchResults, searchText.length, searchResultsHighlight);
         }
         inside = (
-          // TODO accessibility
           <div name="expand" tabIndex="0" onKeyDown={(e) => e.keyCode === 13 && expand()}>
             {item.type === "tv" && item.series?.length ? (
               <>
                 <img
-                  // TODO: hover text
                   title={item.series[0]}
                   alt={item.series[0]}
                   className="tv-image"
