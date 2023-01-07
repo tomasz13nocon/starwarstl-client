@@ -330,7 +330,6 @@ $width-sm: 576px;
   border-radius: 999px;
   white-space: nowrap;
   // text-transform: capitalize;
-  //font-weight: 600;
 }
 
 .show-button,
@@ -386,7 +385,7 @@ $width-sm: 576px;
   box-shadow: 0 0 3px black;
   width: 70px;
   height: 70px;
-  font-weight: bold;
+  font-weight: $weight-bold;
   font-size: 2em;
   .icon {
     // width: 36px;
@@ -424,10 +423,10 @@ input.input-default {
 .highlight {
   color: red;
   background-color: yellow;
-  font-weight: bold;
+  font-weight: $weight-bold;
 }
 .highlight-current {
   background-color: #df00ff;
   color: white;
-  font-weight: bold;
+  font-weight: $weight-bold;
 }

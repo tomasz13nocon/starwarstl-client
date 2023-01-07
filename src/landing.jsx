@@ -46,7 +46,7 @@ export default function Landing(p) {
             <h1>Star Wars media timeline</h1>
             <div className="cta">
               <NavLink to="/timeline" className="btn">See Timeline</NavLink>
-    <button className="btn-secondary" onClick={() => window.scrollTo({ top: landingPageContentRef.current?.getBoundingClientRect().top + window.pageYOffset - 30, behavior: "smooth" })}>Learn more</button>
+              <button className="btn-secondary" onClick={() => window.scrollTo({ top: landingPageContentRef.current?.getBoundingClientRect().top + window.pageYOffset - 30, behavior: "smooth" })}>Learn more</button>
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function Landing(p) {
             {randomItemState.state === "error" ?
               <Error details={randomItemState.error} />
               :
-              <TimelineRowDetails item={randomItem} setFullCover={p.setFullCover} />
+              <TimelineRowDetails item={randomItem} setFullCover={p.setFullCover} dataState={randomItemState.state === "fetching" ? "fetchingDetails" : "ok"} />
           }
           </div>
         </div>
@@ -70,7 +70,7 @@ export default function Landing(p) {
             <div className="one">
               <p>Timeline order sourced from Wookieepedia</p>
             </div>
-    <Icon path={mdiArrowDown} className="icon" />
+            <Icon path={mdiArrowDown} className="icon" />
             <div className="two">
               <p>Community-decided order instead of one person’s opinionated timeline</p>
             </div>
@@ -79,7 +79,7 @@ export default function Landing(p) {
             <div className="one">
               <p>All data automatically fetched</p>
             </div>
-    <Icon path={mdiArrowDown} className="icon" />
+            <Icon path={mdiArrowDown} className="icon" />
             <div className="two">
               <p>Timeline stays up to date and won’t get abandoned</p>
             </div>
@@ -88,14 +88,14 @@ export default function Landing(p) {
             <div className="one">
               <p>Fast dynamic table made with modern technology</p>
             </div>
-    <Icon path={mdiArrowDown} className="icon" />
+            <Icon path={mdiArrowDown} className="icon" />
             <div className="two">
               <p>Get exactly what you’re looking for, blazingly fast</p>
             </div>
           </div>
         </div>
 
-      <Faq />
+        <Faq />
       </div>
     </main>
   );

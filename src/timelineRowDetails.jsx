@@ -233,9 +233,9 @@ export default React.memo(function TimelineRowDetails({
               </button>
             ) : null}
             <div className="text">
-              <h3 className="title">
+              <h2 className="title">
                 <WookieeLink>{item.title}</WookieeLink>
-              </h3>
+              </h2>
               {/* {item.timelineNotes && ( */}
               {/*   <ul className="timeline-notes"> */}
               {/*     {item.timelineNotes.map((note, i) => ( */}

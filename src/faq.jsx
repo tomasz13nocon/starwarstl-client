@@ -42,7 +42,7 @@ export default function Faq() {
         The covers on this website are in{" "}
         <a href="https://en.wikipedia.org/wiki/WebP">WEBP</a> format, which
         allows them to be much smaller than equivalent JPEGs. They most notably don't work on Safari with
-        MacOS version &lt; 11, because Apple only recently started to support it.
+        MacOS version &lt; 11.
       </p>
 
       <h3>Searching the page doesn't work</h3>
@@ -50,10 +50,10 @@ export default function Faq() {
         <strong>Solution:</strong> Please use the search button in the bottom right corner.
       </p>
       <p>
-        In order to have a really fast and large table, a technique called
+        In order to have a really fast and large table, table
         virtualization is employed, which means that only the visible portion of
         the table is rendered. This makes it really fast to filter, sort etc.
-        but makes the native browser search useless.
+        but makes the native browser search not work.
       </p>
 
       {/* <h3>Audiobooks vs Audio dramas</h3> */}

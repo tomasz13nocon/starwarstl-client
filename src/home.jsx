@@ -17,7 +17,7 @@ const filtersTemplate = {
     children: {
       film: {
         name: "Films",
-        value: true,
+        value: false,
       },
       tv: {
         name: "TV",
@@ -27,11 +27,11 @@ const filtersTemplate = {
             children: {
               "tv-live-action": {
                 name: "Live-action",
-                value: true,
+                value: false,
               },
               "tv-animated": {
                 name: "Animated",
-                value: true,
+                value: false,
               },
               "tv-micro-series": {
                 name: "Micro series",
@@ -49,7 +49,7 @@ const filtersTemplate = {
             children: {
               game: {
                 name: "Desktop/console",
-                value: true,
+                value: false,
               },
               "game-vr": {
                 name: "VR",
@@ -73,19 +73,19 @@ const filtersTemplate = {
           fullType: {
             name: "Target audience",
             children: {
-              "book-a": { name: "Adult", value: true },
-              "book-ya": { name: "Young Adult", value: true },
+              "book-a": { name: "Adult", value: false },
+              "book-ya": { name: "Young Adult", value: false },
               "book-jr": { name: "Junior", value: false },
-              // Unknown: true,
+              // Unknown: false,
             },
           },
           // publisher: {
           //   name: "Publisher",
           //   children: {
-          //     "Del Rey": true,
-          //     "Disney–Lucasfilm Press": true,
-          //     "Egmont UK Ltd": true,
-          //     Other: true,
+          //     "Del Rey": false,
+          //     "Disney–Lucasfilm Press": false,
+          //     "Egmont UK Ltd": false,
+          //     Other: false,
           //   },
           // },
           // adaptation: {
@@ -96,7 +96,7 @@ const filtersTemplate = {
       },
       "audio-drama": {
         name: "Audio Dramas",
-        value: true,
+        value: false,
       },
       comic: {
         name: "Comics",
@@ -106,11 +106,11 @@ const filtersTemplate = {
             children: {
               comic: {
                 name: "Comic book",
-                value: true,
+                value: false,
               },
               "comic-manga": {
                 name: "Manga",
-                value: true,
+                value: false,
               },
               "comic-strip": {
                 name: "Comic strip",
@@ -125,19 +125,19 @@ const filtersTemplate = {
           // publisher: {
           //   name: "Publisher",
           //   children: {
-          //     "Marvel Comics": true,
-          //     "IDW Publishing": true,
-          //     "Dark Horse Comics": true,
-          //     "Egmont UK Ltd": true,
-          //     Unknown: true,
+          //     "Marvel Comics": false,
+          //     "IDW Publishing": false,
+          //     "Dark Horse Comics": false,
+          //     "Egmont UK Ltd": false,
+          //     Unknown: false,
           //   },
           // },
           // subtype: {
           //   name: "Format",
           //   children: {
-          //     Series: true,
-          //     "Story arc": true,
-          //     "Single issue": true,
+          //     Series: false,
+          //     "Story arc": false,
+          //     "Single issue": false,
           //     "Trade paperback": false,
           //   },
           // },
