@@ -412,6 +412,7 @@ export default function Home({ setFullCover }) {
       }
       catch (e) {
         setDataState("error");
+        return;
       }
 
       // Data preprocessing

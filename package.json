@@ -32,8 +32,7 @@
     "react-swipeable": "^7.0.0",
     "react-transition-group": "^4.4.2",
     "react-virtuoso": "^3.1.5",
-    "vite": "^4.0.1",
-    "wtf_wikipedia": "file:wtf_wikipedia"
+    "vite": "^4.0.1"
   },
   "devDependencies": {
     "eslint": "^8.25.0",
