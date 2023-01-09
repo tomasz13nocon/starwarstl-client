@@ -55,11 +55,10 @@ export default function FullCoverPreview({ fullCover, setFullCover }) {
               width={fullCoverWidth}
               height={fullCoverHeight}
               className="cover"
-              // style={{ display: fullCoverLoaded ? "initial" : "none" }}
               />
-            {!fullCoverLoaded &&
+            {/* {!fullCoverLoaded && */}
               <Blurhash className="blur" hash={fullCover.hash} width={fullCoverWidth} height={fullCoverHeight} />
-            }
+            {/* } */}
             {/* {fullCoverLoaded === false && ( */}
             {/* <img src={imgAddress(fullCover.name)} /> */}
             {/* )} */}

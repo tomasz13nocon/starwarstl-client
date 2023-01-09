@@ -2,6 +2,7 @@ LAST:
 test diff browsers (including apple)
 test ul dot (it's a weird unicode char, some ppl might not have a font supporting it)
 yt guides, how to's, tooltips
+no blurhash on full cover preview
 
 IDK:
 for mobile change row click area to the entire row

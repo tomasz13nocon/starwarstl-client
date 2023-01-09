@@ -398,12 +398,15 @@ export default function Home({ setFullCover }) {
     (async () => {
       try {
         // bare media
-        setRawData(await fetchToJson("media"));
+        let d = await fetchToJson("media");
         if (cancelled) return;
 
         // series data
-        setSeriesArr(await fetchToJson("series"));
+        let s = await fetchToJson("series");
         if (cancelled) return;
+
+        setRawData(d);
+        setSeriesArr(s);
 
         // media details
         setDataState("fetchingDetails");
