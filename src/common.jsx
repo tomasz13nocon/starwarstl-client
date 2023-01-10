@@ -1,8 +1,7 @@
 export const API =
   window.location.protocol +
   "//" +
-  window.location.hostname +
-  (import.meta.env.DEV ? ":5000" : "") +
+  (import.meta.env.VITE_API_HOST ?? window.location.hostname) +
   "/api/";
 // export const API = "/api/";
 export const IMAGE_PATH = "/img/covers/"; // do i need ./ at the start?

@@ -2,3 +2,4 @@
 /dist
 /public/img/covers/*
 !/public/img/covers/tv-images
+*.local
