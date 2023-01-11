@@ -1,0 +1,69 @@
+@use "./shared.scss" as *;
+
+.showcase {
+  // margin-top: 50px;
+  display:flex;
+  flex-direction: column;
+  gap: 50px;
+  
+  .showcase-title {
+    text-align:center;
+  }
+}
+.showcase-feature {
+  display:flex;
+  gap: 32px;
+
+  .text {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    p {
+      margin: 0;
+    }
+  }
+
+  .image-first {
+    display:block;
+    margin: 12px auto;
+    box-shadow: 0 0 10px -3px black;
+    box-shadow: 0 0 5px black;
+    // border: 1px solid black;
+  }
+
+  .arrow {
+    margin-left: auto;
+  }
+
+  $gradient-bg: $background, rgba($background, 0.7) 30%, rgba($background, 0);
+  .image {
+    position:relative;
+    &:before {
+      content: "";
+      position:absolute;
+      height: 100%;
+      width: 90px;
+      background: linear-gradient(to right, $gradient-bg);
+    }
+  }
+
+  &:nth-child(odd) {
+    .text {
+      order: 2;
+    }
+    .image {
+      order: 1;
+      &:before {
+        right: 0;
+        background: linear-gradient(to left, $gradient-bg);
+      }
+    }
+    .arrow {
+      margin-right: auto;
+      margin-left: 0;
+      transform: rotate3d(0, 1, 0, 180deg);
+    }
+  }
+
+}

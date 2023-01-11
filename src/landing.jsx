@@ -8,6 +8,7 @@ import Faq from "./faq";
 import { Icon } from "@mdi/react";
 import { mdiArrowDown, mdiDiceMultipleOutline, mdiVolumeHigh } from '@mdi/js';
 import Error from "./error";
+import Showcase from "./showcase";
 
 export default function Landing(p) {
   const [randomItem, setRandomItem] = React.useState({});
@@ -95,7 +96,10 @@ export default function Landing(p) {
           </div>
         </div>
 
+        <Showcase />
+
         <Faq />
+
       </div>
     </main>
   );

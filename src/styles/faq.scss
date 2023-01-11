@@ -1,13 +1,16 @@
 .faq {
-  h2,
-  h1 {
-    margin-top: 24px;
+  .faq-title {
+    text-align: center;
+    margin-bottom: 18px;
   }
-  .audiobook-icon {
-    margin: 0 6px;
-  }
-
-  address {
-    display:inline;
+  section {
+    background:#e4e6e8;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin: 16px auto;
+    h3 {
+      border-bottom: 1px solid #444;
+      padding-bottom: 6px;
+    }
   }
 }
