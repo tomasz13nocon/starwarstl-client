@@ -15,7 +15,8 @@ export default function Showcase() {
             Title, writer and series fields are searched.
           </p>
           <img src="/img/screenshots/text-filters.png" alt="Claudia Gray as text filter" className="image-first" />
-          <img src="/img/Vector_1.svg" alt="arrow pointing to another image" width="120" className="arrow" />
+          <img src="/img/arrow.svg" alt="arrow pointing to another image" width="120" className="arrow" />
+          <img src="/img/arrow_vertical.svg" alt="arrow pointing to another image" height="100" className="arrow-vertical" />
         </section>
         <div className="image">
           <img src="/img/screenshots/text-filters2a.png " alt="Table with media writter by Claudia Gray" />
@@ -29,7 +30,8 @@ export default function Showcase() {
             Click on one of the suggested series. You can have multiple series filters active.
           </p>
           <img src="/img/screenshots/series-filters.png" alt="" className="image-first" />
-          <img src="/img/Vector_1.svg" alt="arrow pointing to another image" width="120" className="arrow" />
+          <img src="/img/arrow.svg" alt="arrow pointing to another image" width="120" className="arrow" />
+          <img src="/img/arrow_vertical.svg" alt="arrow pointing to another image" height="100" className="arrow-vertical" />
         </section>
         <div className="image">
           <img src="/img/screenshots/series-filters3a.png" alt="" />
@@ -43,7 +45,8 @@ export default function Showcase() {
             Click on "Collapse adjacent episodes" to view the succint results. This works with comic and tv series.
           </p>
           <img src="/img/screenshots/collapse.png" alt="" className="image-first" />
-          <img src="/img/Vector_1.svg" alt="arrow pointing to another image" width="120" className="arrow" />
+          <img src="/img/arrow.svg" alt="arrow pointing to another image" width="120" className="arrow" />
+          <img src="/img/arrow_vertical.svg" alt="arrow pointing to another image" height="100" className="arrow-vertical" />
         </section>
         <div className="image">
           <img src="/img/screenshots/collapse4a.png" alt="" />

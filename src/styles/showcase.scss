@@ -27,13 +27,14 @@
   .image-first {
     display:block;
     margin: 12px auto;
-    box-shadow: 0 0 10px -3px black;
     box-shadow: 0 0 5px black;
-    // border: 1px solid black;
   }
 
   .arrow {
     margin-left: auto;
+  }
+  .arrow-vertical {
+    display: none;
   }
 
   $gradient-bg: $background, rgba($background, 0.7) 30%, rgba($background, 0);
@@ -66,4 +67,41 @@
     }
   }
 
+  @media (max-width: $width-xl) {
+    flex-direction: column;
+    .text {
+      text-align:center;
+    }
+    &:nth-child(odd) {
+      .text {
+        order: 0;
+      }
+      .image {
+        order: 0;
+      }
+    }
+    .image {
+      text-align:center;
+      img {
+        box-shadow: 0 0 5px black;
+      }
+    }
+    .image:before {
+      content: normal;
+    }
+    .arrow {
+      display: none;
+    }
+    .arrow-vertical {
+      display: initial;
+    }
+  }
+  @media (max-width: $width-lg) {
+    .arrow-vertical {
+      height: 80px;
+    }
+    img {
+      max-width: 100%;
+    }
+  }
 }
