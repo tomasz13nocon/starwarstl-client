@@ -9,6 +9,18 @@
   .showcase-title {
     text-align:center;
   }
+
+  .more {
+    text-align:center;
+    .btn {
+      background-color: $active4;
+      color: white;
+      box-shadow: 0 0 6px $active4;
+      margin-top: 16px;
+      @extend %cta-button;
+      display: inline-block;
+    }
+  }
 }
 .showcase-feature {
   display:flex;

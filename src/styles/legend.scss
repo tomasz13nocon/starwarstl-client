@@ -23,25 +23,7 @@ div.legend-button {
   // transition-property: width, height, border-radius, background;
   // transition-duration: 1.2s;
   overflow: hidden;
-  z-index: 0;
-
-  position: relative;
-  &:after {
-    content: '';
-    width: 100%;
-    height: 100%;
-    background-color: #c4c6ca;
-    top: 0;
-    left: 0;
-    position:absolute;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.18s;
-  }
   &.expanded {
-    &:after {
-      opacity: 1;
-    }
     align-items: initial;
     justify-content: initial;
     overflow-y: auto;
@@ -55,8 +37,8 @@ div.legend-button {
     right: 0;
     bottom: 80px;
     text-shadow: none;
-    // background: #ccc; //$background;
-    // background-color: #c4c6ca;
+    background: #ccc; //$background;
+    background-color: #c4c6ca;
     // background: #0005;
     // border: 2px solid black;
     padding: 4px;

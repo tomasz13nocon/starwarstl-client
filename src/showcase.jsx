@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 import "./styles/showcase.scss";
 
@@ -6,7 +7,7 @@ export default function Showcase() {
   return (
     <section className="showcase">
 
-      <h2 className="showcase-title">Feature showcase</h2>
+      <h2 className="showcase-title">Features</h2>
 
       <div className="showcase-feature">
         <section className="text">
@@ -67,6 +68,11 @@ export default function Showcase() {
         <div className="image">
           <img src="/img/screenshots/type-filters2.png" alt="" />
         </div>
+      </div>
+
+      <div className="more">
+          <h3>And more...</h3>
+          <NavLink to="/timeline" className="btn">See Timeline</NavLink>
       </div>
 
     </section>

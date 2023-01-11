@@ -4,6 +4,58 @@
   h2 {
     font-size: 2em;
   }
+
+  .lightsaber-container {
+    display:flex;
+    align-items: center;
+    .handle {
+      display: block;
+      cursor: pointer;
+    }
+    .lightsaber {
+      flex-grow: 1;
+      position:relative;
+      transform-origin: left;
+      transition: max-width 0.4s;
+      max-width: calc(100% - 183px);
+      &.unignited {
+        // transform: scaleX(0);
+        max-width: 0;
+      }
+      &.anakin {
+        @include lightsaber($color: #0079E0);
+        top: 7px;
+        right: 11px;
+        border-top-left-radius: 99px;
+        border-bottom-left-radius: 40px;
+      }
+      &.luke {
+        @include lightsaber($color: #4FD164);
+        top: 3px;
+        right: 5px;
+      }
+    }
+    @media (max-width: $width-sm) {
+      .handle {
+        width: 92px;
+      }
+      .lightsaber {
+        max-width: calc(100% - 92px);
+      }
+      // no nesting cause specificity
+      .lightsaber.anakin {
+        height: 8px;
+        top: 4px;
+        right: 6px;
+      }
+      .lightsaber.luke {
+        height: 8px;
+        top: 2px;
+        right: 3px;
+      }
+    }
+  }
+
   $radius: 40px;
   .hero-container {
     display: grid;
@@ -89,26 +141,17 @@
       @media (max-width: $width-sm) {
         column-gap: 32px;
       }
-      * {
-        @extend %reset-button;
-        padding: 14px 26px;
-        border-radius: 10px;
-        font-size: 1.2em;
-        font-weight: $weight-bold;
-        cursor: pointer;
-      }
       a {
         display: flex;
         align-items: center;
-        &:hover {
-          text-decoration: none;
-        }
       }
       .btn {
+        @extend %cta-button;
         background-color: white;
         color: black;
       }
       .btn-secondary {
+        @extend %cta-button;
         border: 3px solid white;
       }
     }
