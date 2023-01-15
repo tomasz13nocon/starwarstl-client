@@ -15,7 +15,7 @@ export default function Landing(p) {
   const [randomItemState, setRandomItemState] = React.useState({ state: "fetching" });
   const landingPageContentRef = React.useRef();
   // mask for fun
-  const [lightsaber, setLightsaber] = React.useState(0b0000);
+  const [lightsaber, setLightsaber] = React.useState(0b1111);
   const audioOn = React.useRef();
   const audioOff = React.useRef();
 
@@ -44,13 +44,10 @@ export default function Landing(p) {
 
   // I'm a nice guy, therefore I won't blow people's eardrums off.
   React.useEffect(() => {
-    console.log(audioOn.current);
-    if (audioOn.current)
-      audioOn.current.volume = 0.4;
+    audioOn.current.volume = 0.4;
   }, []);
   React.useEffect(() => {
-    if (audioOff.current)
-      audioOff.current.volume = 0.4;
+    audioOff.current.volume = 0.4;
   }, []);
 
   return (
@@ -114,10 +111,10 @@ export default function Landing(p) {
         <div className="lightsaber-container">
           <img onClick={() => {
             setLightsaber(lightsaber ^ 0b1000);
-            if (lightsaber & 0b1000) audioOn.current?.play()
-            else audioOff.current?.play();
+            if (lightsaber & 0b1000) audioOff.current?.play();
+            else audioOn.current?.play()
           }} className="handle" width="183" src="/img/Lightsaber_anakin_rots.webp" alt="Anakin's lightsaber handle" />
-          <div className={`lightsaber anakin ${lightsaber & 0b1000 ? "unignited" : ""}`}></div>
+          <div className={`lightsaber anakin ${lightsaber & 0b1000 ? "" : "unignited"}`}></div>
         </div>
 
         <Showcase />
@@ -125,10 +122,10 @@ export default function Landing(p) {
         <div className="lightsaber-container">
           <img onClick={() => {
             setLightsaber(lightsaber ^ 0b0100);
-            if (lightsaber & 0b0100) audioOn.current?.play()
-            else audioOff.current?.play();
+            if (lightsaber & 0b0100) audioOff.current?.play()
+            else audioOn.current?.play();
           }} className="handle" width="183" src="/img/LukeROTJsaber-MR.webp" alt="Luke's lightsaber handle" />
-          <div className={`lightsaber luke ${lightsaber & 0b0100 ? "unignited" : ""}`}></div>
+          <div className={`lightsaber luke ${lightsaber & 0b0100 ? "" : "unignited"}`}></div>
         </div>
 
         <Faq />

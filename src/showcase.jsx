@@ -15,12 +15,12 @@ export default function Showcase() {
           <p>
             Title, writer and series fields are searched.
           </p>
-          <img src="/img/screenshots/text-filters.png" alt="Claudia Gray as text filter" className="image-first" />
+          <img src="/img/screenshots/text-filters.png" alt="Claudia Gray as text filter" className="image-first" loading="lazy" />
           <img src="/img/arrow.svg" alt="arrow pointing to another image" width="120" className="arrow" />
           <img src="/img/arrow_vertical.svg" alt="arrow pointing to another image" height="100" className="arrow-vertical" />
         </section>
         <div className="image">
-          <img src="/img/screenshots/text-filters2a.png " alt="Table with media writter by Claudia Gray" />
+          <img src="/img/screenshots/text-filters2a.png " alt="Table with media writter by Claudia Gray" loading="lazy" />
         </div>
       </div>
 
@@ -30,12 +30,12 @@ export default function Showcase() {
           <p>
             Click on one of the suggested series. You can have multiple series filters active.
           </p>
-          <img src="/img/screenshots/series-filters.png" alt="" className="image-first" />
+          <img src="/img/screenshots/series-filters.png" alt="" className="image-first" loading="lazy" />
           <img src="/img/arrow.svg" alt="arrow pointing to another image" width="120" className="arrow" />
           <img src="/img/arrow_vertical.svg" alt="arrow pointing to another image" height="100" className="arrow-vertical" />
         </section>
         <div className="image">
-          <img src="/img/screenshots/series-filters3a.png" alt="" />
+          <img src="/img/screenshots/series-filters3a.png" alt="" loading="lazy" />
         </div>
       </div>
 
@@ -45,12 +45,12 @@ export default function Showcase() {
           <p>
             Click on "Collapse adjacent episodes" to view the succint results. This works with comic and tv series.
           </p>
-          <img src="/img/screenshots/collapse.png" alt="" className="image-first" />
+          <img src="/img/screenshots/collapse.png" alt="" className="image-first" loading="lazy" />
           <img src="/img/arrow.svg" alt="arrow pointing to another image" width="120" className="arrow" />
           <img src="/img/arrow_vertical.svg" alt="arrow pointing to another image" height="100" className="arrow-vertical" />
         </section>
         <div className="image">
-          <img src="/img/screenshots/collapse4a.png" alt="" />
+          <img src="/img/screenshots/collapse4a.png" alt="" loading="lazy" />
         </div>
       </div>
 
@@ -66,7 +66,7 @@ export default function Showcase() {
           </p>
         </section>
         <div className="image">
-          <img src="/img/screenshots/type-filters2.png" alt="" />
+          <img src="/img/screenshots/type-filters2.png" alt="" loading="lazy" />
         </div>
       </div>
 

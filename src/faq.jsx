@@ -29,7 +29,7 @@ export default function Faq() {
         </p>
         <p>
           If you however see a mismatch of data between here and Wookieepedia you
-          can message me at tomasz13nocon@gmail.com {/* different contanct info? */}
+          can message me at mail@starwarstl.com
         </p>
       </section>
 

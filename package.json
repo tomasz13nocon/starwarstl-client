@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "start": "vite --port 8080 --host",
-    "build": "vite build --outDir ../dist2 && rm -rf dist && mv dist2 dist",
+    "build": "vite build --emptyOutDir",
+    "build:prod": "vite build --outDir ../dist2 && rm -rf dist && mv dist2 dist",
     "preview": "vite preview --host",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -37,7 +38,7 @@
   "devDependencies": {
     "eslint": "^8.25.0",
     "eslint-plugin-react": "^7.31.10",
-    "prettier": "2.5.1",
+    "prettier": "^2.5.1",
     "sass": "^1.49.8"
   }
 }

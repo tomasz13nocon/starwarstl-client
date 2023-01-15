@@ -4,8 +4,8 @@ export const API =
   (import.meta.env.VITE_API_HOST ?? window.location.hostname) +
   "/api/";
 // export const API = "/api/";
-export const IMAGE_PATH = "/img/covers/"; // do i need ./ at the start?
-export const TV_IMAGE_PATH = `${IMAGE_PATH}tv-images/thumb/`;
+export const IMAGE_PATH = "/img/covers/";
+export const TV_IMAGE_PATH = `/img/tv-images/thumb/`;
 export const Audience = Object.freeze({
   a: "Adult",
   ya: "Young Adult",
