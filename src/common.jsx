@@ -1,10 +1,12 @@
 export const API =
-  window.location.protocol +
-  "//" +
-  (import.meta.env.VITE_API_HOST ?? window.location.hostname) +
+  // window.location.protocol +
+  // "//" +
+  // (import.meta.env.VITE_API_HOST ?? window.location.hostname) +
+  (import.meta.env.VITE_API_HOST ?? "") +
   "/api/";
 // export const API = "/api/";
-export const IMAGE_PATH = "/img/covers/";
+export const IMAGE_PATH = (import.meta.env.VITE_IMG_HOST ?? "") + "/img/covers/";
+// export const IMAGE_PATH = "/img/covers/";
 export const TV_IMAGE_PATH = `/img/tv-images/thumb/`;
 export const Audience = Object.freeze({
   a: "Adult",
@@ -16,7 +18,7 @@ export const Size = Object.freeze({
   THUMB: "thumb/",
   MEDIUM: "medium/",
   SMALL: "small/",
-  FULL: "",
+  FULL: "full/",
 });
 export const searchFields = ["title", "writer", "releaseDate", "date", "collapseUntilTitle", "se", "collapseUntilSe"];
 // Column names which aren't meant to be sorted by
