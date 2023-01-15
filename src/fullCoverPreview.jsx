@@ -6,6 +6,8 @@ import { imgAddress, Size } from "./common";
 export default function FullCoverPreview({ fullCover, setFullCover }) {
   const [fullCoverLoaded, setFullCoverLoaded] = React.useState(false);
 
+  const nodeRef = React.useRef();
+
   React.useEffect(() => {
     return document.addEventListener(
       "keydown",
@@ -41,9 +43,11 @@ export default function FullCoverPreview({ fullCover, setFullCover }) {
         classNames="full-image-parent"
         mountOnEnter
         unmountOnExit
+        nodeRef={nodeRef}
         // onExited={() => setFullCoverLoaded(false)}
       >
         <div
+          ref={nodeRef}
           className="full-image-container"
           onClick={() => setFullCover({ ...fullCover, show: false })}
         >
