@@ -6,7 +6,7 @@ import "./styles/faq.scss";
 // TODO:  TOC
 export default function Faq() {
   return (
-    <div className="faq">
+    <div className="faq" id="faq">
       <h2 className="faq-title">Frequently Asked Questions</h2>
       <section>
         <h3>
