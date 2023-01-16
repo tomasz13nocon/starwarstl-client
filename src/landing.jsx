@@ -10,6 +10,14 @@ import { mdiArrowDown, mdiDiceMultipleOutline, mdiVolumeHigh } from '@mdi/js';
 import Error from "./error";
 import Showcase from "./showcase";
 
+const stopAndPlay = (audioEl) => {
+  if (audioEl) {
+    audioEl.pause();
+    audioEl.currentTime = 0;
+    audioEl.play();
+  }
+};
+
 export default function Landing(p) {
   const [randomItem, setRandomItem] = React.useState({});
   const [randomItemState, setRandomItemState] = React.useState({ state: "fetching" });
@@ -111,8 +119,8 @@ export default function Landing(p) {
         <div className="lightsaber-container">
           <img onClick={() => {
             setLightsaber(lightsaber ^ 0b1000);
-            if (lightsaber & 0b1000) audioOff.current?.play();
-            else audioOn.current?.play()
+            if (lightsaber & 0b1000) stopAndPlay(audioOff.current);
+            else stopAndPlay(audioOn.current);
           }} className="handle" width="183" src="/img/Lightsaber_anakin_rots.webp" alt="Anakin's lightsaber handle" />
           <div className={`lightsaber anakin ${lightsaber & 0b1000 ? "" : "unignited"}`}></div>
         </div>
@@ -122,8 +130,8 @@ export default function Landing(p) {
         <div className="lightsaber-container">
           <img onClick={() => {
             setLightsaber(lightsaber ^ 0b0100);
-            if (lightsaber & 0b0100) audioOff.current?.play()
-            else audioOn.current?.play();
+            if (lightsaber & 0b0100) stopAndPlay(audioOff.current);
+            else stopAndPlay(audioOn.current);
           }} className="handle" width="183" src="/img/LukeROTJsaber-MR.webp" alt="Luke's lightsaber handle" />
           <div className={`lightsaber luke ${lightsaber & 0b0100 ? "" : "unignited"}`}></div>
         </div>

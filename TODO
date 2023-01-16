@@ -14,22 +14,19 @@ try fetching: https://starwars.fandom.com/wiki/Special:WhatLinksHere/Template:Bo
 LONG TERM:
 reduce size of full size images?
 preserve state across routes
-skeleton crew has transparent cover, revealing blur
+fix blurhash on transparent images (skeleton crew)
 before pushing data to DB, backup old data in case of a breaking change. Keep a couple of backups.
 CLEANUP: extract filters and timeline and timelineRow code into components (maybe also split timeline styles)
 og meta tags
 improve UX on filters
 remove/change CHECK ALL/UNCHECK ALL?
 instead of responsive display: none, don't render at all
-performance/profiing
 fetching:
 - Upcoming episodes are sometimes (duplicate) links to the series itself. This causes fetch script to overwrite it. So.. handle mismatch of title and link.
 - recover from "no infobox" maybe? -- Redlinks cause skip, but no infobox causes fetching error. Make them have the same effect (preferably recover and include in timeline with limited data).
-Second layout for mobile (see designs)
 cover thumbnails in mobile always on the left (use grid probably)
 better visual seperation of sections in details, like wookiee
 loading indication including for full size images (unclear due to bg img trick)
-fix blurhash on transparent images (skeleton crew)
 chekbox groups unexpand when changing browser width
 color coded comic/tv series with visual indication of how long it runs (like swdatapad)
 - Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)
@@ -56,7 +53,6 @@ show a list of recently used (box) filters
 make "Adaptaions" filter work
 user accounts for settings/filters
 fix the ":wikipedia:Page" links (these get interpreted as internal links by wtf, they work in mw as interwiki, but it is an undocumented feature...) (example: Divide and Conquer)
-collapse adjacent comic issues/tv episodes
 clickable links to other entries in the timeline (mostly in "series" "followed by" "preceded by")
 add padlock button to a filter to make it show regardless of search/filters (useful e.g. to always show movies)
   kinda related: for search add "," as an "OR" operator
@@ -65,7 +61,6 @@ ability to save filter presets (and persist them to local storage/account) and s
 Highlight more important entries in timeline row details (like Writer and Artist of the comic are more important than inker)
 Image details when showing full size (credit to artist, copyright notice or link to it)
 resize images to a certain max size (currently unlimited, some are many MBs)
-check accessiblity
 show count of books next to publisher filter, count of episodes in series etc.
 for tv episodes' (and comis issues?) details show "out of" e.g.: Episode: 8 (out of 16)
 link to yt for web episodes (galaxy of adventures etc.)
