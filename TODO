@@ -2,7 +2,6 @@ LAST:
 test diff browsers (including apple)
 test ul dot (it's a weird unicode char, some ppl might not have a font supporting it)
 yt guides, how to's, tooltips
-no blurhash on full cover preview
 
 IDK:
 for mobile change row click area to the entire row
@@ -30,6 +29,7 @@ Second layout for mobile (see designs)
 cover thumbnails in mobile always on the left (use grid probably)
 better visual seperation of sections in details, like wookiee
 loading indication including for full size images (unclear due to bg img trick)
+fix blurhash on transparent images (skeleton crew)
 chekbox groups unexpand when changing browser width
 color coded comic/tv series with visual indication of how long it runs (like swdatapad)
 - Comic issues should have something like a colored square as color coding of the series it belongs to (distinct from color coding of the media type)

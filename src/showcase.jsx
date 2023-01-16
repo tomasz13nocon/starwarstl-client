@@ -15,12 +15,12 @@ export default function Showcase() {
           <p>
             Title, writer and series fields are searched.
           </p>
-          <img src="/img/screenshots/text-filters.png" alt="Claudia Gray as text filter" className="image-first" loading="lazy" />
+          <img src="/img/screenshots/text-filters.webp" alt="Claudia Gray as text filter" className="image-first" loading="lazy" />
           <img src="/img/arrow.svg" alt="arrow pointing to another image" width="120" className="arrow" />
           <img src="/img/arrow_vertical.svg" alt="arrow pointing to another image" height="100" className="arrow-vertical" />
         </section>
         <div className="image">
-          <img src="/img/screenshots/text-filters2a.png " alt="Table with media writter by Claudia Gray" loading="lazy" />
+          <img src="/img/screenshots/text-filters2a.webp " alt="Table with media writter by Claudia Gray" loading="lazy" />
         </div>
       </div>
 
@@ -30,12 +30,12 @@ export default function Showcase() {
           <p>
             Click on one of the suggested series. You can have multiple series filters active.
           </p>
-          <img src="/img/screenshots/series-filters.png" alt="" className="image-first" loading="lazy" />
+          <img src="/img/screenshots/series-filters.webp" alt="" className="image-first" loading="lazy" />
           <img src="/img/arrow.svg" alt="arrow pointing to another image" width="120" className="arrow" />
           <img src="/img/arrow_vertical.svg" alt="arrow pointing to another image" height="100" className="arrow-vertical" />
         </section>
         <div className="image">
-          <img src="/img/screenshots/series-filters3a.png" alt="" loading="lazy" />
+          <img src="/img/screenshots/series-filters3a.webp" alt="" loading="lazy" />
         </div>
       </div>
 
@@ -45,12 +45,12 @@ export default function Showcase() {
           <p>
             Click on "Collapse adjacent episodes" to view the succint results. This works with comic and tv series.
           </p>
-          <img src="/img/screenshots/collapse.png" alt="" className="image-first" loading="lazy" />
+          <img src="/img/screenshots/collapse.webp" alt="" className="image-first" loading="lazy" />
           <img src="/img/arrow.svg" alt="arrow pointing to another image" width="120" className="arrow" />
           <img src="/img/arrow_vertical.svg" alt="arrow pointing to another image" height="100" className="arrow-vertical" />
         </section>
         <div className="image">
-          <img src="/img/screenshots/collapse4a.png" alt="" loading="lazy" />
+          <img src="/img/screenshots/collapse4a.webp" alt="" loading="lazy" />
         </div>
       </div>
 
@@ -58,15 +58,15 @@ export default function Showcase() {
         <section className="text">
           <h3>Filter by type</h3>
           <p>
-            Right click (or tap and hold on mobile), to select only that filter, deselecting all others.
+            You can also right click (or tap and hold on mobile), to select only one filter, deselecting all others.
           </p>
           <p>
             Note that these stack with other filters.<br/>
-            For example if you also filter by some text, only entries containing that text <strong>and</strong> entries of selected types will appear.
+            For example if you also filter by some text, only entries containing that text <strong>and</strong> of selected types will appear.
           </p>
         </section>
         <div className="image">
-          <img src="/img/screenshots/type-filters2.png" alt="" loading="lazy" />
+          <img src="/img/screenshots/type-filters2.webp" alt="" loading="lazy" />
         </div>
       </div>
 
