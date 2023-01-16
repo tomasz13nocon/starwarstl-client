@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Partytown } from '@builder.io/partytown/react';
 
 import Faq from "./faq";
 import Footer from "./footer";
@@ -12,6 +13,7 @@ export default function App() {
   const [fullCover, setFullCover] = React.useState({ name: "", show: false });
   return (
     <React.StrictMode>
+      <Partytown debug={import.meta.env.DEV} forward={['dataLayer.push']} />
       <Router>
         <Header />
         <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />

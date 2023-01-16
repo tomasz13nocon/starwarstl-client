@@ -4,6 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
+    "partytown": "partytown copylib public/~partytown",
     "start": "vite --port 8080 --host",
     "build": "vite build --emptyOutDir",
     "build:prod": "vite build --outDir ../dist2 && rm -rf dist && mv dist2 dist",
@@ -18,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@builder.io/partytown": "^0.7.4",
     "@mdi/js": "^6.5.95",
     "@mdi/react": "^1.5.0",
     "@vitejs/plugin-react": "^3.0.0",
