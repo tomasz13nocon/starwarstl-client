@@ -117,6 +117,7 @@ export default function Timeline({
   dispatchSearchResults,
   hideUnreleased,
   setHideUnreleased,
+  hideAdaptations,
   collapseAdjacent,
   columns,
   dataState,
@@ -165,6 +166,8 @@ export default function Timeline({
     removeAllFalses(cleanFilters);
     tempData = rawData.filter((item) => {
       if (hideUnreleased && item.unreleased)
+        return false;
+      if (hideAdaptations && item.adaptation)
         return false;
       return filterItem(cleanFilters, item);
     });
@@ -380,7 +383,7 @@ export default function Timeline({
 
     tempData.incomplete = rawData.incomplete;
     return tempData;
-  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, collapseAdjacent]);
+  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, hideAdaptations, collapseAdjacent]);
 
   // Scroll to expanded entry on data change.
   // This effect needs to have the same deps as useMemo above.
@@ -396,7 +399,7 @@ export default function Timeline({
         });
       }
     }
-  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, collapseAdjacent]);
+  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, hideAdaptations, collapseAdjacent]);
 
   // Search (Ctrl-F replacement)
   React.useEffect(() => {

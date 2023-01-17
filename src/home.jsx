@@ -88,10 +88,6 @@ const filtersTemplate = {
           //     Other: false,
           //   },
           // },
-          // adaptation: {
-          //   name: "Adaptations",
-          //   value: false,
-          // },
         },
       },
       "audio-drama": {
@@ -366,6 +362,7 @@ export default function Home({ setFullCover }) {
     { text: "", highlight: null, results: [], overallSize: 0 }
   );
   const [hideUnreleased, setHideUnreleased] = React.useState(false);
+  const [hideAdaptations, setHideAdaptations] = React.useState(false);
   const [collapseAdjacent, setCollapseAdjacent] = React.useState(false);
   // Keys: names of columns corresponding to keys in data
   // Values: wheter they're to be displayed
@@ -484,6 +481,8 @@ export default function Home({ setFullCover }) {
           timelineContainerRef={timelineContainerRef}
           hideUnreleased={hideUnreleased}
           setHideUnreleased={setHideUnreleased}
+          hideAdaptations={hideAdaptations}
+          setHideAdaptations={setHideAdaptations}
           collapseAdjacent={collapseAdjacent}
           setCollapseAdjacent={setCollapseAdjacent}
           columns={columns}
@@ -507,6 +506,7 @@ export default function Home({ setFullCover }) {
           dispatchSearchResults={dispatchSearchResults}
           hideUnreleased={hideUnreleased}
           setHideUnreleased={setHideUnreleased}
+          hideAdaptations={hideAdaptations}
           collapseAdjacent={collapseAdjacent}
           columns={columns}
           dataState={dataState}
