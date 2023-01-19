@@ -4,7 +4,7 @@ import { _ } from "lodash";
 
 import TimelineRow from "./timelineRow";
 import "./styles/timeline.scss";
-import { unscuffDate, escapeRegex, searchFields, notSortable, columnNames } from "./common";
+import { escapeRegex, searchFields, notSortable, columnNames } from "./common";
 import Ellipsis from "./ellipsis";
 import MessageImg from "./messageImg";
 import SortingIcon from "./sortingIcon";
@@ -105,7 +105,7 @@ const removeAllFalses = (filters) => {
 };
 
 
-export default function Timeline({
+function Timeline({
   filterText,
   filters,
   rawData,
@@ -123,7 +123,10 @@ export default function Timeline({
   dataState,
   sorting,
   toggleSorting,
-  ...props
+  rangeFrom,
+  rangeTo,
+  timelineRangeBy,
+  setFullCover,
 }) {
   ///// STATE /////
   // const [data, setData] = React.useState([]);
@@ -159,12 +162,122 @@ export default function Timeline({
   // Sort and filter data
   const data = React.useMemo(() => {
     if (rawData.length === 0) return [];
-    let tempData = [];
+    let tempData = [...rawData];
+
+    // Timeline range
+    // by date, by releasedate
+    // from, to
+    // year, title
+    // bby aby
+
+    // dateFromYear // sort by chronology > iterate until first item with date not older than rangeFromYear
+    // dateToYear // Same (diff comparison operator)
+    // dateFromTitle // find item by title > get chronology
+    // dateToTitle // Same exactly
+    // releaseDateFromYear // sort by releaseDate > find first item with matching release date > remove everything prior
+    // releaseDateToYear // Same (remove everything after)
+    // releaseDateFromTitle // Same (matching title)
+    // releaseDateToTitle // Same (remove everything after)
+
+    let frankensteinFunctions = {
+      dateFromYearToYear: (data, from, to) => {
+        // let lowest = Number.MAX_SAFE_INTEGER, highest = Number.MIN_SAFE_INTEGER;
+        // for (let i = 0; i < data.length; i++) {
+        //   // console.log(data[i].chronology, lowest, (data[i].dateParsed?.date2 ?? data[i].dateParsed?.date1), from);
+        //   if (data[i].chronology < lowest && (data[i].dateParsed?.date2 ?? data[i].dateParsed?.date1) >= from) {
+        //     lowest = data[i].chronology;
+        //     console.log(data[i].title, data[i].date);
+        //   }
+        //   if (data[i].chronology > highest && data[i].dateParsed?.date1 <= to) {
+        //     highest = data[i].chronology;
+        //     console.log(data[i].title, data[i].date);
+        //   }
+        // }
+        // let filterFn = (item) => item.chronology >= lowest && item.chronology <= highest;
+        // if (from === undefined) filterFn = (item) => item.chronology <= highest;
+        // if (to === undefined) filterFn = (item) => item.chronology >= lowest;
+
+        // Plug the dynamicly chosen function into these condition
+        // let filterFn = (date) => (date.date2 ?? date.date1) >= from && date.date1 <= to;
+        // if (from === undefined) filterFn = (date) => date.date1 <= to;
+        // if (to === undefined) filterFn = (date) => (date.date2 ?? date.date1) >= from;
+        return data.filter((item) => item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from && date.date1 <= to));
+      },
+      dateFromYear: (data, from, to) => {
+        return data.filter((item) => item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from));
+      },
+      dateToYear: (data, from, to) => {
+        return data.filter((item) => item.dateParsed?.some((date) => date.date1 <= to));
+      },
+      dateFromTitleToTitle: (data, from, to) => {
+        return data.filter((item) => item.chronology >= from && item.chronology <= to);
+      },
+      dateFromTitle: (data, from, to) => {
+        // TODO check for title's existance here, not Home, also exctract useMemo in a *smart* way
+        return data.filter((item) => item.chronology >= from);
+      },
+      dateToTitle: (data, from, to) => {
+        return data.filter((item) => item.chronology <= to);
+      },
+      dateFromYearToTitle: (data, from, to) => {
+        return data.filter((item) => item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from) && item.chronology <= to);
+      },
+      dateFromTitleToYear: (data, from, to) => {
+        return data.filter((item) => item.chronology >= from && item.dateParsed?.some((date) => date.date1 <= to));
+      },
+
+      releaseDateFromYearToYear: (data, from, to) => {
+        return data.filter((item) => {
+          let rd = new Date(item.releaseDate);
+          return rd >= from && rd <= to;
+        });
+      },
+      releaseDateFromYear: (data, from, to) => {
+        return data.filter((item) => new Date(item.releaseDate) >= from);
+      },
+      releaseDateToYear: (data, from, to) => {
+        return data.filter((item) => new Date(item.releaseDate) <= to);
+      },
+      releaseDateFromTitleToTitle: (data, from, to) => {
+        return data.filter((item) => {
+          let rd = new Date(item.releaseDate);
+          return rd >= from && rd <= to;
+        });
+      },
+      releaseDateFromTitle: (data, from, to) => {
+        return data.filter((item) => new Date(item.releaseDate) >= from);
+      },
+      releaseDateToTitle: (data, from, to) => {
+        return data.filter((item) => new Date(item.releaseDate) <= to);
+      },
+      releaseDateFromYearToTitle: (data, from, to) => {
+        return data.filter((item) => {
+          let rd = new Date(item.releaseDate);
+          return rd >= from && rd <= to;
+        });
+      },
+      releaseDateFromTitleToYear: (data, from, to) => {
+        return data.filter((item) => {
+          let rd = new Date(item.releaseDate);
+          return rd >= from && rd <= to;
+        });
+      },
+    };
+
+    // We use frankenstein string to avoid something even worse: 4 layers of nested ifs
+    let frankenstein = timelineRangeBy;
+    if (rangeFrom) frankenstein += "From" + (rangeFrom.isTitle ? "Title" : "Year");
+    if (rangeTo) frankenstein += "To" + (rangeTo.isTitle ? "Title" : "Year");
+    console.log(frankenstein);
+
+    if (rangeFrom || rangeTo) {
+      tempData = frankensteinFunctions[frankenstein](tempData, rangeFrom?.value, rangeTo?.value);
+    }
 
     // Filter
     let cleanFilters = _.cloneDeep(filters);
     removeAllFalses(cleanFilters);
-    tempData = rawData.filter((item) => {
+    tempData = tempData.filter((item) => {
       if (hideUnreleased && item.unreleased)
         return false;
       if (hideAdaptations && item.adaptation)
@@ -238,8 +351,8 @@ export default function Timeline({
         // == is intended (null or undefined)
         if (av == null) return sorting.ascending ? 1 : -1;
         if (bv == null) return sorting.ascending ? -1 : 1;
-        av = unscuffDate(av);
-        bv = unscuffDate(bv);
+        if (a.releaseDateEffective) av = a.releaseDateEffective;
+        if (b.releaseDateEffective) bv = b.releaseDateEffective;
       }
       if (av < bv) return sorting.ascending ? -1 : 1;
       if (av > bv) return sorting.ascending ? 1 : -1;
@@ -383,7 +496,7 @@ export default function Timeline({
 
     tempData.incomplete = rawData.incomplete;
     return tempData;
-  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, hideAdaptations, collapseAdjacent]);
+  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, hideAdaptations, collapseAdjacent, rangeFrom, rangeTo, timelineRangeBy]);
 
   // Scroll to expanded entry on data change.
   // This effect needs to have the same deps as useMemo above.
@@ -399,7 +512,7 @@ export default function Timeline({
         });
       }
     }
-  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, hideAdaptations, collapseAdjacent]);
+  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, hideAdaptations, collapseAdjacent, rangeFrom, rangeTo, timelineRangeBy]);
 
   // Search (Ctrl-F replacement)
   React.useEffect(() => {
@@ -528,9 +641,9 @@ export default function Timeline({
                 <TimelineRow
                   item={item}
                   activeColumns={activeColumns}
+                  setFullCover={setFullCover}
                   expanded={expanded === item._id}
                   setExpanded={setExpanded}
-                  seriesArr={seriesArr}
                   searchExpanded={searchExpanded}
                   searchResultsHighlight={searchResults.highlight ?
                       {
@@ -542,7 +655,6 @@ export default function Timeline({
                   searchText={searchResults.text}
                   collapseAdjacent={collapseAdjacent}
                   dataState={dataState}
-                  {...props}
                 />
               </div>
             );
@@ -552,3 +664,4 @@ export default function Timeline({
     </div>
   );
 }
+export default React.memo(Timeline);

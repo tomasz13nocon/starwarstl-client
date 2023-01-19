@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import React from "react";
-import { API, unscuffDate } from "./common";
+import { API } from "./common";
 import Filters from "./filters";
 import FullCoverPreview from "./fullCoverPreview";
 import Legend from "./legend";
@@ -237,6 +237,7 @@ export default function Home({ setFullCover }) {
   const [seriesArr, setSeriesArr] = React.useState([]);
   const [suggestions, setSuggestions] = React.useState([]);
   const [boxFilters, setBoxFilters] = React.useState([]);
+  const [timelineRangeBy, setTimelineRangeBy] = React.useState("date");
   const [searchExpanded, toggleSearchExpanded] = React.useReducer(
     (state, value) => (value === undefined ? !state : value),
     false
@@ -376,6 +377,9 @@ export default function Home({ setFullCover }) {
   });
   const [showFilters, setShowFilters] = React.useState(false);
   const [dataState, setDataState] = React.useState("fetching"); // fetching, fetchingDetails, ok, error
+  const [rangeFrom, setRangeFrom] = React.useState("");
+  const [rangeTo, setRangeTo] = React.useState("");
+  const [rangeTitleSuggestions, setRangeTitleSuggestions] = React.useState([]);
   /////////////////
 
   const timelineContainerRef = React.useRef();
@@ -384,6 +388,7 @@ export default function Home({ setFullCover }) {
   // for usage of useCallback see: https://stackoverflow.com/questions/64134566/should-we-use-usecallback-in-every-function-handler-in-react-functional-componen
   // useCallback is not about perf, it's about identity
 
+  // Fetch data
   React.useEffect(async () => {
     let data, cancelled = false;
     const fetchToJson = async (apiRoute) => {
@@ -415,13 +420,6 @@ export default function Home({ setFullCover }) {
         return;
       }
 
-      // Data preprocessing
-      for (let item of data) {
-        let d = new Date(unscuffDate(item.releaseDate));
-        if (isNaN(d) || d > Date.now()) {
-          item.unreleased = true;
-        }
-      }
       setRawData(data);
       setDataState("ok");
     })();
@@ -429,7 +427,7 @@ export default function Home({ setFullCover }) {
     return () => cancelled = true;
   }, []);
 
-
+  // Setup swipe events
   const { ref: documentRef } = useSwipeable({
     // onSwiping: (e) => {
     //   if (showFilters)
@@ -454,6 +452,37 @@ export default function Home({ setFullCover }) {
     documentRef(document);
     return () => documentRef({});
   });
+
+  // Process timeline range input
+  const parseRange = (str, data) => {
+    if (str) { // TODO: optimize: debounce or title index/array
+      let strU = str.toUpperCase();
+      for (let item of rawData) {
+        if (strU === item.title.toUpperCase()) {
+          let ret = timelineRangeBy === "date" ? item.chronology : new Date(item.releaseDateEffective ?? item.releaseDate);
+          return { value: ret, isTitle: true };
+        }
+      };
+    }
+    if (timelineRangeBy === "date") {
+      let dateMatch = str.toLowerCase().match(/^\s*(\d+)\s*([ab])by\s*$/);
+      if (dateMatch !== null) {
+        let date = +dateMatch[1];
+        if (dateMatch[2] === "b") {
+          date = -date;
+        }
+        return { value: date };
+      }
+    }
+    else if (timelineRangeBy === "releaseDate") {
+      let date = new Date(str);
+      if (!isNaN(date)) {
+        return { value: date };
+      }
+    }
+  };
+  let rangeFromParsed = React.useMemo(() => parseRange(rangeFrom, rawData), [rangeFrom, rawData, timelineRangeBy]);
+  let rangeToParsed = React.useMemo(() => parseRange(rangeTo, rawData), [rangeTo, rawData, timelineRangeBy]);
 
   return (
     <main className="content">
@@ -492,6 +521,13 @@ export default function Home({ setFullCover }) {
           filtersContainerRef={filtersContainerRef}
           sorting={sorting}
           toggleSorting={toggleSorting}
+          timelineRangeBy={timelineRangeBy}
+          setTimelineRangeBy={setTimelineRangeBy}
+          rangeFrom={rangeFrom}
+          setRangeFrom={setRangeFrom}
+          rangeTo={rangeTo}
+          setRangeTo={setRangeTo}
+          rangeTitleSuggestions={rangeTitleSuggestions}
         />
         <Timeline
           filterText={filterText}
@@ -512,6 +548,9 @@ export default function Home({ setFullCover }) {
           dataState={dataState}
           sorting={sorting}
           toggleSorting={toggleSorting}
+          rangeFrom={rangeFromParsed}
+          rangeTo={rangeToParsed}
+          timelineRangeBy={timelineRangeBy}
         />
       </div>
     </main>

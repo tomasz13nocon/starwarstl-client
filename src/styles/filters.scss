@@ -238,4 +238,23 @@
       margin-bottom: 3px;
     }
   }
+
+  .timeline-range {
+    .contents {
+      display:flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .range-by-selection {
+      display:flex;
+      gap: 8px;
+    }
+
+    .range-text-inputs {
+      display: grid;
+      grid-template-columns: fit-content(100%) 1fr;
+      gap: 3px 6px;
+    }
+  }
 }

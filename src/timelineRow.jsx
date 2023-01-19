@@ -78,7 +78,6 @@ export default React.memo(function TimelineRow({
   item,
   activeColumns,
   setFullCover,
-  seriesArr,
   expanded,
   setExpanded,
   searchExpanded,

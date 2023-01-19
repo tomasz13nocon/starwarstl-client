@@ -425,10 +425,14 @@ input.input-default {
     outline: none;
     border-color: $focus;
   }
+  &.small {
+    padding: 3px 28px 3px 4px;
+    border-width: 2px;
+  }
 }
 .clear-input-container {
   position: relative;
-  button.clear-input {
+  .clear-input {
     @extend %reset-button;
     position: absolute;
     right: 7px;
@@ -437,8 +441,14 @@ input.input-default {
     cursor: pointer;
     line-height: 0;
     &:focus {
-      outline: none;
+      // outline: none;
+      z-index: 1;
     }
+  }
+  input.small + .clear-input {
+    top: 12px;
+    right: 5px;
+    font-size: 29px;
   }
 }
 
@@ -452,3 +462,4 @@ input.input-default {
   color: white;
   font-weight: $weight-bold;
 }
+
