@@ -8,6 +8,12 @@ import Search from "./search";
 import Timeline from "./timeline";
 import { useSwipeable } from "react-swipeable";
 import { _ } from "lodash";
+import TimelineRange from "./timelineRange";
+import TypeFilters from "./typeFilters";
+import CheckboxSettings from "./checkboxSettings";
+import ColumnSettings from "./columnSettings";
+import SortingMobile from "./sortingMobile";
+import BoxFilters from "./boxFilters";
 
 //import rawData from "./data.json";
 
@@ -459,8 +465,16 @@ export default function Home({ setFullCover }) {
       let strU = str.toUpperCase();
       for (let item of rawData) {
         if (strU === item.title.toUpperCase()) {
-          let ret = timelineRangeBy === "date" ? item.chronology : new Date(item.releaseDateEffective ?? item.releaseDate);
-          return { value: ret, isTitle: true };
+          let ret = { isTitle: true }
+          if (timelineRangeBy === "date") {
+            ret.value = item.chronology;
+            if (!item.dateParsed) return undefined; // TODO display msg: Can't use this media, since its placement is a mystery
+            ret.dates = item.dateParsed;
+          }
+          else {
+            ret.value = new Date(item.releaseDateEffective ?? item.releaseDate);
+          }
+          return ret;
         }
       };
     }
@@ -469,6 +483,14 @@ export default function Home({ setFullCover }) {
       if (dateMatch !== null) {
         let date = +dateMatch[1];
         if (dateMatch[2] === "b") {
+          date = -date;
+        }
+        return { value: date };
+      }
+      dateMatch = str.match(/^\s*([\-])?(\d+)\s*$/);
+      if (dateMatch !== null) {
+        let date = +dateMatch[2];
+        if (dateMatch[1] !== undefined) {
           date = -date;
         }
         return { value: date };
@@ -500,20 +522,11 @@ export default function Home({ setFullCover }) {
           seriesArr={seriesArr}
           filterText={filterText}
           filterTextChanged={setFilterText}
-          filters={filters}
-          filtersChanged={dispatch}
-          filtersTemplate={filtersTemplate}
           suggestions={suggestions}
           setSuggestions={setSuggestions}
           boxFilters={boxFilters}
           setBoxFilters={setBoxFilters}
           timelineContainerRef={timelineContainerRef}
-          hideUnreleased={hideUnreleased}
-          setHideUnreleased={setHideUnreleased}
-          hideAdaptations={hideAdaptations}
-          setHideAdaptations={setHideAdaptations}
-          collapseAdjacent={collapseAdjacent}
-          setCollapseAdjacent={setCollapseAdjacent}
           columns={columns}
           setColumns={setColumns}
           showFilters={showFilters}
@@ -521,14 +534,45 @@ export default function Home({ setFullCover }) {
           filtersContainerRef={filtersContainerRef}
           sorting={sorting}
           toggleSorting={toggleSorting}
-          timelineRangeBy={timelineRangeBy}
-          setTimelineRangeBy={setTimelineRangeBy}
-          rangeFrom={rangeFrom}
-          setRangeFrom={setRangeFrom}
-          rangeTo={rangeTo}
-          setRangeTo={setRangeTo}
-          rangeTitleSuggestions={rangeTitleSuggestions}
-        />
+        >
+          <BoxFilters
+            boxFilters={boxFilters}
+            setBoxFilters={setBoxFilters}
+          />
+          <SortingMobile
+            columns={columns}
+            sorting={sorting}
+            toggleSorting={toggleSorting}
+          />
+          <ColumnSettings
+            columns={columns}
+            setColumns={setColumns}
+          />
+          <CheckboxSettings
+            hideUnreleased={hideUnreleased}
+            setHideUnreleased={setHideUnreleased}
+            hideAdaptations={hideAdaptations}
+            setHideAdaptations={setHideAdaptations}
+            collapseAdjacent={collapseAdjacent}
+            setCollapseAdjacent={setCollapseAdjacent}
+          />
+          <TypeFilters
+            filters={filters}
+            filtersChanged={dispatch}
+            filtersTemplate={filtersTemplate}
+          />
+          <TimelineRange
+            timelineRangeBy={timelineRangeBy}
+            setTimelineRangeBy={setTimelineRangeBy}
+            rangeFrom={rangeFrom}
+            setRangeFrom={setRangeFrom}
+            rangeTo={rangeTo}
+            setRangeTo={setRangeTo}
+            fromValid={rangeFromParsed !== undefined}
+            toValid={rangeToParsed !== undefined}
+            rangeTitleSuggestions={rangeTitleSuggestions}
+          />
+        </Filters>
         <Timeline
           filterText={filterText}
           filters={filters}

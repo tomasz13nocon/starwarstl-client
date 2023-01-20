@@ -1,0 +1,18 @@
+.filters-section {
+
+  .check-buttons {
+    button:hover {
+      box-shadow: 0 0 2px black;
+    }
+  }
+
+  .checkbox-filters {
+    margin-top: 10px 0;
+    line-height: 1.25;
+    .checkbox {
+      margin-top: 3px;
+      margin-bottom: 3px;
+    }
+  }
+
+}

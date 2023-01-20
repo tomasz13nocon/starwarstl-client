@@ -4,14 +4,8 @@ import { mdiClose, mdiFilterMultiple } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import StickyBox from "react-sticky-box";
 
-import CheckboxGroup from "./checkboxGroup";
 import WookieeLink from "./wookieeLink";
 import "./styles/filters.scss";
-import Checkbox from "./checkbox";
-import { columnNames, notSortable } from "./common";
-import SortingIcon from "./sortingIcon";
-import Radio from "./radio";
-import ClearableTextInput from "./clearableTextInput";
 
 const suggestionPriority = [
   "film",
@@ -39,30 +33,15 @@ const suggestionPriority = [
 export default React.memo(function Filters({
   filterText,
   filterTextChanged,
-  filters,
-  filtersChanged,
-  filtersTemplate,
   suggestions,
   setSuggestions,
   boxFilters,
   setBoxFilters,
-  hideUnreleased,
-  setHideUnreleased,
   seriesArr,
-  collapseAdjacent,
-  setCollapseAdjacent,
-  hideAdaptations,
-  setHideAdaptations,
-  columns,
-  setColumns,
   showFilters,
   setShowFilters,
   filtersContainerRef,
-  sorting,
-  toggleSorting,
-  timelineRangeBy,
-  setTimelineRangeBy,
-  ...p
+  children,
 }) {
 
     const [smallScreen, setSmallScreen] = React.useState(
@@ -150,124 +129,8 @@ export default React.memo(function Filters({
           </div>
         }
 
-        {boxFilters.length > 0 &&
-          <div className="box-filters">
-            <h2 className="title">Active filters</h2>
-            {boxFilters.map((boxFilter) => (
-              <div
-                key={boxFilter._id}
-                className={`type-indicator2 ${boxFilter.type} ${boxFilter.fullType}`}
-              >
-                <span className="text">
-                  {boxFilter.displayTitle || boxFilter.title}
-                  <WookieeLink title={boxFilter.title}></WookieeLink>
-                </span>
-                <button
-                  className={`reset-button curp remove ${boxFilter.type}-reversed ${boxFilter.fullType}-reversed`}
-                  onClick={() =>
-                    setBoxFilters([
-                      ...boxFilters.filter((el) => el._id !== boxFilter._id),
-                    ])
-                  }
-                >
-                  <Icon className={`icon`} path={mdiClose} />
-                </button>
-              </div>
-            ))}
-          </div>
-        }
+        {children}
 
-        <hr />
-
-        <div className="sorting-mobile">
-          <h2 className="title">Sort by:</h2>
-          <div className="sorting-btns">
-            {Object.keys(columns).filter(c => !notSortable.includes(c)).map((column) => (
-              <div className={`sorting-btn ${sorting.by === column ? "active" : ""}`} key={column} onClick={(e) => toggleSorting(column)}>
-                {columnNames[column]}
-                <SortingIcon sorting={sorting} name={column} />
-              </div>
-            ))}
-          </div>
-
-          <hr />
-        </div>
-
-        <div className="column-settings">
-          <h2 className="title">Show columns</h2>
-          {Object.entries(columns)
-            .filter(e => e[0] !== "title") // Don't allow hiding title
-            .map(([column, value]) => (
-              <Checkbox
-                key={column}
-                name={columnNames[column]}
-                value={value}
-                onChange={({ to }) => setColumns(state => ({ ...state, [column]: to }))}
-              />
-            ))}
-        </div>
-
-        <hr />
-
-        <div className="checkbox-settings">
-          <Checkbox
-            name={"Hide unreleased"}
-            value={hideUnreleased}
-            onChange={({ to }) => setHideUnreleased(to)}
-          />
-          <Checkbox
-            name={"Hide adaptations"}
-            value={hideAdaptations}
-            onChange={({ to }) => setHideAdaptations(to)}
-          />
-          <Checkbox
-            name={"Collapse adjacent episodes"}
-            value={collapseAdjacent}
-            onChange={({ to }) => setCollapseAdjacent(to)}
-          />
-        </div>
-
-        <hr />
-
-        <div className="timeline-range">
-          <h2 className="title">Timeline range</h2>
-          <div className="contents">
-            <div className="range-by-selection">
-              <Radio onChange={() => setTimelineRangeBy("date")} checked={timelineRangeBy === "date"}>Date</Radio>
-              <Radio onChange={() => setTimelineRangeBy("releaseDate")} checked={timelineRangeBy === "releaseDate"}>Release date</Radio>
-            </div>
-            <div className="range-text-inputs">
-              <ClearableTextInput value={p.rangeFrom} onChange={p.setRangeFrom} small>From:</ClearableTextInput>
-              <ClearableTextInput value={p.rangeTo} onChange={p.setRangeTo} small>To:</ClearableTextInput>
-            </div>
-            {/* TODO suggestions p.rangeTitleSuggestions */}
-          </div>
-        </div>
-
-        <hr />
-
-        <div className="check-buttons">
-          <button
-            className="show-button"
-            onClick={() => filtersChanged({ path: "type", to: true })}
-          >
-            CHECK ALL
-          </button>
-          <button
-            className="hide-button"
-            onClick={() => filtersChanged({ path: "type", to: false })}
-          >
-            UNCHECK ALL
-          </button>
-        </div>
-
-        <div
-          className="checkbox-filters"
-        >
-          <CheckboxGroup state={filters} onChange={filtersChanged}>
-            {filtersTemplate}
-          </CheckboxGroup>
-        </div>
       </div>
     );
 
@@ -281,7 +144,9 @@ export default React.memo(function Filters({
         </div>
         :
         <StickyBox className={`filters-container`} offsetTop={12} offsetBottom={12}>
+          {/* <div className="filters-container"> */}
           {content}
+          {/* </div> */}
         </StickyBox>
     );
   });

@@ -117,6 +117,10 @@ $full-image-transition: 0.2s;
   border-collapse: collapse;
   // width: var(--table-width);
   flex-grow: 1;
+  // margin-left: 262px;
+  @media (max-width: $width-lg) {
+    margin-left: 0;
+  }
 }
 
 .td,

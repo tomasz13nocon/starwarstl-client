@@ -19,16 +19,6 @@ $checkbox-appear-function: linear;
 $delay-transitions: all 0s $checkbox-appear-duration;
 
 .checkbox-wrapper {
-  .expand-button {
-    cursor: pointer;
-    vertical-align: top;
-    transition: background-color 0.1s;
-    margin-left: 4px;
-    border-radius: 4px;
-    &:hover {
-      background-color: $accent;
-    }
-  }
   &.level-1 {
     // font-size: 1.20em;
     font-weight: $weight-bold;
@@ -65,6 +55,7 @@ $delay-transitions: all 0s $checkbox-appear-duration;
       // label text
       // vertical-align: middle;
       margin-left: 4px;
+      user-select: none;
     }
     span.checkbox {
       vertical-align: middle;

@@ -201,6 +201,7 @@ function Timeline({
         // let filterFn = (date) => (date.date2 ?? date.date1) >= from && date.date1 <= to;
         // if (from === undefined) filterFn = (date) => date.date1 <= to;
         // if (to === undefined) filterFn = (date) => (date.date2 ?? date.date1) >= from;
+        if (from > to) return [];
         return data.filter((item) => item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from && date.date1 <= to));
       },
       dateFromYear: (data, from, to) => {
@@ -219,11 +220,13 @@ function Timeline({
       dateToTitle: (data, from, to) => {
         return data.filter((item) => item.chronology <= to);
       },
-      dateFromYearToTitle: (data, from, to) => {
-        return data.filter((item) => item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from) && item.chronology <= to);
+      dateFromYearToTitle: (data, from, to, dates) => {
+        let titleDate = dates.reduce((acc, v) => Math.max(acc, v.date2 ?? v.date1), Number.MIN_SAFE_INTEGER);
+        return data.filter((item) => item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from && date.date1 <= titleDate) && item.chronology <= to);
       },
-      dateFromTitleToYear: (data, from, to) => {
-        return data.filter((item) => item.chronology >= from && item.dateParsed?.some((date) => date.date1 <= to));
+      dateFromTitleToYear: (data, from, to, dates) => {
+        let titleDate = dates.reduce((acc, v) => Math.min(acc, v.date1), Number.MAX_SAFE_INTEGER);
+        return data.filter((item) => item.chronology >= from && item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= titleDate && date.date1 <= to));
       },
 
       releaseDateFromYearToYear: (data, from, to) => {
@@ -271,7 +274,7 @@ function Timeline({
     console.log(frankenstein);
 
     if (rangeFrom || rangeTo) {
-      tempData = frankensteinFunctions[frankenstein](tempData, rangeFrom?.value, rangeTo?.value);
+      tempData = frankensteinFunctions[frankenstein](tempData, rangeFrom?.value, rangeTo?.value, rangeFrom?.dates ?? rangeTo?.dates);
     }
 
     // Filter

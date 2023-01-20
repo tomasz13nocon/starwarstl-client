@@ -8,6 +8,7 @@ export const API =
 export const IMAGE_PATH = (import.meta.env.VITE_IMG_HOST ?? "") + "/img/covers/";
 // export const IMAGE_PATH = "/img/covers/";
 export const TV_IMAGE_PATH = `/img/tv-images/thumb/`;
+export const ERA_IMAGE_PATH = `/img/eras/`;
 export const Audience = Object.freeze({
   a: "Adult",
   ya: "Young Adult",

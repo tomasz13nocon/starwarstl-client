@@ -1,10 +1,12 @@
 @use "./shared.scss" as *;
 
+$filters-width: 250px;
+
 .filters-container {
   // margin: 0 10px;
   transition: transform 0.2s;
+  position: fixed;
   @media (max-width: $width-lg) {
-    position: fixed;
     left: 0;
     top: 0;
     z-index: 10;
@@ -60,6 +62,12 @@
 }
 
 .filters {
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+  hr {
+    margin: 6px 0 10px;
+  }
   @media (max-width: $width-lg) {
     display: inline-block;
     overflow-y: auto;
@@ -76,7 +84,7 @@
   // overflow-y: auto;
   // top: 10px;
   // align-self: flex-start;
-  width: 245px;
+  width: $filters-width;
   // flex: 0 0 235px;
   // max-height: calc(100vh + 10px);
   // height: calc(100vh - 10px - 73px);
@@ -85,6 +93,9 @@
     // margin: 16px 0;
 
     input.non-empty:not(:focus) {
+      border-color: $active;
+    }
+    input.active:not(:focus) {
       border-color: $active;
     }
 
@@ -137,124 +148,4 @@
     }
   }
 
-  .box-filters {
-    margin: 10px 0;
-    .type-indicator2 {
-      font-size: 0.9em;
-      width: fit-content;
-      padding-right: 0;
-      padding-left: 6px;
-      margin: 4px 0;
-      display: flex;
-      border-radius: 32px;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      .text {
-        margin-top: 2px;
-        .wookiee-link {
-          // vertical-align: middle;
-          // margin-top: 4px;
-          position: relative;
-          top: 1px;
-        }
-      }
-      .remove {
-        // background: #333;
-        // color: white;
-        border-top-right-radius: 9999px;
-        border-bottom-right-radius: 9999px;
-        padding-right: 2px;
-        margin-left: 4px;
-        border: 2px solid;
-        border-left: none;
-        &:hover .icon {
-          transform: rotateZ(90deg);
-          // box-shadow: 0 0 2px black;
-        }
-        &.multimedia-reversed {
-          border: none;
-          padding-right: 4px;
-        }
-        .icon {
-          transition: transform 0.13s;
-          vertical-align: text-bottom;
-          width: 22px;
-          // font-size: 24px;
-        }
-      }
-    }
-  }
-
-  .title {
-    font-size: 1em;
-  }
-
-  .checkbox-settings {
-    margin: 10px 0;
-  }
-
-  .sorting-mobile {
-    display:none;
-    @media (max-width: $width-lg) {
-      display: initial;
-    }
-    .sorting-btns {
-      display:flex;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-    .sorting-btn {
-      border: 2px solid $grey2;
-      // margin: 3px;
-      display:inline-block;
-      width: fit-content;
-      padding: 1px 3px;
-      cursor: pointer;
-      color: black;
-      transition: background-color 0.2s;
-      &.active {
-        background-color: $active;
-        border-color: $active3;
-        color: $active3;
-      }
-      .icon {
-        margin-left: 4px;
-      }
-    }
-  }
-
-  .check-buttons {
-    margin: 10px 0;
-    button:hover {
-      box-shadow: 0 0 2px black;
-    }
-  }
-
-  .checkbox-filters {
-    margin-top: 10px 0;
-    line-height: 1.25;
-    .checkbox {
-      margin-top: 3px;
-      margin-bottom: 3px;
-    }
-  }
-
-  .timeline-range {
-    .contents {
-      display:flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .range-by-selection {
-      display:flex;
-      gap: 8px;
-    }
-
-    .range-text-inputs {
-      display: grid;
-      grid-template-columns: fit-content(100%) 1fr;
-      gap: 3px 6px;
-    }
-  }
 }

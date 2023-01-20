@@ -1,0 +1,58 @@
+@use "./shared.scss" as *;
+
+.filters-section {
+  // background: $grey4;
+  // border-radius: 8px;
+  // padding: 4px 8px;
+  // box-shadow: 0 0 2px black;
+
+  .filters-section-title {
+    display:grid;
+    grid-template-columns: 1fr fit-content(100%);
+
+    // position:relative;
+    // &:after {
+    //   z-index: -1;
+    //   content: "";
+    //   height: 1px;
+    //   width: 100%;
+    //   background: #999;
+    //   display: inline-block;
+    //   position: absolute;
+    //   top: 50%;
+    //   left: 0;
+    // }
+  }
+
+  .title {
+    font-size: 1em;
+    // margin-bottom: 2px;
+    // margin: auto;
+    // display:inline-block;
+    // padding: 0 12px;
+    // background: $background;
+  }
+
+  .expand-button {
+    // background: $background;
+    // // set padding on expand button container
+
+    cursor: pointer;
+    vertical-align: top;
+    transition: background-color 0.1s;
+    border-radius: 4px;
+    &:hover {
+      background-color: $accent;
+    }
+  }
+
+  .contents {
+    &.gaps {
+      display:flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    margin-top: 4px;
+  }
+
+}

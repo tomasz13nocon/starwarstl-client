@@ -1,0 +1,56 @@
+@use "./shared.scss" as *;
+
+.filters-section {
+
+  .range-by-selection {
+    display:flex;
+    gap: 8px;
+  }
+
+  .range-text-inputs {
+    display: grid;
+    grid-template-columns: fit-content(100%) 1fr;
+    gap: 3px 6px;
+  }
+
+  .eras {
+    display:flex;
+    flex-direction:column;
+    gap: 4px;
+
+  }
+
+  .era-container {
+    border: 1px solid $grey2;
+    padding: 2px 6px;
+    display:flex;
+
+    align-items: center;
+    cursor:pointer;
+    user-select: none;
+    &:hover {
+      box-shadow: 0 0 2px black;
+    }
+    &.active {
+      font-weight: $weight-bold;
+    }
+  }
+
+  .era-name {
+    font-size: 0.9em;
+  }
+
+  .era-img-container {
+    height: 26px;
+    margin-left: auto;
+    order: 3;
+  }
+  .era-img {
+    vertical-align:middle;
+    object-fit: contain;
+    max-width: 26px;
+    max-height: 26px;
+  }
+
+}
+

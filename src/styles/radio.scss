@@ -3,6 +3,7 @@
 .radio-wrapper {
   label {
     cursor: pointer;
+    user-select: none;
     input {
       opacity: 0;
     }

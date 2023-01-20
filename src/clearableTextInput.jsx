@@ -9,7 +9,7 @@ export default function ClearableTextInput(p) {
         {p.children}
       </label>
       <div id={id.current} className="search clear-input-container">
-        <input type="text" className={`input-default ${p.small ? "small" : ""}`} value={p.value} onChange={(e) => p.onChange(e.target.value)} />
+        <input type="text" className={`input-default ${p.small ? "small" : ""} ${p.active ? "active" : ""}`} value={p.value} onChange={(e) => p.onChange(e.target.value)} />
         {p.value &&
           <button
             className="clear-input"
