@@ -6,6 +6,7 @@ import StickyBox from "react-sticky-box";
 
 import WookieeLink from "./wookieeLink";
 import "./styles/filters.scss";
+import ClearableTextInput from "./clearableTextInput";
 
 const suggestionPriority = [
   "film",
@@ -31,13 +32,13 @@ const suggestionPriority = [
 ];
 
 export default React.memo(function Filters({
+  seriesArr,
   filterText,
   filterTextChanged,
   suggestions,
   setSuggestions,
   boxFilters,
   setBoxFilters,
-  seriesArr,
   showFilters,
   setShowFilters,
   filtersContainerRef,
@@ -55,79 +56,71 @@ export default React.memo(function Filters({
       return () => window.removeEventListener('change', e);
     }, []);
 
+    const filterOnChange = (newFilterText) => {
+      filterTextChanged(newFilterText);
+
+      // Search suggestions
+      let newSuggestions = [];
+      if (newFilterText) {
+        let queries = [newFilterText.toLowerCase()];
+        let last = queries[queries.length - 1].trim();
+        if (last.length >= 2) {
+          let found = seriesArr.filter((item) =>
+            item.displayTitle
+              ? item.displayTitle.toLowerCase().includes(last)
+              : item.title.toLowerCase().includes(last)
+          );
+          // TODO: indicate fetching of series
+          if (found.length) {
+            newSuggestions = found
+              .filter((el) => !boxFilters.includes(el))
+              .sort((a, b) => {
+                let ap = suggestionPriority.indexOf(a.fullType || a.type),
+                bp = suggestionPriority.indexOf(b.fullType || b.type);
+                if (ap > bp) return 1;
+                if (ap < bp) return -1;
+                return 0;
+              })
+              .slice(0, 10);
+          }
+        }
+      }
+      setSuggestions(newSuggestions);
+    };
+
     let content = (
       <div className="filters">
-        <div className="search clear-input-container">
-          <input
-            type="text"
+        <div>
+          <ClearableTextInput
             value={filterText}
-            onChange={(e) => {
-              let newFilterText = e.target.value;
-              filterTextChanged(newFilterText);
-
-              // Search suggestions
-              let newSuggestions = [];
-              if (newFilterText) {
-                let queries = [newFilterText.toLowerCase()];
-                let last = queries[queries.length - 1].trim();
-                if (last.length >= 2) {
-                  let found = seriesArr.filter((item) =>
-                    item.displayTitle
-                      ? item.displayTitle.toLowerCase().includes(last)
-                      : item.title.toLowerCase().includes(last)
-                  );
-                  // TODO: indicate fetching of series
-                  if (found.length) {
-                    newSuggestions = found
-                      .filter((el) => !boxFilters.includes(el))
-                      .sort((a, b) => {
-                        let ap = suggestionPriority.indexOf(a.fullType || a.type),
-                        bp = suggestionPriority.indexOf(b.fullType || b.type);
-                        if (ap > bp) return 1;
-                        if (ap < bp) return -1;
-                        return 0;
-                      })
-                      .slice(0, 10);
-                  }
-                }
-              }
-              setSuggestions(newSuggestions);
-            }}
+            onChange={filterOnChange}
+            active={filterText}
             placeholder="Filter..."
-            className={`input-default ${filterText ? "non-empty" : ""}`}
+            // clearOnClick={(e) => {
+            //   filterTextChanged("");
+            //   setSuggestions([]);
+            // }}
           />
-          {filterText ? (
-            <button
-              className="clear-input"
-              onClick={(e) => {
-                filterTextChanged("");
-                setSuggestions([]);
-              }}
-              aria-label="Clear search"
-            >
-              &times;
-            </button>
-          ) : null}
+          {suggestions.length > 0 &&
+            <div className="search-suggestions">
+              <span className="suggestions-heading">Suggestions:</span>
+              {suggestions.map((el) => (
+                <button
+                  key={el._id}
+                  className={`reset-button suggestion ${el.type} ${el.fullType}`}
+                  onClick={() => {
+                    setBoxFilters([...boxFilters, el]);
+                    filterTextChanged("");
+                    setSuggestions([]);
+                  }}
+                >
+                  {el.displayTitle || el.title}
+                </button>
+              ))}
+            </div>
+          }
         </div>
 
-        {suggestions.length > 0 &&
-          <div className="search-suggestions">
-            <span className="suggestions-heading">Suggestions:</span>
-            {suggestions.map((el) => (
-              <button
-                key={el._id}
-                className={`reset-button suggestion ${el.type} ${el.fullType}`}
-                onClick={() => {
-                  setBoxFilters([...boxFilters, el]);
-                  filterTextChanged("");
-                  setSuggestions([]);
-                }}
-              >
-                {el.displayTitle || el.title}
-              </button>
-            ))}
-          </div>
-        }
 
         {children}
 
@@ -143,10 +136,10 @@ export default React.memo(function Filters({
           </div>
         </div>
         :
-        <StickyBox className={`filters-container`} offsetTop={12} offsetBottom={12}>
-          {/* <div className="filters-container"> */}
+        // <StickyBox className={`filters-container`} offsetTop={12} offsetBottom={12}>
+          <div className="filters-container">
           {content}
-          {/* </div> */}
-        </StickyBox>
+          </div>
+        // </StickyBox>
     );
   });

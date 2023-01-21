@@ -25,6 +25,7 @@ see: https://starwars.fandom.com/wiki/The_High%20Republic%20Adventures%20%E2%80%
 try fetching: https://starwars.fandom.com/wiki/Special:WhatLinksHere/Template:Board_game and other stuff, and see if there's an error in the console
 
 LONG TERM:
+filter by seasons (episodes? "clone wars s1e15")
 reduce size of full size images?
 preserve state across routes
 fix blurhash on transparent images (skeleton crew)

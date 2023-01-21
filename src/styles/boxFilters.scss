@@ -30,16 +30,16 @@
       margin-left: 4px;
       border: 2px solid;
       border-left: none;
-      &:hover .icon {
-        transform: rotateZ(90deg);
-        // box-shadow: 0 0 2px black;
-      }
       &.multimedia-reversed {
         border: none;
         padding-right: 4px;
       }
+      &:hover .icon {
+        transform: rotateZ(90deg);
+        // box-shadow: 0 0 2px black;
+      }
       .icon {
-        transition: transform 0.13s;
+        transition: transform 0.12s;
         vertical-align: text-bottom;
         width: 22px;
         // font-size: 24px;

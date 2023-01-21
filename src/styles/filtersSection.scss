@@ -7,8 +7,10 @@
   // box-shadow: 0 0 2px black;
 
   .filters-section-title {
-    display:grid;
-    grid-template-columns: 1fr fit-content(100%);
+    // display:grid;
+    // grid-template-columns: 1fr fit-content(100%);
+    display:flex;
+    align-items: center;
 
     // position:relative;
     // &:after {
@@ -41,8 +43,13 @@
     vertical-align: top;
     transition: background-color 0.1s;
     border-radius: 4px;
+    margin-left: auto;//4px;
+    // border:  1px solid $grey2;
+    width: 24px;
+    height: 24px;
     &:hover {
-      background-color: $accent;
+      // background-color: $accent;
+      box-shadow: 0 0 2px black;
     }
   }
 
@@ -53,6 +60,10 @@
       gap: 6px;
     }
     margin-top: 4px;
+  }
+
+  hr {
+    margin: 6px 0 10px;
   }
 
 }

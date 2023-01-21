@@ -271,7 +271,6 @@ function Timeline({
     let frankenstein = timelineRangeBy;
     if (rangeFrom) frankenstein += "From" + (rangeFrom.isTitle ? "Title" : "Year");
     if (rangeTo) frankenstein += "To" + (rangeTo.isTitle ? "Title" : "Year");
-    console.log(frankenstein);
 
     if (rangeFrom || rangeTo) {
       tempData = frankensteinFunctions[frankenstein](tempData, rangeFrom?.value, rangeTo?.value, rangeFrom?.dates ?? rangeTo?.dates);
@@ -530,7 +529,7 @@ function Timeline({
       } else {
         let results = [];
         for (let [rowIndex, item] of data.entries()) {
-          if (item.title === "The High Republic — The Blade 1") console.log(item);
+          // if (item.title === "The High Republic — The Blade 1") console.log(item);
           for (let field of searchFields) {
             if (typeof item[field] === "string") {
               let indices = findAllIndices(item[field], searchResults.text);

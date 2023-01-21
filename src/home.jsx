@@ -386,9 +386,9 @@ export default function Home({ setFullCover }) {
   const [rangeFrom, setRangeFrom] = React.useState("");
   const [rangeTo, setRangeTo] = React.useState("");
   const [rangeTitleSuggestions, setRangeTitleSuggestions] = React.useState([]);
+  // const [fullyContained, setFullyContained] = React.useState(false);
   /////////////////
 
-  const timelineContainerRef = React.useRef();
   const filtersContainerRef = React.useRef();
 
   // for usage of useCallback see: https://stackoverflow.com/questions/64134566/should-we-use-usecallback-in-every-function-handler-in-react-functional-componen
@@ -517,7 +517,7 @@ export default function Home({ setFullCover }) {
           dispatchSearchResults={dispatchSearchResults}
         />
       </div>
-      <div className="timeline-container" ref={timelineContainerRef}>
+      <div className="timeline-container">
         <Filters
           seriesArr={seriesArr}
           filterText={filterText}
@@ -526,14 +526,9 @@ export default function Home({ setFullCover }) {
           setSuggestions={setSuggestions}
           boxFilters={boxFilters}
           setBoxFilters={setBoxFilters}
-          timelineContainerRef={timelineContainerRef}
-          columns={columns}
-          setColumns={setColumns}
           showFilters={showFilters}
           setShowFilters={setShowFilters}
           filtersContainerRef={filtersContainerRef}
-          sorting={sorting}
-          toggleSorting={toggleSorting}
         >
           <BoxFilters
             boxFilters={boxFilters}
@@ -571,6 +566,8 @@ export default function Home({ setFullCover }) {
             fromValid={rangeFromParsed !== undefined}
             toValid={rangeToParsed !== undefined}
             rangeTitleSuggestions={rangeTitleSuggestions}
+            // fullyContained={fullyContained}
+            // setFullyContained={setFullyContained}
           />
         </Filters>
         <Timeline

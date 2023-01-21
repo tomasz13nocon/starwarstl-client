@@ -4,12 +4,17 @@ import React from "react";
 
 import "./styles/filtersSection.scss";
 
-export default function FiltersSection({ title, gaps, children }) {
-  const [expanded, toggleExpanded] = React.useReducer((s) => !s,true);
+export default function FiltersSection({ title, gaps, titlebarContent, children }) {
+  const [expanded, toggleExpanded] = React.useReducer(
+    (s) => { localStorage.setItem("filtersSectionExpanded_" + title, !s); return !s; },
+    true,
+    (d) => { let ls = localStorage.getItem("filtersSectionExpanded_" + title); if (ls === null) return d; return ls === "true"; }
+  );
   return (
     <div className="filters-section">
       <div className="filters-section-title">
         <h2 className="title">{title}</h2>
+        {titlebarContent}
         <Icon
           onClick={toggleExpanded}
           path={expanded ? mdiChevronUp : mdiChevronDown}

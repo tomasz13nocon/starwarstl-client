@@ -24,10 +24,10 @@
 
 .timeline-container {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   margin: 0 12px;
   .filters-container {
-    height: fit-content;
+    // height: fit-content;
   }
   @media (max-width: $width-md) {
     margin: 0 6px;
@@ -219,6 +219,10 @@ $full-image-transition: 0.2s;
   color: white;
   // text-transform: capitalize;
   cursor: pointer;
+  &:hover {
+    box-shadow: 0 0 2px black;
+    z-index: 4;
+  }
   user-select: none;
   .th-inner {
     position: relative;
@@ -308,7 +312,7 @@ $full-image-transition: 0.2s;
     cursor: pointer;
     &:hover {
       box-shadow: 0 0 2px black;
-      z-index: 2;
+      z-index: 4;
     }
     button {
       @extend %reset-button;

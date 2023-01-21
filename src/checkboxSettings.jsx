@@ -11,21 +11,21 @@ export default function CheckboxSettings({
   setCollapseAdjacent,
 }) {
   return (
-    <FiltersSection title="Options">
+    <FiltersSection title="Miscellaneous">
       <Checkbox
         name={"Hide unreleased"}
         value={hideUnreleased}
-        onChange={({ to }) => setHideUnreleased(to)}
+        onChange={setHideUnreleased}
       />
       <Checkbox
         name={"Hide adaptations"}
         value={hideAdaptations}
-        onChange={({ to }) => setHideAdaptations(to)}
+        onChange={setHideAdaptations}
       />
       <Checkbox
         name={"Collapse adjacent episodes"}
         value={collapseAdjacent}
-        onChange={({ to }) => setCollapseAdjacent(to)}
+        onChange={setCollapseAdjacent}
       />
     </FiltersSection>
   );

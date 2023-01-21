@@ -19,6 +19,8 @@ $checkbox-appear-function: linear;
 $delay-transitions: all 0s $checkbox-appear-duration;
 
 .checkbox-wrapper {
+  display:flex;
+  justify-content: space-between;
   &.level-1 {
     // font-size: 1.20em;
     font-weight: $weight-bold;

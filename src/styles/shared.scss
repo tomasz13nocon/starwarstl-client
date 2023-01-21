@@ -79,6 +79,8 @@ $active2: #b3d7e9;
 $active3: #123460;
 $active4: #445060;
 $active5: #637487;
+$active6: #e5f3fd;
+// $active6: #ebf7ff;
 // $active5: #586778;
 $background: #f3f3f3;
 $background2: #e7e7e7;
@@ -433,27 +435,6 @@ input.input-default {
     border-width: 2px;
   }
 }
-.clear-input-container {
-  position: relative;
-  .clear-input {
-    @extend %reset-button;
-    position: absolute;
-    right: 7px;
-    top: 16px;
-    font-size: 36px;
-    cursor: pointer;
-    line-height: 0;
-    &:focus {
-      // outline: none;
-      z-index: 1;
-    }
-  }
-  input.small + .clear-input {
-    top: 12px;
-    right: 5px;
-    font-size: 29px;
-  }
-}
 
 .highlight {
   color: red;
@@ -466,3 +447,22 @@ input.input-default {
   font-weight: $weight-bold;
 }
 
+.shield {
+  border-radius: 4px;
+  font-size: 0.7em;
+  border: 1px solid black;
+  padding: 0 4px;
+  height: fit-content;
+  margin: 0 6px;
+  position:relative;
+  // left: -12px;
+  // top: -8px;
+  // transform: rotate(13deg);
+  &.new {
+    background: #86cc66;
+    // background: #803ee9;
+    // background: sienna;
+    // background:green;
+    // color: white;
+  }
+}

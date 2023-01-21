@@ -5,8 +5,17 @@ $filters-width: 250px;
 .filters-container {
   // margin: 0 10px;
   transition: transform 0.2s;
-  position: fixed;
+  position: sticky;
+  top: 0;
+  overflow-y: scroll;
+  max-height: 100vh;
+  scrollbar-gutter: stable;
+  box-sizing:border-box;
+  background: $background;
+
   @media (max-width: $width-lg) {
+    position: fixed;
+    overflow: visible;
     left: 0;
     top: 0;
     z-index: 10;
@@ -16,6 +25,26 @@ $filters-width: 250px;
       transform: translateX(0);
     }
   }
+}
+
+.filters {
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 6px 12px 6px;
+  @media (max-width: $width-lg) {
+    background: $background;
+    padding: 12px;
+    display: inline-flex;
+    overflow-y: auto;
+    border-right: 2px solid #444;
+    box-sizing: border-box;
+    height: 100%;
+    z-index: 50;
+    position: relative;
+    left: 0;
+  }
+  width: $filters-width;
 }
 
 .filters-btn {
@@ -28,7 +57,7 @@ $filters-width: 250px;
   // &.filters-visible {
   //   transform: translateX(271px);
   // }
-  position: absolute;
+  position: fixed;
   z-index: 7;
   background: #444;
   color: $accent;
@@ -61,91 +90,25 @@ $filters-width: 250px;
   }
 }
 
-.filters {
-  display:flex;
-  flex-direction: column;
-  gap: 10px;
-  hr {
-    margin: 6px 0 10px;
-  }
-  @media (max-width: $width-lg) {
-    display: inline-block;
-    overflow-y: auto;
-    background: $background;
-    padding: 12px;
-    box-sizing: border-box;
-    height: 100%;
-    border-right: 2px solid #444;
-    z-index: 50;
-    position: relative;
-  }
-  // position: sticky;
-  // height: 1000px;
-  // overflow-y: auto;
-  // top: 10px;
-  // align-self: flex-start;
-  width: $filters-width;
-  // flex: 0 0 235px;
-  // max-height: calc(100vh + 10px);
-  // height: calc(100vh - 10px - 73px);
-  // height: calc(100vh - 10px);
-  .search {
-    // margin: 16px 0;
 
-    input.non-empty:not(:focus) {
-      border-color: $active;
-    }
-    input.active:not(:focus) {
-      border-color: $active;
-    }
-
-    .cancel-text {
-      position: relative;
-      &::before,
-      &::after {
-        content: "";
-        background-color: #222;
-        position: absolute;
-        width: 3px;
-        height: 20px;
-        top: 6px;
-        right: 17px;
-        border-radius: 99px;
-      }
-      &::before {
-        transform: rotate(45deg);
-      }
-      &::after {
-        transform: rotate(-45deg);
-      }
-    }
+.search-suggestions {
+  font-size: 0.9em;
+  .suggestions-heading {
+    font-size: 0.7em;
   }
-
-  .search-suggestions {
-    // margin-top: 6px;
-    font-size: 0.9em;
-    .suggestions-heading {
-      font-size: 0.7em;
+  .suggestion {
+    border: 1px solid black;
+    margin-top: -1px;
+    &:first-child {
+      margin-top: 0;
     }
-    .suggestion {
-      // margin: 1px 0;
-      border: 1px solid black;
-      margin-top: -1px;
-      &:first-child {
-        margin-top: 0;
-      }
-      &:hover {
-        // box-shadow: 0 0 0 2px inset $focus;
-        box-shadow: 0 0 2px black;
-      }
-      cursor: pointer;
-      width: 100%;
-      // &:active {
-      // border-style: inset;
-      // }
-      // border-radius: 3px;
-      padding: 0 2px;
+    &:hover {
+      // box-shadow: 0 0 0 2px inset $focus;
+      box-shadow: 0 0 2px black;
     }
+    cursor: pointer;
+    width: 100%;
+    padding: 0 2px;
   }
-
 }
+

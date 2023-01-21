@@ -18,7 +18,7 @@ export default function ColumnSettings({
             key={column}
             name={columnNames[column]}
             value={value}
-            onChange={({ to }) => setColumns(state => ({ ...state, [column]: to }))}
+            onChange={(to) => setColumns(state => ({ ...state, [column]: to }))}
           />
         ))}
     </FiltersSection>
