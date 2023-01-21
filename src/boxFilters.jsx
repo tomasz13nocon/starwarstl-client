@@ -1,5 +1,5 @@
 import { mdiClose } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import React from "react";
 import FiltersSection from "./filtersSection";
 

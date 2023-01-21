@@ -1,5 +1,5 @@
 import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import React from "react";
 
 import "./styles/filtersSection.scss";

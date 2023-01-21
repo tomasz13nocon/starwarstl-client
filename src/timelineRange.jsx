@@ -1,7 +1,4 @@
-import { mdiHelpCircle, mdiHelpCircleOutline } from "@mdi/js";
-import Icon from "@mdi/react";
 import React from "react";
-import Checkbox from "./checkbox";
 
 import ClearableTextInput from "./clearableTextInput";
 import { ERA_IMAGE_PATH } from "./common";
