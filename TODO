@@ -1,15 +1,18 @@
 ## REDDIT SUGGESTIONS:
 [x] adaptations
-[ ] limit timeline to specified range
+[x] limit timeline to specified range
 [ ] appearances
-[ ] filters in their own scrollbox
+[x] filters in their own scrollbox
 [ ] tracking progress
 [ ] jump to year/date or outline
-[ ] mentioning TPB, etc. and story arcs to which a comic issue belongs (not only comics?)
 [ ] legends
+
+[ ] mentioning TPB, etc. and story arcs to which a comic issue belongs (not only comics?)
 [ ] include references for dates
 
 mark adaptations in the timeline
+include Official description/Publisher's summary
+show all active filters clearly
 
 LAST:
 test diff browsers (including apple)

@@ -8,7 +8,9 @@
     @extend %reset-button;
     position: absolute;
     right: 4px;
-    top: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    transform-origin: center center;
     cursor: pointer;
     line-height: 0;
 
@@ -17,7 +19,7 @@
     }
     transition: transform 0.12s;
     &:hover {
-      transform: rotateZ(90deg);
+      transform: translateY(-50%) rotateZ(90deg);
     }
   }
 
@@ -30,7 +32,6 @@
   }
 
   input.small + .clear-input {
-    top: 2px;
     right: 1px;
   }
 

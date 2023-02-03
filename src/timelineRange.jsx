@@ -64,13 +64,13 @@ export default function TimelineRange({
   //   <div>
   //     <Icon path={mdiHelpCircleOutline} className={`icon expand-button hint-button ${hint ? "active" : ""}`} size="20px" onClick={() => setHint()} />
   //   </div>);
-  let titlebarContent = (
-    <div className="shield new">NEW</div>
-  );
+  // let titlebarContent = (
+  //   <div className="shield new">NEW</div>
+  // );
 
   return (
     <>
-      <FiltersSection title="Timeline range" gaps titlebarContent={titlebarContent}>
+      <FiltersSection title="Timeline range" gaps>
         <div className="range-by-selection">
           <Radio onChange={() => setTimelineRangeBy("date")} checked={timelineRangeBy === "date"}>Date</Radio>
           <Radio onChange={() => setTimelineRangeBy("releaseDate")} checked={timelineRangeBy === "releaseDate"}>Release date</Radio>
