@@ -4,7 +4,6 @@
   "description": "",
   "private": true,
   "scripts": {
-    "partytown": "partytown copylib public/~partytown",
     "start": "vite --port 8080 --host",
     "build": "vite build --emptyOutDir",
     "build:prod": "vite build --outDir ../dist2 && rm -rf dist && mv dist2 dist",
