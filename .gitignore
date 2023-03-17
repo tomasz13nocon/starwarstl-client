@@ -1,5 +1,6 @@
 /node_modules
 /dist
+/staging
 /public/img/covers/*
 !/public/img/covers/tv-images
 .env*

@@ -6,6 +6,7 @@
   "scripts": {
     "start": "vite --port 8080 --host",
     "build": "vite build --emptyOutDir",
+    "build:staging": "vite build --outDir ../staging --emptyOutDir",
     "build:prod": "vite build --outDir ../dist2 && rm -rf dist && mv dist2 dist",
     "preview": "vite preview --host",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,6 +31,7 @@
     "react": "^17.0.2",
     "react-blurhash": "^0.2.0",
     "react-dom": "^17.0.2",
+    "react-piwik": "^1.12.0",
     "react-router-dom": "^6.6.1",
     "react-sticky-box": "^1.0.2",
     "react-swipeable": "^7.0.0",
