@@ -1,5 +1,4 @@
 import React from "react";
-import ReactPiwik from "react-piwik";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Faq from "./faq";
@@ -9,17 +8,11 @@ import Header from "./header";
 import Home from "./home";
 import Landing from "./landing";
 
-const matomo = new ReactPiwik({
-  url: 'analytics.starwarstl.com',
-  siteId: 1,
-});
-// ReactPiwik.push(['trackPageView']);
-
 export default function App() {
   const [fullCover, setFullCover] = React.useState({ name: "", show: false });
   return (
     <React.StrictMode>
-      <Router history={matomo.connectToHistory(history, true)}>
+      <Router>
         <Header />
         <FullCoverPreview fullCover={fullCover} setFullCover={setFullCover} />
         <Routes>
