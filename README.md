@@ -1,4 +1,4 @@
-# Star Wars medie timeline
+# Star Wars media timeline
 
 Backend lives at https://github.com/tomasz13nocon/swtimeline-server
 
