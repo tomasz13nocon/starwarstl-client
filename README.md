@@ -1,6 +1,8 @@
-# Star Wars media timeline
+# StarWarsTL: Client
+React client for the Star Wars media timeline at https://starwarstl.com/
 
-Backend lives at https://github.com/tomasz13nocon/swtimeline-server
+Server: https://github.com/tomasz13nocon/starwarstl-server
+Wookieepedia script: https://github.com/tomasz13nocon/starwarstl-fetch
 
 ## Roadmap (random order)
 - [x] hide adaptations
