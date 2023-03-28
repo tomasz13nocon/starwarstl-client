@@ -1,8 +1,8 @@
 # StarWarsTL: Client
 React client for the Star Wars media timeline at https://starwarstl.com/
 
-Server: https://github.com/tomasz13nocon/starwarstl-server
-Wookieepedia script: https://github.com/tomasz13nocon/starwarstl-fetch
+- Server: https://github.com/tomasz13nocon/starwarstl-server
+- Wookieepedia script: https://github.com/tomasz13nocon/starwarstl-fetch
 
 ## Roadmap (random order)
 - [x] hide adaptations
@@ -18,4 +18,3 @@ Wookieepedia script: https://github.com/tomasz13nocon/starwarstl-fetch
 - [ ] filter presets
 - [ ] swdatapad-style comic run visualization
 - [ ] dark theme
-- [ ] NextJS rewrite
