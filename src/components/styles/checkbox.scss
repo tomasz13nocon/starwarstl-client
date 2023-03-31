@@ -1,0 +1,185 @@
+@use "../../vars.scss" as *;
+
+.checkbox-group-title {
+}
+.checkbox-group-contents {
+  margin-left: 25px;
+}
+.grouping-title {
+  margin-left: 25px;
+  font-weight: $weight-bold;
+}
+
+
+// CHECKBOX
+$checkbox-appear-duration: 0.2s;
+$checkbox-appear-duration-first: $checkbox-appear-duration * 0.45;
+$checkbox-appear-duration-second: $checkbox-appear-duration * 0.55;
+$checkbox-appear-function: linear;
+$delay-transitions: all 0s $checkbox-appear-duration;
+
+.checkbox-wrapper {
+  display:flex;
+  justify-content: space-between;
+  &.level-1 {
+    // font-size: 1.20em;
+    font-weight: $weight-bold;
+  }
+  &.level-2 {
+    // font-size: 1.10em;
+    font-weight: $weight-bolder;
+  }
+
+  label {
+    cursor: pointer;
+    input {
+      opacity: 0;
+    }
+
+    // HOVER
+    &:hover span.checkbox {
+      //border-color: $grey1;
+      //border-color: #143867;
+      box-shadow: 0 0 2px black;
+    }
+    &:hover span.checkbox.checked {
+      //border-color: #848faf;
+    }
+    // FOCUS
+    input:focus + span.checkbox {
+      // outline: auto;
+      outline: 2px solid $focus;
+      // outline-color: $focus;
+      outline-offset: 3px;
+    }
+
+    span.checkbox-text {
+      // label text
+      // vertical-align: middle;
+      margin-left: 4px;
+      user-select: none;
+    }
+    span.checkbox {
+      vertical-align: middle;
+      bottom: 2px;
+
+      position: relative;
+      display: inline-block;
+      margin-left: -20px;
+      width: 17px;
+      height: 17px;
+      border: 2px solid $grey2;
+      transition: background-color $checkbox-appear-duration, border-color 0.1s;
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        display: inline-block;
+        width: 3px;
+        background-color: black;
+        transform-origin: left top;
+      }
+
+      &.checked {
+        //background-color: #b9def7;
+        background-color: $active;
+        border-color: $active3;
+        &::before {
+          height: 8px;
+          top: 8px;
+          left: 2px;
+          transform: rotate(-45deg);
+        }
+        &::after {
+          height: 9px;
+          top: 12px;
+          left: 9px;
+          transform: rotate(-135deg);
+        }
+      }
+      &.unchecked {
+        &::before,
+        &::after {
+          height: 0;
+          top: 0;
+          left: 0;
+          transform: none;
+        }
+      }
+      &.indeterminate {
+        //background-color: #e3eef3;
+        background-color: $active2;
+        &::before {
+          height: 0;
+          top: 0;
+          left: 0;
+          transform: none;
+        }
+        &::after {
+          height: 11px;
+          transform: rotate(-90deg);
+          top: 10px;
+          left: 3px;
+        }
+      }
+
+      // Animation classes
+      &.unchecked-to-checked {
+        &::before {
+          transition: height $checkbox-appear-duration-first
+            $checkbox-appear-function 0s;
+        }
+        &::after {
+          transition: height $checkbox-appear-duration-second
+            $checkbox-appear-function $checkbox-appear-duration-first;
+        }
+      }
+      &.checked-to-unchecked {
+        &::before {
+          transition: $delay-transitions,
+            height $checkbox-appear-duration-first $checkbox-appear-function
+              $checkbox-appear-duration-second;
+        }
+        &::after {
+          transition: $delay-transitions,
+            height $checkbox-appear-duration-second $checkbox-appear-function 0s;
+        }
+      }
+      &.unchecked-to-indeterminate {
+        &::after {
+          transition: height $checkbox-appear-duration $checkbox-appear-function
+            0s;
+        }
+      }
+      &.indeterminate-to-unchecked {
+        &::after {
+          transition: $delay-transitions,
+            height $checkbox-appear-duration $checkbox-appear-function 0s;
+        }
+      }
+      &.checked-to-indeterminate {
+        &::before {
+          transition: $delay-transitions,
+            height $checkbox-appear-duration * 0.8 0s;
+        }
+        &::after {
+          transition: all $checkbox-appear-duration * 0.8 0s;
+        }
+      }
+      &.indeterminate-to-checked {
+        &::before {
+          transition: all $checkbox-appear-duration * 0.8 0s, top 0s, left 0s;
+        }
+        &::after {
+          transition: all $checkbox-appear-duration * 0.8 0s;
+        }
+      }
+    }
+  }
+}
+
+.type-indicator-filter {
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 40px;
+}

@@ -1,0 +1,39 @@
+@use "../../vars.scss" as *;
+
+.clear-input-container {
+
+  position: relative;
+
+  .clear-input {
+    @extend %reset-button;
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    transform-origin: center center;
+    cursor: pointer;
+    line-height: 0;
+
+    &:focus {
+      z-index: 1;
+    }
+    transition: transform 0.12s;
+    &:hover {
+      transform: translateY(-50%) rotateZ(90deg);
+    }
+  }
+
+
+  input.active {
+    background: $active6;
+  }
+  input.active:not(:focus) {
+    border-color: $active;
+  }
+
+  input.small + .clear-input {
+    right: 1px;
+  }
+
+}
+

@@ -1,0 +1,64 @@
+@use "../../vars.scss" as *;
+
+.radio-wrapper {
+  label {
+    cursor: pointer;
+    user-select: none;
+    input {
+      opacity: 0;
+    }
+
+    .radio-text {
+      // vertical-align: middle;
+      margin-left: 4px;
+    }
+
+    .radio {
+      vertical-align: middle;
+      position: relative;
+      bottom: 2px;
+      display: inline-block;
+      margin-left: -20px;
+      width: 17px;
+      height: 17px;
+      border: 2px solid $grey2;
+      border-radius: 50%;
+      transition: background-color 0.1s, border-color 0.1s;
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        background-color: black;
+        box-sizing: border-box;
+        border: 2px solid black;
+        border-radius: 50%;
+        transition: transform 0.1s;
+        transform: scale(0);
+      }
+    }
+    .radio.checked {
+      background-color: $active;
+      border-color: $active3;
+
+      &:before {
+        transform: scale(1);
+      }
+    }
+
+    // HOVER
+    &:hover .radio {
+      box-shadow: 0 0 2px black;
+    }
+
+    // FOCUS
+    input:focus + .radio {
+      outline: 2px solid $focus;
+      outline-offset: 3px;
+    }
+  }
+}

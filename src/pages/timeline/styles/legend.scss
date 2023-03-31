@@ -1,0 +1,69 @@
+@use "../../../vars.scss" as *;
+
+div.legend-button {
+  // width: 70px;
+  // height: 70px;
+  background-image: conic-gradient(
+    #3f51b5,
+    #00c8e1,
+    #4caf50,
+    #ffeb3b,
+    #e37322,
+    #d42b26,
+    #8042bf,
+    #3f51b5
+  );
+  color: white;
+  text-shadow: 0 0 6px black;
+  // text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // transition-property: width, height, border-radius, background;
+  // transition-duration: 1.2s;
+  overflow: hidden;
+  &.expanded {
+    align-items: initial;
+    justify-content: initial;
+    overflow-y: auto;
+    @media (min-height: 720px) {
+      overflow-y: hidden;
+    }
+    overflow-x: hidden;
+    max-height: calc(100vh - 70px - 12px - 10px - 12px);
+    // put it out of flow for animation to work
+    position: absolute;
+    right: 0;
+    bottom: 80px;
+    text-shadow: none;
+    background: #ccc; //$background;
+    background-color: #c4c6ca;
+    // background: #0005;
+    // border: 2px solid black;
+    padding: 4px;
+    border-radius: 14px;
+    font-weight: $weight-regular;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    .table-cell {
+      color: black;
+      border: 1px solid #333;
+    }
+    .hr {
+      margin: 1px 0;
+    }
+    .type-indicator {
+      width: max-content;
+      // margin: 4px 4px 4px auto;
+      // margin: 3px;
+      margin-left: auto;
+      // border: 1px solid black;
+    }
+    .small {
+      font-size: 0.8em;
+    }
+  }
+}

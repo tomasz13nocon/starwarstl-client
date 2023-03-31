@@ -1,0 +1,149 @@
+$sans: Nunito, sans-serif;
+$weight-regular: 400;
+$weight-bolder: 600;
+$weight-bold: 700;
+
+$game-primary: #d42b26;
+$game-secondary: #fff7f6;
+$game-vr-primary: #c81f4d;
+$game-vr-secondary: #fff7f6;
+$game-mobile-primary: #d85956;
+$game-mobile-secondary: #fff7f6;
+
+$tv-primary: #e37322;
+$tv-secondary: #2f1300;
+$tv-tertiary: #5b2600;
+$tv-animated-primary: #f1904d;
+$tv-animated-secondary: #3c1900;
+$tv-micro-series-primary: #d2865e;
+
+$tv-micro-series-secondary: #1e0a00;
+
+$yr-primary: #00c8e1;
+$yr-secondary: #003840;
+
+$reference-book-primary: #00bcd4;
+$reference-book-secondary: #fff;
+
+$film-primary: #212121;
+$film-secondary: #fff;
+
+$book-primary: #3f51b5;
+$book-secondary: #deefff;
+$book-a-primary: #3f51b5;
+$book-a-secondary: #deefff;
+$book-ya-primary: #616eb9;
+$book-ya-secondary: white;
+$book-jr-primary: #7899d9;
+$book-jr-secondary: #031435;
+$audio-drama-primary: #8042bf;
+$audio-drama-secondary: #f9f3ff;
+
+$comic-primary: #4caf50;
+$comic-secondary: #003102;
+$comic-story-primary: #75ac74;
+$comic-story-secondary: #002802;
+$comic-strip-primary: #8ac68c;
+$comic-strip-secondary: #003102;
+$comic-manga-primary: #1f7722;
+$comic-manga-secondary: #f4fff5;
+
+$short-story-primary: #ffeb3b;
+$short-story-secondary: #403a01;
+
+$unknown-primary: #bbb;
+$unknown-secondary: #222;
+
+$focus: #fb8500;
+$accent: #e6a34e;
+$active: #39a3e9;
+$active2: #b3d7e9;
+$active3: #123460;
+$active4: #445060;
+$active5: #637487;
+$active6: #e5f3fd;
+$background: #f3f3f3;
+$background2: #e7e7e7;
+$grey4: rgb(221, 221, 221);
+$grey3: rgb(196, 196, 196);
+$grey2: rgb(155, 155, 155);
+$grey1: rgb(100, 100, 100);
+
+$main-width: 1170px;
+
+// RESPONSIVE
+$width-xl: 1186px;
+$width-lg: 1086px;
+// $width-md: 870px;
+$width-md: 738px;
+$width-sm: 576px;
+
+// OLD:
+// $tv-micro-series-primary: #D67B4A;
+// $book-primary: #34a;
+// $book-secondary: #def;
+// $comic-primary: #86398d;
+// $comic-primary: #de3333;
+// $comic-secondary: #fed;
+// $comic-secondary: rgb(251, 221, 255);
+// $short-story-primary: #4ed0d7;
+// $short-story-secondary: #135457;
+// $yr-primary: #9C27B0;
+// $yr-secondary: #FADEFF;
+// $yr-primary: #FF58C5;
+// $yr-secondary: #41004D;
+// $yr-primary: #d2d2d2;
+// $yr-secondary: #202020;
+// $active6: #ebf7ff;
+// $active5: #586778;
+
+
+%reset-button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+
+  background: transparent;
+
+  color: inherit;
+  font: inherit;
+
+  line-height: normal;
+
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+%cell-fit-content {
+  // TODO: this acts weird with lots of content in columns. test it
+  width: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+%cta-button {
+  @extend %reset-button;
+  &:hover {
+    text-decoration: none;
+    opacity:0.85;
+  }
+  padding: 14px 26px;
+  border-radius: 10px;
+  font-size: 1.2em;
+  font-weight: $weight-bold;
+  cursor: pointer;
+}
+
+@mixin lightsaber($color) {
+  // width: 100%;
+  background: white;
+  height: 16px;
+  border-radius: 0 99px 99px 0;
+  border: none;
+  box-shadow: inset 0 0 5px rgba($color, 0.8), 0 0 12px $color, 0 0 30px $color, 0 0 50px $color, 0 0 70px $color;
+}

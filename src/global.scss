@@ -1,0 +1,466 @@
+@use "./vars.scss" as *;
+
+// to cheat specificity
+.reset-button {
+  @extend %reset-button;
+}
+
+.curp {
+  cursor: pointer;
+}
+
+.icon {
+  width: 24px;
+  vertical-align: sub;
+}
+
+.book {
+  background: $book-a-primary;
+  color: $book-secondary;
+}
+.book-a {
+  background: $book-a-primary;
+  color: $book-a-secondary;
+}
+.book-ya {
+  background: $book-ya-primary;
+  color: $book-ya-secondary;
+}
+.book-jr {
+  background: $book-jr-primary;
+  color: $book-jr-secondary;
+}
+.book-reversed {
+  background: $book-secondary;
+  color: $book-a-primary;
+}
+.book-a-reversed {
+  background: $book-a-secondary;
+  color: $book-a-primary;
+}
+.book-ya-reversed {
+  background: $book-ya-secondary;
+  color: $book-ya-primary;
+}
+.book-jr-reversed {
+  background: $book-jr-secondary;
+  color: $book-jr-primary;
+}
+
+.audio-drama {
+  background: $audio-drama-primary;
+  color: $audio-drama-secondary;
+}
+.audio-drama-reversed {
+  background: $audio-drama-secondary;
+  color: $audio-drama-primary;
+}
+
+.comic {
+  background-color: $comic-primary;
+  color: $comic-secondary;
+}
+.comic-reversed {
+  background-color: $comic-secondary;
+  color: $comic-primary;
+}
+.comic-story {
+  background-color: $comic-story-primary;
+  color: $comic-story-secondary;
+}
+.comic-story-reversed {
+  background-color: $comic-story-secondary;
+  color: $comic-story-primary;
+}
+.comic-strip {
+  background-color: $comic-strip-primary;
+  color: $comic-strip-secondary;
+}
+.comic-strip-reversed {
+  background-color: $comic-strip-secondary;
+  color: $comic-strip-primary;
+}
+.comic-manga {
+  background-color: $comic-manga-primary;
+  color: $comic-manga-secondary;
+}
+.comic-manga-reversed {
+  background-color: $comic-manga-secondary;
+  color: $comic-manga-primary;
+}
+
+.short-story {
+  background-color: $short-story-primary;
+  color: $short-story-secondary;
+}
+.short-story-reversed {
+  background-color: $short-story-secondary;
+  color: $short-story-primary;
+}
+
+.tv, .tv-live-action {
+  background-color: $tv-primary;
+  color: $tv-secondary;
+}
+.tv-animated {
+  background-color: $tv-animated-primary;
+  color: $tv-animated-secondary;
+}
+.tv-micro-series {
+  background-color: $tv-micro-series-primary;
+  color: $tv-micro-series-secondary;
+}
+.tv-reversed, .tv-live-action-reversed {
+  background-color: $tv-secondary;
+  color: $tv-primary;
+}
+.tv-animated-reversed {
+  background-color: $tv-animated-secondary;
+  color: $tv-animated-primary;
+}
+.tv-micro-series-reversed {
+  background-color: $tv-micro-series-secondary;
+  color: $tv-micro-series-primary;
+}
+
+.film {
+  background-color: $film-primary;
+  color: $film-secondary;
+}
+.film-reversed {
+  background-color: $film-secondary;
+  color: $film-primary;
+}
+
+.yr {
+  background-color: $yr-primary;
+  color: $yr-secondary;
+}
+.yr-reversed {
+  background-color: $yr-secondary;
+  color: $yr-primary;
+}
+
+.game {
+  background-color: $game-primary;
+  color: $game-secondary;
+}
+.game-vr {
+  background-color: $game-vr-primary;
+  color: $game-vr-secondary;
+}
+.game-mobile,
+.game-browser {
+  background-color: $game-mobile-primary;
+  color: $game-mobile-secondary;
+}
+.game-reversed {
+  background-color: $game-secondary;
+  color: $game-primary;
+}
+
+.unknown {
+  background-color: $unknown-primary;
+  color: $unknown-secondary;
+}
+.unknown-reversed {
+  background-color: $unknown-secondary;
+  color: $unknown-primary;
+}
+
+.reference-book {
+  background-color: $reference-book-primary;
+  color: $reference-book-secondary;
+}
+
+.multimedia {
+  background: linear-gradient(
+    145deg,
+    #3f51b5dd,
+    #00c8e1dd,
+    #4caf50dd,
+    #ffeb3bdd,
+    #e37322dd,
+    #d42b26dd,
+    #8042bfdd,
+    // #3F51B5DD,
+  );
+  color: black;
+  text-shadow: 0 0 2px white;
+  .icon {
+    filter: drop-shadow(0 0 2px white);
+  }
+  // font-weight: $weight-bold;
+}
+
+.type-indicator {
+  box-shadow: 0 0 5px -3px black;
+  padding: 0 9px 0px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+  // text-transform: capitalize;
+}
+
+.show-button,
+.hide-button {
+  @extend %reset-button;
+  font-weight: $weight-bold;
+  border: 2px outset black;
+  font-size: 0.75em;
+  padding: 1px 5px;
+  margin-right: 8px;
+  color: black;
+  cursor: pointer;
+  &:active {
+    border-style: inset;
+  }
+  &:focus {
+    border-color: $focus;
+  }
+  background-color: #ccc;
+}
+.show-button {
+  // background-color: #86cc66;
+}
+.hide-button {
+  // background-color: #d55e5e;
+}
+
+.unreleased {
+  background-color: #eacac0;
+}
+
+.exact-placement-unknown {
+  // text-decoration: underline dotted red;
+  background-color: #ded9dc;
+  // box-shadow: 0 0 0 2px inset #eacac0;
+}
+
+.circle-buttons {
+  z-index: 5;
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+.circle-button {
+  @extend %reset-button;
+  align-self: flex-end;
+  cursor: pointer;
+  border-radius: 40px;
+  box-shadow: 0 0 3px black;
+  &:hover {
+    box-shadow: 0 0 5px black;
+  }
+  width: 70px;
+  height: 70px;
+  font-weight: $weight-bold;
+  font-size: 2em;
+  .icon {
+    // width: 36px;
+  }
+}
+
+input.input-default {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px 30px 5px 6px;
+  border: 3px solid $grey2;
+  font-size: 0.8em;
+  // width: 240px;
+  &:focus {
+    outline: none;
+    border-color: $focus;
+  }
+  &.small {
+    padding: 3px 28px 3px 4px;
+    border-width: 2px;
+  }
+}
+
+.highlight {
+  color: red;
+  background-color: yellow;
+  font-weight: $weight-bold;
+}
+.highlight-current {
+  background-color: #df00ff;
+  color: white;
+  font-weight: $weight-bold;
+}
+
+.shield {
+  border-radius: 4px;
+  font-size: 0.7em;
+  border: 1px solid black;
+  padding: 0 4px;
+  height: fit-content;
+  margin: 0 6px;
+  position:relative;
+  // left: -12px;
+  // top: -8px;
+  // transform: rotate(13deg);
+  &.new {
+    background: #86cc66;
+    // background: #803ee9;
+    // background: sienna;
+    // background:green;
+    // color: white;
+  }
+}
+
+
+// 000000000000000000000000000000000000000000000000000
+
+html,
+body {
+  height: 100%;
+  color: #111;
+}
+
+body {
+  margin: 0;
+  font-family: $sans;
+  // font-weight: $weight-regular;
+  font-size: 18px;
+  background-color: $background;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+}
+
+*:focus {
+  outline-color: $focus;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1 0 auto;
+  width: $main-width;
+  margin: 16px auto;
+  @media (max-width: $width-xl) {
+    width: 100%;
+  }
+}
+
+header {
+  background-color: $active4;
+  color: white;
+}
+
+header {
+  nav {
+    width: $main-width;
+    margin: 0 auto;
+    @media (max-width: $width-xl) {
+      width: 100%;
+    }
+    ul {
+      margin: 0;
+      padding: 0 30px;
+      @media (max-width: $width-sm) {
+        padding: 0 16px;
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          flex-grow: 1;
+        }
+      }
+      li {
+        display: inline-block;
+        a {
+          display: block;
+          text-align: center;
+          padding: 16px 24px;
+          color: white;
+          &.active {
+            background-color: $active5;
+            pointer-events: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+a {
+  color: rgb(45, 101, 206);
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+    //color: rgb(18, 61, 141);
+  }
+}
+
+a.external {
+  .icon {
+    width: 1em;
+  }
+}
+
+.error-box {
+  background: rgb(233, 111, 111);
+  border: 1px solid red;
+  color: rgb(255, 234, 234);
+  border-radius: 4px;
+  padding: 4px 12px;
+  margin: 12px 0;
+}
+
+.lds-dual-ring {
+  //display: inline-block;
+  width: 80px;
+  height: 80px;
+  margin: auto;
+}
+.lds-dual-ring:after {
+  $color: #111;
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  //margin: 8px;
+  border-radius: 50%;
+  border: 6px solid $color;
+  border-color: $color transparent $color transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-container {
+  width: 100%;
+}
+.spinner-text {
+  font-size: 1.3em;
+  font-style: italic;
+  text-align: center;
+  // width: max-content;
+  margin: 10px 0;
+}

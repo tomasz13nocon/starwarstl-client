@@ -1,0 +1,21 @@
+@use "../../../vars.scss" as *;
+
+.faq {
+  a {
+    color: #0f54d5;
+  }
+  .faq-title {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  section {
+    background:#e4e6e8;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin: 16px auto;
+    h3 {
+      border-bottom: 1px solid #444;
+      padding-bottom: 6px;
+    }
+  }
+}

@@ -1,0 +1,50 @@
+@use "../../../../vars.scss" as *;
+
+.filters-section {
+
+  .type-indicator2 {
+    font-size: 0.9em;
+    width: fit-content;
+    padding-right: 0;
+    padding-left: 6px;
+    margin: 4px 0;
+    display: flex;
+    border-radius: 32px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    .text {
+      margin-top: 2px;
+      .wookiee-link {
+        // vertical-align: middle;
+        // margin-top: 4px;
+        position: relative;
+        top: 1px;
+      }
+    }
+    .remove {
+      // background: #333;
+      // color: white;
+      border-top-right-radius: 9999px;
+      border-bottom-right-radius: 9999px;
+      padding-right: 2px;
+      margin-left: 4px;
+      border: 2px solid;
+      border-left: none;
+      &.multimedia-reversed {
+        border: none;
+        padding-right: 4px;
+      }
+      &:hover .icon {
+        transform: rotateZ(90deg);
+        // box-shadow: 0 0 2px black;
+      }
+      .icon {
+        transition: transform 0.12s;
+        vertical-align: text-bottom;
+        width: 22px;
+        // font-size: 24px;
+      }
+    }
+  }
+
+}

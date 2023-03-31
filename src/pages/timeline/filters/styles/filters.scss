@@ -1,0 +1,114 @@
+@use "../../../../vars.scss" as *;
+
+$filters-width: 250px;
+
+.filters-container {
+  // margin: 0 10px;
+  transition: transform 0.2s;
+  position: sticky;
+  top: 0;
+  overflow-y: scroll;
+  max-height: 100vh;
+  scrollbar-gutter: stable;
+  box-sizing:border-box;
+  background: $background;
+
+  @media (max-width: $width-lg) {
+    position: fixed;
+    overflow: visible;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    height: 100%;
+    transform: translateX(-100%);
+    &.visible {
+      transform: translateX(0);
+    }
+  }
+}
+
+.filters {
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 6px 12px 6px;
+  @media (max-width: $width-lg) {
+    background: $background;
+    padding: 12px;
+    display: inline-flex;
+    overflow-y: auto;
+    border-right: 2px solid #444;
+    box-sizing: border-box;
+    height: 100%;
+    z-index: 50;
+    position: relative;
+    left: 0;
+  }
+  width: $filters-width;
+}
+
+.filters-btn {
+  // @media (min-width: $width-lg) {
+  //   display: none;
+  // }
+  display: inline-block;
+  vertical-align: top;
+  transition: transform 0.3s;
+  // &.filters-visible {
+  //   transform: translateX(271px);
+  // }
+  position: fixed;
+  z-index: 7;
+  background: #444;
+  color: $accent;
+  // left: 0;
+  top: 160px;
+  padding: 4px 6px 4px 2px;
+  cursor: pointer;
+  border-radius: 0 14px 14px 0;
+
+  &:before, &:after {
+    border-bottom-left-radius: 24px;
+    // border-radius: 21px;
+    // box-shadow: 0 0 0 9px black;
+    border-left: 12px solid #444;
+    border-bottom: 12px solid #444;
+    // border: 10px solid black;
+    // transform: rotate(45deg);
+    // box-sizing: border-box;
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -12px;
+    width: 20px;
+    height: 20px;
+    z-index: -1;
+  }
+  &:after {
+    top: calc(100% - 14px);
+    transform: rotate(90deg);
+  }
+}
+
+
+.search-suggestions {
+  font-size: 0.9em;
+  .suggestions-heading {
+    font-size: 0.7em;
+  }
+  .suggestion {
+    border: 1px solid black;
+    margin-top: -1px;
+    &:first-child {
+      margin-top: 0;
+    }
+    &:hover {
+      // box-shadow: 0 0 0 2px inset $focus;
+      box-shadow: 0 0 2px black;
+    }
+    cursor: pointer;
+    width: 100%;
+    padding: 0 2px;
+  }
+}
+

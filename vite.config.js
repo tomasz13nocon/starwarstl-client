@@ -8,10 +8,5 @@ export default defineConfig({
     outDir: '../dist',
   },
   publicDir: '../public',
-  plugins: [react({
-    // jsxRuntime: 'classic',
-    // babel: {
-    //   plugins: ['...'],
-    // },
-  })],
+  plugins: [react({})],
 })

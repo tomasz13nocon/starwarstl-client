@@ -1,11 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-import Footer from "./footer";
-import FullCoverPreview from "./fullCoverPreview";
-import Header from "./header";
-import Home from "./home";
-import Landing from "./landing";
+import FullCoverPreview from "./components/fullCoverPreview";
+import Footer from "./layouts/footer";
+import Header from "./layouts/header";
+import Home from "./pages/timeline/home";
+import Landing from "./pages/home/landing";
 
 export default function App() {
   const [fullCover, setFullCover] = React.useState({ name: "", show: false });
