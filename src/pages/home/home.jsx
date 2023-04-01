@@ -2,11 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { mdiArrowDown, mdiDiceMultipleOutline } from '@mdi/js';
 import { Icon } from "@mdi/react";
-import TimelineRowDetails from "../../components/timelineRowDetails";
-import Error from "../../components/error";
+import TimelineRowDetails from "@components/timelineRowDetails";
+import Error from "@components/error";
+import { API } from "@/util";
 import Faq from "./faq";
 import Showcase from "./showcase";
-import { API } from "../../util";
 import "./styles/landing.scss";
 // import "./styles/timeline.scss"; // TODO remove
 
@@ -18,7 +18,7 @@ const stopAndPlay = (audioEl) => {
   }
 };
 
-export default function Landing(p) {
+export default function Home(p) {
   const [randomItem, setRandomItem] = React.useState({});
   const [randomItemState, setRandomItemState] = React.useState({ state: "fetching" });
   const landingPageContentRef = React.useRef();

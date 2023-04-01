@@ -213,7 +213,7 @@ const reducer = (state, { path, to }) => {
   });
 };
 
-export default function Home({ setFullCover }) {
+export default function Timeline({ setFullCover }) {
   ///// STATE /////
   const [sorting, toggleSorting] = React.useReducer(
     (prevSorting, name) => {

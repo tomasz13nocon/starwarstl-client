@@ -82,12 +82,6 @@ export default function Legend(props) {
             <br />
             unknown <small>(date column)</small>
           </div>
-          {/* <div */}
-          {/*   className="type-indicator unknown" */}
-          {/*   style={{ border: "1px solid black" }} */}
-          {/* > */}
-          {/*   Unknown */}
-          {/* </div> */}
         </>
       ) : (
         "?"

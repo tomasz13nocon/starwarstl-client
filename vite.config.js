@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import { ViteAliases } from 'vite-aliases';
 
 export default defineConfig({
   // build.outDir and publicDir are relative to the `root`
@@ -8,5 +9,5 @@ export default defineConfig({
     outDir: '../dist',
   },
   publicDir: '../public',
-  plugins: [react({})],
+  plugins: [react({}), ViteAliases()],
 })

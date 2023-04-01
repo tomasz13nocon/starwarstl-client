@@ -42,6 +42,7 @@
     "eslint": "^8.25.0",
     "eslint-plugin-react": "^7.31.10",
     "prettier": "^2.5.1",
-    "sass": "^1.49.8"
+    "sass": "^1.49.8",
+    "vite-aliases": "^0.11.0"
   }
 }
