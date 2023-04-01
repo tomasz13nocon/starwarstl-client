@@ -21,10 +21,10 @@ const _createStateFrom = (obj) => {
   for (const [key, value] of Object.entries(obj)) {
     ret[key] =
       typeof value === "boolean"
-      ? value
-      : value.value !== undefined
-      ? value.value
-      : _createStateFrom(value.children || value);
+        ? value
+        : value.value !== undefined
+        ? value.value
+        : _createStateFrom(value.children || value);
     // value.value - object representing a single filter
     // value.children - standard structure
     // value - object with direct children
@@ -49,9 +49,7 @@ const createState = (template) => {
   try {
     return _createStateFrom(template);
   } catch (e) {
-    throw e instanceof RangeError
-      ? "Incorrect template structure! (infinite recursion)"
-      : e;
+    throw e instanceof RangeError ? "Incorrect template structure! (infinite recursion)" : e;
   }
 };
 
@@ -68,9 +66,7 @@ const _setChildren = (children, to) => {
 const reducer = (state, { path, to }) => {
   return produce(state, (draft) => {
     let atPath = _.get(draft, path);
-    typeof atPath === "boolean"
-      ? _.set(draft, path, to)
-      : _setChildren(atPath, to);
+    typeof atPath === "boolean" ? _.set(draft, path, to) : _setChildren(atPath, to);
   });
 };
 
@@ -90,13 +86,9 @@ export default function Timeline({ setFullCover }) {
     }
   );
   const [filterText, setFilterText] = React.useState("");
-  const [filters, dispatch] = React.useReducer(
-    reducer,
-    filtersTemplate,
-    (filtersTemplate) => {
-      return createState(filtersTemplate);
-    }
-  );
+  const [filters, dispatch] = React.useReducer(reducer, filtersTemplate, (filtersTemplate) => {
+    return createState(filtersTemplate);
+  });
   const [rawData, setRawData] = React.useState([]);
   const [seriesArr, setSeriesArr] = React.useState([]);
   const [suggestions, setSuggestions] = React.useState([]);
@@ -113,8 +105,7 @@ export default function Timeline({ setFullCover }) {
           // if no results or one result don't do anything
           if (
             !state.highlight ||
-            (state.results.length === 1 &&
-              state.results[0].indices.length === 1)
+            (state.results.length === 1 && state.results[0].indices.length === 1)
           ) {
             return state;
           } else {
@@ -147,8 +138,7 @@ export default function Timeline({ setFullCover }) {
           // if no results or one result don't do anything
           if (
             !state.highlight ||
-            (state.results.length === 1 &&
-              state.results[0].indices.length === 1)
+            (state.results.length === 1 && state.results[0].indices.length === 1)
           ) {
             return state;
           } else {
@@ -162,10 +152,7 @@ export default function Timeline({ setFullCover }) {
               state.results[state.highlight.resultsIndex].indices.length - 1
             ) {
               newHighlight.indicesIndex++;
-            } else if (
-              state.highlight.resultsIndex <
-              state.results.length - 1
-            ) {
+            } else if (state.highlight.resultsIndex < state.results.length - 1) {
               newHighlight.resultsIndex++;
               newHighlight.indicesIndex = 0;
             } else {
@@ -244,7 +231,6 @@ export default function Timeline({ setFullCover }) {
   const [rangeFrom, setRangeFrom] = React.useState("");
   const [rangeTo, setRangeTo] = React.useState("");
   const [rangeTitleSuggestions, setRangeTitleSuggestions] = React.useState([]);
-  // const [fullyContained, setFullyContained] = React.useState(false);
   /////////////////
 
   const filtersContainerRef = React.useRef();
@@ -254,12 +240,13 @@ export default function Timeline({ setFullCover }) {
 
   // Fetch data
   React.useEffect(async () => {
-    let data, cancelled = false;
+    let data,
+      cancelled = false;
     const fetchToJson = async (apiRoute) => {
       let res = await fetch(API + apiRoute);
       if (!res.ok) throw new Error(res.statusText);
       return await res.json();
-    }
+    };
 
     (async () => {
       try {
@@ -278,8 +265,7 @@ export default function Timeline({ setFullCover }) {
         setDataState("fetchingDetails");
         data = await fetchToJson("media-details");
         if (cancelled) return;
-      }
-      catch (e) {
+      } catch (e) {
         setDataState("error");
         return;
       }
@@ -288,28 +274,20 @@ export default function Timeline({ setFullCover }) {
       setDataState("ok");
     })();
 
-    return () => cancelled = true;
+    return () => (cancelled = true);
   }, []);
 
   // Setup swipe events
   const { ref: documentRef } = useSwipeable({
-    // onSwiping: (e) => {
-    //   if (showFilters)
-    //     filtersContainerRef.current.style.transform = `translateX(calc(${e.deltaX}px))`;
-    //   else
-    //     filtersContainerRef.current.style.transform = `translateX(calc(-100% + ${e.deltaX}px))`;
-    // },
     onSwipedRight: (e) => {
       if (e.deltaX > 100) {
         setShowFilters(true);
       }
-      // filtersContainerRef.current.style.removeProperty("transform");
     },
     onSwipedLeft: (e) => {
       if (e.deltaX < -100) {
         setShowFilters(false);
       }
-      // filtersContainerRef.current.style.removeProperty("transform");
     },
   });
   React.useEffect(() => {
@@ -319,17 +297,17 @@ export default function Timeline({ setFullCover }) {
 
   // Process timeline range input
   const parseRange = (str, data) => {
-    if (str) { // TODO: optimize: debounce or title index/array
+    if (str) {
+      // TODO: optimize: debounce or title index/array
       let strU = str.toUpperCase();
       for (let item of rawData) {
         if (strU === item.title.toUpperCase()) {
-          let ret = { isTitle: true }
+          let ret = { isTitle: true };
           if (timelineRangeBy === "date") {
             ret.value = item.chronology;
             if (!item.dateParsed) return undefined; // TODO display msg: Can't use this media, since its placement is a mystery
             ret.dates = item.dateParsed;
-          }
-          else {
+          } else {
             ret.value = new Date(item.releaseDateEffective ?? item.releaseDate);
           }
           return ret;
@@ -353,16 +331,21 @@ export default function Timeline({ setFullCover }) {
         }
         return { value: date };
       }
-    }
-    else if (timelineRangeBy === "releaseDate") {
+    } else if (timelineRangeBy === "releaseDate") {
       let date = new Date(str);
       if (!isNaN(date)) {
         return { value: date };
       }
     }
   };
-  let rangeFromParsed = React.useMemo(() => parseRange(rangeFrom, rawData), [rangeFrom, rawData, timelineRangeBy]);
-  let rangeToParsed = React.useMemo(() => parseRange(rangeTo, rawData), [rangeTo, rawData, timelineRangeBy]);
+  let rangeFromParsed = React.useMemo(
+    () => parseRange(rangeFrom, rawData),
+    [rangeFrom, rawData, timelineRangeBy]
+  );
+  let rangeToParsed = React.useMemo(
+    () => parseRange(rangeTo, rawData),
+    [rangeTo, rawData, timelineRangeBy]
+  );
 
   return (
     <main className="content">
@@ -388,19 +371,9 @@ export default function Timeline({ setFullCover }) {
           setShowFilters={setShowFilters}
           filtersContainerRef={filtersContainerRef}
         >
-          <BoxFilters
-            boxFilters={boxFilters}
-            setBoxFilters={setBoxFilters}
-          />
-          <SortingMobile
-            columns={columns}
-            sorting={sorting}
-            toggleSorting={toggleSorting}
-          />
-          <ColumnSettings
-            columns={columns}
-            setColumns={setColumns}
-          />
+          <BoxFilters boxFilters={boxFilters} setBoxFilters={setBoxFilters} />
+          <SortingMobile columns={columns} sorting={sorting} toggleSorting={toggleSorting} />
+          <ColumnSettings columns={columns} setColumns={setColumns} />
           <CheckboxSettings
             hideUnreleased={hideUnreleased}
             setHideUnreleased={setHideUnreleased}
@@ -424,8 +397,6 @@ export default function Timeline({ setFullCover }) {
             fromValid={rangeFromParsed !== undefined}
             toValid={rangeToParsed !== undefined}
             rangeTitleSuggestions={rangeTitleSuggestions}
-            // fullyContained={fullyContained}
-            // setFullyContained={setFullyContained}
           />
         </Filters>
         <Table
