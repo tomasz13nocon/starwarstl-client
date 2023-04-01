@@ -1,34 +1,21 @@
-import React from "react";
 import CheckboxGroup from "./checkboxGroup";
 import FiltersSection from "./filtersSection";
 import "./styles/typeFilters.scss";
 
-export default function TypeFilters({
-  filters,
-  filtersChanged,
-  filtersTemplate,
-}) {
+export default function TypeFilters({ typeFilters, filtersChanged, filtersTemplate }) {
   return (
     <FiltersSection title="Media type" gaps>
       <div className="check-buttons">
-        <button
-          className="show-button"
-          onClick={() => filtersChanged({ path: "type", to: true })}
-        >
+        <button className="show-button" onClick={() => filtersChanged({ path: "type", to: true })}>
           CHECK ALL
         </button>
-        <button
-          className="hide-button"
-          onClick={() => filtersChanged({ path: "type", to: false })}
-        >
+        <button className="hide-button" onClick={() => filtersChanged({ path: "type", to: false })}>
           UNCHECK ALL
         </button>
       </div>
 
-      <div
-        className="checkbox-filters"
-      >
-        <CheckboxGroup state={filters} onChange={filtersChanged}>
+      <div className="checkbox-filters">
+        <CheckboxGroup state={typeFilters} onChange={filtersChanged}>
           {filtersTemplate}
         </CheckboxGroup>
       </div>

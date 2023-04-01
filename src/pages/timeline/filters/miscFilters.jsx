@@ -1,8 +1,7 @@
-import React from "react";
 import Checkbox from "@components/checkbox";
 import FiltersSection from "./filtersSection";
 
-export default function CheckboxSettings({
+export default function MiscFilters({
   hideUnreleased,
   setHideUnreleased,
   hideAdaptations,
@@ -12,16 +11,8 @@ export default function CheckboxSettings({
 }) {
   return (
     <FiltersSection title="Miscellaneous">
-      <Checkbox
-        name={"Hide unreleased"}
-        value={hideUnreleased}
-        onChange={setHideUnreleased}
-      />
-      <Checkbox
-        name={"Hide adaptations"}
-        value={hideAdaptations}
-        onChange={setHideAdaptations}
-      />
+      <Checkbox name={"Hide unreleased"} value={hideUnreleased} onChange={setHideUnreleased} />
+      <Checkbox name={"Hide adaptations"} value={hideAdaptations} onChange={setHideAdaptations} />
       <Checkbox
         name={"Collapse adjacent episodes"}
         value={collapseAdjacent}

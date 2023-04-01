@@ -2,8 +2,7 @@ export const API =
   // window.location.protocol +
   // "//" +
   // (import.meta.env.VITE_API_HOST ?? window.location.hostname) +
-  (import.meta.env.VITE_API_HOST ?? "") +
-  "/api/";
+  (import.meta.env.VITE_API_HOST ?? "") + "/api/";
 // export const API = "/api/";
 export const IMAGE_PATH = (import.meta.env.VITE_IMG_HOST ?? "") + "/img/covers/";
 // export const IMAGE_PATH = "/img/covers/";
@@ -21,9 +20,17 @@ export const Size = Object.freeze({
   SMALL: "small/",
   FULL: "full/",
 });
-export const searchFields = ["title", "writer", "releaseDate", "date", "collapseUntilTitle", "se", "collapseUntilSe"];
+export const searchFields = [
+  "title",
+  "writer",
+  "releaseDate",
+  "date",
+  "collapseUntilTitle",
+  "se",
+  "collapseUntilSe",
+];
 // Column names which aren't meant to be sorted by
-export const notSortable = [ "cover" ];
+export const notSortable = ["cover"];
 export const columnNames = {
   date: "Date",
   continuity: "Continuity",
@@ -32,7 +39,28 @@ export const columnNames = {
   writer: "Writer",
   releaseDate: "Release Date",
 };
-
+export const suggestionPriority = [
+  "film",
+  "tv-live-action",
+  "game",
+  "tv-animated",
+  "multimedia",
+  "book-a",
+  "book-ya",
+  "comic",
+  "comic-manga",
+  "audio-drama",
+  "game-vr",
+  "book-jr",
+  "tv-micro-series",
+  "comic-strip",
+  "comic-story",
+  "game-mobile",
+  "short-story",
+  "yr",
+  "game-browser",
+  "unknown",
+];
 
 // Blur focus from the element if event is a mouse event (e.g. to hide focus ring)
 export function blurIfMouse(event) {
@@ -65,8 +93,3 @@ export const replaceInsensitive = function (str, strReplace, strWith) {
   let reg = new RegExp(esc, "ig");
   return str.replace(reg, strWith);
 };
-
-
-
-
-

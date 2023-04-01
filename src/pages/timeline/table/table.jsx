@@ -102,16 +102,13 @@ const removeAllFalses = (filters) => {
 
 function Table({
   filterText,
-  filters,
+  typeFilters,
   rawData,
-  seriesArr,
-  setSuggestions,
   boxFilters,
   searchExpanded,
   searchResults,
   dispatchSearchResults,
   hideUnreleased,
-  setHideUnreleased,
   hideAdaptations,
   collapseAdjacent,
   columns,
@@ -297,7 +294,7 @@ function Table({
     }
 
     // Filter
-    let cleanFilters = _.cloneDeep(filters);
+    let cleanFilters = _.cloneDeep(typeFilters);
     removeAllFalses(cleanFilters);
     tempData = tempData.filter((item) => {
       if (hideUnreleased && item.unreleased) return false;
@@ -432,7 +429,7 @@ function Table({
     return tempData;
   }, [
     rawData,
-    filters,
+    typeFilters,
     filterText,
     sorting,
     boxFilters,
@@ -460,7 +457,7 @@ function Table({
     }
   }, [
     rawData,
-    filters,
+    typeFilters,
     filterText,
     sorting,
     boxFilters,
