@@ -221,7 +221,6 @@ export default function Timeline({ setFullCover }) {
   const [columns, setColumns] = React.useState({
     date: true,
     cover: false,
-    // continuity: false, // TODO: width of page, responsive, etc. AND oneshots AND only show when comics filtered AND background color of rows
     title: true,
     writer: true,
     releaseDate: true,

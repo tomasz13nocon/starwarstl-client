@@ -1,5 +1,5 @@
 import React from "react";
-import { Virtuoso } from 'react-virtuoso';
+import { Virtuoso } from "react-virtuoso";
 import { _ } from "lodash";
 import Ellipsis from "@components/ellipsis";
 import MessageImg from "@components/messageImg";
@@ -8,7 +8,6 @@ import Error from "@components/error";
 import { escapeRegex, searchFields, notSortable, columnNames } from "@/util";
 import TimelineRow from "./timelineRow";
 import "./styles/timeline.scss";
-
 
 const colorValues = [
   "#FFBE0B",
@@ -38,9 +37,7 @@ const colorPrefs = [
 // Returns result of predicate with value as argument.
 // If value is an array call it for every array item, until true is returned.
 const testArrayOrOther = (value, predicate) => {
-  return Array.isArray(value)
-    ? value.some((v) => predicate(v))
-    : predicate(value);
+  return Array.isArray(value) ? value.some((v) => predicate(v)) : predicate(value);
 };
 
 // TODO rework this entire thing (filters in general)
@@ -103,7 +100,6 @@ const removeAllFalses = (filters) => {
   return acc;
 };
 
-
 function Table({
   filterText,
   filters,
@@ -145,8 +141,10 @@ function Table({
     if (searchResults.highlight && renderedRange.current) {
       let behavior = "auto";
       let highlightIndex = searchResults.results[searchResults.highlight.resultsIndex].rowIndex;
-      if (highlightIndex >= renderedRange.current.startIndex &&
-        highlightIndex <= renderedRange.current.endIndex) {
+      if (
+        highlightIndex >= renderedRange.current.startIndex &&
+        highlightIndex <= renderedRange.current.endIndex
+      ) {
         behavior = "smooth";
       }
       virtuoso.current.scrollToIndex({
@@ -201,10 +199,14 @@ function Table({
         // if (from === undefined) filterFn = (date) => date.date1 <= to;
         // if (to === undefined) filterFn = (date) => (date.date2 ?? date.date1) >= from;
         if (from > to) return [];
-        return data.filter((item) => item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from && date.date1 <= to));
+        return data.filter((item) =>
+          item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from && date.date1 <= to)
+        );
       },
       dateFromYear: (data, from, to) => {
-        return data.filter((item) => item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from));
+        return data.filter((item) =>
+          item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from)
+        );
       },
       dateToYear: (data, from, to) => {
         return data.filter((item) => item.dateParsed?.some((date) => date.date1 <= to));
@@ -220,12 +222,26 @@ function Table({
         return data.filter((item) => item.chronology <= to);
       },
       dateFromYearToTitle: (data, from, to, dates) => {
-        let titleDate = dates.reduce((acc, v) => Math.max(acc, v.date2 ?? v.date1), Number.MIN_SAFE_INTEGER);
-        return data.filter((item) => item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from && date.date1 <= titleDate) && item.chronology <= to);
+        let titleDate = dates.reduce(
+          (acc, v) => Math.max(acc, v.date2 ?? v.date1),
+          Number.MIN_SAFE_INTEGER
+        );
+        return data.filter(
+          (item) =>
+            item.dateParsed?.some(
+              (date) => (date.date2 ?? date.date1) >= from && date.date1 <= titleDate
+            ) && item.chronology <= to
+        );
       },
       dateFromTitleToYear: (data, from, to, dates) => {
         let titleDate = dates.reduce((acc, v) => Math.min(acc, v.date1), Number.MAX_SAFE_INTEGER);
-        return data.filter((item) => item.chronology >= from && item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= titleDate && date.date1 <= to));
+        return data.filter(
+          (item) =>
+            item.chronology >= from &&
+            item.dateParsed?.some(
+              (date) => (date.date2 ?? date.date1) >= titleDate && date.date1 <= to
+            )
+        );
       },
 
       releaseDateFromYearToYear: (data, from, to) => {
@@ -272,17 +288,20 @@ function Table({
     if (rangeTo) frankenstein += "To" + (rangeTo.isTitle ? "Title" : "Year");
 
     if (rangeFrom || rangeTo) {
-      tempData = frankensteinFunctions[frankenstein](tempData, rangeFrom?.value, rangeTo?.value, rangeFrom?.dates ?? rangeTo?.dates);
+      tempData = frankensteinFunctions[frankenstein](
+        tempData,
+        rangeFrom?.value,
+        rangeTo?.value,
+        rangeFrom?.dates ?? rangeTo?.dates
+      );
     }
 
     // Filter
     let cleanFilters = _.cloneDeep(filters);
     removeAllFalses(cleanFilters);
     tempData = tempData.filter((item) => {
-      if (hideUnreleased && item.unreleased)
-        return false;
-      if (hideAdaptations && item.adaptation)
-        return false;
+      if (hideUnreleased && item.unreleased) return false;
+      if (hideAdaptations && item.adaptation) return false;
       return filterItem(cleanFilters, item);
     });
 
@@ -291,10 +310,7 @@ function Table({
       if (boxFilters.length) {
         tempData = tempData.filter((item) => {
           for (let boxFilter of boxFilters) {
-            if (
-              item.series &&
-              item.series.includes(boxFilter.title) /* && item.*/
-            ) {
+            if (item.series && item.series.includes(boxFilter.title) /* && item.*/) {
               //TODO: We want more than series????
               return true;
             }
@@ -314,23 +330,23 @@ function Table({
         let r = queries.map((v) => v.trim()).filter((v) => v);
         return r.length
           ? r.some((query) =>
-            query
-            .split(" ")
-            .reduce(
-              (acc, value) =>
-              acc &&
-              (item.title.toLowerCase().includes(value) ||
-                item.writer?.reduce(
-                  (acc, v) => acc || v?.toLowerCase().includes(value),
-                  false
-                ) ||
-                item.series?.reduce(
-                  (acc, v) => acc || v?.toLowerCase().includes(value),
-                  false
-                )),
-              true
+              query
+                .split(" ")
+                .reduce(
+                  (acc, value) =>
+                    acc &&
+                    (item.title.toLowerCase().includes(value) ||
+                      item.writer?.reduce(
+                        (acc, v) => acc || v?.toLowerCase().includes(value),
+                        false
+                      ) ||
+                      item.series?.reduce(
+                        (acc, v) => acc || v?.toLowerCase().includes(value),
+                        false
+                      )),
+                  true
+                )
             )
-          )
           : r;
       });
     }
@@ -362,18 +378,20 @@ function Table({
 
     // Collapse adjacent entries
     if (collapseAdjacent && tempData.length > 2) {
-      let next, first = null, match;
+      let next,
+        first = null,
+        match;
       const tvEpsRe = /^(\d+)(?:[–-](\d+))?$/;
       const comicRe = /^(.*?)(\d+)$/;
 
       tempData = tempData.filter((item, i, arr) => {
-        next = arr[i+1];
+        next = arr[i + 1];
         // Remove data from previous render
         delete item.collapseUntil;
         delete item.collapsedCount;
 
         if (
-          ( item.type === "tv" &&
+          (item.type === "tv" &&
             next?.type === "tv" &&
             item.series?.length &&
             next.series?.length &&
@@ -382,22 +400,19 @@ function Table({
             // next.series.every((el) => item.series.includes(el)) &&
             next.season === item.season &&
             (match = item.episode?.match(tvEpsRe)) &&
-            +(match[2] ?? match[1]) + 1 === +(next.episode?.match(tvEpsRe)[1])
-            // pls don't ask about this code. it works. trust me.
-          ) ||
-          ( item.fullType === "comic" &&
+            +(match[2] ?? match[1]) + 1 === +next.episode?.match(tvEpsRe)[1]) ||
+          // pls don't ask about this code. it works. trust me.
+          (item.fullType === "comic" &&
             next?.fullType === "comic" &&
             item.title.match(comicRe)?.[1] === next.title.match(comicRe)?.[1] &&
-            +(item.title.match(comicRe)?.[2]) + 1 === +(next.title.match(comicRe)?.[2])
-          )
+            +item.title.match(comicRe)?.[2] + 1 === +next.title.match(comicRe)?.[2])
         ) {
           if (first === null) {
             first = i;
             return true;
           }
           return false;
-        }
-        else if (first !== null) {
+        } else if (first !== null) {
           // Don't collapse just 2 entries
           if (first !== i - 1) {
             arr[first].collapseUntil = item;
@@ -413,91 +428,21 @@ function Table({
       });
     }
 
-    // Figure out last entry in each comic series to know when to close the continuity line.
-    if (activeColumns.includes("continuity")) {
-      let lastsInSeries = {},
-        positions = {},
-        colors = {};
-      for (let item of tempData) {
-        if (item.fullType === "comic" && item.series?.length) {
-          for (let series of item.series) {
-            if (seriesArr.find((e) => e.title === series).type === "comic") {
-              lastsInSeries[series] = item.title;
-            }
-          }
-        }
-      }
-
-      let ongoingContinuity = {};
-      for (let item of tempData) {
-        if (item.fullType === "comic" && item.series?.length) {
-          for (let series of item.series) {
-            if (seriesArr.find((e) => e.title === series).type === "comic") {
-              let whichInSeries, currentContinuity;
-              if (positions[series] === undefined) {
-                let i = -1;
-                while (true) if (!Object.values(positions).includes(++i)) break;
-                positions[series] = i;
-                let color, hash, startHash, tempColor;
-                if (
-                  colorPrefs.some(
-                    (e) =>
-                    e.regex.test(series) &&
-                    !Object.values(colors).includes((tempColor = e.color))
-                  )
-                ) {
-                  color = tempColor;
-                } else {
-                  hash = item.wookieepediaId % colorValues.length;
-                  color = colorValues[hash];
-                  startHash = hash; // prevent inf loop
-                  while (Object.values(colors).includes(color)) {
-                    if (item.title === "Kanan 1")
-                      console.log(colorValues.length, hash, startHash);
-                    color =
-                      colorValues[
-                        hash === colorValues.length - 1 ? (hash = 0) : ++hash
-                      ];
-                    if (hash === startHash) {
-                      console.warn("collision loop " + item.title);
-                      break;
-                    }
-                  }
-                }
-                colors[series] = color;
-                whichInSeries = "first";
-              }
-              currentContinuity = {
-                color: colors[series],
-                position: positions[series],
-              };
-              if (lastsInSeries[series] === item.title) {
-                delete positions[series];
-                delete colors[series];
-                if (whichInSeries === "first") whichInSeries = "oneshot";
-                else whichInSeries = "last";
-              }
-              if (whichInSeries === undefined) whichInSeries = "middle";
-
-              currentContinuity.whichInSeries = whichInSeries;
-              ongoingContinuity[series] = currentContinuity;
-              item.ongoingContinuity = _.cloneDeep(ongoingContinuity); // assigning to item. Is this okay? This affects rawData.
-              if (lastsInSeries[series] === item.title)
-                delete ongoingContinuity[series];
-              if (whichInSeries === "first")
-                ongoingContinuity[series].whichInSeries = "middle";
-            }
-          }
-        }
-        // if (!item.ongoingContinuity) {
-        //   item.ongoingContinuity = _.cloneDeep(ongoingContinuity);
-        // }
-      }
-    }
-
     tempData.incomplete = rawData.incomplete;
     return tempData;
-  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, hideAdaptations, collapseAdjacent, rangeFrom, rangeTo, timelineRangeBy]);
+  }, [
+    rawData,
+    filters,
+    filterText,
+    sorting,
+    boxFilters,
+    hideUnreleased,
+    hideAdaptations,
+    collapseAdjacent,
+    rangeFrom,
+    rangeTo,
+    timelineRangeBy,
+  ]);
 
   // Scroll to expanded entry on data change.
   // This effect needs to have the same deps as useMemo above.
@@ -513,18 +458,31 @@ function Table({
         });
       }
     }
-  }, [rawData, filters, filterText, sorting, boxFilters, hideUnreleased, hideAdaptations, collapseAdjacent, rangeFrom, rangeTo, timelineRangeBy]);
+  }, [
+    rawData,
+    filters,
+    filterText,
+    sorting,
+    boxFilters,
+    hideUnreleased,
+    hideAdaptations,
+    collapseAdjacent,
+    rangeFrom,
+    rangeTo,
+    timelineRangeBy,
+  ]);
 
   // Search (Ctrl-F replacement)
   React.useEffect(() => {
     const findAllIndices = (str, searchText) =>
-      [...str.matchAll(new RegExp(escapeRegex(searchText), "gi"))].map(
-        (a) => a.index
-      );
+      [...str.matchAll(new RegExp(escapeRegex(searchText), "gi"))].map((a) => a.index);
     if (searchExpanded) {
       let overallSize = 0;
       if (searchResults.text === "") {
-        dispatchSearchResults({ type: "setResults", payload: { results: [], overallSize: overallSize } });
+        dispatchSearchResults({
+          type: "setResults",
+          payload: { results: [], overallSize: overallSize },
+        });
       } else {
         let results = [];
         for (let [rowIndex, item] of data.entries()) {
@@ -544,9 +502,7 @@ function Table({
             } else if (Array.isArray(item[field])) {
               for (let [arrayIndex, arrayItem] of item[field].entries()) {
                 if (typeof arrayItem !== "string")
-                  console.error(
-                    "Unknown field type while searching (array of non strings)"
-                  );
+                  console.error("Unknown field type while searching (array of non strings)");
                 let indices = findAllIndices(arrayItem, searchResults.text);
                 if (indices.length) {
                   results.push({
@@ -563,13 +519,16 @@ function Table({
             } else if (item[field] !== undefined) {
               console.error(
                 "Unknown field type while searching. Expected string or array of strings. Got: " +
-                typeof item[field]
+                  typeof item[field]
               );
             }
           }
         }
 
-        dispatchSearchResults({ type: "setResults", payload: { results: results, overallSize: overallSize } });
+        dispatchSearchResults({
+          type: "setResults",
+          payload: { results: results, overallSize: overallSize },
+        });
       }
     }
   }, [searchResults.text, data]);
@@ -591,52 +550,60 @@ function Table({
         ))}
       </div>
       <div className="tbody">
-        {dataState === "fetching" &&
+        {dataState === "fetching" && (
           <MessageImg img="jediTexts">
             {/* <div className="loading-indicator-table"></div> */}
-            Accessing sacred Jedi texts<Ellipsis />
+            Accessing sacred Jedi texts
+            <Ellipsis />
           </MessageImg>
-        }
-        {dataState === "error" &&
-          <Error />
-        }
-        {dataState === "ok" && data.length === 0 &&
+        )}
+        {dataState === "error" && <Error />}
+        {dataState === "ok" && data.length === 0 && (
           <MessageImg img="void">
             There&quot;s nothing here...
-            <br/>
+            <br />
             <span className="small">(Try changing the filters or the query)</span>
           </MessageImg>
-        }
+        )}
         <Virtuoso
           // style={{ position: "relative" }}
           ref={virtuoso}
           useWindowScroll={true}
           overscan={200}
           data={data}
-          rangeChanged={(range) => renderedRange.current = range}
+          rangeChanged={(range) => (renderedRange.current = range)}
           itemContent={(index, item) => {
             // The index in searchResults.results array of the first result in this row
-            let resultsIndex = searchResults.results.findIndex(r => r.rowIndex === index);
-            let rowResultCount = 0, rowSearchResults = [];
+            let resultsIndex = searchResults.results.findIndex((r) => r.rowIndex === index);
+            let rowResultCount = 0,
+              rowSearchResults = [];
 
             // Get the search results in current row
             if (resultsIndex !== -1) {
               let searchResultRowIndex;
-              do  {
+              do {
                 rowResultCount++;
-              } while ((searchResultRowIndex = searchResults.results[resultsIndex + rowResultCount]?.rowIndex) === index);
-              rowSearchResults = searchResults.results.slice(resultsIndex, resultsIndex + rowResultCount);
+              } while (
+                (searchResultRowIndex =
+                  searchResults.results[resultsIndex + rowResultCount]?.rowIndex) === index
+              );
+              rowSearchResults = searchResults.results.slice(
+                resultsIndex,
+                resultsIndex + rowResultCount
+              );
             }
 
             return (
               <div
-                style={{
-                  // position: "absolute",
-                  // top: 0,
-                  // left: 0,
-                  // width: "100%",
-                  // transform: `translateY(${virtualRow.start}px)`,
-                }}
+                style={
+                  {
+                    // position: "absolute",
+                    // top: 0,
+                    // left: 0,
+                    // width: "100%",
+                    // transform: `translateY(${virtualRow.start}px)`,
+                  }
+                }
                 className="tr-outer"
               >
                 <TimelineRow
@@ -646,12 +613,14 @@ function Table({
                   expanded={expanded === item._id}
                   setExpanded={setExpanded}
                   searchExpanded={searchExpanded}
-                  searchResultsHighlight={searchResults.highlight ?
-                      {
-                        resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
-                          indicesIndex: searchResults.highlight.indicesIndex
-                      } :
-                      null}
+                  searchResultsHighlight={
+                    searchResults.highlight
+                      ? {
+                          resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
+                          indicesIndex: searchResults.highlight.indicesIndex,
+                        }
+                      : null
+                  }
                   rowSearchResults={rowSearchResults}
                   searchText={searchResults.text}
                   collapseAdjacent={collapseAdjacent}

@@ -42,28 +42,32 @@
 $full-image-transition: 0.2s;
 .full-image-parent-enter {
   opacity: 0;
-  .cover, .blur {
+  .cover,
+  .blur {
     transform: translateY(10vh);
   }
 }
 .full-image-parent-enter-active {
   transition: opacity $full-image-transition;
   opacity: 1;
-  .cover, .blur {
+  .cover,
+  .blur {
     transition: transform $full-image-transition;
     transform: translateY(0px);
   }
 }
 .full-image-parent-exit {
   opacity: 1;
-  .cover, .blur {
+  .cover,
+  .blur {
     transform: translateY(0px);
   }
 }
 .full-image-parent-exit-active {
   transition: opacity $full-image-transition;
   opacity: 0;
-  .cover, .blur {
+  .cover,
+  .blur {
     transition: transform $full-image-transition;
     transform: translateY(10vh);
   }
@@ -93,9 +97,10 @@ $full-image-transition: 0.2s;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position:relative;
+    position: relative;
   }
-  .cover, .blur {
+  .cover,
+  .blur {
     max-width: 95%;
     max-height: 95%;
   }
@@ -105,7 +110,7 @@ $full-image-transition: 0.2s;
     background-size: cover;
   }
   .blur {
-    position:absolute !important;
+    position: absolute !important;
     z-index: -1;
   }
 }
@@ -155,11 +160,6 @@ $full-image-transition: 0.2s;
     width: 55px;
     padding: 0;
   }
-  &.continuity {
-    // width: 68px;
-    // min-width: 82px;
-    width: 82px;
-  }
   &.title {
     // width: 442px;
     flex-grow: 1;
@@ -178,23 +178,6 @@ $full-image-transition: 0.2s;
   }
 }
 
-.th.continuity {
-  // font-size: 0.8em;
-  overflow-wrap: break-word;
-  // TODO: hyphen
-  hyphens: auto;
-}
-.td.continuity {
-  border-top: none;
-  border-bottom: none;
-  padding: 0;
-  svg {
-    display: block;
-    // width: 62px;
-    // width: 100%;
-    // height: auto;
-  }
-}
 .tr-outer:last-child .td.continuity {
   border-bottom: 1px solid black;
 }
@@ -302,7 +285,7 @@ $full-image-transition: 0.2s;
       flex-grow: 0;
       order: -1;
       &.no-cover {
-        display:none;
+        display: none;
       }
     }
   }
@@ -370,7 +353,6 @@ $full-image-transition: 0.2s;
 .slide-exit-active {
 }
 
-
 .tr.details-row {
   width: 100%;
   .td {
@@ -389,7 +371,7 @@ $full-image-transition: 0.2s;
   .cover-button {
     margin: 6px 14px 6px 6px;
     height: fit-content;
-    position:relative;
+    position: relative;
     box-shadow: 2px 2px 8px #000;
     & > div {
       display: block !important; // Overwrite blurhash lib to remove whitespace
@@ -404,7 +386,7 @@ $full-image-transition: 0.2s;
     margin: 6px;
   }
   .cover {
-    position:absolute;
+    position: absolute;
     top: 0;
     left: 0;
     // margin-right: 14px;
