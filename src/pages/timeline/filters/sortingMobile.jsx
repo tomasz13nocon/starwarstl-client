@@ -1,7 +1,7 @@
 import React from "react";
+import SortingIcon from "@components/sortingIcon";
+import { columnNames, notSortable } from "@/util";
 import FiltersSection from "./filtersSection";
-import SortingIcon from "../../../components/sortingIcon";
-import { columnNames, notSortable } from "../../../util";
 import "./styles/sortingMobile.scss";
 
 export default function SortingMobile({

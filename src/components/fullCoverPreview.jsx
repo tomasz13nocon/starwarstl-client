@@ -1,7 +1,7 @@
 import React from "react";
 import { Blurhash } from "react-blurhash";
 import { CSSTransition } from "react-transition-group";
-import { imgAddress, Size } from "../util";
+import { imgAddress, Size } from "@/util";
 
 export default function FullCoverPreview({ fullCover, setFullCover }) {
   const [fullCoverLoaded, setFullCoverLoaded] = React.useState(false);

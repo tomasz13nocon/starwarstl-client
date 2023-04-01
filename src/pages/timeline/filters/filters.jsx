@@ -1,7 +1,7 @@
 import React from "react";
 import { mdiFilterMultiple } from "@mdi/js";
 import { Icon } from "@mdi/react";
-import ClearableTextInput from "../../../components/clearableTextInput";
+import ClearableTextInput from "@components/clearableTextInput";
 import "./styles/filters.scss";
 
 const suggestionPriority = [

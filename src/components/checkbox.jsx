@@ -1,5 +1,5 @@
 import React from "react";
-import { blurIfMouse } from "../util";
+import { blurIfMouse } from "@/util";
 import "./styles/checkbox.scss";
 
 export default React.memo(function Checkbox({

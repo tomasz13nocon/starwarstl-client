@@ -1,12 +1,12 @@
 import React from "react";
 import { Virtuoso } from 'react-virtuoso';
 import { _ } from "lodash";
+import Ellipsis from "@components/ellipsis";
+import MessageImg from "@components/messageImg";
+import SortingIcon from "@components/sortingIcon";
+import Error from "@components/error";
+import { escapeRegex, searchFields, notSortable, columnNames } from "@/util";
 import TimelineRow from "./timelineRow";
-import Ellipsis from "../../../components/ellipsis";
-import MessageImg from "../../../components/messageImg";
-import SortingIcon from "../../../components/sortingIcon";
-import Error from "../../../components/error";
-import { escapeRegex, searchFields, notSortable, columnNames } from "../../../util";
 import "./styles/timeline.scss";
 
 

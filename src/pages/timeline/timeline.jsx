@@ -2,157 +2,18 @@ import React from "react";
 import { produce } from "immer";
 import { useSwipeable } from "react-swipeable";
 import { _ } from "lodash";
-import Filters from "./filters/filters";
+import { API } from "@/util";
 import Legend from "./legend";
 import Search from "./search";
 import Table from "./table/table";
+import Filters from "./filters/filters";
 import TimelineRange from "./filters/timelineRange";
 import TypeFilters from "./filters/typeFilters";
 import CheckboxSettings from "./filters/checkboxSettings";
 import ColumnSettings from "./filters/columnSettings";
 import SortingMobile from "./filters/sortingMobile";
 import BoxFilters from "./filters/boxFilters";
-import { API } from "../../util";
-
-const filtersTemplate = {
-  type: {
-    name: null,
-    children: {
-      film: {
-        name: "Films",
-        value: false,
-      },
-      tv: {
-        name: "TV",
-        children: {
-          fullType: {
-            name: "Type",
-            children: {
-              "tv-live-action": {
-                name: "Live-action",
-                value: false,
-              },
-              "tv-animated": {
-                name: "Animated",
-                value: false,
-              },
-              "tv-micro-series": {
-                name: "Micro series",
-                value: false,
-              },
-            },
-          },
-        },
-      },
-      game: {
-        name: "Video Games",
-        children: {
-          fullType: {
-            name: "Platform",
-            children: {
-              game: {
-                name: "Desktop/console",
-                value: false,
-              },
-              "game-vr": {
-                name: "VR",
-                value: false,
-              },
-              "game-mobile": {
-                name: "Mobile",
-                value: false,
-              },
-              "game-browser": {
-                name: "Browser",
-                value: false,
-              },
-            },
-          },
-        },
-      },
-      book: {
-        name: "Novels",
-        children: {
-          fullType: {
-            name: "Target audience",
-            children: {
-              "book-a": { name: "Adult", value: false },
-              "book-ya": { name: "Young Adult", value: false },
-              "book-jr": { name: "Junior", value: false },
-              // Unknown: false,
-            },
-          },
-          // publisher: {
-          //   name: "Publisher",
-          //   children: {
-          //     "Del Rey": false,
-          //     "Disney–Lucasfilm Press": false,
-          //     "Egmont UK Ltd": false,
-          //     Other: false,
-          //   },
-          // },
-        },
-      },
-      "audio-drama": {
-        name: "Audio Dramas",
-        value: false,
-      },
-      comic: {
-        name: "Comics",
-        children: {
-          fullType: {
-            name: "Type",
-            children: {
-              comic: {
-                name: "Comic book",
-                value: false,
-              },
-              "comic-manga": {
-                name: "Manga",
-                value: false,
-              },
-              "comic-strip": {
-                name: "Comic strip",
-                value: false,
-              },
-              "comic-story": {
-                name: "Comic story",
-                value: false,
-              },
-            },
-          },
-          // publisher: {
-          //   name: "Publisher",
-          //   children: {
-          //     "Marvel Comics": false,
-          //     "IDW Publishing": false,
-          //     "Dark Horse Comics": false,
-          //     "Egmont UK Ltd": false,
-          //     Unknown: false,
-          //   },
-          // },
-          // subtype: {
-          //   name: "Format",
-          //   children: {
-          //     Series: false,
-          //     "Story arc": false,
-          //     "Single issue": false,
-          //     "Trade paperback": false,
-          //   },
-          // },
-        },
-      },
-      "short-story": {
-        name: "Short Stories",
-        value: false,
-      },
-      yr: {
-        name: "Young Readers",
-        value: false,
-      },
-    },
-  },
-};
+import filtersTemplate from "./filters/template";
 
 const _createStateFrom = (obj) => {
   if (!obj) throw "Incorrect template structure!";

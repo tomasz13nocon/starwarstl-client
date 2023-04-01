@@ -1,10 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import FullCoverPreview from "@components/fullCoverPreview";
-import Footer from "./layouts/footer";
-import Header from "./layouts/header";
-import Timeline from "./pages/timeline/timeline";
-import Home from "./pages/home/home";
+import Footer from "@layouts/footer";
+import Header from "@layouts/header";
+import Timeline from "@pages/timeline/timeline";
+import Home from "@pages/home/home";
+import NotFound from "./NotFound";
 
 export default function App() {
   const [fullCover, setFullCover] = React.useState({ name: "", show: false });
@@ -16,7 +17,7 @@ export default function App() {
         <Routes>
           <Route path="/timeline" element={<Timeline setFullCover={setFullCover} />}></Route>
           <Route path="/" element={<Home setFullCover={setFullCover} />}></Route>
-          <Route path="*" element={<h1 style={{textAlign:"center",marginTop:"40px"}}>404 Not Found</h1>}></Route>
+          <Route path="*" element={<NotFound />}></Route>
         </Routes>
         <Footer />
       </Router>

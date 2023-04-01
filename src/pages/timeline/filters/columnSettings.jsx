@@ -1,7 +1,7 @@
 import React from "react";
-import Checkbox from "../../../components/checkbox";
+import Checkbox from "@components/checkbox";
 import FiltersSection from "./filtersSection";
-import { columnNames } from "../../../util";
+import { columnNames } from "@/util";
 
 // import "./styles/columnSettings.scss";
 

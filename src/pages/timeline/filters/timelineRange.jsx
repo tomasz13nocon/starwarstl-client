@@ -1,8 +1,8 @@
 import React from "react";
-import ClearableTextInput from "../../../components/clearableTextInput";
+import ClearableTextInput from "@components/clearableTextInput";
+import Radio from "@components/radio";
+import { ERA_IMAGE_PATH } from "@/util";
 import FiltersSection from "./filtersSection";
-import Radio from "../../../components/radio";
-import { ERA_IMAGE_PATH } from "../../../util";
 import "./styles/timelineRange.scss";
 
 const eras = [

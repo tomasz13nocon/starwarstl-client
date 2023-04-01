@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon } from "@mdi/react";
-import Checkbox from "../../../components/checkbox";
-import { blurIfMouse } from "../../../util";
+import Checkbox from "@components/checkbox";
+import { blurIfMouse } from "@/util";
 // import "./styles/checkbox.scss"; // TODO resolve
 
 export default React.memo(function FilterCheckbox({

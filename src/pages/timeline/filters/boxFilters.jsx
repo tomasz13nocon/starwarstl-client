@@ -1,7 +1,7 @@
 import React from "react";
 import { mdiClose } from "@mdi/js";
 import { Icon } from "@mdi/react";
-import WookieeLink from "../../../components/wookieeLink";
+import WookieeLink from "@components/wookieeLink";
 import FiltersSection from "./filtersSection";
 import "./styles/boxFilters.scss";
 

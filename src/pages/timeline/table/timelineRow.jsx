@@ -1,14 +1,14 @@
 import React from "react";
 import { Icon } from "@mdi/react";
 import { mdiVolumeHigh } from "@mdi/js";
-import TimelineRowDetails from "../../../components/timelineRowDetails";
-import EpisodeNumber from "../../../components/episodeNumber";
+import TimelineRowDetails from "@components/timelineRowDetails";
+import EpisodeNumber from "@components/episodeNumber";
 import {
   imgAddress,
   Size,
   buildTvImagePath,
   searchFields,
-} from "../../../util";
+} from "@/util";
 
 const highlightText = (
   text,

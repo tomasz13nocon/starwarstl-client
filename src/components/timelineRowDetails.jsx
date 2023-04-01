@@ -1,11 +1,11 @@
 import React from "react";
 import { Blurhash } from "react-blurhash";
 import { _ } from "lodash";
-import WookieeLink from "./wookieeLink";
-import ExternalLink from "./externalLink";
-import MessageImg from "./messageImg";
-import Ellipsis from "./ellipsis";
-import { imgAddress } from "../util";
+import WookieeLink from "@components/wookieeLink";
+import ExternalLink from "@components/externalLink";
+import MessageImg from "@components/messageImg";
+import Ellipsis from "@components/ellipsis";
+import { imgAddress } from "@/util";
 
 const process = (value, link = true) => {
   if (!Array.isArray(value)) return value;

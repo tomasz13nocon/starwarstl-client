@@ -40,8 +40,9 @@
   },
   "devDependencies": {
     "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.31.10",
-    "prettier": "^2.5.1",
+    "prettier": "^2.8.7",
     "sass": "^1.49.8",
     "vite-aliases": "^0.11.0"
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import Checkbox from "../../../components/checkbox";
+import Checkbox from "@components/checkbox";
 import FiltersSection from "./filtersSection";
 
 export default function CheckboxSettings({

@@ -1,5 +1,5 @@
 import React from "react";
-import MessageImg from "./messageImg";
+import MessageImg from "@components/messageImg";
 import "./styles/error.scss";
 
 export default function Error(p) {
