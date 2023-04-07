@@ -87,9 +87,15 @@ export const escapeRegex = (str) => {
   return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
 };
 
-export const replaceInsensitive = function (str, strReplace, strWith) {
+export const replaceInsensitive = (str, strReplace, strWith) => {
   // See http://stackoverflow.com/a/3561711/556609
   let esc = escapeRegex(strReplace);
   let reg = new RegExp(esc, "ig");
   return str.replace(reg, strWith);
+};
+
+// Returns result of predicate with value as argument.
+// If value is an array call it for every array item, until true is returned.
+export const testArrayOrValue = (value, predicate) => {
+  return Array.isArray(value) ? value.some((v) => predicate(v)) : predicate(value);
 };

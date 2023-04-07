@@ -15,7 +15,7 @@ import useSidebar from "@hooks/useSidebar";
 import parseRange from "./parseRange";
 import TextFilter from "./filters/textFilter";
 import { initialSearchResults, searchResultsReducer } from "./searchResults";
-import { createTypeFilters, typeFiltersReducer } from "./typeFilters";
+import { typeFiltersInitializer, typeFiltersReducer } from "./typeFilters";
 
 export default function Timeline({ setFullCover }) {
   const [filterText, setFilterText] = React.useState("");
@@ -52,7 +52,7 @@ export default function Timeline({ setFullCover }) {
     typeFiltersReducer,
     filtersTemplate,
     (template) => {
-      return createTypeFilters(template);
+      return typeFiltersInitializer(template);
     }
   );
   const [sorting, toggleSorting] = React.useReducer(

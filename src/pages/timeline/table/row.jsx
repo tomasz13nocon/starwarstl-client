@@ -72,7 +72,7 @@ const highlightSearchResults = (
 
 export const ANIMATION_TIME = 180;
 
-export default React.memo(function TimelineRow({
+export default React.memo(function Row({
   item,
   activeColumns,
   setFullCover,

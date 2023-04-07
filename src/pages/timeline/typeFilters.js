@@ -1,7 +1,7 @@
 import produce from "immer";
 import _ from "lodash";
 
-const _createTypeFilters = (obj) => {
+const createTypeFilters = (obj) => {
   if (!obj) throw new Error("Incorrect template structure!");
   let ret = {};
   for (const [key, value] of Object.entries(obj)) {
@@ -10,7 +10,7 @@ const _createTypeFilters = (obj) => {
         ? value
         : value.value !== undefined
         ? value.value
-        : _createTypeFilters(value.children || value);
+        : createTypeFilters(value.children || value);
     // value.value - object representing a single filter
     // value.children - standard structure
     // value - object with direct children
@@ -32,20 +32,20 @@ const _createTypeFilters = (obj) => {
 //    or follow the main structure itself.
 // Wheter you use "children" and "value" keys depends on if you want to include other data
 // for a filter or group to be used later (when rendering). The 2 approaches can be mixed freely.
-export const createTypeFilters = (template) => {
+export const typeFiltersInitializer = (template) => {
   try {
-    return _createTypeFilters(template);
+    return createTypeFilters(template);
   } catch (e) {
     throw e instanceof RangeError ? "Incorrect template structure! (infinite recursion)" : e;
   }
 };
 
-const _setChildren = (children, to) => {
+const setChildren = (children, to) => {
   for (let [key, value] of Object.entries(children)) {
     if (typeof value === "boolean") {
       children[key] = to;
     } else {
-      _setChildren(value, to);
+      setChildren(value, to);
     }
   }
 };
@@ -53,6 +53,6 @@ const _setChildren = (children, to) => {
 export const typeFiltersReducer = (state, { path, to }) => {
   return produce(state, (draft) => {
     let atPath = _.get(draft, path);
-    typeof atPath === "boolean" ? _.set(draft, path, to) : _setChildren(atPath, to);
+    typeof atPath === "boolean" ? _.set(draft, path, to) : setChildren(atPath, to);
   });
 };
