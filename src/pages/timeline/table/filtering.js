@@ -5,6 +5,9 @@
 import { testArrayOrValue } from "@/util";
 import _ from "lodash";
 
+const tvEpsRe = /^(\d+)(?:[–-](\d+))?$/;
+const comicRe = /^(.*?)(\d+)$/;
+
 // Timeline range comparison functions
 // by date, by releasedate
 // from, to
@@ -139,6 +142,73 @@ const removeAllFalses = (filters) => {
 };
 
 // --------------------
+
+export function collapseAdjacentEntries(data) {
+  let next,
+    first = null,
+    match;
+
+  return data.filter((item, i, arr) => {
+    next = arr[i + 1];
+    // Remove data from previous render
+    delete item.collapseUntil;
+    delete item.collapsedCount;
+
+    if (
+      (item.type === "tv" &&
+        next?.type === "tv" &&
+        item.series?.length &&
+        next.series?.length &&
+        next.series[0] === item.series[0] &&
+        next.season === item.season &&
+        (match = item.episode?.match(tvEpsRe)) &&
+        +(match[2] ?? match[1]) + 1 === +next.episode?.match(tvEpsRe)[1]) ||
+      (item.fullType === "comic" &&
+        next?.fullType === "comic" &&
+        item.title.match(comicRe)?.[1] === next.title.match(comicRe)?.[1] &&
+        +item.title.match(comicRe)?.[2] + 1 === +next.title.match(comicRe)?.[2])
+    ) {
+      if (first === null) {
+        first = i;
+        return true;
+      }
+      return false;
+    } else if (first !== null) {
+      // Don't collapse just 2 entries
+      if (first !== i - 1) {
+        arr[first].collapseUntil = item;
+        arr[first].collapseUntilTitle = item.title; // We need this specifically for search
+        arr[first].collapseUntilSe = item.se; // We need this specifically for search
+        // arr[first].collapsedCount = i - first; // use this to show how many entries are collapsed
+        first = null;
+        return false;
+      }
+      first = null;
+    }
+    return true;
+  });
+}
+
+export function createSorter(by, ascending) {
+  const aFirst = ascending ? -1 : 1;
+  const bFirst = ascending ? 1 : -1;
+
+  return (a, b) => {
+    let av = a[by],
+      bv = b[by];
+
+    if (by === "releaseDate") {
+      // Unknown release date always means unreleased, therefore the newest
+      if (av == null) return bFirst;
+      if (bv == null) return aFirst;
+      if (a.releaseDateEffective) av = a.releaseDateEffective;
+      if (b.releaseDateEffective) bv = b.releaseDateEffective;
+    }
+    if (av < bv) return aFirst;
+    if (av > bv) return bFirst;
+    return 0;
+  };
+}
 
 export function createRangeStrategy(rangeFrom, rangeTo, timelineRangeBy) {
   let strategy = timelineRangeBy;

@@ -5,13 +5,15 @@ import Ellipsis from "@components/ellipsis";
 import MessageImg from "@components/messageImg";
 import SortingIcon from "@components/sortingIcon";
 import Error from "@components/error";
-import { escapeRegex, searchFields, notSortable, columnNames, testArrayOrValue } from "@/util";
+import { escapeRegex, searchFields, notSortable, columnNames } from "@/util";
 import Row from "./row";
 import "./styles/timeline.scss";
 import {
   Filterer,
+  collapseAdjacentEntries,
   createFieldStrategy,
   createRangeStrategy,
+  createSorter,
   createTextStrategy,
   createTypeStrategy,
 } from "./filtering";
@@ -64,6 +66,21 @@ function Table({
     }
   }, [searchResults.highlight]);
 
+  // We need these for scroll effect as well
+  const sortFilterDeps = [
+    rawData,
+    typeFilters,
+    filterText,
+    sorting,
+    boxFilters,
+    hideUnreleased,
+    hideAdaptations,
+    collapseAdjacent,
+    rangeFrom,
+    rangeTo,
+    timelineRangeBy,
+  ];
+
   // Sort and filter data
   const data = React.useMemo(() => {
     if (rawData.length === 0) return [];
@@ -92,104 +109,28 @@ function Table({
       strategies.push(createTextStrategy(filterText));
     }
 
-    const filterer = new Filterer(rawData, strategies);
-    let tempData = filterer.filter();
-
-    // Sort
     if (sorting.by === "chronology") {
       // Remove items with unknown placement, the ones from the other table
       // TODO: maybe notify user that some items have been hidden?
-      tempData = tempData.filter((item) => item.chronology != null);
+      strategies.push((item) => item.chronology != null);
     }
-    tempData = tempData.sort((a, b) => {
-      let by = sorting.by;
-      if (by === "date") by = "chronology";
-      let av = a[by],
-        bv = b[by];
-      // TODO: micro optimization: make seperate sorting functions based on value of "by" instead of checking it per item
-      if (by === "releaseDate") {
-        // Unknown release date always means unreleased, therefore the newest
-        // == is intended (null or undefined)
-        if (av == null) return sorting.ascending ? 1 : -1;
-        if (bv == null) return sorting.ascending ? -1 : 1;
-        if (a.releaseDateEffective) av = a.releaseDateEffective;
-        if (b.releaseDateEffective) bv = b.releaseDateEffective;
-      }
-      if (av < bv) return sorting.ascending ? -1 : 1;
-      if (av > bv) return sorting.ascending ? 1 : -1;
-      return 0;
-    });
 
-    // Collapse adjacent entries
+    const filterer = new Filterer(rawData, strategies);
+    let tempData = filterer.filter();
+
+    let by = sorting.by === "date" ? "chronology" : sorting.by;
+    tempData = tempData.sort(createSorter(by, sorting.ascending));
+
+    // Collapse adjacent entries. This must be the last step
     if (collapseAdjacent && tempData.length > 2) {
-      let next,
-        first = null,
-        match;
-      const tvEpsRe = /^(\d+)(?:[–-](\d+))?$/;
-      const comicRe = /^(.*?)(\d+)$/;
-
-      tempData = tempData.filter((item, i, arr) => {
-        next = arr[i + 1];
-        // Remove data from previous render
-        delete item.collapseUntil;
-        delete item.collapsedCount;
-
-        if (
-          (item.type === "tv" &&
-            next?.type === "tv" &&
-            item.series?.length &&
-            next.series?.length &&
-            next.series[0] === item.series[0] &&
-            // next?.series?.length === item.series.length &&
-            // next.series.every((el) => item.series.includes(el)) &&
-            next.season === item.season &&
-            (match = item.episode?.match(tvEpsRe)) &&
-            +(match[2] ?? match[1]) + 1 === +next.episode?.match(tvEpsRe)[1]) ||
-          // pls don't ask about this code. it works. trust me.
-          (item.fullType === "comic" &&
-            next?.fullType === "comic" &&
-            item.title.match(comicRe)?.[1] === next.title.match(comicRe)?.[1] &&
-            +item.title.match(comicRe)?.[2] + 1 === +next.title.match(comicRe)?.[2])
-        ) {
-          if (first === null) {
-            first = i;
-            return true;
-          }
-          return false;
-        } else if (first !== null) {
-          // Don't collapse just 2 entries
-          if (first !== i - 1) {
-            arr[first].collapseUntil = item;
-            arr[first].collapseUntilTitle = item.title; // We need this specifically for search
-            arr[first].collapseUntilSe = item.se; // We need this specifically for search
-            // arr[first].collapsedCount = i - first;
-            first = null;
-            return false;
-          }
-          first = null;
-        }
-        return true;
-      });
+      tempData = collapseAdjacentEntries(tempData);
     }
 
     tempData.incomplete = rawData.incomplete;
     return tempData;
-  }, [
-    rawData,
-    typeFilters,
-    filterText,
-    sorting,
-    boxFilters,
-    hideUnreleased,
-    hideAdaptations,
-    collapseAdjacent,
-    rangeFrom,
-    rangeTo,
-    timelineRangeBy,
-  ]);
+  }, sortFilterDeps);
 
   // Scroll to expanded entry on data change.
-  // This effect needs to have the same deps as useMemo above.
   React.useEffect(() => {
     if (expanded) {
       let index = data.findIndex((e) => e._id === expanded);
@@ -202,19 +143,7 @@ function Table({
         });
       }
     }
-  }, [
-    rawData,
-    typeFilters,
-    filterText,
-    sorting,
-    boxFilters,
-    hideUnreleased,
-    hideAdaptations,
-    collapseAdjacent,
-    rangeFrom,
-    rangeTo,
-    timelineRangeBy,
-  ]);
+  }, sortFilterDeps);
 
   // Search (Ctrl-F replacement)
   React.useEffect(() => {
@@ -321,13 +250,9 @@ function Table({
 
             // Get the search results in current row
             if (resultsIndex !== -1) {
-              let searchResultRowIndex;
               do {
                 rowResultCount++;
-              } while (
-                (searchResultRowIndex =
-                  searchResults.results[resultsIndex + rowResultCount]?.rowIndex) === index
-              );
+              } while (searchResults.results[resultsIndex + rowResultCount]?.rowIndex === index);
               rowSearchResults = searchResults.results.slice(
                 resultsIndex,
                 resultsIndex + rowResultCount

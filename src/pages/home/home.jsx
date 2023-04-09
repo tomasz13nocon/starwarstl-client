@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { mdiArrowDown, mdiDiceMultipleOutline } from '@mdi/js';
+import { mdiArrowDown, mdiDiceMultipleOutline } from "@mdi/js";
 import { Icon } from "@mdi/react";
-import TimelineRowDetails from "@components/timelineRowDetails";
+import RowDetails from "@components/rowDetails";
 import Error from "@components/error";
 import { API } from "@/util";
 import Faq from "./faq";
@@ -36,8 +36,7 @@ export default function Home(p) {
         throw new Error(res.statusText);
       }
       data = await res.json();
-    }
-    catch (e) {
+    } catch (e) {
       setRandomItemState({ state: "error", error: e.message });
       return;
     }
@@ -63,23 +62,50 @@ export default function Home(p) {
       <div className="hero-container">
         <div className="bg1"></div>
         <div className="hero">
-          <div>{/* needed for alignment */}
+          <div>
+            {/* needed for alignment */}
             <h1>Star Wars media timeline</h1>
             <div className="cta">
-              <NavLink to="/timeline" className="btn">See Timeline</NavLink>
-              <button className="btn-secondary" onClick={() => window.scrollTo({ top: landingPageContentRef.current?.getBoundingClientRect().top + window.pageYOffset - 30, behavior: "smooth" })}>Learn more</button>
+              <NavLink to="/timeline" className="btn">
+                See Timeline
+              </NavLink>
+              <button
+                className="btn-secondary"
+                onClick={() =>
+                  window.scrollTo({
+                    top:
+                      landingPageContentRef.current?.getBoundingClientRect().top +
+                      window.pageYOffset -
+                      30,
+                    behavior: "smooth",
+                  })
+                }
+              >
+                Learn more
+              </button>
             </div>
           </div>
         </div>
         <div className="random">
-          <div>{/* needed for alignment */}
+          <div>
+            {/* needed for alignment */}
             {/* <h2 className="random-title">Random media</h2> */}
-            <button className={`reroll-btn ${randomItemState.state === "fetching" ? "fetching" : ""}`} onClick={fetchRandomItem}><Icon path={mdiDiceMultipleOutline} size={1.5} className="icon" /><span>Reroll</span></button>
-            {randomItemState.state === "error" ?
+            <button
+              className={`reroll-btn ${randomItemState.state === "fetching" ? "fetching" : ""}`}
+              onClick={fetchRandomItem}
+            >
+              <Icon path={mdiDiceMultipleOutline} size={1.5} className="icon" />
+              <span>Reroll</span>
+            </button>
+            {randomItemState.state === "error" ? (
               <Error details={randomItemState.error} />
-              :
-              <TimelineRowDetails item={randomItem} setFullCover={p.setFullCover} dataState={randomItemState.state === "fetching" ? "fetchingDetails" : "ok"} />
-          }
+            ) : (
+              <RowDetails
+                item={randomItem}
+                setFullCover={p.setFullCover}
+                dataState={randomItemState.state === "fetching" ? "fetchingDetails" : "ok"}
+              />
+            )}
           </div>
         </div>
         <div className="bg2"></div>
@@ -117,27 +143,38 @@ export default function Home(p) {
         </div>
 
         <div className="lightsaber-container">
-          <img onClick={() => {
-            setLightsaber(lightsaber ^ 0b1000);
-            if (lightsaber & 0b1000) stopAndPlay(audioOff.current);
-            else stopAndPlay(audioOn.current);
-          }} className="handle" width="183" src="/img/Lightsaber_anakin_rots.webp" alt="Anakin's lightsaber handle" />
+          <img
+            onClick={() => {
+              setLightsaber(lightsaber ^ 0b1000);
+              if (lightsaber & 0b1000) stopAndPlay(audioOff.current);
+              else stopAndPlay(audioOn.current);
+            }}
+            className="handle"
+            width="183"
+            src="/img/Lightsaber_anakin_rots.webp"
+            alt="Anakin's lightsaber handle"
+          />
           <div className={`lightsaber anakin ${lightsaber & 0b1000 ? "" : "unignited"}`}></div>
         </div>
 
         <Showcase />
 
         <div className="lightsaber-container">
-          <img onClick={() => {
-            setLightsaber(lightsaber ^ 0b0100);
-            if (lightsaber & 0b0100) stopAndPlay(audioOff.current);
-            else stopAndPlay(audioOn.current);
-          }} className="handle" width="183" src="/img/LukeROTJsaber-MR.webp" alt="Luke's lightsaber handle" />
+          <img
+            onClick={() => {
+              setLightsaber(lightsaber ^ 0b0100);
+              if (lightsaber & 0b0100) stopAndPlay(audioOff.current);
+              else stopAndPlay(audioOn.current);
+            }}
+            className="handle"
+            width="183"
+            src="/img/LukeROTJsaber-MR.webp"
+            alt="Luke's lightsaber handle"
+          />
           <div className={`lightsaber luke ${lightsaber & 0b0100 ? "" : "unignited"}`}></div>
         </div>
 
         <Faq />
-
       </div>
       <audio ref={audioOn} src="/sfx/on.mp3" />
       <audio ref={audioOff} src="/sfx/off.mp3" />

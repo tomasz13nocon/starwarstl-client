@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon } from "@mdi/react";
 import { mdiVolumeHigh } from "@mdi/js";
-import TimelineRowDetails from "@components/timelineRowDetails";
+import RowDetails from "@components/rowDetails";
 import EpisodeNumber from "@components/episodeNumber";
 import { imgAddress, Size, buildTvImagePath, searchFields } from "@/util";
 
@@ -85,12 +85,6 @@ export default React.memo(function Row({
   collapseAdjacent,
   dataState,
 }) {
-  const [rowHeight, setRowHeight] = React.useState(0);
-  let rowRef = React.useRef();
-  React.useLayoutEffect(() => {
-    setRowHeight(rowRef.current.clientHeight);
-  }, []);
-
   // TODO: This might be a performance bottlneck. Cut down unnecessary calculations.
   const cells = activeColumns.map((columnName) => {
     let inside = item[columnName],
@@ -130,8 +124,7 @@ export default React.memo(function Row({
         }
         break;
 
-      case "title":
-        let last = 0;
+      case "title": {
         let collapseUntilTitle = item.collapseUntilTitle;
         const expand = () => setExpanded(expanded ? null : item._id);
         if (searchExpanded && rowSearchResults.length && collapseAdjacent && collapseUntilTitle) {
@@ -169,7 +162,6 @@ export default React.memo(function Row({
             {collapseAdjacent && item.collapseUntil ? (
               <>
                 <br />
-                {/* ←{item.collapsedCount - 1} */}
                 <span>・・・</span>
                 <br />
                 <EpisodeNumber item={item.collapseUntil}>
@@ -192,6 +184,7 @@ export default React.memo(function Row({
         classNames += ` ${item.type} ${item.fullType}`;
         onClick = expand;
         break;
+      }
 
       case "releaseDate":
         if (item.unreleased) {
@@ -221,7 +214,6 @@ export default React.memo(function Row({
 
   return (
     <>
-      {/* <div className="standard-row tr"> */}
       <div
         className={`standard-row-inner ${
           !activeColumns.includes("date") &&
@@ -230,13 +222,10 @@ export default React.memo(function Row({
             ? "compact"
             : ""
         }`}
-        ref={rowRef}
       >
         {cells}
       </div>
-      {expanded && (
-        <TimelineRowDetails item={item} setFullCover={setFullCover} dataState={dataState} />
-      )}
+      {expanded && <RowDetails item={item} setFullCover={setFullCover} dataState={dataState} />}
     </>
   );
 });
