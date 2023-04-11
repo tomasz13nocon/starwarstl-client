@@ -177,7 +177,7 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
             ) : null}
             <div className="text">
               <h2 className="title">
-                <WookieeLink>{item.title}</WookieeLink>
+                <WookieeLink title={item.href ?? item.title}>{item.title}</WookieeLink>
               </h2>
               <dl>
                 {Object.entries(getData(item)).map(([key, value]) => (

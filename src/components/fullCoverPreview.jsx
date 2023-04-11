@@ -4,16 +4,13 @@ import { CSSTransition } from "react-transition-group";
 import { imgAddress, Size } from "@/util";
 
 export default function FullCoverPreview({ fullCover, setFullCover }) {
-  const [fullCoverLoaded, setFullCoverLoaded] = React.useState(false);
-
   const nodeRef = React.useRef();
 
   React.useEffect(() => {
     return document.addEventListener(
       "keydown",
       (e) => {
-        if (e.key === "Escape")
-          setFullCover((prev) => ({ ...prev, show: false }));
+        if (e.key === "Escape") setFullCover((prev) => ({ ...prev, show: false }));
       },
       false
     );
@@ -44,7 +41,6 @@ export default function FullCoverPreview({ fullCover, setFullCover }) {
         mountOnEnter
         unmountOnExit
         nodeRef={nodeRef}
-        // onExited={() => setFullCoverLoaded(false)}
       >
         <div
           ref={nodeRef}
@@ -54,18 +50,16 @@ export default function FullCoverPreview({ fullCover, setFullCover }) {
           <div className="full-image-helper">
             <img
               src={imgAddress(fullCover.name, Size.FULL)}
-              onLoad={() => setFullCoverLoaded(true)}
-              // style={{ backgroundImage: `url("${imgAddress(fullCover.name)}")` }}
               width={fullCoverWidth}
               height={fullCoverHeight}
               className="cover"
-              />
-            {/* {!fullCoverLoaded && */}
-              <Blurhash className="blur" hash={fullCover.hash} width={fullCoverWidth} height={fullCoverHeight} />
-            {/* } */}
-            {/* {fullCoverLoaded === false && ( */}
-            {/* <img src={imgAddress(fullCover.name)} /> */}
-            {/* )} */}
+            />
+            <Blurhash
+              className="blur"
+              hash={fullCover.hash}
+              width={fullCoverWidth}
+              height={fullCoverHeight}
+            />
           </div>
         </div>
       </CSSTransition>
