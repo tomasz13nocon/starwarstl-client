@@ -136,6 +136,15 @@ export const appearancesCategories = {
   "c-technology": "Technology (canon)",
   "c-miscellanea": "Miscellanea (canon)",
 };
+export const appearancesTemplateNames = {
+  Co: "Cover only",
+  Flash: "In flashback",
+  Mo: "Mentioned only",
+  Imo: "Indirect mention only",
+  "1st": "First appearance",
+  "1stm": "First mentioned",
+  "1stID": "First identified as ",
+};
 
 // Blur focus from the element if event is a mouse event (e.g. to hide focus ring)
 export function blurIfMouse(event) {

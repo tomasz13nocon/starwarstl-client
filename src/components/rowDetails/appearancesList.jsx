@@ -3,6 +3,7 @@
 import { Fragment, useContext } from "react";
 import WookieeLink from "@components/wookieeLink";
 import { AppearancesContext } from "./context";
+import { appearancesTemplateNames } from "@/util";
 
 // ul
 //  li
@@ -21,20 +22,9 @@ export default function AppearancesNode({ appearances }) {
     return (
       <ul className="apps-list">
         {appearances.List.map((nodes, i) => {
-          // Split nodes because we want to style only the "text" part (span),
-          // without the contained list, based on templates
-          let nodesFlat = nodes.filter((node) => !("List" in node));
-          let nodesList = nodes.filter((node) => "List" in node);
           return (
             <li key={i} className="apps-list-item">
-              <span className="apps-list-item-text">
-                {nodesFlat.map((node, j) => (
-                  <Fragment key={j}>
-                    <AppearancesNode appearances={node} />
-                  </Fragment>
-                ))}
-              </span>
-              {nodesList.map((node, j) => (
+              {nodes.map((node, j) => (
                 <Fragment key={j}>
                   <AppearancesNode appearances={node} />
                 </Fragment>
@@ -50,7 +40,11 @@ export default function AppearancesNode({ appearances }) {
     return <>{appearances.Text.replaceAll(/\(\(.*?\)\)/g, "")}</>;
   } else if ("Template" in appearances) {
     // console.log("appearances.Template", appearances.Template);
-    return <span data-template={appearances.Template.name} />;
+    return (
+      <small className={`apps-list-item-text ${appearances.Template.name.replaceAll(/\d/g, "")}`}>
+        {appearancesTemplateNames[appearances.Template.name]}
+      </small>
+    );
   }
   return <>{console.log(appearances)}</>;
 }
