@@ -3,7 +3,7 @@
  */
 
 import { testArrayOrValue } from "@/util";
-import _ from "lodash";
+import _, { isNaN } from "lodash";
 
 const tvEpsRe = /^(\d+)(?:[–-](\d+))?$/;
 const comicRe = /^(.*?)(\d+)$/;
@@ -198,11 +198,11 @@ export function createSorter(by, ascending) {
       bv = b[by];
 
     if (by === "releaseDate") {
-      // Unknown release date always means unreleased, therefore the newest
-      if (av == null) return bFirst;
-      if (bv == null) return aFirst;
       if (a.releaseDateEffective) av = a.releaseDateEffective;
       if (b.releaseDateEffective) bv = b.releaseDateEffective;
+      // Unknown release date always means unreleased, therefore the newest
+      if (av == null || isNaN(av)) return bFirst;
+      if (bv == null || isNaN(bv)) return aFirst;
     }
     if (av < bv) return aFirst;
     if (av > bv) return bFirst;

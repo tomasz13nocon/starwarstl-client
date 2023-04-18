@@ -98,7 +98,8 @@
   color: $short-story-primary;
 }
 
-.tv, .tv-live-action {
+.tv,
+.tv-live-action {
   background-color: $tv-primary;
   color: $tv-secondary;
 }
@@ -110,7 +111,8 @@
   background-color: $tv-micro-series-primary;
   color: $tv-micro-series-secondary;
 }
-.tv-reversed, .tv-live-action-reversed {
+.tv-reversed,
+.tv-live-action-reversed {
   background-color: $tv-secondary;
   color: $tv-primary;
 }
@@ -294,26 +296,21 @@ input.input-default {
 
 .shield {
   border-radius: 4px;
-  font-size: 0.7em;
-  border: 1px solid black;
-  padding: 0 4px;
-  height: fit-content;
+  font-size: 16px;
+  padding: 2px 6px;
   margin: 0 6px;
-  position:relative;
-  // left: -12px;
-  // top: -8px;
+  font-weight: $weight-bold;
   // transform: rotate(13deg);
   &.new {
-    background: #86cc66;
+    // background: #86cc66;
+    // background: firebrick;
     // background: #803ee9;
     // background: sienna;
-    // background:green;
-    // color: white;
+    // background: green;
+    background: #e1421e;
+    color: white;
   }
 }
-
-
-// 000000000000000000000000000000000000000000000000000
 
 html,
 body {

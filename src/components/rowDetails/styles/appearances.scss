@@ -1,0 +1,83 @@
+@use "@/vars.scss" as *;
+
+.apps-container {
+  margin-bottom: 16px;
+}
+
+.apps-cat-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 8px 0 16px;
+  padding: 0;
+  // column-gap: 10px;
+  .apps-cat {
+    flex-grow: 1;
+    flex-basis: 20%;
+    display: block;
+    padding: 0 6px;
+    box-sizing: border-box;
+    text-align: center;
+    border-bottom: 2px solid $grey4;
+    transition: all 0.1s;
+    &.active {
+      // border-color: $active;
+      border-color: black;
+      background-color: $active2;
+    }
+    button {
+      width: 100%;
+      &[disabled] {
+        pointer-events: none;
+        opacity: 0.4;
+      }
+    }
+  }
+}
+
+.apps-filters {
+  margin: 0 32px;
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+}
+
+.apps-list {
+  list-style: none;
+  // margin-left: 20px;
+  padding-left: 16px;
+}
+.apps-list-item {
+  width: fit-content;
+  margin: 4px;
+}
+.apps-list-item-text {
+  border-radius: 4px;
+  padding: 0 4px;
+}
+.apps-list-item-text:has(> span[data-template]) {
+  border: 1px solid $active;
+}
+.apps-list-item-text:has(> span[data-template="Mo"]),
+.mention {
+  background-color: #8d9de0;
+}
+.apps-list-item-text:has(> span[data-template="Imo"]),
+.indirect-mention {
+  background-color: #b7c1eb;
+}
+.apps-list-item-text:has(> span[data-template="Flash"]),
+.flashback {
+  background-color: #e7d0ad;
+  border-color: #b08a50;
+}
+.apps-list-item-text:has(> span[data-template="1st"]),
+.first-app {
+  background-color: #dbdb7c;
+  border-color: #9a9a3a;
+}
+.apps-list-item-text:has(> span[data-template="1stm"]),
+.first-mention {
+  background-color: #ffffc3;
+}

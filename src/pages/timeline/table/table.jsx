@@ -1,7 +1,5 @@
 import React from "react";
 import { Virtuoso } from "react-virtuoso";
-import { _ } from "lodash";
-import Ellipsis from "@components/ellipsis";
 import MessageImg from "@components/messageImg";
 import SortingIcon from "@components/sortingIcon";
 import Error from "@components/error";
@@ -17,6 +15,7 @@ import {
   createTextStrategy,
   createTypeStrategy,
 } from "./filtering";
+import FetchingImg from "@components/fetchingImg";
 
 function Table({
   filterText,
@@ -222,12 +221,7 @@ function Table({
         ))}
       </div>
       <div className="tbody">
-        {dataState === "fetching" && (
-          <MessageImg img="jediTexts">
-            Accessing sacred Jedi texts
-            <Ellipsis />
-          </MessageImg>
-        )}
+        {dataState === "fetching" && <FetchingImg />}
         {dataState === "error" && <Error />}
         {dataState === "ok" && data.length === 0 && (
           <MessageImg img="void">

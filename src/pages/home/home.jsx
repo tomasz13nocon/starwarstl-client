@@ -2,13 +2,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { mdiArrowDown, mdiDiceMultipleOutline } from "@mdi/js";
 import { Icon } from "@mdi/react";
-import RowDetails from "@components/rowDetails";
+import RowDetails from "@components/rowDetails/rowDetails";
 import Error from "@components/error";
 import { API } from "@/util";
 import Faq from "./faq";
 import Showcase from "./showcase";
-import "./styles/landing.scss";
-// import "./styles/timeline.scss"; // TODO remove
+import "./styles/home.scss";
 
 const stopAndPlay = (audioEl) => {
   if (audioEl) {
@@ -66,11 +65,11 @@ export default function Home(p) {
             {/* needed for alignment */}
             <h1>Star Wars media timeline</h1>
             <div className="cta">
-              <NavLink to="/timeline" className="btn">
+              <NavLink to="/timeline" className="cta-btn">
                 See Timeline
               </NavLink>
               <button
-                className="btn-secondary"
+                className="cta-btn-secondary"
                 onClick={() =>
                   window.scrollTo({
                     top:

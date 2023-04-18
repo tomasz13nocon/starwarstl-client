@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useReducer } from "react";
+import Icon from "@mdi/react";
+import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
 import { Blurhash } from "react-blurhash";
 import { _ } from "lodash";
 import WookieeLink from "@components/wookieeLink";
 import ExternalLink from "@components/externalLink";
-import MessageImg from "@components/messageImg";
-import Ellipsis from "@components/ellipsis";
+import FetchingImg from "@components/fetchingImg";
 import { imgAddress } from "@/util";
+import Appearances from "./appearances";
+import AppearancesFilters from "./appearancesFilters";
+import "./styles/rowDetails.scss";
+import { AppearancesContext } from "./context";
 
 const render = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -138,56 +143,88 @@ const getData = (item) => {
 };
 
 export default React.memo(function RowDetails({ item, setFullCover, dataState }) {
+  const [appearancesVisible, toggleAppearancesVisible] = useReducer((s) => !s, false);
+  const [hideMentions, toggleHideMentions] = useReducer((s) => !s, false);
+  const [hideIndirectMentions, toggleHideIndirectMentions] = useReducer((s) => !s, false);
+  const [hideFlashbacks, toggleHideFlashbacks] = useReducer((s) => !s, false);
+
   return (
     <div className="tr details-row">
       <div className="td">
         {dataState === "fetchingDetails" ? (
-          <MessageImg img="jediTexts">
-            Accessing sacred Jedi texts
-            <Ellipsis />
-          </MessageImg>
+          <FetchingImg />
         ) : (
           <>
-            {item.cover ? (
-              <button
-                className="reset-button cover-button"
-                onClick={() =>
-                  setFullCover({
-                    name: item.cover,
-                    show: true,
-                    width: item.coverWidth,
-                    height: item.coverHeight,
-                    hash: item.coverHash,
-                  })
-                }
-              >
-                <Blurhash
-                  hash={item.coverHash}
-                  width={220}
-                  height={220 / (item.coverWidth / item.coverHeight)}
-                />
-                <img
-                  key={Math.random()}
-                  width={220}
-                  src={imgAddress(item.cover)}
-                  alt={`cover of ${item.title}`}
-                  className={`cover`}
-                />
-              </button>
-            ) : null}
-            <div className="text">
-              <h2 className="title">
-                <WookieeLink title={item.href ?? item.title}>{item.title}</WookieeLink>
-              </h2>
-              <dl>
-                {Object.entries(getData(item)).map(([key, value]) => (
-                  <React.Fragment key={key}>
-                    <dt>{key}:&nbsp;</dt>
-                    <dd>{value}</dd>
-                  </React.Fragment>
-                ))}
-              </dl>
+            <div className="td-inner">
+              {item.cover ? (
+                <button
+                  className="reset-button cover-button"
+                  onClick={() =>
+                    setFullCover({
+                      name: item.cover,
+                      show: true,
+                      width: item.coverWidth,
+                      height: item.coverHeight,
+                      hash: item.coverHash,
+                    })
+                  }
+                >
+                  <Blurhash
+                    hash={item.coverHash}
+                    width={220}
+                    height={220 / (item.coverWidth / item.coverHeight)}
+                  />
+                  <img
+                    key={Math.random()}
+                    width={220}
+                    src={imgAddress(item.cover)}
+                    alt={`cover of ${item.title}`}
+                    className={`cover`}
+                  />
+                </button>
+              ) : null}
+              <div className="text">
+                <h2 className="title">
+                  <WookieeLink title={item.href ?? item.title}>{item.title}</WookieeLink>
+                </h2>
+                <dl>
+                  {Object.entries(getData(item)).map(([key, value]) => (
+                    <React.Fragment key={key}>
+                      <dt>{key}:&nbsp;</dt>
+                      <dd>{value}</dd>
+                    </React.Fragment>
+                  ))}
+                </dl>
+                <div className="appearances-btn-wrapper">
+                  <button
+                    className={`appearances-btn ${appearancesVisible ? "active" : ""}`}
+                    onClick={() => toggleAppearancesVisible(true)}
+                  >
+                    <span>{appearancesVisible ? "Hide appearances" : "Show appearances"}</span>
+                    <Icon
+                      className="icon"
+                      path={appearancesVisible ? mdiChevronUp : mdiChevronDown}
+                    />
+                  </button>
+                  <div className="shield new">NEW</div>
+                </div>
+              </div>
             </div>
+            {appearancesVisible && (
+              <AppearancesContext.Provider
+                value={{
+                  hideMentions,
+                  toggleHideMentions,
+                  hideIndirectMentions,
+                  toggleHideIndirectMentions,
+                  hideFlashbacks,
+                  toggleHideFlashbacks,
+                }}
+              >
+                <AppearancesFilters />
+                <Appearances id={item._id} />
+              </AppearancesContext.Provider>
+            )}
           </>
         )}
       </div>

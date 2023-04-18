@@ -56,6 +56,7 @@ $unknown-secondary: #222;
 
 $focus: #fb8500;
 $accent: #e6a34e;
+$active0: #3a8ee7;
 $active: #39a3e9;
 $active2: #b3d7e9;
 $active3: #123460;
@@ -97,7 +98,6 @@ $width-sm: 576px;
 // $active6: #ebf7ff;
 // $active5: #586778;
 
-
 %reset-button {
   border: none;
   margin: 0;
@@ -117,6 +117,8 @@ $width-sm: 576px;
 
   -webkit-appearance: none;
   appearance: none;
+
+  cursor: pointer;
 }
 
 %cell-fit-content {
@@ -128,15 +130,19 @@ $width-sm: 576px;
 
 %cta-button {
   @extend %reset-button;
+
   &:hover {
     text-decoration: none;
-    opacity:0.85;
+    opacity: 0.85;
   }
+
   padding: 14px 26px;
   border-radius: 10px;
   font-size: 1.2em;
   font-weight: $weight-bold;
   cursor: pointer;
+  background-color: $active0;
+  color: white;
 }
 
 @mixin lightsaber($color) {
@@ -145,5 +151,6 @@ $width-sm: 576px;
   height: 16px;
   border-radius: 0 99px 99px 0;
   border: none;
-  box-shadow: inset 0 0 5px rgba($color, 0.8), 0 0 12px $color, 0 0 30px $color, 0 0 50px $color, 0 0 70px $color;
+  box-shadow: inset 0 0 5px rgba($color, 0.8), 0 0 12px $color, 0 0 30px $color, 0 0 50px $color,
+    0 0 70px $color;
 }

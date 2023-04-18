@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon } from "@mdi/react";
 import { mdiVolumeHigh } from "@mdi/js";
-import RowDetails from "@components/rowDetails";
+import RowDetails from "@components/rowDetails/rowDetails";
 import EpisodeNumber from "@components/episodeNumber";
 import { imgAddress, Size, buildTvImagePath, searchFields } from "@/util";
 

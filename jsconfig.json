@@ -16,6 +16,9 @@
       ],
       "@hooks/*": [
         "src/hooks/*"
+      ],
+      "@rowDetails/*": [
+        "src/components/rowDetails/*"
       ]
     }
   }

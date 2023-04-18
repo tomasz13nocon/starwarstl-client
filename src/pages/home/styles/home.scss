@@ -4,53 +4,63 @@
   h2 {
     font-size: 2.4em;
   }
+
   h3 {
     font-size: 1.4em;
   }
 
   .lightsaber-container {
-    display:flex;
+    display: flex;
     align-items: center;
+
     .handle {
       display: block;
       cursor: pointer;
     }
+
     .lightsaber {
       flex-grow: 1;
-      position:relative;
+      position: relative;
       transform-origin: left;
       transition: max-width 0.4s;
       max-width: calc(100% - 183px);
+
       &.unignited {
         // transform: scaleX(0);
         max-width: 0;
       }
+
       &.anakin {
-        @include lightsaber($color: #0079E0);
+        @include lightsaber($color: #0079e0);
         top: 7px;
         right: 11px;
         border-top-left-radius: 99px;
         border-bottom-left-radius: 40px;
       }
+
       &.luke {
-        @include lightsaber($color: #4FD164);
+        @include lightsaber($color: #4fd164);
         top: 3px;
         right: 5px;
       }
     }
+
     @media (max-width: $width-sm) {
       .handle {
         width: 92px;
       }
+
       .lightsaber {
         max-width: calc(100% - 92px);
       }
+
       // no nesting cause specificity
       .lightsaber.anakin {
         height: 8px;
         top: 4px;
         right: 6px;
       }
+
       .lightsaber.luke {
         height: 8px;
         top: 2px;
@@ -60,17 +70,21 @@
   }
 
   $radius: 40px;
+
   .hero-container {
     display: grid;
-    grid-template-columns: 1fr $main-width*0.5 $main-width*0.5 1fr;
+    grid-template-columns: 1fr $main-width * 0.5 $main-width * 0.5 1fr;
+
     @media (max-width: $width-xl) {
       grid-template-columns: 1fr;
     }
+
     // width: $main-width;
     // margin: 0 auto;
     // background-color: $active4;
 
     position: relative;
+
     &:after {
       content: "";
       display: inline-block;
@@ -81,8 +95,11 @@
       width: 50%;
       height: 250px;
       z-index: -1;
-      transform: rotate(-4deg); // Change hard coded tangent value on .random's margin when changing this. grep 4deg
+      transform: rotate(
+        -4deg
+      ); // Change hard coded tangent value on .random's margin when changing this. grep 4deg
       transform-origin: bottom right;
+
       @media (max-width: $width-xl) {
         display: none;
       }
@@ -92,25 +109,30 @@
   .bg1 {
     background-color: $active4;
   }
+
   .bg2 {
     background-color: $background;
   }
+
   .hero {
     // align-self: center;
     & > div {
       z-index: 2;
     }
+
     display: flex;
     align-items: center;
     background-color: $active4;
     color: white;
     border-bottom-right-radius: $radius;
     padding: 50px 30px;
+
     @media (max-width: $width-sm) {
       padding: 50px 16px;
     }
 
     position: relative;
+
     &:after {
       content: "";
       display: none;
@@ -123,6 +145,7 @@
       z-index: 1;
       transform: rotate(-4deg);
       transform-origin: bottom right;
+
       @media (max-width: $width-xl) {
         display: inline-block;
       }
@@ -131,34 +154,41 @@
     h1 {
       font-size: 4em;
       line-height: 1.2em;
+
       @media (max-width: $width-sm) {
         font-size: 3em;
       }
     }
+
     .cta {
       display: flex;
       flex-wrap: wrap;
       column-gap: 48px;
       row-gap: 24px;
       margin-top: 42px;
+
       @media (max-width: $width-sm) {
         column-gap: 32px;
       }
+
       a {
         display: flex;
         align-items: center;
       }
-      .btn {
+
+      .cta-btn {
         @extend %cta-button;
-        background-color: white;
-        color: black;
       }
-      .btn-secondary {
+
+      .cta-btn-secondary {
         @extend %cta-button;
+        background-color: transparent;
+        color: white;
         border: 3px solid white;
       }
     }
   }
+
   .random {
     // height: 600px;
     display: flex;
@@ -167,52 +197,63 @@
     background: $background;
     border-top-left-radius: $radius;
     position: relative;
+
     @media (max-width: $width-xl) {
       $tan4deg: 0.06992681194; // Used only for this, so way less complex to hard code than provide tan function
       margin-top: calc($tan4deg * (100% - ($radius * 2)));
     }
+
     & > div {
       padding: 24px 32px;
+
       @media (max-width: $width-sm) {
         padding: 24px 16px;
       }
     }
+
     .message-container {
       height: 600px;
     }
+
     .reroll-btn {
-      position:absolute;
+      position: absolute;
       top: 32px;
       left: 38px;
       @extend %reset-button;
-      cursor:pointer;
+      cursor: pointer;
       margin: 0 auto;
-      display:block;
+      display: block;
       border: 2px solid black;
       border-radius: 6px;
       padding: 3px 8px;
       // margin-bottom: 8px;
-      display:flex;
+      display: flex;
       align-items: center;
+
       @keyframes rotate {
         from {
           transform: rotate(0deg);
         }
+
         to {
           transform: rotate(360deg);
         }
       }
+
       &.fetching .icon {
         animation: rotate 1s linear infinite;
       }
+
       .icon {
         margin-right: 8px;
       }
     }
+
     .random-title {
       text-align: center;
       font-size: 2em;
     }
+
     .td {
       border: none;
       // flex-wrap: wrap;
@@ -220,29 +261,37 @@
       width: 100%;
       overflow-y: auto;
       height: 600px;
+
       // margin-top: 50px;
       @media (max-width: $width-xl) {
         height: initial;
       }
+
       @media (max-width: $width-sm) {
         margin-top: 56px;
       }
     }
+
     .cover-button {
       margin: 8px auto 0;
     }
+
     .text {
       margin: 20px auto 0;
     }
+
     .title {
-      text-align:center;
+      text-align: center;
     }
+
     .text:first-child {
       margin-top: 56px;
+
       @media (max-width: $width-sm) {
         margin-top: 0;
       }
     }
+
     &:before {
       content: "";
       width: 100%;
@@ -256,11 +305,10 @@
     }
   }
 
-
   .landing-page-content {
     width: $main-width;
     margin: 108px auto 54px;
-    display:flex;
+    display: flex;
     flex-direction: column;
     gap: 75px;
     // justify-content: space-evenly;
@@ -272,6 +320,7 @@
       margin-right: 24px;
     }
   }
+
   .features {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -279,13 +328,16 @@
     gap: 24px;
     justify-content: center;
     color: white;
+
     @media (max-width: $width-xl) {
       grid-template-columns: 400px;
     }
+
     @media (max-width: $width-sm) {
       grid-template-columns: 1fr;
     }
   }
+
   .feature {
     padding: 4px 24px;
     border-radius: 10px;
@@ -295,13 +347,14 @@
     display: grid;
     grid-template-rows: 1fr auto 1fr;
     align-items: center;
-    text-align:center;
+    text-align: center;
+
     .icon {
       justify-self: center;
     }
+
     @media (max-width: $width-xl) {
       // justify-content:center;
     }
   }
-
 }
