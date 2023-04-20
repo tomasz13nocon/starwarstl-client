@@ -15,9 +15,9 @@ import { appearancesTemplateNames } from "@/util";
 //    ...
 
 export default function AppearancesNode({ appearances }) {
-  const { hideMentions, hideIndirectMentions, hideFlashbacks } = useContext(AppearancesContext);
+  const { hideMentions, hideIndirectMentions, hideFlashbacks, hideHolograms } =
+    useContext(AppearancesContext);
 
-  // console.log("appearances", appearances);
   if ("List" in appearances) {
     return (
       <ul className="apps-list">
@@ -37,14 +37,27 @@ export default function AppearancesNode({ appearances }) {
   } else if ("Link" in appearances) {
     return <WookieeLink title={appearances.Link.target}>{appearances.Link.text}</WookieeLink>;
   } else if ("Text" in appearances) {
-    return <>{appearances.Text.replaceAll(/\(\(.*?\)\)/g, "")}</>;
+    return <>{appearances.Text}</>;
   } else if ("Template" in appearances) {
-    // console.log("appearances.Template", appearances.Template);
-    return (
-      <small className={`apps-list-item-text ${appearances.Template.name.replaceAll(/\d/g, "")}`}>
-        {appearancesTemplateNames[appearances.Template.name]}
+    let hidden =
+      (hideMentions && appearances.Template.name === "Mo") ||
+      (hideIndirectMentions && appearances.Template.name === "Imo") ||
+      (hideFlashbacks && appearances.Template.name === "Flash") ||
+      (hideHolograms && appearances.Template.name === "Hologram");
+    let name = appearancesTemplateNames[appearances.Template.name];
+    return name !== undefined ? (
+      <small
+        className={`apps-list-item-text ${appearances.Template.name.replaceAll(/\d/g, "")} ${
+          hidden ? "hidden" : ""
+        }`}
+      >
+        {name}
+        {appearances.Template.parameters[0]?.value[0]?.Text}
       </small>
-    );
+    ) : null;
   }
-  return <>{console.log(appearances)}</>;
+
+  // unreachable
+  if (import.meta.env.PROD) return null;
+  throw new Error("Unknown appearances node: " + JSON.stringify(appearances));
 }

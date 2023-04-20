@@ -84,6 +84,7 @@ export default React.memo(function Row({
   searchText,
   collapseAdjacent,
   dataState,
+  scrollToId,
 }) {
   // TODO: This might be a performance bottlneck. Cut down unnecessary calculations.
   const cells = activeColumns.map((columnName) => {
@@ -126,7 +127,13 @@ export default React.memo(function Row({
 
       case "title": {
         let collapseUntilTitle = item.collapseUntilTitle;
-        const expand = () => setExpanded(expanded ? null : item._id);
+        const expand = () => {
+          if (expanded) setExpanded(null);
+          else {
+            setExpanded(item._id);
+            // scrollToId(item._id);
+          }
+        };
         if (searchExpanded && rowSearchResults.length && collapseAdjacent && collapseUntilTitle) {
           collapseUntilTitle = highlightSearchResults(
             collapseUntilTitle,

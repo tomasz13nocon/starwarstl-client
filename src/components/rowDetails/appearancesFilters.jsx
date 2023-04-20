@@ -10,6 +10,8 @@ export default function AppearancesFilters() {
     toggleHideIndirectMentions,
     hideFlashbacks,
     toggleHideFlashbacks,
+    hideHolograms,
+    toggleHideHolograms,
   } = useContext(AppearancesContext);
 
   return (
@@ -21,6 +23,7 @@ export default function AppearancesFilters() {
         onChange={toggleHideIndirectMentions}
       />
       <Checkbox name="Hide flashbacks" value={hideFlashbacks} onChange={toggleHideFlashbacks} />
+      <Checkbox name="Hide holograms" value={hideHolograms} onChange={toggleHideHolograms} />
     </div>
   );
 }

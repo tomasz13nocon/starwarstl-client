@@ -129,18 +129,25 @@ function Table({
     return tempData;
   }, sortFilterDeps);
 
-  // Scroll to expanded entry on data change.
-  React.useEffect(() => {
-    if (expanded) {
-      let index = data.findIndex((e) => e._id === expanded);
+  const scrollToId = React.useCallback(
+    (id) => {
+      let index = data.findIndex((e) => e._id === id);
       if (index !== -1) {
-        virtuoso.current.scrollToIndex({
+        virtuoso.current?.scrollToIndex({
           index: index,
           align: "center",
           // behavior: behavior,
           // offset: -100,
         });
       }
+    },
+    [data, virtuoso.current]
+  );
+
+  // Scroll to expanded entry on data change.
+  React.useEffect(() => {
+    if (expanded) {
+      scrollToId(expanded);
     }
   }, sortFilterDeps);
 
@@ -274,6 +281,7 @@ function Table({
                   searchText={searchResults.text}
                   collapseAdjacent={collapseAdjacent}
                   dataState={dataState}
+                  scrollToId={scrollToId}
                 />
               </div>
             );

@@ -137,13 +137,15 @@ export const appearancesCategories = {
   "c-miscellanea": "Miscellanea (canon)",
 };
 export const appearancesTemplateNames = {
-  Co: "Cover only",
-  Flash: "In flashback",
-  Mo: "Mentioned only",
-  Imo: "Indirect mention only",
-  "1st": "First appearance",
-  "1stm": "First mentioned",
-  "1stID": "First identified as ",
+  Co: "cover only",
+  Flash: "in flashback",
+  Hologram: "in hologram",
+  Mo: "mentioned only",
+  Imo: "indirect mention only",
+  "1st": "first appearance",
+  "1stm": "first mentioned",
+  "1stID": "first identified as: ",
+  C: "",
 };
 
 // Blur focus from the element if event is a mouse event (e.g. to hide focus ring)

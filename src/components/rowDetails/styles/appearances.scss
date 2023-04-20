@@ -38,9 +38,11 @@
 }
 
 .apps-filters {
-  margin: 0 32px;
+  margin: 16px 32px;
   display: flex;
-  gap: 32px;
+  flex-wrap: wrap;
+  column-gap: 32px;
+  row-gap: 8px;
   justify-content: center;
 }
 
@@ -52,35 +54,47 @@
 .apps-list-item {
   width: fit-content;
   margin: 2px;
+
+  &:has(> .hidden) {
+    display: none;
+  }
 }
 .apps-list-item-text {
+  display: inline-block;
   border-radius: 4px;
   padding: 0 4px;
-  border: 1px solid $active;
-  text-transform: lowercase;
+  border: 1px solid $grey2;
   font-size: 12px;
   &.Co {
-    background-color: #abe493;
-    border-color: #5e9a3a;
+    background-color: #f1c9c7;
+    border-color: #cf837e;
   }
   &.Mo {
-    background-color: #93a3e4;
+    background-color: #d3dbf7;
     border-color: #3e4f9a;
   }
   &.Imo {
-    background-color: #ccd4f5;
-    border-color: #6e7db3;
+    background-color: #dff0f8;
+    border-color: #5e6f9a;
   }
   &.Flash {
     background-color: #e7d0ad;
     border-color: #b08a50;
   }
+  &.Hologram {
+    background-color: #cef6eb;
+    border-color: #6fc4af;
+  }
   &.st {
-    background-color: #dbdb7c;
-    border-color: #9a9a3a;
+    background-color: #e5f6d4;
+    border-color: #7cb15d;
   }
   &.stm {
-    background-color: #ffffc3;
-    border-color: #c2c27a;
+    background-color: #f7f6d6;
+    border-color: #b8c583;
+  }
+  &.stID {
+    background-color: #f9ecfc;
+    border-color: #b671b6;
   }
 }

@@ -88,7 +88,6 @@ export default function Home(p) {
         <div className="random">
           <div>
             {/* needed for alignment */}
-            {/* <h2 className="random-title">Random media</h2> */}
             <button
               className={`reroll-btn ${randomItemState.state === "fetching" ? "fetching" : ""}`}
               onClick={fetchRandomItem}

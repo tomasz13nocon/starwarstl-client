@@ -147,6 +147,7 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
   const [hideMentions, toggleHideMentions] = useReducer((s) => !s, false);
   const [hideIndirectMentions, toggleHideIndirectMentions] = useReducer((s) => !s, false);
   const [hideFlashbacks, toggleHideFlashbacks] = useReducer((s) => !s, false);
+  const [hideHolograms, toggleHideHolograms] = useReducer((s) => !s, false);
 
   return (
     <div className="tr details-row">
@@ -219,8 +220,11 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
                   toggleHideIndirectMentions,
                   hideFlashbacks,
                   toggleHideFlashbacks,
+                  hideHolograms,
+                  toggleHideHolograms,
                 }}
               >
+                <hr />
                 <AppearancesFilters />
                 <Appearances id={item._id} />
               </AppearancesContext.Provider>
