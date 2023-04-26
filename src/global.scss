@@ -14,6 +14,10 @@
   vertical-align: sub;
 }
 
+.bold {
+  font-weight: $weight-bold;
+}
+
 .book {
   background: $book-a-primary;
   color: $book-secondary;

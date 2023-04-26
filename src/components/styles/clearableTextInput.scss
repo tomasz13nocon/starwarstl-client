@@ -1,7 +1,6 @@
 @use "@/vars.scss" as *;
 
 .clear-input-container {
-
   position: relative;
 
   .clear-input {
@@ -23,6 +22,20 @@
     }
   }
 
+  .bullet {
+    position: absolute;
+    font-size: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 7px;
+    padding: 0 4px;
+    border: 1px solid $active;
+    border-radius: 6px;
+    background-color: $active7;
+    &:hover {
+      background-color: $active8;
+    }
+  }
 
   input.active {
     background: $active6;
@@ -34,6 +47,4 @@
   input.small + .clear-input {
     right: 1px;
   }
-
 }
-

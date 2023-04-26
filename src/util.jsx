@@ -3,9 +3,7 @@ export const API =
   // "//" +
   // (import.meta.env.VITE_API_HOST ?? window.location.hostname) +
   (import.meta.env.VITE_API_HOST ?? "") + "/api/";
-// export const API = "/api/";
 export const IMAGE_PATH = (import.meta.env.VITE_IMG_HOST ?? "") + "/img/covers/";
-// export const IMAGE_PATH = "/img/covers/";
 export const TV_IMAGE_PATH = `/img/tv-images/thumb/`;
 export const ERA_IMAGE_PATH = `/img/eras/`;
 export const Audience = Object.freeze({
@@ -61,81 +59,93 @@ export const suggestionPriority = [
   "game-browser",
   "unknown",
 ];
-// "dramatis personae"
-// "other characters"
-// "characters"
-// "creatures"
-// "droids"
-// "events"
-// "locations"
-// "organizations"
-// "species"
-// "vehicles"
-// "technology"
-// "miscellanea"
-// "l-dramatis personae"
-// "l-other characters"
-// "l-characters"
-// "l-creatures"
-// "l-droids"
-// "l-events"
-// "l-locations"
-// "l-organizations"
-// "l-species"
-// "l-vehicles"
-// "l-technology"
-// "l-miscellanea"
-// "c-dramatis personae"
-// "c-other characters"
-// "c-characters"
-// "c-creatures"
-// "c-droids"
-// "c-events"
-// "c-locations"
-// "c-organizations"
-// "c-species"
-// "c-vehicles"
-// "c-technology"
-// "c-miscellanea"
 
-export const appearancesCategories = {
+export const appearancesCategoriesNames = {
+  // "dramatis personae": "Dramatis personae",
+  // "other characters": "Other characters",
+  // characters: "Characters",
+  // creatures: "Creatures",
+  // droids: "Droids",
+  // events: "Events",
+  // locations: "Locations",
+  // organizations: "Organizations",
+  // species: "Species",
+  // vehicles: "Vehicles",
+  // technology: "Technology",
+  // miscellanea: "Miscellanea",
+  // "l-dramatis personae": "Dramatis personae",
+  // "l-other characters": "Other characters",
+  // "l-characters": "Characters",
+  // "l-creatures": "Creatures",
+  // "l-droids": "Droids",
+  // "l-events": "Events",
+  // "l-locations": "Locations",
+  // "l-organizations": "Organizations",
+  // "l-species": "Species",
+  // "l-vehicles": "Vehicles",
+  // "l-technology": "Technology",
+  // "l-miscellanea": "Miscellanea",
+  // "c-dramatis personae": "Dramatis personae",
+  // "c-other characters": "Other characters",
+  // "c-characters": "Characters",
+  // "c-creatures": "Creatures",
+  // "c-droids": "Droids",
+  // "c-events": "Events",
+  // "c-locations": "Locations",
+  // "c-organizations": "Organizations",
+  // "c-species": "Species",
+  // "c-vehicles": "Vehicles",
+  // "c-technology": "Technology",
+  // "c-miscellanea": "Miscellanea",
   "dramatis personae": "Dramatis personae",
   "other characters": "Other characters",
   characters: "Characters",
   creatures: "Creatures",
-  droids: "Droids",
+  droids: "Droid models",
   events: "Events",
   locations: "Locations",
-  organizations: "Organizations",
-  species: "Species",
-  vehicles: "Vehicles",
-  technology: "Technology",
+  organizations: "Organizations and titles",
+  species: "Sentient species",
+  vehicles: "Vehicles and vessels",
+  technology: "Weapons and technology",
   miscellanea: "Miscellanea",
-  "l-dramatis personae": "Dramatis personae (legends)",
-  "l-other characters": "Other characters (legends)",
-  "l-characters": "Characters (legends)",
-  "l-creatures": "Creatures (legends)",
-  "l-droids": "Droids (legends)",
-  "l-events": "Events (legends)",
-  "l-locations": "Locations (legends)",
-  "l-organizations": "Organizations (legends)",
-  "l-species": "Species (legends)",
-  "l-vehicles": "Vehicles (legends)",
-  "l-technology": "Technology (legends)",
-  "l-miscellanea": "Miscellanea (legends)",
-  "c-dramatis personae": "Dramatis personae (canon)",
-  "c-other characters": "Other characters (canon)",
-  "c-characters": "Characters (canon)",
-  "c-creatures": "Creatures (canon)",
-  "c-droids": "Droids (canon)",
-  "c-events": "Events (canon)",
-  "c-locations": "Locations (canon)",
-  "c-organizations": "Organizations (canon)",
-  "c-species": "Species (canon)",
-  "c-vehicles": "Vehicles (canon)",
-  "c-technology": "Technology (canon)",
-  "c-miscellanea": "Miscellanea (canon)",
+  "l-dramatis personae": "Dramatis personae",
+  "l-other characters": "Other characters",
+  "l-characters": "Characters",
+  "l-creatures": "Creatures",
+  "l-droids": "Droid models",
+  "l-events": "Events",
+  "l-locations": "Locations",
+  "l-organizations": "Organizations and titles",
+  "l-species": "Sentient species",
+  "l-vehicles": "Vehicles and vessels",
+  "l-technology": "Weapons and technology",
+  "l-miscellanea": "Miscellanea",
+  "c-dramatis personae": "Dramatis personae",
+  "c-other characters": "Other characters",
+  "c-characters": "Characters",
+  "c-creatures": "Creatures",
+  "c-droids": "Droid models",
+  "c-events": "Events",
+  "c-locations": "Locations",
+  "c-organizations": "Organizations and titles",
+  "c-species": "Sentient species",
+  "c-vehicles": "Vehicles and vessels",
+  "c-technology": "Weapons and technology",
+  "c-miscellanea": "Miscellanea",
 };
+export const appearancesCategories = [
+  "characters",
+  "creatures",
+  "droids",
+  "events",
+  "locations",
+  "organizations",
+  "species",
+  "vehicles",
+  "technology",
+  "miscellanea",
+];
 export const appearancesTemplateNames = {
   Co: "cover only",
   Flash: "in flashback",
@@ -159,11 +169,6 @@ export const imgAddress = (filename, size = Size.SMALL) => {
   if (!filename) return null;
   if (/^https?:\/\//.test(filename)) return filename;
   return `${IMAGE_PATH}${size}${encodeURIComponent(filename)}`;
-  // return `https://starwars.fandom.com/wiki/Special:FilePath/${filename}`;
-  // let hash = md5(filename);
-  // return `https://static.wikia.nocookie.net/starwars/images/${
-  //   hash[0]
-  // }/${hash.slice(0, 2)}/${filename}/revision/latest/scale-to-width-down/3000`;
 };
 
 export const buildTvImagePath = (seriesTitle) =>

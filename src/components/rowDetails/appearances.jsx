@@ -1,7 +1,10 @@
-import { API, appearancesCategories } from "@/util";
+import { API, appearancesCategoriesNames } from "@/util";
 import { useEffect, useState } from "react";
 import "./styles/appearances.scss";
 import AppearancesNode from "./appearancesList";
+import AppearancesSettings from "./appearancesSettings";
+import Error from "@components/error";
+import FetchingImg from "@components/fetchingImg";
 
 export default function Appearances({ id }) {
   const [appearances, setAppearances] = useState([]);
@@ -21,28 +24,67 @@ export default function Appearances({ id }) {
       .finally(() => setFetching(false));
   }, []);
 
+  const canonCatName = "c-" + activeCategory?.name.substring(2);
+  const legendsCatName = "l-" + activeCategory?.name.substring(2);
+  const canonCat = appearances.find((cat) => cat.name === canonCatName);
+  const legendsCat = appearances.find((cat) => cat.name === legendsCatName);
+  let displayedCats = [];
   return (
     <div className="apps-container">
-      {fetching && <p>Fetching appearances...</p>}
-      {error && <p>There was an error fetching appearances.</p>}
+      {fetching && <FetchingImg />}
+      {error && <Error />}
       {!fetching && !error && (
         <>
           <ul className="apps-cat-list">
-            {appearances.map((category) => (
-              <li
-                key={category.name}
-                className={`apps-cat ${category.name === activeCategory?.name ? "active" : ""}`}
-              >
-                <button
-                  className={`reset-button`}
-                  disabled={category.value.length === 0}
-                  onClick={() => setActiveCategory(category)}
+            {appearances.map((category) => {
+              if (displayedCats.includes(appearancesCategoriesNames[category.name])) return null;
+              displayedCats.push(appearancesCategoriesNames[category.name]);
+              return (
+                <li
+                  key={category.name}
+                  className={`apps-cat apps-cat-btn-container ${
+                    category.name === activeCategory?.name ||
+                    category.name === canonCatName ||
+                    category.name === legendsCatName
+                      ? "active"
+                      : ""
+                  }`}
                 >
-                  {appearancesCategories[category.name]}
+                  <button
+                    className="apps-cat-btn"
+                    disabled={category.value.length === 0}
+                    onClick={() => setActiveCategory(category)}
+                  >
+                    {appearancesCategoriesNames[category.name]}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+
+          {canonCat && legendsCat && (
+            <ul className="apps-cat-list">
+              <li
+                className={`apps-cat-canonicity apps-cat-btn-container ${
+                  activeCategory?.name === canonCatName ? "active" : ""
+                }`}
+              >
+                <button onClick={() => setActiveCategory(canonCat)} className="apps-cat-btn">
+                  Canon
                 </button>
               </li>
-            ))}
-          </ul>
+              <li
+                className={`apps-cat-canonicity apps-cat-btn-container ${
+                  activeCategory?.name === legendsCatName ? "active" : ""
+                }`}
+              >
+                <button onClick={() => setActiveCategory(legendsCat)} className="apps-cat-btn">
+                  Legends
+                </button>
+              </li>
+            </ul>
+          )}
+
           {activeCategory && <AppearancesNode appearances={activeCategory.value[0]} />}
         </>
       )}

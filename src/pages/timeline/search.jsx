@@ -3,29 +3,20 @@ import { Icon } from "@mdi/react";
 import { mdiMagnify, mdiClose, mdiChevronUp, mdiChevronDown } from "@mdi/js";
 import "./styles/search.scss";
 
-export default function Search({
-  expanded,
-  toggleExpanded,
-  searchResults,
-  dispatchSearchResults,
-}) {
+export default function Search({ expanded, toggleExpanded, searchResults, dispatchSearchResults }) {
   const searchInputRef = React.useRef();
 
   React.useEffect(() => {
     let handler = function (e) {
-      if (
-        e.keyCode === 114 ||
-        (e.ctrlKey && e.keyCode === 70) ||
-        (e.ctrlKey && e.keyCode === 71)
-      ) {
+      if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70) || (e.ctrlKey && e.keyCode === 71)) {
+        if (e.keyCode === 70 && document.activeElement === searchInputRef.current) return;
         e.preventDefault();
         toggleExpanded(true);
         searchInputRef.current?.focus();
-        if (e.keyCode === 71 || e.keyCode === 114) { // ctrl-g or F3
-          if (e.shiftKey)
-            dispatchSearchResults({ type: "highlightPrev" });
-          else
-            dispatchSearchResults({ type: "highlightNext" });
+        if (e.keyCode === 71 || e.keyCode === 114) {
+          // ctrl-g or F3
+          if (e.shiftKey) dispatchSearchResults({ type: "highlightPrev" });
+          else dispatchSearchResults({ type: "highlightNext" });
         }
       }
     };
@@ -53,7 +44,9 @@ export default function Search({
             onKeyDown={(e) => e.key === "Escape" && toggleExpanded()}
           />
           <div className="button-container">
-            <span className="result-count">{(searchResults.highlight?.overallIndex ?? 0)}/{searchResults.overallSize}</span>
+            <span className="result-count">
+              {searchResults.highlight?.overallIndex ?? 0}/{searchResults.overallSize}
+            </span>
             <button
               onClick={(e) => dispatchSearchResults({ type: "highlightPrev" })}
               aria-label="Clear search"

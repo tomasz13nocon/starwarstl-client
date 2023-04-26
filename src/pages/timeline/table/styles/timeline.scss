@@ -152,6 +152,17 @@ $full-image-transition: 0.2s;
   background-color: black;
 }
 
+.filter-indicator {
+  font-size: 14px;
+  font-weight: normal;
+  opacity: 0.9;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
 .thead {
   position: sticky;
   top: 0;

@@ -240,31 +240,69 @@ export function createFieldStrategy(boxFilters) {
   };
 }
 
+let matchedApps = {};
+export const getMatchedApps = () => matchedApps;
+
 // filter by text. Searches title, writer, series
-export function createTextStrategy(filterText) {
-  // TODO: refactor
-  // const re = /"([^"]*?)"/g;
-  // let exact = Array.from(filterText.toLowerCase().matchAll(re));
-  // let queries = filterText.replace(re, "").split(";");
-  // let queries = filterText.toLowerCase().split(";");
-  let queries = [filterText.toLowerCase()];
-  return (item) => {
-    let r = queries.map((v) => v.trim()).filter((v) => v);
-    return r.length
-      ? r.some((query) =>
-          query
-            .split(" ")
-            .reduce(
-              (acc, value) =>
-                acc &&
-                (item.title.toLowerCase().includes(value) ||
-                  item.writer?.reduce((acc, v) => acc || v?.toLowerCase().includes(value), false) ||
-                  item.series?.reduce((acc, v) => acc || v?.toLowerCase().includes(value), false)),
-              true
-            )
+// if filterCategory is truthy, filter by appearances of that category
+export function createTextStrategy(filterText, filterCategory, appearances, appearancesFilters) {
+  let queries = filterText
+    .toLowerCase()
+    .trim()
+    .split(" ")
+    .filter((q) => q);
+
+  if (filterCategory) {
+    // Appearances not fetched yet
+    if (!appearances[filterCategory]) return (item) => item;
+
+    // TODO improve naming 🙄
+    matchedApps = {};
+
+    let matchingApps = appearances[filterCategory].filter((appearance) =>
+      queries.reduce((acc, query) => {
+        if (acc && appearance.name.toLowerCase().includes(query)) {
+          // TODO add range of match (use indexOf instead of includes)
+          // TODO change ids to media
+          for (let id of appearance.ids) {
+            matchedApps[id.id] = matchedApps[id.id] || [];
+            if (matchedApps[id.id].find((app) => app.name === appearance.name)) continue;
+            matchedApps[id.id].push({
+              name: appearance.name,
+              t: id.t,
+            });
+          }
+          return true;
+        }
+        return false;
+      }, true)
+    );
+    matchingApps = new Set(
+      matchingApps
+        .map((app) => app.ids)
+        .flat()
+        .filter(
+          (ids) =>
+            !(appearancesFilters.hideIndirectMentions && ids.t?.includes("Imo")) &&
+            !(appearancesFilters.hideMentions && ids.t?.includes("Mo")) &&
+            !(appearancesFilters.hideFlashbacks && ids.t?.includes("Flash")) &&
+            !(appearancesFilters.hideHolograms && ids.t?.includes("Hologram"))
         )
-      : r;
-  };
+        .map((ids) => ids.id)
+    );
+
+    return (item) => matchingApps.has(item._id);
+  }
+
+  return (item) =>
+    queries.reduce(
+      (acc, query) =>
+        acc &&
+        (item.title.toLowerCase().includes(query) ||
+          item.writer?.reduce((acc, v) => acc || v?.toLowerCase().includes(query), false) ||
+          item.series?.reduce((acc, v) => acc || v?.toLowerCase().includes(query), false)),
+      true
+    );
 }
 
 export class Filterer {

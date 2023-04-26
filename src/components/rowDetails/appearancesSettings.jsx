@@ -2,7 +2,7 @@ import Checkbox from "@components/checkbox";
 import { useContext } from "react";
 import { AppearancesContext } from "./context";
 
-export default function AppearancesFilters() {
+export default function AppearancesSettings() {
   const {
     hideMentions,
     toggleHideMentions,

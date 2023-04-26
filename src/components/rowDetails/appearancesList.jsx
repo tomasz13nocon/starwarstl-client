@@ -3,16 +3,7 @@
 import { Fragment, useContext } from "react";
 import WookieeLink from "@components/wookieeLink";
 import { AppearancesContext } from "./context";
-import { appearancesTemplateNames } from "@/util";
-
-// ul
-//  li
-//    span
-//    ul
-//      li
-//        ...
-//  li
-//    ...
+import AppearanceShield from "./appearanceShield";
 
 export default function AppearancesNode({ appearances }) {
   const { hideMentions, hideIndirectMentions, hideFlashbacks, hideHolograms } =
@@ -44,17 +35,7 @@ export default function AppearancesNode({ appearances }) {
       (hideIndirectMentions && appearances.Template.name === "Imo") ||
       (hideFlashbacks && appearances.Template.name === "Flash") ||
       (hideHolograms && appearances.Template.name === "Hologram");
-    let name = appearancesTemplateNames[appearances.Template.name];
-    return name !== undefined ? (
-      <small
-        className={`apps-list-item-text ${appearances.Template.name.replaceAll(/\d/g, "")} ${
-          hidden ? "hidden" : ""
-        }`}
-      >
-        {name}
-        {appearances.Template.parameters[0]?.value[0]?.Text}
-      </small>
-    ) : null;
+    return <AppearanceShield template={appearances.Template} hidden={hidden} />;
   }
 
   // unreachable

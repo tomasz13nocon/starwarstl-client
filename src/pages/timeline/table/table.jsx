@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Virtuoso } from "react-virtuoso";
 import MessageImg from "@components/messageImg";
 import SortingIcon from "@components/sortingIcon";
@@ -14,11 +14,14 @@ import {
   createSorter,
   createTextStrategy,
   createTypeStrategy,
+  getMatchedApps,
 } from "./filtering";
 import FetchingImg from "@components/fetchingImg";
+import AppearanceShield from "@components/rowDetails/appearanceShield";
 
 function Table({
   filterText,
+  filterCategory,
   typeFilters,
   rawData,
   boxFilters,
@@ -36,6 +39,8 @@ function Table({
   rangeTo,
   timelineRangeBy,
   setFullCover,
+  appearances,
+  appearancesFilters,
 }) {
   const [expanded, setExpanded] = React.useState(null);
 
@@ -70,6 +75,7 @@ function Table({
     rawData,
     typeFilters,
     filterText,
+    filterCategory,
     sorting,
     boxFilters,
     hideUnreleased,
@@ -78,6 +84,8 @@ function Table({
     rangeFrom,
     rangeTo,
     timelineRangeBy,
+    appearances,
+    appearancesFilters,
   ];
 
   // Sort and filter data
@@ -105,7 +113,9 @@ function Table({
     }
 
     if (filterText) {
-      strategies.push(createTextStrategy(filterText));
+      strategies.push(
+        createTextStrategy(filterText, filterCategory, appearances, appearancesFilters)
+      );
     }
 
     if (sorting.by === "chronology") {
@@ -211,6 +221,8 @@ function Table({
     }
   }, [searchResults.text, data]);
 
+  const matchedApps = getMatchedApps();
+
   return (
     <div className="container table">
       <div className="thead">
@@ -282,7 +294,28 @@ function Table({
                   collapseAdjacent={collapseAdjacent}
                   dataState={dataState}
                   scrollToId={scrollToId}
-                />
+                >
+                  {filterCategory && filterText && (
+                    <div className="filter-indicator">
+                      {/* TODO maybe limit the amount of shown matches */}
+                      Matched {filterCategory}:{" "}
+                      {matchedApps[item._id]?.map((app, i) => (
+                        <Fragment key={app.name}>
+                          {i > 0 && ", "}
+                          <span className="bold">{app.name}</span>
+                          {app.t
+                            ?.filter((t) => t === "1st" || t === "1stm")
+                            .map((t, j) => (
+                              <Fragment key={j}>
+                                {" "}
+                                <AppearanceShield template={{ name: t, parameters: [] }} />{" "}
+                              </Fragment>
+                            ))}
+                        </Fragment>
+                      ))}
+                    </div>
+                  )}
+                </Row>
               </div>
             );
           }}

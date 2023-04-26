@@ -85,6 +85,7 @@ export default React.memo(function Row({
   collapseAdjacent,
   dataState,
   scrollToId,
+  children,
 }) {
   // TODO: This might be a performance bottlneck. Cut down unnecessary calculations.
   const cells = activeColumns.map((columnName) => {
@@ -131,7 +132,6 @@ export default React.memo(function Row({
           if (expanded) setExpanded(null);
           else {
             setExpanded(item._id);
-            // scrollToId(item._id);
           }
         };
         if (searchExpanded && rowSearchResults.length && collapseAdjacent && collapseUntilTitle) {
@@ -145,6 +145,7 @@ export default React.memo(function Row({
         }
         inside = (
           <div name="expand" tabIndex="0" onKeyDown={(e) => e.keyCode === 13 && expand()}>
+            {children}
             {item.type === "tv" && item.series?.length ? (
               <>
                 <img

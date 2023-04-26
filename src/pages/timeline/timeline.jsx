@@ -16,11 +16,14 @@ import parseRange from "./parseRange";
 import TextFilter from "./filters/textFilter";
 import { initialSearchResults, searchResultsReducer } from "./searchResults";
 import { typeFiltersInitializer, typeFiltersReducer } from "./typeFilters";
+import AppearancesFilterSettings from "./filters/appearancesFilterSettings";
+import { FiltersContext } from "./context";
 
 export default function Timeline({ setFullCover }) {
-  const [filterText, setFilterText] = React.useState("");
   const [rawData, setRawData] = React.useState([]);
   const [seriesArr, setSeriesArr] = React.useState([]);
+  const [filterText, setFilterText] = React.useState("");
+  const [filterCategory, setFilterCategory] = React.useState("");
   const [suggestions, setSuggestions] = React.useState([]);
   const [boxFilters, setBoxFilters] = React.useState([]);
   const [timelineRangeBy, setTimelineRangeBy] = React.useState("date");
@@ -31,6 +34,13 @@ export default function Timeline({ setFullCover }) {
   const [dataState, setDataState] = React.useState("fetching"); // fetching, fetchingDetails, ok, error
   const [rangeFromStr, setRangeFrom] = React.useState("");
   const [rangeToStr, setRangeTo] = React.useState("");
+  const [appearances, setAppearances] = React.useState({});
+  const [appearancesFilters, setAppearancesFilters] = React.useState({
+    hideMentions: false,
+    hideIndirectMentions: false,
+    hideFlashbacks: false,
+    hideHolograms: false,
+  });
   // Keys: names of columns corresponding to keys in data
   // Values: wheter they're to be displayed
   const [columns, setColumns] = React.useState({
@@ -131,63 +141,79 @@ export default function Timeline({ setFullCover }) {
         />
       </div>
       <div className="timeline-container">
-        <Filters showFilters={showFilters} setShowFilters={setShowFilters}>
-          <TextFilter
+        {/* TODO context */}
+        <FiltersContext.Provider value={""}>
+          <Filters showFilters={showFilters} setShowFilters={setShowFilters}>
+            <TextFilter
+              filterText={filterText}
+              setFilterText={setFilterText}
+              seriesArr={seriesArr}
+              suggestions={suggestions}
+              setSuggestions={setSuggestions}
+              boxFilters={boxFilters}
+              setBoxFilters={setBoxFilters}
+              filterCategory={filterCategory}
+              setFilterCategory={setFilterCategory}
+              appearances={appearances}
+              setAppearances={setAppearances}
+            />
+            <BoxFilters boxFilters={boxFilters} setBoxFilters={setBoxFilters} />
+            {filterCategory && (
+              <AppearancesFilterSettings
+                appearancesFilters={appearancesFilters}
+                setAppearancesFilters={setAppearancesFilters}
+              />
+            )}
+            <SortingMobile columns={columns} sorting={sorting} toggleSorting={toggleSorting} />
+            <ColumnSettings columns={columns} setColumns={setColumns} />
+            <MiscFilters
+              hideUnreleased={hideUnreleased}
+              setHideUnreleased={setHideUnreleased}
+              hideAdaptations={hideAdaptations}
+              setHideAdaptations={setHideAdaptations}
+              collapseAdjacent={collapseAdjacent}
+              setCollapseAdjacent={setCollapseAdjacent}
+            />
+            <TypeFilters
+              typeFilters={typeFilters}
+              filtersChanged={dispatchTypeFilters}
+              filtersTemplate={filtersTemplate}
+            />
+            <TimelineRange
+              timelineRangeBy={timelineRangeBy}
+              setTimelineRangeBy={setTimelineRangeBy}
+              rangeFrom={rangeFromStr}
+              setRangeFrom={setRangeFrom}
+              rangeTo={rangeToStr}
+              setRangeTo={setRangeTo}
+              fromValid={rangeFrom !== undefined}
+              toValid={rangeTo !== undefined}
+            />
+          </Filters>
+          <Table
             filterText={filterText}
-            setFilterText={setFilterText}
-            seriesArr={seriesArr}
-            suggestions={suggestions}
-            setSuggestions={setSuggestions}
-            boxFilters={boxFilters}
-            setBoxFilters={setBoxFilters}
-          />
-          <BoxFilters boxFilters={boxFilters} setBoxFilters={setBoxFilters} />
-          <SortingMobile columns={columns} sorting={sorting} toggleSorting={toggleSorting} />
-          <ColumnSettings columns={columns} setColumns={setColumns} />
-          <MiscFilters
-            hideUnreleased={hideUnreleased}
-            setHideUnreleased={setHideUnreleased}
-            hideAdaptations={hideAdaptations}
-            setHideAdaptations={setHideAdaptations}
-            collapseAdjacent={collapseAdjacent}
-            setCollapseAdjacent={setCollapseAdjacent}
-          />
-          <TypeFilters
+            filterCategory={filterCategory}
             typeFilters={typeFilters}
-            filtersChanged={dispatchTypeFilters}
-            filtersTemplate={filtersTemplate}
-          />
-          <TimelineRange
+            rawData={rawData}
+            setFullCover={setFullCover}
+            boxFilters={boxFilters}
+            searchExpanded={searchExpanded}
+            searchResults={searchResults}
+            dispatchSearchResults={dispatchSearchResults}
+            hideUnreleased={hideUnreleased}
+            hideAdaptations={hideAdaptations}
+            collapseAdjacent={collapseAdjacent}
+            columns={columns}
+            dataState={dataState}
+            sorting={sorting}
+            toggleSorting={toggleSorting}
+            rangeFrom={rangeFrom}
+            rangeTo={rangeTo}
             timelineRangeBy={timelineRangeBy}
-            setTimelineRangeBy={setTimelineRangeBy}
-            rangeFrom={rangeFromStr}
-            setRangeFrom={setRangeFrom}
-            rangeTo={rangeToStr}
-            setRangeTo={setRangeTo}
-            fromValid={rangeFrom !== undefined}
-            toValid={rangeTo !== undefined}
+            appearances={appearances}
+            appearancesFilters={appearancesFilters}
           />
-        </Filters>
-        <Table
-          filterText={filterText}
-          typeFilters={typeFilters}
-          rawData={rawData}
-          setFullCover={setFullCover}
-          boxFilters={boxFilters}
-          searchExpanded={searchExpanded}
-          searchResults={searchResults}
-          dispatchSearchResults={dispatchSearchResults}
-          hideUnreleased={hideUnreleased}
-          hideAdaptations={hideAdaptations}
-          collapseAdjacent={collapseAdjacent}
-          columns={columns}
-          dataState={dataState}
-          sorting={sorting}
-          toggleSorting={toggleSorting}
-          rangeFrom={rangeFrom}
-          rangeTo={rangeTo}
-          timelineRangeBy={timelineRangeBy}
-        />
+        </FiltersContext.Provider>
       </div>
     </main>
   );

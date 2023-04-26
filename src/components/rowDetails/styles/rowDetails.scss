@@ -38,6 +38,11 @@
     cursor: pointer;
   }
   .text {
+    display: flex;
+    flex-direction: column;
+    .spacer {
+      flex-grow: 1;
+    }
     @media (max-width: $width-md) {
       margin: auto;
     }

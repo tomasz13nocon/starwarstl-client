@@ -8,7 +8,7 @@ import ExternalLink from "@components/externalLink";
 import FetchingImg from "@components/fetchingImg";
 import { imgAddress } from "@/util";
 import Appearances from "./appearances";
-import AppearancesFilters from "./appearancesFilters";
+import AppearancesSettings from "./appearancesSettings";
 import "./styles/rowDetails.scss";
 import { AppearancesContext } from "./context";
 
@@ -186,7 +186,11 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
               ) : null}
               <div className="text">
                 <h2 className="title">
-                  <WookieeLink title={item.href ?? item.title}>{item.title}</WookieeLink>
+                  {item.redlink ? (
+                    item.title
+                  ) : (
+                    <WookieeLink title={item.href ?? item.title}>{item.title}</WookieeLink>
+                  )}
                 </h2>
                 <dl>
                   {Object.entries(getData(item)).map(([key, value]) => (
@@ -196,19 +200,24 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
                     </React.Fragment>
                   ))}
                 </dl>
-                <div className="appearances-btn-wrapper">
-                  <button
-                    className={`appearances-btn ${appearancesVisible ? "active" : ""}`}
-                    onClick={() => toggleAppearancesVisible(true)}
-                  >
-                    <span>{appearancesVisible ? "Hide appearances" : "Show appearances"}</span>
-                    <Icon
-                      className="icon"
-                      path={appearancesVisible ? mdiChevronUp : mdiChevronDown}
-                    />
-                  </button>
-                  <div className="shield new">NEW</div>
-                </div>
+
+                <div className="spacer" />
+
+                {item.hasAppearances && (
+                  <div className="appearances-btn-wrapper">
+                    <button
+                      className={`appearances-btn ${appearancesVisible ? "active" : ""}`}
+                      onClick={() => toggleAppearancesVisible(true)}
+                    >
+                      <span>{appearancesVisible ? "Hide appearances" : "Show appearances"}</span>
+                      <Icon
+                        className="icon"
+                        path={appearancesVisible ? mdiChevronUp : mdiChevronDown}
+                      />
+                    </button>
+                    <div className="shield new">NEW</div>
+                  </div>
+                )}
               </div>
             </div>
             {appearancesVisible && (
@@ -224,8 +233,7 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
                   toggleHideHolograms,
                 }}
               >
-                <hr />
-                <AppearancesFilters />
+                <AppearancesSettings />
                 <Appearances id={item._id} />
               </AppearancesContext.Provider>
             )}
