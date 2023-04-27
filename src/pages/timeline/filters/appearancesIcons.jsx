@@ -1,38 +1,22 @@
 import Icon from "@mdi/react";
 import "./styles/appearancesIcons.scss";
-import {
-  mdiAccount,
-  mdiCat,
-  mdiRobot,
-  mdiCalendar,
-  mdiEarth,
-  mdiMapMarker,
-  mdiMedal,
-  mdiShape,
-  mdiFamilyTree,
-  mdiSpaceStation,
-  mdiSwordCross,
-} from "@mdi/js";
+import { appearancesIcons } from "@/util";
+import { mdiLoading } from "@mdi/js";
 
-const appearancesIcons = {
-  characters: mdiAccount,
-  creatures: mdiCat,
-  droids: mdiRobot,
-  events: mdiCalendar,
-  locations: mdiMapMarker,
-  organizations: mdiMedal,
-  species: mdiFamilyTree,
-  vehicles: mdiSpaceStation,
-  technology: mdiSwordCross,
-  miscellanea: mdiShape,
-};
-
-export default function AppearancesIcons({ handleClick }) {
+export default function AppearancesIcons({ handleClick, activeCategory, fetching }) {
   return (
     <div className="appearances-icons">
       {Object.entries(appearancesIcons).map(([name, icon]) => (
-        <button key={name} className="appearances-icon" onClick={() => handleClick(name)}>
-          <Icon path={icon} size={0.8333333333} className="icon" alt={name} />
+        <button
+          key={name}
+          className={`appearances-icon ${activeCategory === name ? "active" : ""}`}
+          onClick={() => handleClick(name)}
+        >
+          {fetching === name ? (
+            <Icon path={mdiLoading} size={0.8333333333} className="icon loading" alt={name} />
+          ) : (
+            <Icon path={icon} size={0.8333333333} className="icon" alt={name} />
+          )}
         </button>
       ))}
     </div>

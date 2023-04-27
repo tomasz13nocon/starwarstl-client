@@ -34,7 +34,7 @@ export default forwardRef(function ClearableTextInput(
           ref={ref}
           {...props}
         />
-        {value && (
+        {(value || bullet) && (
           <button
             className="clear-input"
             onClick={() => {

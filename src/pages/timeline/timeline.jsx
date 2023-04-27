@@ -158,7 +158,7 @@ export default function Timeline({ setFullCover }) {
               setAppearances={setAppearances}
             />
             <BoxFilters boxFilters={boxFilters} setBoxFilters={setBoxFilters} />
-            {filterCategory && (
+            {(filterCategory || boxFilters.some((box) => box.category)) && (
               <AppearancesFilterSettings
                 appearancesFilters={appearancesFilters}
                 setAppearancesFilters={setAppearancesFilters}

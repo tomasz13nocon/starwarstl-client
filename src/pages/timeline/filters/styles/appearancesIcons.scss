@@ -19,4 +19,10 @@
   .icon {
     display: block;
   }
+  &:hover {
+    box-shadow: $hover-shadow;
+  }
+  &.active {
+    background-color: $active7;
+  }
 }

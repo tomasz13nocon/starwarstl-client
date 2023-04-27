@@ -1,3 +1,17 @@
+import {
+  mdiAccount,
+  mdiCat,
+  mdiRobot,
+  mdiCalendar,
+  mdiEarth,
+  mdiMapMarker,
+  mdiMedal,
+  mdiShape,
+  mdiFamilyTree,
+  mdiSpaceStation,
+  mdiSwordCross,
+} from "@mdi/js";
+
 export const API =
   // window.location.protocol +
   // "//" +
@@ -156,6 +170,18 @@ export const appearancesTemplateNames = {
   "1stm": "first mentioned",
   "1stID": "first identified as: ",
   C: "",
+};
+export const appearancesIcons = {
+  characters: mdiAccount,
+  creatures: mdiCat,
+  droids: mdiRobot,
+  events: mdiCalendar,
+  locations: mdiMapMarker,
+  organizations: mdiMedal,
+  species: mdiFamilyTree,
+  vehicles: mdiSpaceStation,
+  technology: mdiSwordCross,
+  miscellanea: mdiShape,
 };
 
 // Blur focus from the element if event is a mouse event (e.g. to hide focus ring)

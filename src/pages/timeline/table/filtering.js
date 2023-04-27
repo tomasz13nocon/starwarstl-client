@@ -231,12 +231,15 @@ export function createTypeStrategy(typeFilters) {
 // Filter on fields of media. Currently only supports series
 export function createFieldStrategy(boxFilters) {
   return (item) => {
-    if (!item.series) return false;
     for (let boxFilter of boxFilters) {
-      if (item.series.includes(boxFilter.title)) {
+      if (boxFilter.category) {
+        return boxFilter.ids.map((id) => id.id).includes(item._id);
+      }
+      if (item.series?.includes(boxFilter.title)) {
         return true;
       }
     }
+    return false;
   };
 }
 
