@@ -13,9 +13,9 @@ export default function AppearancesIcons({ handleClick, activeCategory, fetching
           onClick={() => handleClick(name)}
         >
           {fetching === name ? (
-            <Icon path={mdiLoading} size={0.8333333333} className="icon loading" alt={name} />
+            <Icon path={mdiLoading} className="icon loading" alt={name} />
           ) : (
-            <Icon path={icon} size={0.8333333333} className="icon" alt={name} />
+            <Icon path={icon} className="icon" alt={name} />
           )}
         </button>
       ))}

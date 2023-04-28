@@ -5,6 +5,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 3px;
+
+  @media (max-width: $width-lg) {
+    gap: 7px;
+  }
 }
 
 .appearances-icon {
@@ -18,11 +22,23 @@
   border: 1px solid $grey2;
   .icon {
     display: block;
+    width: 1.25rem;
+    height: 1.25rem;
   }
   &:hover {
     box-shadow: $hover-shadow;
   }
   &.active {
     background-color: $active7;
+  }
+
+  @media (max-width: $width-lg) {
+    width: 24px;
+    height: 24px;
+    .icon {
+      margin: auto;
+      width: 22px;
+      height: 22px;
+    }
   }
 }

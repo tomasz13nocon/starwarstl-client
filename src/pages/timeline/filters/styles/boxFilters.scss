@@ -19,6 +19,10 @@
       position: relative;
       top: 1px;
     }
+    &:not(:first-child) {
+      border-left: 1px solid $active4;
+      padding-left: 6px;
+    }
   }
 }
 
@@ -38,20 +42,17 @@
   }
   &:hover .icon {
     transform: rotateZ(90deg);
-    // box-shadow: 0 0 2px black;
   }
   .icon {
     transition: transform 0.12s;
     vertical-align: text-bottom;
     width: 22px;
-    // font-size: 24px;
   }
 }
 
 .box-filter-category-icon {
-  margin-right: 6px;
   padding-right: 4px;
   align-self: center;
-  color: $grey0;
-  border-right: 1px solid $grey0;
+  flex-shrink: 0;
+  color: $active4;
 }

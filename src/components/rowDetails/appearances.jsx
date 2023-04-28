@@ -2,7 +2,6 @@ import { API, appearancesCategoriesNames } from "@/util";
 import { useEffect, useState } from "react";
 import "./styles/appearances.scss";
 import AppearancesNode from "./appearancesList";
-import AppearancesSettings from "./appearancesSettings";
 import Error from "@components/error";
 import FetchingImg from "@components/fetchingImg";
 

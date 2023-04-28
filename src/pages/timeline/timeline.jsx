@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 import { API } from "@/util";
 import Legend from "./legend";
 import Search from "./search";
@@ -18,54 +18,57 @@ import { initialSearchResults, searchResultsReducer } from "./searchResults";
 import { typeFiltersInitializer, typeFiltersReducer } from "./typeFilters";
 import AppearancesFilterSettings from "./filters/appearancesFilterSettings";
 import { FiltersContext } from "./context";
+import useLocalStorageToggle from "@/hooks/useLocalStorageToggle";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export default function Timeline({ setFullCover }) {
-  const [rawData, setRawData] = React.useState([]);
-  const [seriesArr, setSeriesArr] = React.useState([]);
-  const [filterText, setFilterText] = React.useState("");
-  const [filterCategory, setFilterCategory] = React.useState("");
-  const [suggestions, setSuggestions] = React.useState([]);
-  const [boxFilters, setBoxFilters] = React.useState([]);
-  const [timelineRangeBy, setTimelineRangeBy] = React.useState("date");
-  const [hideUnreleased, setHideUnreleased] = React.useState(false);
-  const [hideAdaptations, setHideAdaptations] = React.useState(false);
-  const [collapseAdjacent, setCollapseAdjacent] = React.useState(false);
-  const [showFilters, setShowFilters] = React.useState(false);
-  const [dataState, setDataState] = React.useState("fetching"); // fetching, fetchingDetails, ok, error
-  const [rangeFromStr, setRangeFrom] = React.useState("");
-  const [rangeToStr, setRangeTo] = React.useState("");
-  const [appearances, setAppearances] = React.useState({});
-  const [appearancesFilters, setAppearancesFilters] = React.useState({
+  const [rawData, setRawData] = useState([]);
+  const [seriesArr, setSeriesArr] = useState([]);
+  const [filterText, setFilterText] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [boxFilters, setBoxFilters] = useLocalStorage("boxFilters", []);
+  const [timelineRangeBy, setTimelineRangeBy] = useState("date");
+  const [hideUnreleased, setHideUnreleased] = useLocalStorageToggle("hideUnreleased", false);
+  const [hideAdaptations, setHideAdaptations] = useLocalStorageToggle("hideAdaptations", false);
+  const [collapseAdjacent, setCollapseAdjacent] = useLocalStorageToggle("collapseAdjacent", false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [dataState, setDataState] = useState("fetching"); // fetching, fetchingDetails, ok, error
+  const [rangeFromStr, setRangeFrom] = useState("");
+  const [rangeToStr, setRangeTo] = useState("");
+  const [appearances, setAppearances] = useState({});
+  const [appearancesFilters, setAppearancesFilters] = useLocalStorage("appearancesFilters", {
     hideMentions: false,
     hideIndirectMentions: false,
     hideFlashbacks: false,
     hideHolograms: false,
   });
+  const [boxFiltersAnd, setBoxFiltersAnd] = useState(false);
   // Keys: names of columns corresponding to keys in data
   // Values: wheter they're to be displayed
-  const [columns, setColumns] = React.useState({
+  const [columns, setColumns] = useLocalStorage("columns", {
     date: true,
     cover: false,
     title: true,
     writer: true,
     releaseDate: true,
   });
-  const [searchExpanded, toggleSearchExpanded] = React.useReducer(
+  const [searchExpanded, toggleSearchExpanded] = useReducer(
     (state, value) => (value === undefined ? !state : value),
     false
   );
-  const [searchResults, dispatchSearchResults] = React.useReducer(
+  const [searchResults, dispatchSearchResults] = useReducer(
     searchResultsReducer,
     initialSearchResults
   );
-  const [typeFilters, dispatchTypeFilters] = React.useReducer(
+  const [typeFilters, dispatchTypeFilters] = useReducer(
     typeFiltersReducer,
     filtersTemplate,
     (template) => {
       return typeFiltersInitializer(template);
     }
   );
-  const [sorting, toggleSorting] = React.useReducer(
+  const [sorting, toggleSorting] = useReducer(
     (prevSorting, name) => {
       return {
         by: name,
@@ -79,7 +82,7 @@ export default function Timeline({ setFullCover }) {
   );
 
   // Fetch data
-  React.useEffect(async () => {
+  useEffect(async () => {
     let data,
       cancelled = false;
     const fetchToJson = async (apiRoute) => {
@@ -120,11 +123,11 @@ export default function Timeline({ setFullCover }) {
   useSidebar(setShowFilters);
 
   // Process timeline range input
-  let rangeFrom = React.useMemo(
+  let rangeFrom = useMemo(
     () => parseRange(rangeFromStr, rawData, timelineRangeBy),
     [rangeFromStr, rawData, timelineRangeBy]
   );
-  let rangeTo = React.useMemo(
+  let rangeTo = useMemo(
     () => parseRange(rangeToStr, rawData, timelineRangeBy),
     [rangeToStr, rawData, timelineRangeBy]
   );
@@ -157,7 +160,12 @@ export default function Timeline({ setFullCover }) {
               appearances={appearances}
               setAppearances={setAppearances}
             />
-            <BoxFilters boxFilters={boxFilters} setBoxFilters={setBoxFilters} />
+            <BoxFilters
+              boxFilters={boxFilters}
+              setBoxFilters={setBoxFilters}
+              boxFiltersAnd={boxFiltersAnd}
+              setBoxFiltersAnd={setBoxFiltersAnd}
+            />
             {(filterCategory || boxFilters.some((box) => box.category)) && (
               <AppearancesFilterSettings
                 appearancesFilters={appearancesFilters}
@@ -197,6 +205,7 @@ export default function Timeline({ setFullCover }) {
             rawData={rawData}
             setFullCover={setFullCover}
             boxFilters={boxFilters}
+            boxFiltersAnd={boxFiltersAnd}
             searchExpanded={searchExpanded}
             searchResults={searchResults}
             dispatchSearchResults={dispatchSearchResults}

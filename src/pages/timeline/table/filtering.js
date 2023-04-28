@@ -229,17 +229,29 @@ export function createTypeStrategy(typeFilters) {
 }
 
 // Filter on fields of media. Currently only supports series
-export function createFieldStrategy(boxFilters) {
+export function createFieldStrategy(boxFilters, boxFiltersAnd, appearancesFilters) {
   return (item) => {
-    for (let boxFilter of boxFilters) {
-      if (boxFilter.category) {
-        return boxFilter.ids.map((id) => id.id).includes(item._id);
+    const filterFn = (boxFilter) => {
+      if (
+        boxFilter.category &&
+        boxFilter.media.find(
+          (media) =>
+            media.id === item._id &&
+            !(appearancesFilters.hideIndirectMentions && media.t?.includes("Imo")) &&
+            !(appearancesFilters.hideMentions && media.t?.includes("Mo")) &&
+            !(appearancesFilters.hideFlashbacks && media.t?.includes("Flash")) &&
+            !(appearancesFilters.hideHolograms && media.t?.includes("Hologram"))
+        )
+      ) {
+        return true;
       }
       if (item.series?.includes(boxFilter.title)) {
         return true;
       }
-    }
-    return false;
+      return false;
+    };
+
+    return boxFiltersAnd ? boxFilters.every(filterFn) : boxFilters.some(filterFn);
   };
 }
 
@@ -266,8 +278,7 @@ export function createTextStrategy(filterText, filterCategory, appearances, appe
       queries.reduce((acc, query) => {
         if (acc && appearance.name.toLowerCase().includes(query)) {
           // TODO add range of match (use indexOf instead of includes)
-          // TODO change ids to media
-          for (let id of appearance.ids) {
+          for (let id of appearance.media) {
             matchedApps[id.id] = matchedApps[id.id] || [];
             if (matchedApps[id.id].find((app) => app.name === appearance.name)) continue;
             matchedApps[id.id].push({
@@ -282,16 +293,16 @@ export function createTextStrategy(filterText, filterCategory, appearances, appe
     );
     matchingApps = new Set(
       matchingApps
-        .map((app) => app.ids)
+        .map((app) => app.media)
         .flat()
         .filter(
-          (ids) =>
-            !(appearancesFilters.hideIndirectMentions && ids.t?.includes("Imo")) &&
-            !(appearancesFilters.hideMentions && ids.t?.includes("Mo")) &&
-            !(appearancesFilters.hideFlashbacks && ids.t?.includes("Flash")) &&
-            !(appearancesFilters.hideHolograms && ids.t?.includes("Hologram"))
+          (media) =>
+            !(appearancesFilters.hideIndirectMentions && media.t?.includes("Imo")) &&
+            !(appearancesFilters.hideMentions && media.t?.includes("Mo")) &&
+            !(appearancesFilters.hideFlashbacks && media.t?.includes("Flash")) &&
+            !(appearancesFilters.hideHolograms && media.t?.includes("Hologram"))
         )
-        .map((ids) => ids.id)
+        .map((media) => media.id)
     );
 
     return (item) => matchingApps.has(item._id);

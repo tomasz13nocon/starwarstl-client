@@ -4,12 +4,16 @@ import WookieeLink from "@components/wookieeLink";
 import FiltersSection from "./filtersSection";
 import "./styles/boxFilters.scss";
 import { appearancesIcons } from "@/util";
+import Checkbox from "@components/checkbox";
 
-export default function BoxFilters({ boxFilters, setBoxFilters }) {
+export default function BoxFilters({ boxFilters, setBoxFilters, boxFiltersAnd, setBoxFiltersAnd }) {
   return (
     <>
       {boxFilters.length > 0 && (
         <FiltersSection title="Active filters">
+          {boxFilters.length > 1 && (
+            <Checkbox name="Must include all" value={boxFiltersAnd} onChange={setBoxFiltersAnd} />
+          )}
           {boxFilters.map((boxFilter) => (
             <div
               key={boxFilter._id}

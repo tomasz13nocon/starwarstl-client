@@ -1,14 +1,10 @@
-import React from "react";
 import { Icon } from "@mdi/react";
 import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
 import "./styles/filtersSection.scss";
+import useLocalStorageToggle from "@/hooks/useLocalStorageToggle";
 
 export default function FiltersSection({ title, gaps, titlebarContent, children }) {
-  const [expanded, toggleExpanded] = React.useReducer(
-    (s) => { localStorage.setItem("filtersSectionExpanded_" + title, !s); return !s; },
-    true,
-    (d) => { let ls = localStorage.getItem("filtersSectionExpanded_" + title); if (ls === null) return d; return ls === "true"; }
-  );
+  const [expanded, toggleExpanded] = useLocalStorageToggle("filtersSectionExpanded_" + title, true);
   return (
     <div className="filters-section">
       <div className="filters-section-title">

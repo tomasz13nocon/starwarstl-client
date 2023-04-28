@@ -25,6 +25,7 @@ function Table({
   typeFilters,
   rawData,
   boxFilters,
+  boxFiltersAnd,
   searchExpanded,
   searchResults,
   dispatchSearchResults,
@@ -78,6 +79,7 @@ function Table({
     filterCategory,
     sorting,
     boxFilters,
+    boxFiltersAnd,
     hideUnreleased,
     hideAdaptations,
     collapseAdjacent,
@@ -109,7 +111,7 @@ function Table({
     strategies.push(createTypeStrategy(typeFilters));
 
     if (boxFilters.length) {
-      strategies.push(createFieldStrategy(boxFilters));
+      strategies.push(createFieldStrategy(boxFilters, boxFiltersAnd, appearancesFilters));
     }
 
     if (filterText) {
@@ -313,6 +315,30 @@ function Table({
                             ))}
                         </Fragment>
                       ))}
+                    </div>
+                  )}
+                  {boxFilters.find((f) => f.category) && (
+                    <div className="filter-indicator">
+                      {boxFilters
+                        .filter((boxFilter) => {
+                          if (!boxFilter.category) return false;
+                          let templates = boxFilter.media.find((m) => m.id === item._id)?.t;
+                          return templates?.includes("1st") || templates?.includes("1stm");
+                        })
+                        .map((boxFilter, i) => (
+                          <Fragment key={i}>
+                            {i > 0 && ", "}
+                            <span className="bold">{boxFilter.name}</span>{" "}
+                            <AppearanceShield
+                              template={{
+                                name: boxFilter.media
+                                  .find((m) => m.id === item._id)
+                                  .t.find((t) => t === "1st" || t === "1stID"),
+                                parameters: [],
+                              }}
+                            />{" "}
+                          </Fragment>
+                        ))}
                     </div>
                   )}
                 </Row>

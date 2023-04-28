@@ -2,6 +2,8 @@ import { API, appearancesCategories, suggestionPriority } from "@/util";
 import ClearableTextInput from "@components/clearableTextInput";
 import AppearancesIcons from "./appearancesIcons";
 import { useEffect, useRef, useState } from "react";
+import ErrorSmall from "@components/errorSmall";
+import { Virtuoso } from "react-virtuoso";
 
 export default function TextFilter({
   filterText,
@@ -17,23 +19,34 @@ export default function TextFilter({
   setAppearances,
 }) {
   const [fetchingAppearances, setFetchingAppearances] = useState("");
+  const [error, setError] = useState();
   const inputRef = useRef(null);
+  const virtuoso = useRef(null);
 
   const handleFilterTextChange = (newFilterText) => {
     setFilterText(newFilterText);
   };
 
-  async function handleClick(name) {
+  async function handleAppearanceIconClick(name) {
+    if (name === filterCategory) {
+      setFilterCategory("");
+      return;
+    }
     setFilterCategory(name);
     inputRef.current.focus();
     if (appearancesCategories.includes(name)) {
       let apps = appearances[name];
       if (!apps) {
-        // TODO err handling
         setFetchingAppearances(name);
-        let res = await fetch(`${API}appearances/${name}`);
-        apps = await res.json();
-        setFetchingAppearances("");
+        setError(null);
+        try {
+          let res = await fetch(`${API}appearances/${name}`);
+          apps = await res.json();
+        } catch (err) {
+          setError(err.message);
+        } finally {
+          setFetchingAppearances("");
+        }
         setAppearances((state) => ({ ...state, [name]: apps }));
       }
     }
@@ -41,11 +54,6 @@ export default function TextFilter({
 
   // Suggestions are derived state, hence useEffect
   useEffect(() => {
-    if (!filterText) {
-      setSuggestions([]);
-      return;
-    }
-
     let query = filterText.toLowerCase().trim();
 
     // if (query.length < 2) {
@@ -62,12 +70,17 @@ export default function TextFilter({
               item.name.toLowerCase().includes(query) &&
               !boxFilters.find((b) => b.name === item.name)
           )
-          .sort((a, b) => b.ids.length - a.ids.length)
-          .slice(0, 10)
+          .sort((a, b) => b.media.length - a.media.length)
+          // .slice(0, 10)
           .map((app) => ({ ...app, _id: app.name, category: filterCategory })) ?? []
       );
     } else {
       // Series
+      if (!filterText) {
+        setSuggestions([]);
+        return;
+      }
+
       let found = seriesArr.filter((item) =>
         item.displayTitle
           ? item.displayTitle.toLowerCase().includes(query)
@@ -85,7 +98,7 @@ export default function TextFilter({
               if (ap < bp) return -1;
               return 0;
             })
-            .slice(0, 10)
+          // .slice(0, 10)
         );
       }
     }
@@ -103,27 +116,36 @@ export default function TextFilter({
         ref={inputRef}
       />
       <AppearancesIcons
-        handleClick={handleClick}
+        handleClick={handleAppearanceIconClick}
         activeCategory={filterCategory}
         fetching={fetchingAppearances}
       />
+      {error && <ErrorSmall msg={error} />}
       {suggestions.length > 0 && (
-        <div className="search-suggestions">
+        <>
           <span className="suggestions-heading">Suggestions:</span>
-          {suggestions.map((el) => (
-            <button
-              key={el._id}
-              className={`suggestion ${el.type} ${el.fullType}`}
-              onClick={() => {
-                setBoxFilters([...boxFilters, el]);
-                setFilterText("");
-                setSuggestions([]);
-              }}
-            >
-              {el.displayTitle || el.title || el.name}
-            </button>
-          ))}
-        </div>
+          <div className="search-suggestions-container">
+            <div className="search-suggestions">
+              <Virtuoso
+                style={{ height: `${Math.min(46 * suggestions.length, 250)}px` }}
+                overscan={200}
+                data={suggestions}
+                itemContent={(index, el) => (
+                  <button
+                    className={`suggestion ${el.type} ${el.fullType}`}
+                    onClick={() => {
+                      setBoxFilters([...boxFilters, el]);
+                      setFilterText("");
+                      setSuggestions([]);
+                    }}
+                  >
+                    {el.displayTitle || el.title || el.name}
+                  </button>
+                )}
+              />
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

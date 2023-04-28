@@ -1,16 +1,15 @@
 import MessageImg from "@components/messageImg";
 import "./styles/error.scss";
+import ErrorSmall from "./errorSmall";
 
-export default function Error(p) {
+export default function Error({ msg }) {
   return (
     <MessageImg img="yoda">
       The dark side clouds everything.
       <br />
       Impossible to see, the server is.
       <br />
-      <div className="error-msg-container">
-        <div className="small">{p.details ?? "Failed to fetch data from the server"}</div>
-      </div>
+      <ErrorSmall msg={msg} />
     </MessageImg>
   );
 }

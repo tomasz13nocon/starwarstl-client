@@ -48,9 +48,6 @@ $filters-width: 250px;
 }
 
 .filters-btn {
-  // @media (min-width: $width-lg) {
-  //   display: none;
-  // }
   display: inline-block;
   vertical-align: top;
   transition: transform 0.3s;
@@ -93,9 +90,9 @@ $filters-width: 250px;
 
 .search-suggestions {
   font-size: 0.9em;
-  .suggestions-heading {
-    font-size: 0.7em;
-  }
+}
+.suggestions-heading {
+  font-size: 0.66em;
 }
 .suggestion {
   @extend %reset-button;
