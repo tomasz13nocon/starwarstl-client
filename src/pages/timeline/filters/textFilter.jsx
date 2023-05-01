@@ -9,8 +9,6 @@ export default function TextFilter({
   filterText,
   setFilterText,
   seriesArr,
-  suggestions,
-  setSuggestions,
   boxFilters,
   setBoxFilters,
   filterCategory,
@@ -18,6 +16,7 @@ export default function TextFilter({
   appearances,
   setAppearances,
 }) {
+  const [suggestions, setSuggestions] = useState([]);
   const [fetchingAppearances, setFetchingAppearances] = useState("");
   const [error, setError] = useState();
   const inputRef = useRef(null);
@@ -100,6 +99,8 @@ export default function TextFilter({
             })
           // .slice(0, 10)
         );
+      } else {
+        setSuggestions([]);
       }
     }
   }, [filterText, appearances, filterCategory]);
@@ -136,6 +137,7 @@ export default function TextFilter({
                     onClick={() => {
                       setBoxFilters([...boxFilters, el]);
                       setFilterText("");
+                      setFilterCategory("");
                       setSuggestions([]);
                     }}
                   >

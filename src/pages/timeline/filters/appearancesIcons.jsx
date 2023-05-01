@@ -1,6 +1,6 @@
 import Icon from "@mdi/react";
 import "./styles/appearancesIcons.scss";
-import { appearancesIcons } from "@/util";
+import { appearancesCategoriesNames, appearancesIcons } from "@/util";
 import { mdiLoading } from "@mdi/js";
 
 export default function AppearancesIcons({ handleClick, activeCategory, fetching }) {
@@ -11,6 +11,7 @@ export default function AppearancesIcons({ handleClick, activeCategory, fetching
           key={name}
           className={`appearances-icon ${activeCategory === name ? "active" : ""}`}
           onClick={() => handleClick(name)}
+          title={appearancesCategoriesNames[name]}
         >
           {fetching === name ? (
             <Icon path={mdiLoading} className="icon loading" alt={name} />

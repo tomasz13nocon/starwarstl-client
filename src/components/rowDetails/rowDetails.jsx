@@ -192,6 +192,12 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
                     <WookieeLink title={item.href ?? item.title}>{item.title}</WookieeLink>
                   )}
                 </h2>
+                {item.notUnique && item.title !== item.href && (
+                  <div className="not-unique">
+                    Appearances and information (other than Timeline notes) refer to &quot;
+                    {item.href}&quot;
+                  </div>
+                )}
                 <dl>
                   {Object.entries(getData(item)).map(([key, value]) => (
                     <React.Fragment key={key}>
@@ -215,7 +221,6 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
                         path={appearancesVisible ? mdiChevronUp : mdiChevronDown}
                       />
                     </button>
-                    <div className="shield new">NEW</div>
                   </div>
                 )}
               </div>

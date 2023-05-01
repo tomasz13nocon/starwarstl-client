@@ -11,8 +11,10 @@ export default function BoxFilters({ boxFilters, setBoxFilters, boxFiltersAnd, s
     <>
       {boxFilters.length > 0 && (
         <FiltersSection title="Active filters">
-          {boxFilters.length > 1 && (
-            <Checkbox name="Must include all" value={boxFiltersAnd} onChange={setBoxFiltersAnd} />
+          {boxFilters.length > 1 && boxFilters.find((f) => f.category) && (
+            <div className="include-all-checkbox">
+              <Checkbox name="Must include all" value={boxFiltersAnd} onChange={setBoxFiltersAnd} />
+            </div>
           )}
           {boxFilters.map((boxFilter) => (
             <div

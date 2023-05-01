@@ -24,18 +24,17 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 export default function Timeline({ setFullCover }) {
   const [rawData, setRawData] = useState([]);
   const [seriesArr, setSeriesArr] = useState([]);
+  const [dataState, setDataState] = useState("fetching"); // fetching, fetchingDetails, ok, error
   const [filterText, setFilterText] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
   const [boxFilters, setBoxFilters] = useLocalStorage("boxFilters", []);
-  const [timelineRangeBy, setTimelineRangeBy] = useState("date");
+  const [timelineRangeBy, setTimelineRangeBy] = useLocalStorage("timelineRangeBy", "date");
   const [hideUnreleased, setHideUnreleased] = useLocalStorageToggle("hideUnreleased", false);
   const [hideAdaptations, setHideAdaptations] = useLocalStorageToggle("hideAdaptations", false);
   const [collapseAdjacent, setCollapseAdjacent] = useLocalStorageToggle("collapseAdjacent", false);
   const [showFilters, setShowFilters] = useState(false);
-  const [dataState, setDataState] = useState("fetching"); // fetching, fetchingDetails, ok, error
-  const [rangeFromStr, setRangeFrom] = useState("");
-  const [rangeToStr, setRangeTo] = useState("");
+  const [rangeFromStr, setRangeFrom] = useLocalStorage("rangeFromStr", "");
+  const [rangeToStr, setRangeTo] = useLocalStorage("rangeToStr", "");
   const [appearances, setAppearances] = useState({});
   const [appearancesFilters, setAppearancesFilters] = useLocalStorage("appearancesFilters", {
     hideMentions: false,
@@ -43,7 +42,7 @@ export default function Timeline({ setFullCover }) {
     hideFlashbacks: false,
     hideHolograms: false,
   });
-  const [boxFiltersAnd, setBoxFiltersAnd] = useState(false);
+  const [boxFiltersAnd, setBoxFiltersAnd] = useLocalStorageToggle("boxFiltersAnd", false);
   // Keys: names of columns corresponding to keys in data
   // Values: wheter they're to be displayed
   const [columns, setColumns] = useLocalStorage("columns", {
@@ -80,6 +79,10 @@ export default function Timeline({ setFullCover }) {
       ascending: true,
     }
   );
+
+  useEffect(() => {
+    localStorage.setItem("typeFilters", JSON.stringify(typeFilters));
+  }, [typeFilters]);
 
   // Fetch data
   useEffect(async () => {
@@ -151,8 +154,6 @@ export default function Timeline({ setFullCover }) {
               filterText={filterText}
               setFilterText={setFilterText}
               seriesArr={seriesArr}
-              suggestions={suggestions}
-              setSuggestions={setSuggestions}
               boxFilters={boxFilters}
               setBoxFilters={setBoxFilters}
               filterCategory={filterCategory}

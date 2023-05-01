@@ -18,6 +18,7 @@ import {
 } from "./filtering";
 import FetchingImg from "@components/fetchingImg";
 import AppearanceShield from "@components/rowDetails/appearanceShield";
+import MatchedAppearances from "./matchedAppearances";
 
 function Table({
   filterText,
@@ -224,6 +225,19 @@ function Table({
   }, [searchResults.text, data]);
 
   const matchedApps = getMatchedApps();
+  const matchedBoxFilterApps = boxFilters
+    .filter((f) => f.category)
+    .reduce((acc, f) => {
+      for (let media of f.media) {
+        acc[media.id] = acc[media.id] || [];
+        //
+        acc[media.id].push({
+          name: f.name,
+          ...(media.t ? { t: media.t } : {}),
+        });
+      }
+      return acc;
+    }, {});
 
   return (
     <div className="container table">
@@ -298,48 +312,13 @@ function Table({
                   scrollToId={scrollToId}
                 >
                   {filterCategory && filterText && (
-                    <div className="filter-indicator">
+                    <MatchedAppearances appearances={matchedApps[item._id]}>
                       {/* TODO maybe limit the amount of shown matches */}
-                      Matched {filterCategory}:{" "}
-                      {matchedApps[item._id]?.map((app, i) => (
-                        <Fragment key={app.name}>
-                          {i > 0 && ", "}
-                          <span className="bold">{app.name}</span>
-                          {app.t
-                            ?.filter((t) => t === "1st" || t === "1stm")
-                            .map((t, j) => (
-                              <Fragment key={j}>
-                                {" "}
-                                <AppearanceShield template={{ name: t, parameters: [] }} />{" "}
-                              </Fragment>
-                            ))}
-                        </Fragment>
-                      ))}
-                    </div>
+                      <span className="bold">Matched {filterCategory}: </span>
+                    </MatchedAppearances>
                   )}
-                  {boxFilters.find((f) => f.category) && (
-                    <div className="filter-indicator">
-                      {boxFilters
-                        .filter((boxFilter) => {
-                          if (!boxFilter.category) return false;
-                          let templates = boxFilter.media.find((m) => m.id === item._id)?.t;
-                          return templates?.includes("1st") || templates?.includes("1stm");
-                        })
-                        .map((boxFilter, i) => (
-                          <Fragment key={i}>
-                            {i > 0 && ", "}
-                            <span className="bold">{boxFilter.name}</span>{" "}
-                            <AppearanceShield
-                              template={{
-                                name: boxFilter.media
-                                  .find((m) => m.id === item._id)
-                                  .t.find((t) => t === "1st" || t === "1stID"),
-                                parameters: [],
-                              }}
-                            />{" "}
-                          </Fragment>
-                        ))}
-                    </div>
+                  {matchedBoxFilterApps.length !== 0 && (
+                    <MatchedAppearances appearances={matchedBoxFilterApps[item._id]} />
                   )}
                 </Row>
               </div>

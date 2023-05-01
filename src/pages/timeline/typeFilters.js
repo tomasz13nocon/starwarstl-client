@@ -34,7 +34,7 @@ const createTypeFilters = (obj) => {
 // for a filter or group to be used later (when rendering). The 2 approaches can be mixed freely.
 export const typeFiltersInitializer = (template) => {
   try {
-    return createTypeFilters(template);
+    return JSON.parse(localStorage.getItem("typeFilters")) ?? createTypeFilters(template);
   } catch (e) {
     throw e instanceof RangeError ? "Incorrect template structure! (infinite recursion)" : e;
   }

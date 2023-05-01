@@ -228,28 +228,35 @@ export function createTypeStrategy(typeFilters) {
   return (item) => filterItem(cleanFilters, item);
 }
 
-// Filter on fields of media. Currently only supports series
+function filterAppearancesByTemplates(appearancesFilters) {
+  return (media) =>
+    !(appearancesFilters.hideIndirectMentions && media.t?.find((t) => t.name === "Imo")) &&
+    !(
+      appearancesFilters.hideMentions &&
+      (media.t?.find((t) => t.name === "Mo") || media.t?.find((t) => t.name === "1stm"))
+    ) &&
+    !(appearancesFilters.hideFlashbacks && media.t?.find((t) => t.name === "Flash")) &&
+    !(appearancesFilters.hideHolograms && media.t?.find((t) => t.name === "Hologram"));
+}
+
+// Filter on fields of media. Currently only supports series and appearances
 export function createFieldStrategy(boxFilters, boxFiltersAnd, appearancesFilters) {
+  let matchingIds = {};
+
+  for (let boxFilter of boxFilters) {
+    if (!boxFilter.category) continue;
+
+    matchingIds[boxFilter.name] = new Set(
+      boxFilter.media
+        .filter(filterAppearancesByTemplates(appearancesFilters))
+        .map((media) => media.id)
+    );
+  }
+
   return (item) => {
-    const filterFn = (boxFilter) => {
-      if (
-        boxFilter.category &&
-        boxFilter.media.find(
-          (media) =>
-            media.id === item._id &&
-            !(appearancesFilters.hideIndirectMentions && media.t?.includes("Imo")) &&
-            !(appearancesFilters.hideMentions && media.t?.includes("Mo")) &&
-            !(appearancesFilters.hideFlashbacks && media.t?.includes("Flash")) &&
-            !(appearancesFilters.hideHolograms && media.t?.includes("Hologram"))
-        )
-      ) {
-        return true;
-      }
-      if (item.series?.includes(boxFilter.title)) {
-        return true;
-      }
-      return false;
-    };
+    const filterFn = (boxFilter) =>
+      (boxFilter.category && matchingIds[boxFilter.name].has(item._id)) ||
+      item.series?.includes(boxFilter.title);
 
     return boxFiltersAnd ? boxFilters.every(filterFn) : boxFilters.some(filterFn);
   };
@@ -271,37 +278,28 @@ export function createTextStrategy(filterText, filterCategory, appearances, appe
     // Appearances not fetched yet
     if (!appearances[filterCategory]) return (item) => item;
 
+    let matchingApps = appearances[filterCategory].filter((appearance) =>
+      queries.reduce((acc, query) => acc && appearance.name.toLowerCase().includes(query), true)
+    );
+
     // TODO improve naming 🙄
     matchedApps = {};
+    for (let match of matchingApps) {
+      // TODO add range of match (use indexOf instead of includes)
+      for (let media of match.media) {
+        matchedApps[media.id] = matchedApps[media.id] || [];
+        if (matchedApps[media.id].find((app) => app.name === match.name)) continue;
+        matchedApps[media.id].push({
+          name: match.name,
+          ...(media.t ? { t: media.t } : {}),
+        });
+      }
+    }
 
-    let matchingApps = appearances[filterCategory].filter((appearance) =>
-      queries.reduce((acc, query) => {
-        if (acc && appearance.name.toLowerCase().includes(query)) {
-          // TODO add range of match (use indexOf instead of includes)
-          for (let id of appearance.media) {
-            matchedApps[id.id] = matchedApps[id.id] || [];
-            if (matchedApps[id.id].find((app) => app.name === appearance.name)) continue;
-            matchedApps[id.id].push({
-              name: appearance.name,
-              t: id.t,
-            });
-          }
-          return true;
-        }
-        return false;
-      }, true)
-    );
     matchingApps = new Set(
       matchingApps
-        .map((app) => app.media)
-        .flat()
-        .filter(
-          (media) =>
-            !(appearancesFilters.hideIndirectMentions && media.t?.includes("Imo")) &&
-            !(appearancesFilters.hideMentions && media.t?.includes("Mo")) &&
-            !(appearancesFilters.hideFlashbacks && media.t?.includes("Flash")) &&
-            !(appearancesFilters.hideHolograms && media.t?.includes("Hologram"))
-        )
+        .flatMap((match) => match.media)
+        .filter(filterAppearancesByTemplates(appearancesFilters))
         .map((media) => media.id)
     );
 

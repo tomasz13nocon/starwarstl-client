@@ -14,14 +14,15 @@ export default function AppearanceShield({ template, hidden = false }) {
         }`}
       >
         {prettyName}
-        {displayParamsTemplates.includes(template.name) && !!template.parameters[0]?.value[0] && (
-          <>
-            {simultaneousTemplates.includes(template.name) && ", simultaneous with "}
-            {template.parameters[0].value.map((node, i) => (
-              <AppearancesNode key={i} appearances={node} />
-            ))}
-          </>
-        )}
+        {displayParamsTemplates.includes(template.name) &&
+          !!template.parameters?.[0]?.value?.[0] && (
+            <>
+              {simultaneousTemplates.includes(template.name) && ", simultaneous with "}
+              {template.parameters[0].value.map((node, i) => (
+                <AppearancesNode key={i} appearances={node} />
+              ))}
+            </>
+          )}
       </small>
     )
   );

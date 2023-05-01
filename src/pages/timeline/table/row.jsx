@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Icon } from "@mdi/react";
 import { mdiVolumeHigh } from "@mdi/js";
 import RowDetails from "@components/rowDetails/rowDetails";
@@ -87,6 +87,8 @@ export default React.memo(function Row({
   scrollToId,
   children,
 }) {
+  const [hideTvImage, setHideTvImage] = useState(false);
+
   // TODO: This might be a performance bottlneck. Cut down unnecessary calculations.
   const cells = activeColumns.map((columnName) => {
     let inside = item[columnName],
@@ -148,13 +150,18 @@ export default React.memo(function Row({
             {children}
             {item.type === "tv" && item.series?.length ? (
               <>
-                <img
-                  title={item.series[0]}
-                  alt={item.series[0]}
-                  className="tv-image"
-                  height="20px"
-                  src={buildTvImagePath(item.series[0])}
-                />
+                {!hideTvImage ? (
+                  <img
+                    title={item.series[0]}
+                    alt={item.series[0] + " logo"}
+                    className="tv-image"
+                    height="20"
+                    src={buildTvImagePath(item.series[0])}
+                    onError={() => setHideTvImage(true)}
+                  />
+                ) : (
+                  <small className="tv-image text-fallback">{item.series[0]}</small>
+                )}
                 <EpisodeNumber item={item}>
                   {highlightSearchResults(
                     item.se,
