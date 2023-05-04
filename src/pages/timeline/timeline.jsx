@@ -18,8 +18,11 @@ import { initialSearchResults, searchResultsReducer } from "./searchResults";
 import { typeFiltersInitializer, typeFiltersReducer } from "./typeFilters";
 import AppearancesFilterSettings from "./filters/appearancesFilterSettings";
 import { FiltersContext } from "./context";
-import useLocalStorageToggle from "@/hooks/useLocalStorageToggle";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+
+function areAllBoolsFalse(obj) {
+  return Object.values(obj).every((v) => (typeof v === "boolean" ? !v : areAllBoolsFalse(v)));
+}
 
 export default function Timeline({ setFullCover }) {
   const [rawData, setRawData] = useState([]);
@@ -29,9 +32,9 @@ export default function Timeline({ setFullCover }) {
   const [filterCategory, setFilterCategory] = useState("");
   const [boxFilters, setBoxFilters] = useLocalStorage("boxFilters", []);
   const [timelineRangeBy, setTimelineRangeBy] = useLocalStorage("timelineRangeBy", "date");
-  const [hideUnreleased, setHideUnreleased] = useLocalStorageToggle("hideUnreleased", false);
-  const [hideAdaptations, setHideAdaptations] = useLocalStorageToggle("hideAdaptations", false);
-  const [collapseAdjacent, setCollapseAdjacent] = useLocalStorageToggle("collapseAdjacent", false);
+  const [hideUnreleased, setHideUnreleased] = useLocalStorage("hideUnreleased", false);
+  const [hideAdaptations, setHideAdaptations] = useLocalStorage("hideAdaptations", false);
+  const [collapseAdjacent, setCollapseAdjacent] = useLocalStorage("collapseAdjacent", false);
   const [showFilters, setShowFilters] = useState(false);
   const [rangeFromStr, setRangeFrom] = useLocalStorage("rangeFromStr", "");
   const [rangeToStr, setRangeTo] = useLocalStorage("rangeToStr", "");
@@ -42,7 +45,7 @@ export default function Timeline({ setFullCover }) {
     hideFlashbacks: false,
     hideHolograms: false,
   });
-  const [boxFiltersAnd, setBoxFiltersAnd] = useLocalStorageToggle("boxFiltersAnd", false);
+  const [boxFiltersAnd, setBoxFiltersAnd] = useLocalStorage("boxFiltersAnd", false);
   // Keys: names of columns corresponding to keys in data
   // Values: wheter they're to be displayed
   const [columns, setColumns] = useLocalStorage("columns", {
@@ -150,6 +153,31 @@ export default function Timeline({ setFullCover }) {
         {/* TODO context */}
         <FiltersContext.Provider value={""}>
           <Filters showFilters={showFilters} setShowFilters={setShowFilters}>
+            <button
+              className="btn"
+              disabled={
+                !(
+                  filterText ||
+                  boxFilters.length ||
+                  hideUnreleased ||
+                  hideAdaptations ||
+                  rangeFromStr ||
+                  rangeToStr ||
+                  !areAllBoolsFalse(typeFilters)
+                )
+              }
+              onClick={() => {
+                setFilterText("");
+                setBoxFilters([]);
+                setHideUnreleased(false);
+                setHideAdaptations(false);
+                setRangeFrom("");
+                setRangeTo("");
+                dispatchTypeFilters({ path: "type", to: false });
+              }}
+            >
+              Reset all filters
+            </button>
             <TextFilter
               filterText={filterText}
               setFilterText={setFilterText}

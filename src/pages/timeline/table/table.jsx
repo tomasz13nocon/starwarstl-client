@@ -210,7 +210,7 @@ function Table({
             } else if (item[field] !== undefined) {
               console.error(
                 "Unknown field type while searching. Expected string or array of strings. Got: " +
-                  typeof item[field]
+                typeof item[field]
               );
             }
           }
@@ -300,9 +300,9 @@ function Table({
                   searchResultsHighlight={
                     searchResults.highlight
                       ? {
-                          resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
-                          indicesIndex: searchResults.highlight.indicesIndex,
-                        }
+                        resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
+                        indicesIndex: searchResults.highlight.indicesIndex,
+                      }
                       : null
                   }
                   rowSearchResults={rowSearchResults}
@@ -318,7 +318,9 @@ function Table({
                     </MatchedAppearances>
                   )}
                   {matchedBoxFilterApps.length !== 0 && (
-                    <MatchedAppearances appearances={matchedBoxFilterApps[item._id]} />
+                    <MatchedAppearances
+                      appearances={matchedBoxFilterApps[item._id]}
+                    ></MatchedAppearances>
                   )}
                 </Row>
               </div>

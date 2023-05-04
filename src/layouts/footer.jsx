@@ -6,6 +6,7 @@ export default function Footer() {
     <footer>
       <div className="footer-container">
         <div className="legal">
+          <p>This website contains affiliate links.</p>
           <p>
             All text content describing Star Wars media, as well as the{" "}
             <a href="https://starwars.fandom.com/wiki/File:Wiki-shrinkable.png">

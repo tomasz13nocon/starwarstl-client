@@ -192,6 +192,20 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
                     <WookieeLink title={item.href ?? item.title}>{item.title}</WookieeLink>
                   )}
                 </h2>
+                <div className="affiliate-btns">
+                  {(["book", "audio-drama", "yr"].includes(item.type) ||
+                    ["comic", "comic-manga"].includes(item.fullType)) &&
+                    !isNaN(new Date(item.releaseDate)) && (
+                      <ExternalLink
+                        target="_blank"
+                        href={`https://www.amazon.com/gp/search?ie=UTF8&tag=starwarstl-20&linkCode=ur2&camp=1789&creative=9325&index=books&keywords=${encodeURIComponent(
+                          item.title
+                        )}`}
+                      >
+                        Buy on <img src="/img/amazon.webp" alt="Amazon" />
+                      </ExternalLink>
+                    )}
+                </div>
                 {item.notUnique && item.title !== item.href && (
                   <div className="not-unique">
                     Appearances and information (other than Timeline notes) refer to &quot;
@@ -209,20 +223,22 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
 
                 <div className="spacer" />
 
-                {item.hasAppearances && (
-                  <div className="appearances-btn-wrapper">
-                    <button
-                      className={`appearances-btn ${appearancesVisible ? "active" : ""}`}
-                      onClick={() => toggleAppearancesVisible(true)}
-                    >
-                      <span>{appearancesVisible ? "Hide appearances" : "Show appearances"}</span>
-                      <Icon
-                        className="icon"
-                        path={appearancesVisible ? mdiChevronUp : mdiChevronDown}
-                      />
-                    </button>
-                  </div>
-                )}
+                <div className="bottom-btns">
+                  {item.hasAppearances && (
+                    <div className="appearances-btn-wrapper">
+                      <button
+                        className={`btn appearances-btn ${appearancesVisible ? "active" : ""}`}
+                        onClick={() => toggleAppearancesVisible(true)}
+                      >
+                        <span>{appearancesVisible ? "Hide appearances" : "Show appearances"}</span>
+                        <Icon
+                          className="icon"
+                          path={appearancesVisible ? mdiChevronUp : mdiChevronDown}
+                        />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             {appearancesVisible && (

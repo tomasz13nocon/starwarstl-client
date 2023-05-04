@@ -219,11 +219,33 @@
   // text-transform: capitalize;
 }
 
+.btn {
+  @extend %reset-button;
+  padding: 0 6px;
+  font-size: 16px;
+  border: 2px solid $grey0;
+  transition: background-color 0.1s;
+  &.active {
+    background-color: $active2;
+  }
+  &:hover {
+    box-shadow: $hover-shadow;
+  }
+  &:disabled {
+    color: $grey2;
+    border-color: $grey3;
+    cursor: not-allowed;
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+
 .show-button,
 .hide-button {
   @extend %reset-button;
-  font-weight: $weight-bold;
-  border: 2px outset black;
+  // font-weight: $weight-bold;
+  border: 2px outset $grey1;
   font-size: 0.75em;
   padding: 1px 5px;
   margin-right: 8px;
@@ -235,7 +257,7 @@
   &:focus {
     border-color: $focus;
   }
-  background-color: #ccc;
+  // background-color: #ccc;
 }
 .show-button {
   // background-color: #86cc66;

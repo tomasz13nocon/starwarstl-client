@@ -10,6 +10,7 @@ import {
   mdiFamilyTree,
   mdiSpaceStation,
   mdiSwordCross,
+  mdiChip,
 } from "@mdi/js";
 
 export const API =
@@ -180,7 +181,7 @@ export const appearancesIcons = {
   organizations: mdiMedal,
   species: mdiFamilyTree,
   vehicles: mdiSpaceStation,
-  technology: mdiSwordCross,
+  technology: mdiChip, //mdiSwordCross,
   miscellanea: mdiShape,
 };
 

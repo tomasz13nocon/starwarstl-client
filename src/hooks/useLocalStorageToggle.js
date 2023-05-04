@@ -2,8 +2,8 @@ import { useReducer } from "react";
 
 export default function useLocalStorageToggle(key, defaultValue) {
   return useReducer(
-    (s) => {
-      localStorage.setItem(key, !s);
+    (s, value) => {
+      localStorage.setItem(key, value ?? !s);
       return !s;
     },
     defaultValue,
