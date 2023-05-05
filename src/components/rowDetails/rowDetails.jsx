@@ -11,6 +11,7 @@ import Appearances from "./appearances";
 import AppearancesSettings from "./appearancesSettings";
 import "./styles/rowDetails.scss";
 import { AppearancesContext } from "./context";
+import { AnalyticsCategories, analytics } from "@/analytics";
 
 const render = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -228,7 +229,16 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
                     <div className="appearances-btn-wrapper">
                       <button
                         className={`btn appearances-btn ${appearancesVisible ? "active" : ""}`}
-                        onClick={() => toggleAppearancesVisible(true)}
+                        onClick={() => {
+                          toggleAppearancesVisible(true);
+                          if (!appearancesVisible) {
+                            analytics.logEvent(
+                              AnalyticsCategories.appearances,
+                              "Show appearances click",
+                              item.title
+                            );
+                          }
+                        }}
                       >
                         <span>{appearancesVisible ? "Hide appearances" : "Show appearances"}</span>
                         <Icon

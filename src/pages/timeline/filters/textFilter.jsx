@@ -4,6 +4,7 @@ import AppearancesIcons from "./appearancesIcons";
 import { useEffect, useRef, useState } from "react";
 import ErrorSmall from "@components/errorSmall";
 import { Virtuoso } from "react-virtuoso";
+import { AnalyticsCategories, analytics } from "@/analytics";
 
 export default function TextFilter({
   filterText,
@@ -20,7 +21,6 @@ export default function TextFilter({
   const [fetchingAppearances, setFetchingAppearances] = useState("");
   const [error, setError] = useState();
   const inputRef = useRef(null);
-  const virtuoso = useRef(null);
 
   const handleFilterTextChange = (newFilterText) => {
     setFilterText(newFilterText);
@@ -31,6 +31,7 @@ export default function TextFilter({
       setFilterCategory("");
       return;
     }
+    analytics.logEvent("Appearances", "Icon click", name);
     setFilterCategory(name);
     inputRef.current.focus();
     if (appearancesCategories.includes(name)) {
@@ -136,6 +137,11 @@ export default function TextFilter({
                     className={`suggestion ${el.type} ${el.fullType}`}
                     onClick={() => {
                       setBoxFilters([...boxFilters, el]);
+                      analytics.logEvent(
+                        AnalyticsCategories.appearances,
+                        "Suggestion click",
+                        el.displayTitle || el.title || el.name
+                      );
                       setFilterText("");
                       setFilterCategory("");
                       setSuggestions([]);
