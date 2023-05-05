@@ -1,8 +1,8 @@
 import React, { useReducer } from "react";
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
 import { Blurhash } from "react-blurhash";
-import { _ } from "lodash";
+import _ from "lodash";
 import WookieeLink from "@components/wookieeLink";
 import ExternalLink from "@components/externalLink";
 import FetchingImg from "@components/fetchingImg";

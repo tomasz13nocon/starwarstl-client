@@ -1,4 +1,4 @@
-import Icon from "@mdi/react";
+import { Icon } from "@mdi/react";
 import "./styles/appearancesIcons.scss";
 import { appearancesCategoriesNames, appearancesIcons } from "@/util";
 import { mdiLoading } from "@mdi/js";
