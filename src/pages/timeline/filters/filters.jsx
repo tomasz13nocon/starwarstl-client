@@ -11,12 +11,12 @@ export default React.memo(function Filters({ showFilters, setShowFilters, childr
     <div className={`filters-container ${showFilters && smallScreen ? "visible" : ""}`}>
       <div className="filters">{children}</div>
       {smallScreen ? (
-        <div
+        <button
           className={`filters-btn ${showFilters ? "filters-visible" : ""}`}
           onClick={() => setShowFilters(!showFilters)}
         >
           <Icon path={mdiFilterMultiple} size={1.6} className="icon" />
-        </div>
+        </button>
       ) : null}
     </div>
   );

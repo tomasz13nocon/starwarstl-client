@@ -1,0 +1,48 @@
+$full-image-transition: 0.2s;
+.modal-transition-enter {
+  opacity: 0;
+  .modal {
+    transform: translateY(10vh);
+  }
+}
+.modal-transition-enter-active {
+  transition: opacity $full-image-transition;
+  opacity: 1;
+  .modal {
+    transition: transform $full-image-transition;
+    transform: translateY(0px);
+  }
+}
+.modal-transition-exit {
+  opacity: 1;
+  .modal {
+    transform: translateY(0px);
+  }
+}
+.modal-transition-exit-active {
+  transition: opacity $full-image-transition;
+  opacity: 0;
+  .modal {
+    transition: transform $full-image-transition;
+    transform: translateY(10vh);
+  }
+}
+
+.modal-underlay {
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.5);
+
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  $padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  // height: 100%;
+  // width: 100%;
+}

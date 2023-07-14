@@ -75,7 +75,6 @@ export const ANIMATION_TIME = 180;
 export default React.memo(function Row({
   item,
   activeColumns,
-  setFullCover,
   expanded,
   setExpanded,
   searchExpanded,
@@ -230,17 +229,16 @@ export default React.memo(function Row({
   return (
     <>
       <div
-        className={`standard-row-inner ${
-          !activeColumns.includes("date") &&
-          !activeColumns.includes("releaseDate") &&
-          !activeColumns.includes("writer")
+        className={`standard-row-inner ${!activeColumns.includes("date") &&
+            !activeColumns.includes("releaseDate") &&
+            !activeColumns.includes("writer")
             ? "compact"
             : ""
-        }`}
+          }`}
       >
         {cells}
       </div>
-      {expanded && <RowDetails item={item} setFullCover={setFullCover} dataState={dataState} />}
+      {expanded && <RowDetails item={item} dataState={dataState} />}
     </>
   );
 });

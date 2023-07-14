@@ -1,17 +1,16 @@
 import React, { useReducer } from "react";
 import { Icon } from "@mdi/react";
 import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
-import { Blurhash } from "react-blurhash";
 import _ from "lodash";
 import WookieeLink from "@components/wookieeLink";
 import ExternalLink from "@components/externalLink";
 import FetchingImg from "@components/fetchingImg";
-import { imgAddress } from "@/util";
 import Appearances from "./appearances";
 import AppearancesSettings from "./appearancesSettings";
 import "./styles/rowDetails.scss";
 import { AppearancesContext } from "./context";
 import { AnalyticsCategories, analytics } from "@/analytics";
+import MediaCover from "@components/mediaCover";
 
 const render = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -28,7 +27,7 @@ const render = (value, link = true) => {
             {item.data.map((e, i) => (
               <li key={i}>{render(e, link)}</li>
             ))}
-          </ul>
+          </ul>,
         );
         break;
       case "note":
@@ -45,7 +44,7 @@ const render = (value, link = true) => {
         arr.push(
           <ExternalLink href={"https://" + item.href} title={`${item.wiki}: ${item.page}`}>
             {item.text ?? item.page}
-          </ExternalLink>
+          </ExternalLink>,
         );
         break;
     }
@@ -143,7 +142,7 @@ const getData = (item) => {
   return ret;
 };
 
-export default React.memo(function RowDetails({ item, setFullCover, dataState }) {
+export default React.memo(function RowDetails({ item, dataState }) {
   const [appearancesVisible, toggleAppearancesVisible] = useReducer((s) => !s, false);
   const [hideMentions, toggleHideMentions] = useReducer((s) => !s, false);
   const [hideIndirectMentions, toggleHideIndirectMentions] = useReducer((s) => !s, false);
@@ -159,31 +158,13 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
           <>
             <div className="td-inner">
               {item.cover ? (
-                <button
-                  className="reset-button cover-button"
-                  onClick={() =>
-                    setFullCover({
-                      name: item.cover,
-                      show: true,
-                      width: item.coverWidth,
-                      height: item.coverHeight,
-                      hash: item.coverHash,
-                    })
-                  }
-                >
-                  <Blurhash
-                    hash={item.coverHash}
-                    width={220}
-                    height={220 / (item.coverWidth / item.coverHeight)}
-                  />
-                  <img
-                    key={Math.random()}
-                    width={220}
-                    src={imgAddress(item.cover)}
-                    alt={`cover of ${item.title}`}
-                    className={`cover`}
-                  />
-                </button>
+                <MediaCover
+                  src={item.cover}
+                  alt={`Cover of ${item.title}`}
+                  width={item.coverWidth}
+                  height={item.coverHeight}
+                  hash={item.coverHash}
+                />
               ) : null}
               <div className="text">
                 <h2 className="title">
@@ -197,17 +178,17 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
                   {(["book", "audio-drama", "yr"].includes(item.type) ||
                     ["comic", "comic-manga"].includes(item.fullType)) &&
                     !isNaN(new Date(item.releaseDate)) && (
-		      <>
+                      <>
                         <ExternalLink
                           target="_blank"
                           href={`https://www.amazon.com/gp/search?ie=UTF8&tag=starwarstl0c-20&linkCode=ur2&camp=1789&creative=9325&index=books&keywords=${encodeURIComponent(
-                            item.title
+                            item.title,
                           )}`}
                         >
                           Buy on <img src="/img/amazon.webp" alt="Amazon" />
                         </ExternalLink>
-		        <small className="link-disclosure">(affiliate link)</small>
-		      </>
+                        <small className="link-disclosure">(affiliate link)</small>
+                      </>
                     )}
                 </div>
                 {item.notUnique && item.title !== item.href && (
@@ -238,7 +219,7 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
                             analytics.logEvent(
                               AnalyticsCategories.appearances,
                               "Show appearances click",
-                              item.title
+                              item.title,
                             );
                           }
                         }}

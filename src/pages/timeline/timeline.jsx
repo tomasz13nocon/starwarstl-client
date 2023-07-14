@@ -24,7 +24,7 @@ function areAllBoolsFalse(obj) {
   return Object.values(obj).every((v) => (typeof v === "boolean" ? !v : areAllBoolsFalse(v)));
 }
 
-export default function Timeline({ setFullCover }) {
+export default function Timeline() {
   const [rawData, setRawData] = useState([]);
   const [seriesArr, setSeriesArr] = useState([]);
   const [dataState, setDataState] = useState("fetching"); // fetching, fetchingDetails, ok, error
@@ -88,7 +88,7 @@ export default function Timeline({ setFullCover }) {
   }, [typeFilters]);
 
   // Fetch data
-  useEffect(async () => {
+  useEffect(() => {
     let data,
       cancelled = false;
     const fetchToJson = async (apiRoute) => {
@@ -232,7 +232,6 @@ export default function Timeline({ setFullCover }) {
             filterCategory={filterCategory}
             typeFilters={typeFilters}
             rawData={rawData}
-            setFullCover={setFullCover}
             boxFilters={boxFilters}
             boxFiltersAnd={boxFiltersAnd}
             searchExpanded={searchExpanded}

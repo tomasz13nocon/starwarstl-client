@@ -40,7 +40,6 @@ function Table({
   rangeFrom,
   rangeTo,
   timelineRangeBy,
-  setFullCover,
   appearances,
   appearancesFilters,
 }) {
@@ -293,7 +292,6 @@ function Table({
                 <Row
                   item={item}
                   activeColumns={activeColumns}
-                  setFullCover={setFullCover}
                   expanded={expanded === item._id}
                   setExpanded={setExpanded}
                   searchExpanded={searchExpanded}
