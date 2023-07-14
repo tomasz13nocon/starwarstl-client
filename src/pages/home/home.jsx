@@ -44,8 +44,8 @@ export default function Home(p) {
     setRandomItemState({ state: "ok" });
   };
 
-  React.useEffect(async () => {
-    await fetchRandomItem();
+  React.useEffect(() => {
+    fetchRandomItem();
   }, []);
 
   // I'm a nice guy, therefore I won't blow people's eardrums off.
@@ -100,7 +100,6 @@ export default function Home(p) {
             ) : (
               <RowDetails
                 item={randomItem}
-                setFullCover={p.setFullCover}
                 dataState={randomItemState.state === "fetching" ? "fetchingDetails" : "ok"}
               />
             )}

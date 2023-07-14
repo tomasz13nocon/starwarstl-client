@@ -11,4 +11,9 @@ export default defineConfig({
   },
   publicDir: "../public",
   plugins: [react({}), ViteAliases({ prefix: "@" })],
+  css: {
+    modules: {
+      localsConvention: "camelCaseOnly",
+    },
+  },
 });

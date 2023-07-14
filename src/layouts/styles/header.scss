@@ -1,0 +1,63 @@
+@use "@/vars.scss" as *;
+
+.header-container {
+  background-color: $active4;
+  color: white;
+}
+
+header {
+  width: $main-width;
+  @media (max-width: $width-xl) {
+    width: 100%;
+  }
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .nav-list {
+    margin: 0;
+    @media (max-width: $width-sm) {
+      padding: 0 16px;
+      display: flex;
+      flex-wrap: wrap;
+      li {
+        flex-grow: 1;
+      }
+    }
+    li {
+      display: inline-block;
+      a {
+        display: block;
+        text-align: center;
+        padding: 16px 24px;
+        color: white;
+        &.active {
+          background-color: $active5;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  .nav-list,
+  .right {
+    padding: 0 30px;
+  }
+
+  .right {
+    > div {
+      // padding: 16px 24px;
+    }
+  }
+
+  .sign-in {
+    color: white;
+    border-radius: 6px;
+    border: 2px solid white;
+    padding: 6px 16px;
+    &:hover {
+      box-shadow: 0 0 4px white;
+    }
+  }
+}
