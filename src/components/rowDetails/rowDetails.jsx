@@ -197,14 +197,17 @@ export default React.memo(function RowDetails({ item, setFullCover, dataState })
                   {(["book", "audio-drama", "yr"].includes(item.type) ||
                     ["comic", "comic-manga"].includes(item.fullType)) &&
                     !isNaN(new Date(item.releaseDate)) && (
-                      <ExternalLink
-                        target="_blank"
-                        href={`https://www.amazon.com/gp/search?ie=UTF8&tag=starwarstl-20&linkCode=ur2&camp=1789&creative=9325&index=books&keywords=${encodeURIComponent(
-                          item.title
-                        )}`}
-                      >
-                        Buy on <img src="/img/amazon.webp" alt="Amazon" />
-                      </ExternalLink>
+		      <>
+                        <ExternalLink
+                          target="_blank"
+                          href={`https://www.amazon.com/gp/search?ie=UTF8&tag=starwarstl0c-20&linkCode=ur2&camp=1789&creative=9325&index=books&keywords=${encodeURIComponent(
+                            item.title
+                          )}`}
+                        >
+                          Buy on <img src="/img/amazon.webp" alt="Amazon" />
+                        </ExternalLink>
+		        <small className="link-disclosure">(affiliate link)</small>
+		      </>
                     )}
                 </div>
                 {item.notUnique && item.title !== item.href && (
