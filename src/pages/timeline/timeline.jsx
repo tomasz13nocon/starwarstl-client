@@ -57,18 +57,18 @@ export default function Timeline() {
   });
   const [searchExpanded, toggleSearchExpanded] = useReducer(
     (state, value) => (value === undefined ? !state : value),
-    false
+    false,
   );
   const [searchResults, dispatchSearchResults] = useReducer(
     searchResultsReducer,
-    initialSearchResults
+    initialSearchResults,
   );
   const [typeFilters, dispatchTypeFilters] = useReducer(
     typeFiltersReducer,
     filtersTemplate,
     (template) => {
       return typeFiltersInitializer(template);
-    }
+    },
   );
   const [sorting, toggleSorting] = useReducer(
     (prevSorting, name) => {
@@ -80,7 +80,7 @@ export default function Timeline() {
     {
       by: "date",
       ascending: true,
-    }
+    },
   );
 
   useEffect(() => {
@@ -100,7 +100,7 @@ export default function Timeline() {
     (async () => {
       try {
         // bare media
-        let d = await fetchToJson("media");
+        let d = await fetchToJson("media?bare=true");
         if (cancelled) return;
 
         // series data
@@ -112,7 +112,7 @@ export default function Timeline() {
 
         // media details
         setDataState("fetchingDetails");
-        data = await fetchToJson("media-details");
+        data = await fetchToJson("media");
         if (cancelled) return;
       } catch (e) {
         setDataState("error");
@@ -131,11 +131,11 @@ export default function Timeline() {
   // Process timeline range input
   let rangeFrom = useMemo(
     () => parseRange(rangeFromStr, rawData, timelineRangeBy),
-    [rangeFromStr, rawData, timelineRangeBy]
+    [rangeFromStr, rawData, timelineRangeBy],
   );
   let rangeTo = useMemo(
     () => parseRange(rangeToStr, rawData, timelineRangeBy),
-    [rangeToStr, rawData, timelineRangeBy]
+    [rangeToStr, rawData, timelineRangeBy],
   );
 
   return (
