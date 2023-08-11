@@ -1,25 +1,37 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Footer from "@layouts/footer";
-import Header from "@layouts/header";
+import { StrictMode } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Timeline from "@pages/timeline/timeline";
 import Home from "@pages/home/home";
+import EmailVerification from "@pages/email-verification";
+import Settings from "@pages/settings";
 import NotFound from "./NotFound";
-import Signin from "@pages/signin";
+import { AuthProvider } from "@context/authContext";
+import emailVerificationLoader from "@pages/email-verification/loader";
+import Layout from "@layouts/layout";
+
+const router = createBrowserRouter([
+  {
+    Component: Layout,
+    children: [
+      {
+        path: "/email-verification/:token",
+        loader: emailVerificationLoader,
+        Component: EmailVerification,
+      },
+      { path: "/settings", Component: Settings },
+      { path: "/timeline", Component: Timeline },
+      { path: "/", Component: Home },
+      { path: "*", Component: NotFound },
+    ],
+  },
+]);
 
 export default function App() {
   return (
-    <React.StrictMode>
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/signin" element={<Signin />}></Route>
-          <Route path="/timeline" element={<Timeline />}></Route>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="*" element={<NotFound />}></Route>
-        </Routes>
-        <Footer />
-      </Router>
-    </React.StrictMode>
+    <StrictMode>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </StrictMode>
   );
 }

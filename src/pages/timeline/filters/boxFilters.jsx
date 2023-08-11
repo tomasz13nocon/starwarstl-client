@@ -33,7 +33,7 @@ export default function BoxFilters({ boxFilters, setBoxFilters, boxFiltersAnd, s
                 <WookieeLink title={boxFilter.title || boxFilter.name}></WookieeLink>
               </span>
               <button
-                className={`curp remove-box-filter ${boxFilter.type}-reversed ${boxFilter.fullType}-reversed`}
+                className={`remove-box-filter ${boxFilter.type}-reversed ${boxFilter.fullType}-reversed`}
                 onClick={() =>
                   setBoxFilters([...boxFilters.filter((el) => el._id !== boxFilter._id)])
                 }

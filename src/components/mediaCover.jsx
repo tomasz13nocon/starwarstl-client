@@ -29,7 +29,7 @@ export default function MediaCover({ src, alt, width, height, hash }) {
 
   return (
     <>
-      <button className="reset-button cover-button" ref={triggerProps.buttonRef} {...buttonProps}>
+      <button className="cover-button" ref={triggerProps.buttonRef} {...buttonProps}>
         <Blurhash hash={hash} width={220} height={220 / (width / height)} />
         <img key={Math.random()} width={220} src={imgAddress(src)} alt={alt} className={"cover"} />
       </button>

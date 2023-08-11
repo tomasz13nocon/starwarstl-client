@@ -1,0 +1,21 @@
+.msg-container {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  img {
+    width: 200px;
+    max-width: 100%;
+    border: 1px solid darkgrey;
+  }
+}
+
+.msg-text {
+  font-size: 1.25rem;
+  font-style: italic;
+  text-align: center;
+  margin: 10px 0;
+}

@@ -28,6 +28,7 @@
 
 .remove-box-filter {
   @extend %reset-button;
+  cursor: pointer;
   background: $active4;
   color: $active7;
   border-top-right-radius: 9999px;

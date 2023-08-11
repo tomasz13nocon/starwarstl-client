@@ -2,7 +2,7 @@ import { API, appearancesCategories, suggestionPriority } from "@/util";
 import ClearableTextInput from "@components/clearableTextInput";
 import AppearancesIcons from "./appearancesIcons";
 import { useEffect, useRef, useState } from "react";
-import ErrorSmall from "@components/errorSmall";
+import Error from "@components/error";
 import { Virtuoso } from "react-virtuoso";
 import { AnalyticsCategories, analytics } from "@/analytics";
 
@@ -68,11 +68,11 @@ export default function TextFilter({
           ?.filter(
             (item) =>
               item.name.toLowerCase().includes(query) &&
-              !boxFilters.find((b) => b.name === item.name)
+              !boxFilters.find((b) => b.name === item.name),
           )
           .sort((a, b) => b.media.length - a.media.length)
           // .slice(0, 10)
-          .map((app) => ({ ...app, _id: app.name, category: filterCategory })) ?? []
+          .map((app) => ({ ...app, _id: app.name, category: filterCategory })) ?? [],
       );
     } else {
       // Series
@@ -84,7 +84,7 @@ export default function TextFilter({
       let found = seriesArr.filter((item) =>
         item.displayTitle
           ? item.displayTitle.toLowerCase().includes(query)
-          : item.title.toLowerCase().includes(query)
+          : item.title.toLowerCase().includes(query),
       );
       // TODO: indicate fetching of series
       if (found.length) {
@@ -97,7 +97,7 @@ export default function TextFilter({
               if (ap > bp) return 1;
               if (ap < bp) return -1;
               return 0;
-            })
+            }),
           // .slice(0, 10)
         );
       } else {
@@ -122,7 +122,7 @@ export default function TextFilter({
         activeCategory={filterCategory}
         fetching={fetchingAppearances}
       />
-      {error && <ErrorSmall msg={error} />}
+      {error && <Error msg={error} />}
       {suggestions.length > 0 && (
         <>
           <span className="suggestions-heading">Suggestions:</span>
@@ -140,7 +140,7 @@ export default function TextFilter({
                       analytics.logEvent(
                         AnalyticsCategories.appearances,
                         "Suggestion click",
-                        el.displayTitle || el.title || el.name
+                        el.displayTitle || el.title || el.name,
                       );
                       setFilterText("");
                       setFilterCategory("");

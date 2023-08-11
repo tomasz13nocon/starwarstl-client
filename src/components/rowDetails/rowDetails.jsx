@@ -4,7 +4,7 @@ import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
 import _ from "lodash";
 import WookieeLink from "@components/wookieeLink";
 import ExternalLink from "@components/externalLink";
-import FetchingImg from "@components/fetchingImg";
+import Fetching from "@components/fetching";
 import Appearances from "./appearances";
 import AppearancesSettings from "./appearancesSettings";
 import "./styles/rowDetails.scss";
@@ -153,7 +153,7 @@ export default React.memo(function RowDetails({ item, dataState }) {
     <div className="tr details-row">
       <div className="td">
         {dataState === "fetchingDetails" ? (
-          <FetchingImg />
+          <Fetching />
         ) : (
           <>
             <div className="td-inner">

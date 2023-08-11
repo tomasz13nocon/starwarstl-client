@@ -13,11 +13,7 @@ import {
   mdiChip,
 } from "@mdi/js";
 
-export const API =
-  // window.location.protocol +
-  // "//" +
-  // (import.meta.env.VITE_API_HOST ?? window.location.hostname) +
-  (import.meta.env.VITE_API_HOST ?? "") + "/api/";
+export const API = (import.meta.env.VITE_API_HOST ?? "") + "/api/";
 export const IMAGE_PATH = (import.meta.env.VITE_IMG_HOST ?? "") + "/img/covers/";
 export const TV_IMAGE_PATH = `/img/tv-images/thumb/`;
 export const ERA_IMAGE_PATH = `/img/eras/`;

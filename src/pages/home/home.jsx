@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { mdiArrowDown, mdiDiceMultipleOutline } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import RowDetails from "@components/rowDetails/rowDetails";
-import Error from "@components/error";
+import NetworkError from "@components/networkError";
 import { API } from "@/util";
 import Faq from "./faq";
 import Showcase from "./showcase";
@@ -86,17 +86,17 @@ export default function Home(p) {
           </div>
         </div>
         <div className="random">
+          {/* needed for alignment */}
           <div>
-            {/* needed for alignment */}
             <button
-              className={`reroll-btn ${randomItemState.state === "fetching" ? "fetching" : ""}`}
+              className={`reroll-btn btn ${randomItemState.state === "fetching" ? "fetching" : ""}`}
               onClick={fetchRandomItem}
             >
               <Icon path={mdiDiceMultipleOutline} size={1.5} className="icon" />
               <span>Reroll</span>
             </button>
             {randomItemState.state === "error" ? (
-              <Error details={randomItemState.error} />
+              <NetworkError msg={randomItemState.error} />
             ) : (
               <RowDetails
                 item={randomItem}
