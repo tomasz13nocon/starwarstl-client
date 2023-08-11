@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Virtuoso } from "react-virtuoso";
-import MessageImg from "@components/messageImg";
+import MessageBox from "@components/messageBox";
 import SortingIcon from "@components/sortingIcon";
-import Error from "@components/error";
+import NetworkError from "@components/networkError";
 import { escapeRegex, searchFields, notSortable, columnNames } from "@/util";
 import Row from "./row";
 import "./styles/timeline.scss";
@@ -16,7 +16,7 @@ import {
   createTypeStrategy,
   getMatchedApps,
 } from "./filtering";
-import FetchingImg from "@components/fetchingImg";
+import Fetching from "@components/fetching";
 import AppearanceShield from "@components/rowDetails/appearanceShield";
 import MatchedAppearances from "./matchedAppearances";
 
@@ -49,7 +49,7 @@ function Table({
   const renderedRange = React.useRef(null);
   const activeColumns = React.useMemo(
     () => Object.keys(columns).filter((name) => columns[name]),
-    [columns]
+    [columns],
   );
 
   // Scroll to highlighted search result
@@ -116,7 +116,7 @@ function Table({
 
     if (filterText) {
       strategies.push(
-        createTextStrategy(filterText, filterCategory, appearances, appearancesFilters)
+        createTextStrategy(filterText, filterCategory, appearances, appearancesFilters),
       );
     }
 
@@ -153,7 +153,7 @@ function Table({
         });
       }
     },
-    [data, virtuoso.current]
+    [data, virtuoso.current],
   );
 
   // Scroll to expanded entry on data change.
@@ -209,7 +209,7 @@ function Table({
             } else if (item[field] !== undefined) {
               console.error(
                 "Unknown field type while searching. Expected string or array of strings. Got: " +
-                typeof item[field]
+                typeof item[field],
               );
             }
           }
@@ -255,14 +255,14 @@ function Table({
         ))}
       </div>
       <div className="tbody">
-        {dataState === "fetching" && <FetchingImg />}
-        {dataState === "error" && <Error />}
+        {dataState === "fetching" && <Fetching />}
+        {dataState === "error" && <NetworkError />}
         {dataState === "ok" && data.length === 0 && (
-          <MessageImg img="void">
+          <MessageBox img="void">
             There&apos;s nothing here...
             <br />
             <span className="small">(Try changing the filters or the query)</span>
-          </MessageImg>
+          </MessageBox>
         )}
         <Virtuoso
           ref={virtuoso}
@@ -283,7 +283,7 @@ function Table({
               } while (searchResults.results[resultsIndex + rowResultCount]?.rowIndex === index);
               rowSearchResults = searchResults.results.slice(
                 resultsIndex,
-                resultsIndex + rowResultCount
+                resultsIndex + rowResultCount,
               );
             }
 

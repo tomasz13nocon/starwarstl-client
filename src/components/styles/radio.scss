@@ -23,7 +23,9 @@
       height: 17px;
       border: 2px solid $grey2;
       border-radius: 50%;
-      transition: background-color 0.1s, border-color 0.1s;
+      transition:
+        background-color 0.1s,
+        border-color 0.1s;
 
       &:before {
         content: "";
@@ -42,7 +44,7 @@
       }
     }
     .radio.checked {
-      background-color: $active;
+      background-color: $active1;
       border-color: $active3;
 
       &:before {

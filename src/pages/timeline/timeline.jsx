@@ -168,6 +168,7 @@ export default function Timeline() {
               }
               onClick={() => {
                 setFilterText("");
+                setFilterCategory("");
                 setBoxFilters([]);
                 setHideUnreleased(false);
                 setHideAdaptations(false);

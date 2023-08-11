@@ -1,0 +1,145 @@
+@use "@/vars.scss" as *;
+@use "@/global.scss" as *;
+
+.settings-link {
+  color: white;
+  text-align: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-container {
+  background-color: $active4;
+  color: white;
+}
+
+.desktop-header {
+  @media (max-width: $width-sm) {
+    display: none;
+    // width: 100%;
+  }
+
+  max-width: $main-width;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-header {
+  display: none;
+  text-align: center;
+  @media (max-width: $width-sm) {
+    display: block;
+  }
+  .logout-btn {
+    padding: 1rem;
+    width: 100%;
+  }
+  .content {
+    padding-bottom: 0.5rem;
+  }
+  .username {
+    padding: 0.5rem;
+  }
+  .login-dialog {
+    padding: 1rem;
+  }
+  border-bottom: 1px solid $active6;
+}
+
+.icon {
+  vertical-align: middle;
+}
+
+.nav-list,
+.right {
+  padding: 0 2rem;
+}
+
+.nav-list {
+  margin: 0;
+  @media (max-width: $width-sm) {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    li {
+      flex-grow: 1;
+    }
+  }
+  li {
+    display: inline-block;
+    a {
+      display: block;
+      text-align: center;
+      padding: 1rem 1.5rem;
+      color: white;
+      &[aria-current="page"] {
+        background-color: $active5;
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+.hamburger {
+  display: block;
+  margin: 0.5rem 1rem 0.5rem auto;
+}
+.hamburger-icon {
+  @extend .icon;
+  display: block;
+}
+
+.dropdown-trigger {
+  .arrow-icon {
+    @extend .icon;
+    transition: transform 0.1s;
+  }
+  &[data-state="open"] {
+    .arrow-icon {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.user-dropdown {
+  @media (max-width: $width-sm) {
+    display: none;
+  }
+  z-index: 100;
+  background-color: $active4;
+  color: white;
+  position: relative;
+  top: 10px;
+  padding: 1rem;
+
+  .arrow {
+    fill: $active4;
+  }
+
+  button {
+    @extend .btn-inv;
+    font-size: inherit;
+    width: 100%;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    &:hover {
+      box-shadow: $hover-shadow-inv;
+    }
+  }
+}
+
+.separator {
+  height: 1px;
+  background-color: $active5;
+  margin: 1rem 0;
+}
+
+.logged-in-text {
+  font-size: 0.8rem;
+  display: block;
+}

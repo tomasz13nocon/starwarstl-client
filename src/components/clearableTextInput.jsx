@@ -5,7 +5,7 @@ import "./styles/clearableTextInput.scss";
 
 export default forwardRef(function ClearableTextInput(
   { children, small, active, value, onChange, bullet, clearBullet, ...props },
-  ref
+  ref,
 ) {
   const id = React.useRef(Math.random().toString(36).substring(2));
   const bulletRef = React.useRef(null);
@@ -21,13 +21,13 @@ export default forwardRef(function ClearableTextInput(
       </label>
       <div id={id.current} className="clear-input-container">
         {bullet && (
-          <button className="reset-button bullet" ref={bulletRef} onClick={clearBullet}>
+          <button className="bullet" ref={bulletRef} onClick={clearBullet}>
             {bullet}:
           </button>
         )}
         <input
           type="text"
-          className={`input-default ${small ? "small" : ""} ${active ? "active" : ""}`}
+          className={`${small ? "small" : ""} ${active ? "active" : ""}`}
           style={bullet ? { paddingLeft: `${bulletPadding + 10}px` } : {}}
           value={value}
           onChange={(e) => onChange(e.target.value)}

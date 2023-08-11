@@ -29,7 +29,7 @@
     transform: translateY(-50%);
     left: 7px;
     padding: 0 4px;
-    border: 1px solid $active;
+    border: 1px solid $active1;
     border-radius: 6px;
     background-color: $active7;
     &:hover {
@@ -41,7 +41,7 @@
     background: $active6;
   }
   input.active:not(:focus) {
-    border-color: $active;
+    border-color: $active1;
   }
 
   input.small + .clear-input {

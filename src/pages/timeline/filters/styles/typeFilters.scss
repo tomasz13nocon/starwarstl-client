@@ -1,8 +1,22 @@
-.filters-section {
+@use "@/vars.scss" as *;
 
+.filters-section {
   .check-buttons {
-    button:hover {
-      box-shadow: 0 0 2px black;
+    button {
+      font-size: 0.75em;
+      padding: 1px 5px;
+      margin-right: 8px;
+      color: black;
+      cursor: pointer;
+      &:hover {
+        box-shadow: 0 0 2px black;
+      }
+      &:active {
+        border-style: inset;
+      }
+      &:focus {
+        border-color: $focus;
+      }
     }
   }
 
@@ -14,5 +28,4 @@
       margin-bottom: 3px;
     }
   }
-
 }

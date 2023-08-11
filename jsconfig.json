@@ -19,6 +19,15 @@
       ],
       "@rowDetails/*": [
         "src/components/rowDetails/*"
+      ],
+      "@context/*": [
+        "src/context/*"
+      ],
+      "@email-verification/*": [
+        "src/pages/email-verification/*"
+      ],
+      "@settings/*": [
+        "src/pages/settings/*"
       ]
     }
   }

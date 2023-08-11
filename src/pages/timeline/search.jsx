@@ -32,7 +32,6 @@ export default function Search({ expanded, toggleExpanded, searchResults, dispat
             ref={searchInputRef}
             type="text"
             placeholder="Search..."
-            className="input-default"
             value={searchResults.text}
             onChange={(e) =>
               dispatchSearchResults({

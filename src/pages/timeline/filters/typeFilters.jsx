@@ -6,10 +6,10 @@ export default function TypeFilters({ typeFilters, filtersChanged, filtersTempla
   return (
     <FiltersSection title="Media type" gaps>
       <div className="check-buttons">
-        <button className="show-button" onClick={() => filtersChanged({ path: "type", to: true })}>
+        <button className="btn" onClick={() => filtersChanged({ path: "type", to: true })}>
           CHECK ALL
         </button>
-        <button className="hide-button" onClick={() => filtersChanged({ path: "type", to: false })}>
+        <button className="btn" onClick={() => filtersChanged({ path: "type", to: false })}>
           UNCHECK ALL
         </button>
       </div>

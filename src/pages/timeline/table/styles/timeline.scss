@@ -1,17 +1,11 @@
 @use "@/vars.scss" as *;
 
-.message-container {
-  text-align: center;
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  img {
-    width: 200px;
-    max-width: 100%;
-    border: 1px solid darkgrey;
+.content {
+  flex: 1 0 auto;
+  width: $main-width;
+  margin: 16px auto;
+  @media (max-width: $width-xl) {
+    width: 100%;
   }
 }
 
@@ -265,11 +259,13 @@
   }
 }
 
-.loading-indicator-table {
-  height: 100px;
-  background: linear-gradient(#f3f3f300, #f3f3f3ff);
-  transform: translateY(-100%);
-  & + .message-container {
-    transform: translateY(-100px);
-  }
+.circle-buttons {
+  z-index: 5;
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
 }

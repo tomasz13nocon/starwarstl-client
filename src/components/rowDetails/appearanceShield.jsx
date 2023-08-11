@@ -9,9 +9,8 @@ export default function AppearanceShield({ template, hidden = false }) {
   return (
     prettyName !== undefined && (
       <small
-        className={`apps-list-item-text ${template.name.replaceAll(/\d/g, "")} ${
-          hidden ? "hidden" : ""
-        }`}
+        className={`apps-list-item-text ${template.name.replaceAll(/\d/g, "")} ${hidden ? "hidden" : ""
+          }`}
       >
         {prettyName}
         {displayParamsTemplates.includes(template.name) &&
