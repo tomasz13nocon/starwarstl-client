@@ -1,37 +1,34 @@
 {
-  "baseUrl": "./",
-  "compilerOptions": {
-    "paths": {
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@layouts/*": [
-        "src/layouts/*"
-      ],
-      "@pages/*": [
-        "src/pages/*"
-      ],
-      "@/*": [
-        "src/*"
-      ],
-      "@hooks/*": [
-        "src/hooks/*"
-      ],
-      "@rowDetails/*": [
-        "src/components/rowDetails/*"
-      ],
-      "@context/*": [
-        "src/context/*"
-      ],
-      "@email-verification/*": [
-        "src/pages/email-verification/*"
-      ],
-      "@settings/*": [
-        "src/pages/settings/*"
-      ],
-      "@inlineAlerts/*": [
-        "src/components/inlineAlerts/*"
-      ]
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@components/*": [
+                "src/components/*"
+            ],
+            "@hooks/*": [
+                "src/hooks/*"
+            ],
+            "@layouts/*": [
+                "src/layouts/*"
+            ],
+            "@pages/*": [
+                "src/pages/*"
+            ],
+            "@/*": [
+                "src/*"
+            ],
+            "@inlineAlerts/*": [
+                "src/components/inlineAlerts/*"
+            ],
+            "@context/*": [
+                "src/context/*"
+            ],
+            "@email-verification/*": [
+                "src/pages/email-verification/*"
+            ],
+            "@settings/*": [
+                "src/pages/settings/*"
+            ]
+        }
     }
-  }
 }

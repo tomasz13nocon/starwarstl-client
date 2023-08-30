@@ -2,7 +2,7 @@
  * Logic for filtering data in a timeline
  */
 
-import { testArrayOrValue } from "@/util";
+import { testArrayOrValue, wt2str } from "@/util";
 import _, { isNaN } from "lodash";
 
 const tvEpsRe = /^(\d+)(?:[–-](\d+))?$/;
@@ -161,8 +161,8 @@ export function collapseAdjacentEntries(data) {
         next.series?.length &&
         next.series[0] === item.series[0] &&
         next.season === item.season &&
-        (match = item.episode?.match(tvEpsRe)) &&
-        +(match[2] ?? match[1]) + 1 === +next.episode?.match(tvEpsRe)[1]) ||
+        (match = wt2str(item.episode)?.match(tvEpsRe)) &&
+        +(match[2] ?? match[1]) + 1 === +wt2str(next.episode)?.match(tvEpsRe)[1]) ||
       (item.fullType === "comic" &&
         next?.fullType === "comic" &&
         item.title.match(comicRe)?.[1] === next.title.match(comicRe)?.[1] &&
