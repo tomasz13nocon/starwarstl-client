@@ -213,3 +213,38 @@ export const replaceInsensitive = (str, strReplace, strWith) => {
 export const testArrayOrValue = (value, predicate) => {
   return Array.isArray(value) ? value.some((v) => predicate(v)) : predicate(value);
 };
+
+// If wt is null or undef returns null or undef. Otherwise returns string.
+export const wt2str = (wt) => {
+  if (wt == null) return wt;
+  if (typeof wt === "string") return wt;
+  else if (!Array.isArray(wt)) {
+    console.error("field is non string and non array: ", wt);
+    return "";
+  }
+
+  let str = "";
+
+  for (let item of wt) {
+    switch (item.type) {
+      case "text":
+      case "note":
+        str += item.text;
+        break;
+      case "list":
+        console.log(item.data);
+        str += item.data.map((el) => wt2str(el)).join("");
+        break;
+      case "internal link":
+        str += item.text ?? item.page;
+        break;
+      case "external link":
+        str += item.text ?? item.site;
+        break;
+      case "interwiki link":
+        str += item.text ?? item.page;
+        break;
+    }
+  }
+  return str;
+};
