@@ -1,8 +1,8 @@
 import React from "react";
 import { Virtuoso } from "react-virtuoso";
-import MessageBox from "@components/messageBox";
+import MessageBox from "@components/inlineAlerts/messageBox";
 import SortingIcon from "@components/sortingIcon";
-import NetworkError from "@components/networkError";
+import NetworkError from "@components/inlineAlerts/networkError";
 import { escapeRegex, searchFields, notSortable, columnNames } from "@/util";
 import Row from "./row";
 import "./styles/timeline.scss";
@@ -16,8 +16,7 @@ import {
   createTypeStrategy,
   getMatchedApps,
 } from "./filtering";
-import Fetching from "@components/fetching";
-import AppearanceShield from "@components/rowDetails/appearanceShield";
+import Fetching from "@components/inlineAlerts/fetching";
 import MatchedAppearances from "./matchedAppearances";
 
 function Table({
@@ -209,7 +208,7 @@ function Table({
             } else if (item[field] !== undefined) {
               console.error(
                 "Unknown field type while searching. Expected string or array of strings. Got: " +
-                typeof item[field],
+                  typeof item[field],
               );
             }
           }
@@ -239,7 +238,7 @@ function Table({
     }, {});
 
   return (
-    <div className="container table">
+    <main className="container table">
       <div className="thead">
         {activeColumns.map((name) => (
           <div
@@ -298,9 +297,9 @@ function Table({
                   searchResultsHighlight={
                     searchResults.highlight
                       ? {
-                        resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
-                        indicesIndex: searchResults.highlight.indicesIndex,
-                      }
+                          resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
+                          indicesIndex: searchResults.highlight.indicesIndex,
+                        }
                       : null
                   }
                   rowSearchResults={rowSearchResults}
@@ -326,7 +325,7 @@ function Table({
           }}
         />
       </div>
-    </div>
+    </main>
   );
 }
 export default React.memo(Table);

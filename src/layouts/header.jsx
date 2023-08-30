@@ -1,15 +1,21 @@
-import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Icon from "@mdi/react";
 import { mdiAccount, mdiChevronDown, mdiCog, mdiMenu } from "@mdi/js";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Collapsible from "@radix-ui/react-collapsible";
-import { AuthContext } from "@context/authContext";
+import { useAuth } from "@context/authContext";
 import LoginDialog from "./loginDialog";
 import c from "./styles/header.module.scss";
+import { useEffect, useState } from "react";
 
 export default function Header() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setDropdownOpen(false);
+  }, [pathname]);
 
   const logoutBtn = (
     <button onClick={logout} className={c.logoutBtn}>
@@ -58,7 +64,7 @@ export default function Header() {
           <Nav />
           <div className={c.right}>
             {user ? (
-              <DropdownMenu.Root>
+              <DropdownMenu.Root open={dropdownOpen} onOpenChange={(open) => setDropdownOpen(open)}>
                 <DropdownMenu.Trigger className={c.dropdownTrigger} aria-label="profile actions">
                   <Icon path={mdiAccount} size={1.5} className={c.icon} />
                   <Icon path={mdiChevronDown} size={1} className={c.arrowIcon} />

@@ -1,15 +1,11 @@
-import { useButton, useOverlayTrigger } from "react-aria";
-import { useOverlayTriggerState } from "react-stately";
+import * as Dialog from "@radix-ui/react-dialog";
 import { Blurhash } from "react-blurhash";
 import { imgAddress, Size } from "@/util";
-import Modal from "@components/modal";
-import Dialog from "@components/dialog";
-import "./styles/mediaCover.scss";
+import c from "./styles/mediaCover.module.scss";
+import { useState } from "react";
 
 export default function MediaCover({ src, alt, width, height, hash }) {
-  let state = useOverlayTriggerState({});
-  let { triggerProps, overlayProps } = useOverlayTrigger({ type: "dialog" }, state);
-  let { buttonProps } = useButton(triggerProps, triggerProps.buttonRef);
+  const [open, setOpen] = useState(false);
 
   // Calculate dimensions we want to display (fits screen, maintains aspect ratio)
   let fullCoverWidth, fullCoverHeight;
@@ -28,24 +24,30 @@ export default function MediaCover({ src, alt, width, height, hash }) {
   }
 
   return (
-    <>
-      <button className="cover-button" ref={triggerProps.buttonRef} {...buttonProps}>
+    <Dialog.Root open={open} onOpenChange={(open) => setOpen(open)}>
+      <Dialog.Trigger className={c.coverButton}>
         <Blurhash hash={hash} width={220} height={220 / (width / height)} />
-        <img key={Math.random()} width={220} src={imgAddress(src)} alt={alt} className={"cover"} />
-      </button>
-
-      <Modal state={state} isDismissable>
-        <Dialog {...overlayProps}>
-          <Blurhash className="blur" hash={hash} width={fullCoverWidth} height={fullCoverHeight} />
+        <img key={Math.random()} width={220} src={imgAddress(src)} alt={alt} className={c.cover} />
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className={c.overlay} />
+        <Dialog.Content>
+          <Dialog.Title>Full size {alt}</Dialog.Title>
+          <Blurhash
+            className={c.blur}
+            hash={hash}
+            width={fullCoverWidth}
+            height={fullCoverHeight}
+          />
           <img
             src={imgAddress(src, Size.FULL)}
             width={fullCoverWidth}
             height={fullCoverHeight}
-            className="cover-full"
-            onClick={state.close}
+            className={c.coverFull}
+            onClick={() => setOpen(false)}
           />
-        </Dialog>
-      </Modal>
-    </>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

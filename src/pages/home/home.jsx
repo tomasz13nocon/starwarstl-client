@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { mdiArrowDown, mdiDiceMultipleOutline } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import RowDetails from "@components/rowDetails/rowDetails";
-import NetworkError from "@components/networkError";
+import NetworkError from "@components/inlineAlerts/networkError";
 import { API } from "@/util";
 import Faq from "./faq";
 import Showcase from "./showcase";

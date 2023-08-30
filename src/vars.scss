@@ -68,6 +68,7 @@ $active8: #c0e6ff;
 $active9: #2d65ce;
 $background: #f3f3f3;
 $background2: #e7e7e7;
+$background-inv: $active4;
 $grey4: rgb(221, 221, 221);
 $grey3: rgb(196, 196, 196);
 $grey2: rgb(155, 155, 155);
@@ -113,6 +114,35 @@ $width-sm: 576px;
   }
   &:active {
     color: rgb(18, 61, 141);
+  }
+}
+%nav-link {
+  color: $active6;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:active {
+    color: rgba($active6, 0.8);
+  }
+  &[aria-current="page"] {
+    background-color: $active5;
+    pointer-events: none;
+  }
+}
+
+%inline-alert {
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  width: fit-content;
+  margin: 0.5rem 0;
+  font-style: normal;
+  font-size: 1rem;
+  &.center {
+    margin: 0.5rem auto;
+  }
+  &.slim {
+    padding: 0.2rem 0.5rem;
   }
 }
 

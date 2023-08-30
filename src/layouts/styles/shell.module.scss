@@ -1,0 +1,10 @@
+@use "@/vars.scss" as *;
+
+.shell {
+  flex: 1 0 auto;
+  width: $main-width;
+  margin: 16px auto;
+  @media (max-width: $width-xl) {
+    width: 100%;
+  }
+}

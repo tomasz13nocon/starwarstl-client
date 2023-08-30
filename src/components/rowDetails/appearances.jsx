@@ -2,8 +2,8 @@ import { API, appearancesCategoriesNames } from "@/util";
 import { useEffect, useState } from "react";
 import "./styles/appearances.scss";
 import AppearancesNode from "./appearancesList";
-import NetworkError from "@components/networkError";
-import Fetching from "@components/fetching";
+import NetworkError from "@components/inlineAlerts/networkError";
+import Fetching from "@components/inlineAlerts/fetching";
 
 export default function Appearances({ id }) {
   const [appearances, setAppearances] = useState([]);
@@ -41,12 +41,13 @@ export default function Appearances({ id }) {
               return (
                 <li
                   key={category.name}
-                  className={`apps-cat apps-cat-btn-container ${category.name === activeCategory?.name ||
-                      category.name === canonCatName ||
-                      category.name === legendsCatName
+                  className={`apps-cat apps-cat-btn-container ${
+                    category.name === activeCategory?.name ||
+                    category.name === canonCatName ||
+                    category.name === legendsCatName
                       ? "active"
                       : ""
-                    }`}
+                  }`}
                 >
                   <button
                     className="apps-cat-btn"
@@ -63,16 +64,18 @@ export default function Appearances({ id }) {
           {canonCat && legendsCat && (
             <ul className="apps-cat-list">
               <li
-                className={`apps-cat-canonicity apps-cat-btn-container ${activeCategory?.name === canonCatName ? "active" : ""
-                  }`}
+                className={`apps-cat-canonicity apps-cat-btn-container ${
+                  activeCategory?.name === canonCatName ? "active" : ""
+                }`}
               >
                 <button onClick={() => setActiveCategory(canonCat)} className="apps-cat-btn">
                   Canon
                 </button>
               </li>
               <li
-                className={`apps-cat-canonicity apps-cat-btn-container ${activeCategory?.name === legendsCatName ? "active" : ""
-                  }`}
+                className={`apps-cat-canonicity apps-cat-btn-container ${
+                  activeCategory?.name === legendsCatName ? "active" : ""
+                }`}
               >
                 <button onClick={() => setActiveCategory(legendsCat)} className="apps-cat-btn">
                   Legends

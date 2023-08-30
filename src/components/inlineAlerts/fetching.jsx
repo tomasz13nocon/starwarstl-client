@@ -1,5 +1,5 @@
 import MessageBox from "./messageBox";
-import Ellipsis from "./ellipsis";
+import Ellipsis from "../ellipsis";
 
 export default function Fetching() {
   return (

@@ -2,7 +2,6 @@ import { API, appearancesCategories, suggestionPriority } from "@/util";
 import ClearableTextInput from "@components/clearableTextInput";
 import AppearancesIcons from "./appearancesIcons";
 import { useEffect, useRef, useState } from "react";
-import Error from "@components/error";
 import { Virtuoso } from "react-virtuoso";
 import { AnalyticsCategories, analytics } from "@/analytics";
 
@@ -122,7 +121,7 @@ export default function TextFilter({
         activeCategory={filterCategory}
         fetching={fetchingAppearances}
       />
-      {error && <Error msg={error} />}
+      {error && <div className="error">{error}</div>}
       {suggestions.length > 0 && (
         <>
           <span className="suggestions-heading">Suggestions:</span>

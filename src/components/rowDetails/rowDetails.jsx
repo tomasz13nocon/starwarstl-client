@@ -4,7 +4,7 @@ import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
 import _ from "lodash";
 import WookieeLink from "@components/wookieeLink";
 import ExternalLink from "@components/externalLink";
-import Fetching from "@components/fetching";
+import Fetching from "@components/inlineAlerts/fetching";
 import Appearances from "./appearances";
 import AppearancesSettings from "./appearancesSettings";
 import "./styles/rowDetails.scss";
@@ -150,7 +150,7 @@ export default React.memo(function RowDetails({ item, dataState }) {
   const [hideHolograms, toggleHideHolograms] = useReducer((s) => !s, false);
 
   return (
-    <div className="tr details-row">
+    <article className="tr details-row">
       <div className="td">
         {dataState === "fetchingDetails" ? (
           <Fetching />
@@ -255,6 +255,6 @@ export default React.memo(function RowDetails({ item, dataState }) {
           </>
         )}
       </div>
-    </div>
+    </article>
   );
 });
