@@ -28,6 +28,9 @@
       ],
       "@settings/*": [
         "src/pages/settings/*"
+      ],
+      "@inlineAlerts/*": [
+        "src/components/inlineAlerts/*"
       ]
     }
   }

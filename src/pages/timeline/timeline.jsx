@@ -19,6 +19,7 @@ import { typeFiltersInitializer, typeFiltersReducer } from "./typeFilters";
 import AppearancesFilterSettings from "./filters/appearancesFilterSettings";
 import { FiltersContext } from "./context";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import Shell from "@layouts/shell";
 
 function areAllBoolsFalse(obj) {
   return Object.values(obj).every((v) => (typeof v === "boolean" ? !v : areAllBoolsFalse(v)));
@@ -139,7 +140,7 @@ export default function Timeline() {
   );
 
   return (
-    <main className="content">
+    <Shell>
       <div className="circle-buttons">
         <Legend />
         <Search
@@ -253,6 +254,6 @@ export default function Timeline() {
           />
         </FiltersContext.Provider>
       </div>
-    </main>
+    </Shell>
   );
 }

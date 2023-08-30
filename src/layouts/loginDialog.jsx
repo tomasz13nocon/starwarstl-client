@@ -5,7 +5,6 @@ import { useContext, useState } from "react";
 import Icon from "@mdi/react";
 import { mdiClose } from "@mdi/js";
 import Spinner from "@components/spinner";
-import Error from "@components/error";
 
 export default function LoginDialog() {
   const { signup, login } = useContext(AuthContext);
@@ -111,7 +110,7 @@ export default function LoginDialog() {
               <Icon className={`icon`} path={mdiClose} size={1.5} />
             </Dialog.Close>
           </div>
-          {error && <Error msg={error} />}
+          {error && <div className="error">{error}</div>}
           {form}
         </Dialog.Content>
       </Dialog.Portal>

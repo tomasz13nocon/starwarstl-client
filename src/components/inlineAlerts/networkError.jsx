@@ -1,5 +1,4 @@
-import MessageBox from "@components/messageBox";
-import Error from "./error";
+import MessageBox from "@components/inlineAlerts/messageBox";
 
 export default function NetworkError({ msg = "Failed to fetch data from the server" }) {
   return (
@@ -8,7 +7,7 @@ export default function NetworkError({ msg = "Failed to fetch data from the serv
       <br />
       Impossible to see, the server is.
       <br />
-      <Error msg={msg} />
+      <div className="error">{msg}</div>
     </MessageBox>
   );
 }

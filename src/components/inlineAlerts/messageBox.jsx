@@ -1,4 +1,4 @@
-import c from "./styles/messageImg.module.scss";
+import c from "./styles/inlineAlerts.module.scss";
 
 const imgs = {
   jediTexts: {

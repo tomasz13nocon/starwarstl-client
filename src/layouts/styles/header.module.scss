@@ -1,8 +1,12 @@
 @use "@/vars.scss" as *;
 @use "@/global.scss" as *;
 
+$dropdown-padding: 1rem;
+
 .settings-link {
-  color: white;
+  @extend %nav-link;
+  margin: -$dropdown-padding/2 (-$dropdown-padding);
+  padding: $dropdown-padding/2;
   text-align: center;
   display: flex;
   gap: 0.5rem;
@@ -73,14 +77,10 @@
   li {
     display: inline-block;
     a {
+      @extend %nav-link;
       display: block;
       text-align: center;
       padding: 1rem 1.5rem;
-      color: white;
-      &[aria-current="page"] {
-        background-color: $active5;
-        pointer-events: none;
-      }
     }
   }
 }
@@ -115,7 +115,7 @@
   color: white;
   position: relative;
   top: 10px;
-  padding: 1rem;
+  padding: $dropdown-padding;
 
   .arrow {
     fill: $active4;

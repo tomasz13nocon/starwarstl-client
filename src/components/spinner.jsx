@@ -1,4 +1,4 @@
-export default function Spinner({ size = 24, color = "#000" }) {
+export default function Spinner({ size = 24, color = "#000", ...props }) {
   return (
     <svg
       width={size}
@@ -7,6 +7,7 @@ export default function Spinner({ size = 24, color = "#000" }) {
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       style={{ verticalAlign: "sub" }}
+      {...props}
     >
       <g>
         <circle cx="12" cy="12" r="9.5" fill="none" strokeWidth="3" strokeLinecap="round">

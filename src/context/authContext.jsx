@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { API } from "@/util";
 
 export const AuthContext = createContext({});
@@ -10,16 +10,23 @@ async function jsonErrors(res) {
   return json;
 }
 
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
     // TODO network error unhandled
+    setFetching(true);
     fetch(API + "auth/user")
       .then((res) => jsonErrors(res))
       .then((json) => {
         setUser(json);
-      });
+      })
+      .finally(() => setFetching(false));
   }, []);
 
   const signup = async (email, password) => {
@@ -50,7 +57,16 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const sendVerificationEmail = async () => {
+    let res = await fetch(API + "auth/email-verification", {
+      method: "POST",
+    });
+    await jsonErrors(res);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, signup, login, logout }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ fetching, user, signup, login, logout, sendVerificationEmail }}>
+      {children}
+    </AuthContext.Provider>
   );
 };

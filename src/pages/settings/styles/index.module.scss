@@ -1,0 +1,16 @@
+@use "@/global.scss" as *;
+
+.email-unverified-warning-text {
+  margin-bottom: 0.5rem;
+}
+
+.resend-email-btn {
+  @extend .btn;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.btn-spinner {
+  margin: 0.2rem 5rem;
+  display: block;
+}

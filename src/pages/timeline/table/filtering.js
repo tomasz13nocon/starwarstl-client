@@ -38,11 +38,11 @@ const rangeFilterStrategies = {
   dateFromYearToTitle: (from, to, dates) => {
     let titleDate = dates.reduce(
       (acc, v) => Math.max(acc, v.date2 ?? v.date1),
-      Number.MIN_SAFE_INTEGER
+      Number.MIN_SAFE_INTEGER,
     );
     return (item) =>
       item.dateParsed?.some(
-        (date) => (date.date2 ?? date.date1) >= from && date.date1 <= titleDate
+        (date) => (date.date2 ?? date.date1) >= from && date.date1 <= titleDate,
       ) && item.chronology <= to;
   },
   dateFromTitleToYear: (from, to, dates) => {
@@ -218,7 +218,7 @@ export function createRangeStrategy(rangeFrom, rangeTo, timelineRangeBy) {
   return rangeFilterStrategies[strategy](
     rangeFrom?.value,
     rangeTo?.value,
-    rangeFrom?.dates ?? rangeTo?.dates
+    rangeFrom?.dates ?? rangeTo?.dates,
   );
 }
 
@@ -249,7 +249,7 @@ export function createFieldStrategy(boxFilters, boxFiltersAnd, appearancesFilter
     matchingIds[boxFilter.name] = new Set(
       boxFilter.media
         .filter(filterAppearancesByTemplates(appearancesFilters))
-        .map((media) => media.id)
+        .map((media) => media.id),
     );
   }
 
@@ -279,7 +279,7 @@ export function createTextStrategy(filterText, filterCategory, appearances, appe
     if (!appearances[filterCategory]) return (item) => item;
 
     let matchingApps = appearances[filterCategory].filter((appearance) =>
-      queries.reduce((acc, query) => acc && appearance.name.toLowerCase().includes(query), true)
+      queries.reduce((acc, query) => acc && appearance.name.toLowerCase().includes(query), true),
     );
 
     // TODO improve naming 🙄
@@ -300,7 +300,7 @@ export function createTextStrategy(filterText, filterCategory, appearances, appe
       matchingApps
         .flatMap((match) => match.media)
         .filter(filterAppearancesByTemplates(appearancesFilters))
-        .map((media) => media.id)
+        .map((media) => media.id),
     );
 
     return (item) => matchingApps.has(item._id);
@@ -313,7 +313,7 @@ export function createTextStrategy(filterText, filterCategory, appearances, appe
         (item.title.toLowerCase().includes(query) ||
           item.writer?.reduce((acc, v) => acc || v?.toLowerCase().includes(query), false) ||
           item.series?.reduce((acc, v) => acc || v?.toLowerCase().includes(query), false)),
-      true
+      true,
     );
 }
 

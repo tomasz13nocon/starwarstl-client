@@ -1,14 +1,5 @@
 @use "@/vars.scss" as *;
 
-.content {
-  flex: 1 0 auto;
-  width: $main-width;
-  margin: 16px auto;
-  @media (max-width: $width-xl) {
-    width: 100%;
-  }
-}
-
 .timeline-container {
   display: flex;
   gap: 10px;

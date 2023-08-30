@@ -15,20 +15,6 @@
     }
   }
 
-  .cover-button {
-    margin: 6px 14px 6px 6px;
-    height: fit-content;
-    position: relative;
-    box-shadow: 2px 2px 8px #000;
-    & > div {
-      // Overwrite blurhash lib to remove whitespace
-      display: block !important;
-    }
-    @media (max-width: $width-md) {
-      margin: 6px auto 14px;
-    }
-  }
-
   .text {
     margin: 6px;
   }
