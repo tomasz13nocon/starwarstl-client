@@ -173,6 +173,7 @@ export default function Timeline() {
                 setBoxFilters([]);
                 setHideUnreleased(false);
                 setHideAdaptations(false);
+                setTimelineRangeBy("date");
                 setRangeFrom("");
                 setRangeTo("");
                 dispatchTypeFilters({ path: "type", to: false });

@@ -1,16 +1,16 @@
 import React, { useReducer } from "react";
 import { Icon } from "@mdi/react";
-import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
+import { mdiChevronDown, mdiChevronUp, mdiEye, mdiEyeOutline } from "@mdi/js";
 import _ from "lodash";
 import WookieeLink from "@components/wookieeLink";
 import ExternalLink from "@components/externalLink";
 import Fetching from "@components/inlineAlerts/fetching";
 import Appearances from "./appearances";
 import AppearancesSettings from "./appearancesSettings";
-import "./styles/rowDetails.scss";
 import { AppearancesContext } from "./context";
 import { AnalyticsCategories, analytics } from "@/analytics";
 import MediaCover from "@components/mediaCover";
+import c from "./styles/rowDetails.module.scss";
 
 const render = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -31,7 +31,7 @@ const render = (value, link = true) => {
         );
         break;
       case "note":
-        arr.push(<small className="note">({item.text})</small>);
+        arr.push(<small className={c.note}>({item.text})</small>);
         break;
       case "internal link":
         arr.push(item.text || item.page);
@@ -150,13 +150,13 @@ export default React.memo(function RowDetails({ item, dataState }) {
   const [hideHolograms, toggleHideHolograms] = useReducer((s) => !s, false);
 
   return (
-    <article className="tr details-row">
-      <div className="td">
+    <article className={c.tr}>
+      <div className={c.td}>
         {dataState === "fetchingDetails" ? (
           <Fetching />
         ) : (
           <>
-            <div className="td-inner">
+            <div className={c.tdInner}>
               {item.cover ? (
                 <MediaCover
                   src={item.cover}
@@ -166,37 +166,26 @@ export default React.memo(function RowDetails({ item, dataState }) {
                   hash={item.coverHash}
                 />
               ) : null}
-              <div className="text">
-                <h2 className="title">
+              <div className={c.text}>
+                <h2 className={c.title}>
                   {item.redlink ? (
                     item.title
                   ) : (
                     <WookieeLink title={item.href ?? item.title}>{item.title}</WookieeLink>
                   )}
                 </h2>
-                <div className="affiliate-btns">
-                  {(["book", "audio-drama", "yr"].includes(item.type) ||
-                    ["comic", "comic-manga"].includes(item.fullType)) &&
-                    !isNaN(new Date(item.releaseDate)) && (
-                      <>
-                        <ExternalLink
-                          target="_blank"
-                          href={`https://www.amazon.com/gp/search?ie=UTF8&tag=starwarstl0c-20&linkCode=ur2&camp=1789&creative=9325&index=books&keywords=${encodeURIComponent(
-                            item.title,
-                          )}`}
-                        >
-                          Buy on <img src="/img/amazon.webp" alt="Amazon" />
-                        </ExternalLink>
-                        <small className="link-disclosure">(affiliate link)</small>
-                      </>
-                    )}
+
+                <div className="">
+                  <Icon className="icon" path={mdiEyeOutline} size={1.5} />
                 </div>
+
                 {item.notUnique && item.title !== item.href && (
-                  <div className="not-unique">
+                  <div className={c.notUnique}>
                     Appearances and information (other than Timeline notes) refer to &quot;
                     {item.href}&quot;
                   </div>
                 )}
+
                 <dl>
                   {Object.entries(getData(item)).map(([key, value]) => (
                     <React.Fragment key={key}>
@@ -206,13 +195,13 @@ export default React.memo(function RowDetails({ item, dataState }) {
                   ))}
                 </dl>
 
-                <div className="spacer" />
+                <div className={c.spacer} />
 
-                <div className="bottom-btns">
+                <div className={c.bottomBtns}>
                   {item.hasAppearances && (
-                    <div className="appearances-btn-wrapper">
+                    <div className={c.appearancesBtnWrapper}>
                       <button
-                        className={`btn appearances-btn ${appearancesVisible ? "active" : ""}`}
+                        className={`btn ${appearancesVisible ? "active" : ""} ${c.appearancesBtn}`}
                         onClick={() => {
                           toggleAppearancesVisible(true);
                           if (!appearancesVisible) {

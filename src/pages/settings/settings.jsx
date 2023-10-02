@@ -1,16 +1,22 @@
 import Shell from "@layouts/shell";
-import c from "./styles/index.module.scss";
+import c from "./styles/settings.module.scss";
 import { useAuth } from "@/context/authContext";
 import Spinner from "@components/spinner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { redirect, useNavigate } from "react-router-dom";
 
-export default function Index() {
+export default function Settings() {
   const { fetching: fetchingUser, user, sendVerificationEmail } = useAuth();
   const [error, setError] = useState(null);
   const [fetching, setFetching] = useState(false);
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
-  console.log("user", user);
+  useEffect(() => {
+    if (!fetchingUser && !user) {
+      navigate("/timeline");
+    }
+  }, [fetchingUser, user]);
 
   const handleVerifyEmail = async () => {
     setError(null);

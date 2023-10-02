@@ -15,7 +15,7 @@ const comicRe = /^(.*?)(\d+)$/;
 // bby aby
 const rangeFilterStrategies = {
   dateFromYearToYear: (from, to) => {
-    if (from > to) return [];
+    if (from > to) return () => false;
     return (item) =>
       item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= from && date.date1 <= to);
   },

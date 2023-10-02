@@ -9,7 +9,7 @@ const highlightText = (
   text,
   indices,
   searchTextLength,
-  highlightIndicesIndex // undefined or index within indices array to highlight
+  highlightIndicesIndex, // undefined or index within indices array to highlight
 ) => {
   if (!indices)
     // No results for this field
@@ -35,7 +35,7 @@ const highlightSearchResults = (
   columnName,
   rowSearchResults,
   searchTextLength,
-  searchResultsHighlight
+  searchResultsHighlight,
 ) => {
   // Surely there's a better way to do this, but perfect is the enemy of good. And good is the enemy of working. *sigh*
   if (typeof searchTarget === "string") {
@@ -48,12 +48,12 @@ const highlightSearchResults = (
       searchTextLength,
       searchResultsHighlight && columnResultIndex === searchResultsHighlight.resultsOffset
         ? searchResultsHighlight.indicesIndex
-        : null
+        : null,
     );
   } else if (Array.isArray(searchTarget) && searchTarget.every((e) => typeof e === "string")) {
     return searchTarget.map((str, i) => {
       let columnItemResultIndex = rowSearchResults.findIndex(
-        (e) => e.field === columnName && e.arrayIndex === i
+        (e) => e.field === columnName && e.arrayIndex === i,
       );
       let columnItemResult = rowSearchResults[columnItemResultIndex];
       return highlightText(
@@ -62,7 +62,7 @@ const highlightSearchResults = (
         searchTextLength,
         searchResultsHighlight && columnItemResultIndex === searchResultsHighlight.resultsOffset
           ? searchResultsHighlight.indicesIndex
-          : null
+          : null,
       );
     });
   } else if (searchTarget !== undefined) {
@@ -71,6 +71,14 @@ const highlightSearchResults = (
 };
 
 export const ANIMATION_TIME = 180;
+
+function Cell({ children, className, title, onClick }) {
+  return (
+    <div className={className + " td"} onClick={onClick} title={title}>
+      <div className="td-inner">{children}</div>
+    </div>
+  );
+}
 
 export default React.memo(function Row({
   item,
@@ -102,7 +110,7 @@ export default React.memo(function Row({
         columnName,
         rowSearchResults,
         searchText.length,
-        searchResultsHighlight
+        searchResultsHighlight,
       );
     }
 
@@ -141,7 +149,7 @@ export default React.memo(function Row({
             "collapseUntilTitle",
             rowSearchResults,
             searchText.length,
-            searchResultsHighlight
+            searchResultsHighlight,
           );
         }
         inside = (
@@ -167,7 +175,7 @@ export default React.memo(function Row({
                     "se",
                     rowSearchResults,
                     searchText.length,
-                    searchResultsHighlight
+                    searchResultsHighlight,
                   )}
                 </EpisodeNumber>
               </>
@@ -184,7 +192,7 @@ export default React.memo(function Row({
                     "collapseUntilSe",
                     rowSearchResults,
                     searchText.length,
-                    searchResultsHighlight
+                    searchResultsHighlight,
                   )}
                 </EpisodeNumber>
                 {collapseUntilTitle}
@@ -229,12 +237,13 @@ export default React.memo(function Row({
   return (
     <>
       <div
-        className={`standard-row-inner ${!activeColumns.includes("date") &&
-            !activeColumns.includes("releaseDate") &&
-            !activeColumns.includes("writer")
+        className={`standard-row-inner ${
+          !activeColumns.includes("date") &&
+          !activeColumns.includes("releaseDate") &&
+          !activeColumns.includes("writer")
             ? "compact"
             : ""
-          }`}
+        }`}
       >
         {cells}
       </div>

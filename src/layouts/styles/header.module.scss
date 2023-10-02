@@ -5,8 +5,8 @@ $dropdown-padding: 1rem;
 
 .settings-link {
   @extend %nav-link;
-  margin: -$dropdown-padding/2 (-$dropdown-padding);
-  padding: $dropdown-padding/2;
+  margin: calc(-1 * $dropdown-padding / 2) (-$dropdown-padding);
+  padding: calc($dropdown-padding / 2);
   text-align: center;
   display: flex;
   gap: 0.5rem;
@@ -62,6 +62,7 @@ $dropdown-padding: 1rem;
 .nav-list,
 .right {
   padding: 0 2rem;
+  display: flex;
 }
 
 .nav-list {
@@ -76,13 +77,14 @@ $dropdown-padding: 1rem;
   }
   li {
     display: inline-block;
-    a {
-      @extend %nav-link;
-      display: block;
-      text-align: center;
-      padding: 1rem 1.5rem;
-    }
   }
+}
+
+.nav-link {
+  @extend %nav-link;
+  display: block;
+  text-align: center;
+  padding: 1rem 1.5rem;
 }
 
 .hamburger {
@@ -95,6 +97,7 @@ $dropdown-padding: 1rem;
 }
 
 .dropdown-trigger {
+  padding: 0 1.5rem;
   .arrow-icon {
     @extend .icon;
     transition: transform 0.1s;
@@ -142,4 +145,8 @@ $dropdown-padding: 1rem;
 .logged-in-text {
   font-size: 0.8rem;
   display: block;
+}
+
+.version {
+  font-size: 0.7rem;
 }
