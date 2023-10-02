@@ -45,6 +45,8 @@ export default function Header() {
             </Collapsible.Trigger>
             <Collapsible.Content className={c.content}>
               <Nav />
+              <div className={c.separator} />
+              <SecondaryNav />
               {user ? (
                 <>
                   <div className={c.separator} />
@@ -63,6 +65,7 @@ export default function Header() {
         <div className={c.desktopHeader}>
           <Nav />
           <div className={c.right}>
+            <SecondaryNav />
             {user ? (
               <DropdownMenu.Root open={dropdownOpen} onOpenChange={(open) => setDropdownOpen(open)}>
                 <DropdownMenu.Trigger className={c.dropdownTrigger} aria-label="profile actions">
@@ -95,14 +98,24 @@ function Nav() {
     <nav>
       <ul className={c.navList}>
         <li>
-          <NavLink end to="/">
+          <NavLink end to="/" className={c.navLink}>
             Home
           </NavLink>
         </li>
         <li>
-          <NavLink to="/timeline">Timeline</NavLink>
+          <NavLink to="/timeline" className={c.navLink}>
+            Timeline
+          </NavLink>
         </li>
       </ul>
     </nav>
+  );
+}
+
+function SecondaryNav() {
+  return (
+    <NavLink to="/changelog" className={c.navLink}>
+      Changelog <small className={c.version}>v0.5</small>
+    </NavLink>
   );
 }

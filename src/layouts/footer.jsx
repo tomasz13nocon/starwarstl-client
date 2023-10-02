@@ -22,7 +22,7 @@ export default function Footer() {
           <p>
             Timeline order and basic information about media come from{" "}
             <a href="https://starwars.fandom.com/wiki/Timeline_of_canon_media">
-              Wookieepedia&quot;s timeline of canon media
+              Wookieepedia&apos;s timeline of canon media
             </a>
             . Detailed information about media comes from respective articles linked to with a
             Wookieepedia icon next to that media&#39;s title.

@@ -2,8 +2,9 @@ import { StrictMode } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Timeline from "@pages/timeline/timeline";
 import Home from "@pages/home/home";
+import Settings from "@pages/settings/settings";
+import Changelog from "@pages/changelog/changelog";
 import EmailVerification from "@pages/email-verification";
-import Settings from "@pages/settings";
 import NotFound from "./NotFound";
 import { AuthProvider } from "@context/authContext";
 import emailVerificationLoader from "@pages/email-verification/loader";
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       },
       { path: "/settings", Component: Settings },
       { path: "/timeline", Component: Timeline },
+      { path: "/changelog", Component: Changelog },
       { path: "/", Component: Home },
       { path: "*", Component: NotFound },
     ],

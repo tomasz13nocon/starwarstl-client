@@ -28,6 +28,9 @@
             ],
             "@settings/*": [
                 "src/pages/settings/*"
+            ],
+            "@changelog/*": [
+                "src/pages/changelog/*"
             ]
         }
     }
