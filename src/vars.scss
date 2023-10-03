@@ -206,3 +206,30 @@ $width-sm: 576px;
     0 0 50px $color,
     0 0 70px $color;
 }
+
+%cell {
+  $padding: 2px;
+  padding: $padding $padding + 5px;
+
+  border: 1px solid #111;
+  margin: -1px 0 0 -1px;
+
+  flex-shrink: 0;
+  &.date {
+    width: 80px;
+  }
+  &.cover {
+    width: 55px;
+    padding: 0;
+  }
+  &.title {
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+  &.writer {
+    width: 140px;
+  }
+  &.releaseDate {
+    width: 84px;
+  }
+}

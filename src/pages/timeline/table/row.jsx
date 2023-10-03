@@ -4,6 +4,7 @@ import { mdiVolumeHigh } from "@mdi/js";
 import RowDetails from "@components/rowDetails/rowDetails";
 import EpisodeNumber from "@components/episodeNumber";
 import { imgAddress, Size, buildTvImagePath, searchFields } from "@/util";
+import c from "./styles/row.module.scss";
 import clsx from "clsx";
 
 const highlightText = (
@@ -75,8 +76,8 @@ export const ANIMATION_TIME = 180;
 
 function Cell({ children, className, title, onClick }) {
   return (
-    <div className={className + " td"} onClick={onClick} title={title}>
-      <div className="td-inner">{children}</div>
+    <div className={clsx(className, c.td)} onClick={onClick} title={title}>
+      <div className={c.tdInner}>{children}</div>
     </div>
   );
 }
@@ -120,35 +121,35 @@ export default React.memo(function Row({
   return (
     <>
       <div
-        className={`standard-row-inner ${
+        className={`${c.standardRowInner} ${
           !activeColumns.includes("date") &&
           !activeColumns.includes("releaseDate") &&
           !activeColumns.includes("writer")
-            ? "compact"
+            ? c.compact
             : ""
         }`}
       >
-        {activeColumns.includes("cover") && (
-          <Cell
-            className={clsx("cover", !item.cover && "no-cover")}
-            title={item.cover ? item.title : ""}
-          >
-            {item.cover ? <img src={imgAddress(item.cover, Size.THUMB)} /> : null}
-          </Cell>
-        )}
-
         {activeColumns.includes("date") && (
           <Cell
-            className={`date ${item.exactPlacementUnknown ? "exact-placement-unknown" : ""}`}
+            className={clsx(c.date, item.exactPlacementUnknown && c.exactPlacementUnknown)}
             title={item.exactPlacementUnknown && "exact placement currently unknown"}
           >
             {withSearch(item.date, "date")}
           </Cell>
         )}
 
+        {activeColumns.includes("cover") && (
+          <Cell
+            className={clsx(c.cover, !item.cover && c.noCover)}
+            title={item.cover ? item.title : ""}
+          >
+            {item.cover ? <img src={imgAddress(item.cover, Size.THUMB)} /> : null}
+          </Cell>
+        )}
+
         {activeColumns.includes("title") && (
           <Cell
-            className={`title ${item.type} ${item.fullType}`}
+            className={`${c.title} ${item.type} ${item.fullType}`}
             title={item.title}
             onClick={expand}
           >
@@ -160,13 +161,13 @@ export default React.memo(function Row({
                     <img
                       title={item.series[0]}
                       alt={item.series[0] + " logo"}
-                      className="tv-image"
+                      className={c.tvImage}
                       height="20"
                       src={buildTvImagePath(item.series[0])}
                       onError={() => setHideTvImage(true)}
                     />
                   ) : (
-                    <small className="tv-image text-fallback">{item.series[0]}</small>
+                    <small className={clsx(c.tvImage, c.textFallback)}>{item.series[0]}</small>
                   )}
                   <EpisodeNumber item={item}>
                     {highlightSearchResults(
@@ -198,14 +199,18 @@ export default React.memo(function Row({
                 </>
               ) : null}
               {item.audiobook && (
-                <Icon path={mdiVolumeHigh} className="icon audiobook-icon" title="audiobook" />
+                <Icon
+                  path={mdiVolumeHigh}
+                  className={clsx("icon", c.audiobookIcon)}
+                  title="audiobook"
+                />
               )}
             </div>
           </Cell>
         )}
 
         {activeColumns.includes("writer") && (
-          <Cell className="writer">
+          <Cell className={c.writer}>
             {item.writer?.length > 1 ? (
               <ul>
                 {withSearch(item.writer, "writer").map((jsx, i) => (
@@ -220,7 +225,7 @@ export default React.memo(function Row({
 
         {activeColumns.includes("releaseDate") && (
           <Cell
-            className={`releaseDate ${item.unreleased ? "unreleased" : ""}`}
+            className={clsx(c.releaseDate, item.unreleased && c.unreleased)}
             title={item.unreleased && "unreleased"}
           >
             {withSearch(item.releaseDate, "releaseDate")}
