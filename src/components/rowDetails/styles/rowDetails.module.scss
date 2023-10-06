@@ -3,6 +3,7 @@
 .tr {
   width: 100%;
   .td {
+    @extend %cell;
     padding: 0;
     overflow: hidden;
     .td-inner {
@@ -120,9 +121,19 @@
   }
 
   .appearances-btn {
-    .icon,
+    :global(.icon),
     span {
       vertical-align: middle;
     }
   }
+}
+
+.actions {
+  background: $grey3;
+  display: flex;
+  gap: 1rem;
+  width: fit-content;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 4px;
 }
