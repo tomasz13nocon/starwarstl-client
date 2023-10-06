@@ -1,6 +1,14 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import { Icon } from "@mdi/react";
-import { mdiChevronDown, mdiChevronUp, mdiEye, mdiEyeOutline } from "@mdi/js";
+import {
+  mdiChevronDown,
+  mdiChevronUp,
+  mdiClockOutline,
+  mdiClockPlusOutline,
+  mdiEye,
+  mdiEyeOutline,
+  mdiEyePlusOutline,
+} from "@mdi/js";
 import _ from "lodash";
 import WookieeLink from "@components/wookieeLink";
 import ExternalLink from "@components/externalLink";
@@ -11,6 +19,7 @@ import { AppearancesContext } from "./context";
 import { AnalyticsCategories, analytics } from "@/analytics";
 import MediaCover from "@components/mediaCover";
 import c from "./styles/rowDetails.module.scss";
+import { addToWatched } from "@/fetch";
 
 const render = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -142,12 +151,26 @@ const getData = (item) => {
   return ret;
 };
 
+function HoverIcon({ path, hoverPath, ...props }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <Icon
+      {...props}
+      path={hover ? hoverPath : path}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    />
+  );
+}
+
 export default React.memo(function RowDetails({ item, dataState }) {
   const [appearancesVisible, toggleAppearancesVisible] = useReducer((s) => !s, false);
   const [hideMentions, toggleHideMentions] = useReducer((s) => !s, false);
   const [hideIndirectMentions, toggleHideIndirectMentions] = useReducer((s) => !s, false);
   const [hideFlashbacks, toggleHideFlashbacks] = useReducer((s) => !s, false);
   const [hideHolograms, toggleHideHolograms] = useReducer((s) => !s, false);
+
+  const addToWatchlist = () => {};
 
   return (
     <article className={c.tr}>
@@ -175,8 +198,24 @@ export default React.memo(function RowDetails({ item, dataState }) {
                   )}
                 </h2>
 
-                <div className="">
-                  <Icon className="icon" path={mdiEyeOutline} size={1.5} />
+                {/* sign in to perform actions */}
+                <div className={c.actions}>
+                  <button onClick={() => addToWatched(item.pageid)}>
+                    <HoverIcon
+                      className="icon"
+                      path={mdiEyeOutline}
+                      hoverPath={mdiEyePlusOutline}
+                      size={1.5}
+                    />
+                  </button>
+                  <button onClick={addToWatchlist}>
+                    <HoverIcon
+                      className="icon"
+                      path={mdiClockOutline}
+                      hoverPath={mdiClockPlusOutline}
+                      size={1.5}
+                    />
+                  </button>
                 </div>
 
                 {item.notUnique && item.title !== item.href && (
