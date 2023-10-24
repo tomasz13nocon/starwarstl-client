@@ -129,11 +129,48 @@
 }
 
 .actions {
-  background: $grey3;
+  background: $background3;
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
   width: fit-content;
   border-radius: 4px;
   padding: 0.25rem 0.5rem;
   margin-bottom: 4px;
+}
+
+.list-btns {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+button.sign-in-btn {
+  background: transparent;
+  border: none;
+}
+
+.watched,
+.watchlist {
+  color: $active9;
+}
+
+.toast-item-title {
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: $weight-bold;
+  border: 1px solid black;
+}
+
+.toast-description {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.toast-icon-add {
+  color: $active9;
+}
+
+.toast-icon-remove {
+  color: $error1;
 }

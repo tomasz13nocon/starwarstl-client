@@ -1,14 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { API } from "@/util";
+import { jsonErrors } from "@/fetch";
 
 export const AuthContext = createContext({});
-
-// Return json from response and throw error if present
-async function jsonErrors(res) {
-  let json = await res.json();
-  if (!res.ok || json?.error) throw new Error(json.error ?? "An unknown error occured");
-  return json;
-}
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -65,7 +59,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ fetching, user, signup, login, logout, sendVerificationEmail }}>
+    <AuthContext.Provider
+      value={{ fetching, user, setUser, signup, login, logout, sendVerificationEmail }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -3,19 +3,23 @@ import { Blurhash } from "react-blurhash";
 import { imgAddress, Size } from "@/util";
 import c from "./styles/mediaCover.module.scss";
 import { useState } from "react";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useWindowSize } from "@hooks/useWindowSize";
 
 export default function MediaCover({ src, alt, width, height, hash }) {
   const [open, setOpen] = useState(false);
+  const [windowWidth, windowHeight] = useWindowSize();
 
   // Calculate dimensions we want to display (fits screen, maintains aspect ratio)
+  // TODO on resize
   let fullCoverWidth, fullCoverHeight;
   if (width && height) {
     const margin = 20;
     let ar = width / height;
-    let clampedW = Math.min(window.innerWidth - margin, width);
-    let clampedH = Math.min(window.innerHeight - margin, height);
+    let clampedW = Math.min(windowWidth - margin, width);
+    let clampedH = Math.min(windowHeight - margin, height);
     fullCoverWidth = clampedH * ar;
-    if (fullCoverWidth <= window.innerWidth - margin) {
+    if (fullCoverWidth <= windowWidth - margin) {
       fullCoverHeight = clampedH;
     } else {
       fullCoverHeight = clampedW / ar;
@@ -31,8 +35,10 @@ export default function MediaCover({ src, alt, width, height, hash }) {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className={c.overlay} />
-        <Dialog.Content>
-          <Dialog.Title>Full size {alt}</Dialog.Title>
+        <Dialog.Content className={c.content}>
+          <VisuallyHidden asChild>
+            <Dialog.Title>Full size {alt}</Dialog.Title>
+          </VisuallyHidden>
           <Blurhash
             className={c.blur}
             hash={hash}

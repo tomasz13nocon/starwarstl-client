@@ -9,6 +9,8 @@ import NotFound from "./NotFound";
 import { AuthProvider } from "@context/authContext";
 import emailVerificationLoader from "@pages/email-verification/loader";
 import Layout from "@layouts/layout";
+import Toasts from "@components/toasts";
+import { ToastProvider } from "./context/toastContext";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +34,10 @@ export default function App() {
   return (
     <StrictMode>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <ToastProvider>
+          <RouterProvider router={router} />
+          <Toasts />
+        </ToastProvider>
       </AuthProvider>
     </StrictMode>
   );

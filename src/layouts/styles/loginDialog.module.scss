@@ -1,10 +1,5 @@
 @use "@/vars.scss" as *;
 
-button.trigger {
-  font-size: inherit;
-  padding: 6px 16px;
-}
-
 .overlay {
   &[data-state="open"] {
     animation: overlayShow 0.2s ease-out;

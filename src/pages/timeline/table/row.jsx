@@ -131,7 +131,7 @@ export default React.memo(function Row({
       >
         {activeColumns.includes("date") && (
           <Cell
-            className={clsx(c.date, item.exactPlacementUnknown && c.exactPlacementUnknown)}
+            className={clsx(c.date, item.exactPlacementUnknown && "exact-placement-unknown")}
             title={item.exactPlacementUnknown && "exact placement currently unknown"}
           >
             {withSearch(item.date, "date")}
@@ -225,7 +225,7 @@ export default React.memo(function Row({
 
         {activeColumns.includes("releaseDate") && (
           <Cell
-            className={clsx(c.releaseDate, item.unreleased && c.unreleased)}
+            className={clsx(c.releaseDate, item.unreleased && "unreleased")}
             title={item.unreleased && "unreleased"}
           >
             {withSearch(item.releaseDate, "releaseDate")}

@@ -32,3 +32,74 @@
   position: absolute !important;
   z-index: -1;
 }
+
+$anim-duration: 200ms;
+$anim-ease: cubic-bezier(0.09, 0.31, 0.28, 0.99);
+.overlay {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(6px);
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  animation: overlayShow $anim-duration $anim-ease;
+  &[data-state="closed"] {
+    animation: overlayHide $anim-duration $anim-ease;
+  }
+}
+
+.content {
+  z-index: 100;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow:
+    hsl(206 22% 7%) 0px 10px 38px -10px,
+    hsl(206 22% 7%) 0px 10px 20px -15px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: contentShow $anim-duration $anim-ease;
+  &[data-state="closed"] {
+    animation: contentHide $anim-duration $anim-ease;
+  }
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes overlayHide {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes contentHide {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.95);
+  }
+}

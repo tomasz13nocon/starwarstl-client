@@ -7,9 +7,11 @@ import { useAuth } from "@context/authContext";
 import LoginDialog from "./loginDialog";
 import c from "./styles/header.module.scss";
 import { useEffect, useState } from "react";
+import Spinner from "@components/spinner";
+import clsx from "clsx";
 
 export default function Header() {
-  const { user, logout } = useAuth();
+  const { user, logout, fetching } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { pathname } = useLocation();
 
@@ -66,7 +68,9 @@ export default function Header() {
           <Nav />
           <div className={c.right}>
             <SecondaryNav />
-            {user ? (
+            {fetching ? (
+              <Spinner color="white" />
+            ) : user ? (
               <DropdownMenu.Root open={dropdownOpen} onOpenChange={(open) => setDropdownOpen(open)}>
                 <DropdownMenu.Trigger className={c.dropdownTrigger} aria-label="profile actions">
                   <Icon path={mdiAccount} size={1.5} className={c.icon} />
@@ -84,7 +88,7 @@ export default function Header() {
                 </DropdownMenu.Portal>
               </DropdownMenu.Root>
             ) : (
-              <LoginDialog />
+              <LoginDialog className={clsx(c.trigger, "btn-inv")}>Log in</LoginDialog>
             )}
           </div>
         </div>

@@ -1,12 +1,12 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import classes from "./styles/loginDialog.module.scss";
+import c from "./styles/loginDialog.module.scss";
 import { AuthContext } from "@/context/authContext";
 import { useContext, useState } from "react";
 import Icon from "@mdi/react";
 import { mdiClose } from "@mdi/js";
 import Spinner from "@components/spinner";
 
-export default function LoginDialog() {
+export default function LoginDialog({ children, ...props }) {
   const { signup, login } = useContext(AuthContext);
   const [screen, setScreen] = useState("login"); // login | signup | reset
   const [fetching, setFetching] = useState(false);
@@ -50,10 +50,10 @@ export default function LoginDialog() {
       <form onSubmit={handleLogin}>
         <Input type="email" name="email" required label="Email" />
         <Input type="password" name="password" required minLength={6} label="Password" />
-        <button type="button" className={classes.forgot} onClick={() => setScreen("reset")}>
+        <button type="button" className={c.forgot} onClick={() => setScreen("reset")}>
           Forgot password?
         </button>
-        <button className={classes.submit + " btn"} disabled={fetching}>
+        <button className={c.submit + " btn"} disabled={fetching}>
           {fetching ? <Spinner /> : "Log in"}
         </button>
         <div>
@@ -70,7 +70,7 @@ export default function LoginDialog() {
       <form onSubmit={handleSignup}>
         <Input type="email" name="email" required label="Email" />
         <Input type="password" name="password" required minLength={6} label="Password" />
-        <button type="submit" className={classes.submit + " btn"} disabled={fetching}>
+        <button type="submit" className={c.submit + " btn"} disabled={fetching}>
           {fetching ? <Spinner /> : "Sign up"}
         </button>
         <div>
@@ -86,7 +86,7 @@ export default function LoginDialog() {
     form = (
       <form onSubmit={handleReset}>
         <Input type="email" name="email" required minLength={4} label="Email" />
-        <button type="submit" className={classes.submit + " btn"} disabled={fetching}>
+        <button type="submit" className={c.submit + " btn"} disabled={fetching}>
           {fetching ? <Spinner /> : "Reset password"}
         </button>
         <div>
@@ -100,13 +100,13 @@ export default function LoginDialog() {
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger className={classes.trigger + " btn-inv"}>Log in</Dialog.Trigger>
+      <Dialog.Trigger {...props}>{children}</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className={classes.overlay} />
-        <Dialog.Content className={classes.content}>
-          <div className={classes.header}>
-            <Dialog.Title className={classes.title}>{title}</Dialog.Title>
-            <Dialog.Close className={classes.close}>
+        <Dialog.Overlay className={c.overlay} />
+        <Dialog.Content className={c.content}>
+          <div className={c.header}>
+            <Dialog.Title className={c.title}>{title}</Dialog.Title>
+            <Dialog.Close className={c.close}>
               <Icon className={`icon`} path={mdiClose} size={1.5} />
             </Dialog.Close>
           </div>
@@ -121,8 +121,8 @@ export default function LoginDialog() {
 function Input({ label, ...props }) {
   return (
     <label>
-      <span className={classes.labelText}>{label}</span>
-      <input {...props} className={classes.input} />
+      <span className={c.labelText}>{label}</span>
+      <input {...props} className={c.input} />
     </label>
   );
 }
