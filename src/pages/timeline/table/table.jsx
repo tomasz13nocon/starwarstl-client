@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useMemo, useState, useCallback } from "react";
 import { Virtuoso } from "react-virtuoso";
 import MessageBox from "@components/inlineAlerts/messageBox";
 import SortingIcon from "@components/sortingIcon";
@@ -10,6 +10,7 @@ import {
   Filterer,
   collapseAdjacentEntries,
   createFieldStrategy,
+  createListStrategy,
   createRangeStrategy,
   createSorter,
   createTextStrategy,
@@ -39,20 +40,21 @@ function Table({
   rangeFrom,
   rangeTo,
   timelineRangeBy,
+  listFilters,
   appearances,
   appearancesFilters,
 }) {
-  const [expanded, setExpanded] = React.useState(null);
+  const [expanded, setExpanded] = useState(null);
 
-  const virtuoso = React.useRef(null);
-  const renderedRange = React.useRef(null);
-  const activeColumns = React.useMemo(
+  const virtuoso = useRef(null);
+  const renderedRange = useRef(null);
+  const activeColumns = useMemo(
     () => Object.keys(columns).filter((name) => columns[name]),
     [columns],
   );
 
   // Scroll to highlighted search result
-  React.useEffect(() => {
+  useEffect(() => {
     if (searchResults.highlight && renderedRange.current) {
       let behavior = "auto";
       let highlightIndex = searchResults.results[searchResults.highlight.resultsIndex].rowIndex;
@@ -70,7 +72,24 @@ function Table({
     }
   }, [searchResults.highlight]);
 
-  // We need these for scroll effect as well
+  // useEffect(() => console.log("changed: appearancesFilters"), [appearancesFilters]);
+  // useEffect(() => console.log("changed: appearances"), [appearances]);
+  // useEffect(() => console.log("changed: timelineRangeBy"), [timelineRangeBy]);
+  // useEffect(() => console.log("changed: rangeTo"), [rangeTo]);
+  // useEffect(() => console.log("changed: rangeFrom"), [rangeFrom]);
+  // useEffect(() => console.log("changed: collapseAdjacent"), [collapseAdjacent]);
+  // useEffect(() => console.log("changed: hideAdaptations"), [hideAdaptations]);
+  // useEffect(() => console.log("changed: hideUnreleased"), [hideUnreleased]);
+  // useEffect(() => console.log("changed: boxFiltersAnd"), [boxFiltersAnd]);
+  // useEffect(() => console.log("changed: boxFilters"), [boxFilters]);
+  // useEffect(() => console.log("changed: sorting"), [sorting]);
+  // useEffect(() => console.log("changed: filterCategory"), [filterCategory]);
+  // useEffect(() => console.log("changed: filterText"), [filterText]);
+  // useEffect(() => console.log("changed: typeFilters"), [typeFilters]);
+  // useEffect(() => console.log("changed: rawData"), [rawData]);
+  // useEffect(() => console.log("changed: listFilters"), [listFilters]);
+
+  // We need this for scroll effect as well
   const sortFilterDeps = [
     rawData,
     typeFilters,
@@ -87,10 +106,11 @@ function Table({
     timelineRangeBy,
     appearances,
     appearancesFilters,
+    listFilters,
   ];
 
   // Sort and filter data
-  const data = React.useMemo(() => {
+  const data = useMemo(() => {
     if (rawData.length === 0) return [];
 
     const strategies = [];
@@ -111,6 +131,10 @@ function Table({
 
     if (boxFilters.length) {
       strategies.push(createFieldStrategy(boxFilters, boxFiltersAnd, appearancesFilters));
+    }
+
+    if (listFilters.length) {
+      strategies.push(createListStrategy(listFilters));
     }
 
     if (filterText) {
@@ -140,7 +164,7 @@ function Table({
     return tempData;
   }, sortFilterDeps);
 
-  const scrollToId = React.useCallback(
+  const scrollToId = useCallback(
     (id) => {
       let index = data.findIndex((e) => e._id === id);
       if (index !== -1) {
@@ -156,14 +180,32 @@ function Table({
   );
 
   // Scroll to expanded entry on data change.
-  React.useEffect(() => {
-    if (expanded) {
-      scrollToId(expanded);
-    }
-  }, sortFilterDeps);
+  // useEffect(() => {
+  //   // TODO put this behavior behind a setting
+  //   if (expanded) {
+  //     setTimeout(() => {
+  //       let isExpandedInView = false;
+  //       // Scroll only if not already in view
+  //       console.log("SCROLL EFFECT RUNNING.");
+  //       console.log("data length:", data.length);
+  //       console.log(
+  //         `Visible renderedRange.current is from ${renderedRange.current.startIndex} to ${renderedRange.current.endIndex}.\nFrom ${data[renderedRange.current.startIndex]?.title} to ${data[renderedRange.current.endIndex]?.title}`,
+  //       );
+  //       for (let i = renderedRange.current.startIndex; i <= renderedRange.current.endIndex; i++) {
+  //         if (data[i] == null) console.error("data[" + i + "] is undefined!");
+  //         if (data[i] && data[i]._id === expanded) {
+  //           console.log("scrolling");
+  //           isExpandedInView = true;
+  //           break;
+  //         }
+  //       }
+  //       if (!isExpandedInView) scrollToId(expanded);
+  //     }, 50);
+  //   }
+  // }, [data]);
 
   // Search (Ctrl-F replacement)
-  React.useEffect(() => {
+  useEffect(() => {
     const findAllIndices = (str, searchText) =>
       [...str.matchAll(new RegExp(escapeRegex(searchText), "gi"))].map((a) => a.index);
     if (searchExpanded) {
@@ -268,7 +310,13 @@ function Table({
           useWindowScroll={true}
           overscan={200}
           data={data}
-          rangeChanged={(range) => (renderedRange.current = range)}
+          rangeChanged={(range) => {
+            renderedRange.current = range;
+            // console.log("data length:", data.length);
+            // console.log(
+            //   `New range is from ${range.startIndex} to ${range.endIndex}.\nFrom ${data[range.startIndex]?.title} to ${data[range.endIndex]?.title}`,
+            // );
+          }}
           itemContent={(index, item) => {
             // The index in searchResults.results array of the first result in this row
             let resultsIndex = searchResults.results.findIndex((r) => r.rowIndex === index);

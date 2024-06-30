@@ -31,6 +31,9 @@
             ],
             "@changelog/*": [
                 "src/pages/changelog/*"
+            ],
+            "@lists/*": [
+                "src/pages/lists/*"
             ]
         }
     }

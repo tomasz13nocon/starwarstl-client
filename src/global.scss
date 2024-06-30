@@ -1,386 +1,481 @@
 @use "@/vars.scss" as *;
 
-.icon {
-  width: 24px;
-  vertical-align: sub;
-  &.loading {
-    animation: spin 1s infinite linear;
-  }
-}
+@layer base, global;
 
-@keyframes spin {
-  from {
-    transform: rotateZ(0deg);
-  }
-  to {
-    transform: rotateZ(360deg);
-  }
-}
-
-.bold {
-  font-weight: $weight-bold;
-}
-
-.book {
-  background: $book-a-primary;
-  color: $book-secondary;
-}
-.book-a {
-  background: $book-a-primary;
-  color: $book-a-secondary;
-}
-.book-ya {
-  background: $book-ya-primary;
-  color: $book-ya-secondary;
-}
-.book-jr {
-  background: $book-jr-primary;
-  color: $book-jr-secondary;
-}
-.book-reversed {
-  background: $book-secondary;
-  color: $book-a-primary;
-}
-.book-a-reversed {
-  background: $book-a-secondary;
-  color: $book-a-primary;
-}
-.book-ya-reversed {
-  background: $book-ya-secondary;
-  color: $book-ya-primary;
-}
-.book-jr-reversed {
-  background: $book-jr-secondary;
-  color: $book-jr-primary;
-}
-
-.audio-drama {
-  background: $audio-drama-primary;
-  color: $audio-drama-secondary;
-}
-.audio-drama-reversed {
-  background: $audio-drama-secondary;
-  color: $audio-drama-primary;
-}
-
-.comic {
-  background-color: $comic-primary;
-  color: $comic-secondary;
-}
-.comic-reversed {
-  background-color: $comic-secondary;
-  color: $comic-primary;
-}
-.comic-story {
-  background-color: $comic-story-primary;
-  color: $comic-story-secondary;
-}
-.comic-story-reversed {
-  background-color: $comic-story-secondary;
-  color: $comic-story-primary;
-}
-.comic-strip {
-  background-color: $comic-strip-primary;
-  color: $comic-strip-secondary;
-}
-.comic-strip-reversed {
-  background-color: $comic-strip-secondary;
-  color: $comic-strip-primary;
-}
-.comic-manga {
-  background-color: $comic-manga-primary;
-  color: $comic-manga-secondary;
-}
-.comic-manga-reversed {
-  background-color: $comic-manga-secondary;
-  color: $comic-manga-primary;
-}
-
-.short-story {
-  background-color: $short-story-primary;
-  color: $short-story-secondary;
-}
-.short-story-reversed {
-  background-color: $short-story-secondary;
-  color: $short-story-primary;
-}
-
-.tv,
-.tv-live-action {
-  background-color: $tv-primary;
-  color: $tv-secondary;
-}
-.tv-animated {
-  background-color: $tv-animated-primary;
-  color: $tv-animated-secondary;
-}
-.tv-micro-series {
-  background-color: $tv-micro-series-primary;
-  color: $tv-micro-series-secondary;
-}
-.tv-reversed,
-.tv-live-action-reversed {
-  background-color: $tv-secondary;
-  color: $tv-primary;
-}
-.tv-animated-reversed {
-  background-color: $tv-animated-secondary;
-  color: $tv-animated-primary;
-}
-.tv-micro-series-reversed {
-  background-color: $tv-micro-series-secondary;
-  color: $tv-micro-series-primary;
-}
-
-.film {
-  background-color: $film-primary;
-  color: $film-secondary;
-}
-.film-reversed {
-  background-color: $film-secondary;
-  color: $film-primary;
-}
-
-.yr {
-  background-color: $yr-primary;
-  color: $yr-secondary;
-}
-.yr-reversed {
-  background-color: $yr-secondary;
-  color: $yr-primary;
-}
-
-.game {
-  background-color: $game-primary;
-  color: $game-secondary;
-}
-.game-vr {
-  background-color: $game-vr-primary;
-  color: $game-vr-secondary;
-}
-.game-mobile,
-.game-browser {
-  background-color: $game-mobile-primary;
-  color: $game-mobile-secondary;
-}
-.game-reversed {
-  background-color: $game-secondary;
-  color: $game-primary;
-}
-
-.unknown {
-  background-color: $unknown-primary;
-  color: $unknown-secondary;
-}
-.unknown-reversed {
-  background-color: $unknown-secondary;
-  color: $unknown-primary;
-}
-
-.reference-book {
-  background-color: $reference-book-primary;
-  color: $reference-book-secondary;
-}
-
-.multimedia {
-  background: linear-gradient(
-    145deg,
-    #3f51b5dd,
-    #00c8e1dd,
-    #4caf50dd,
-    #ffeb3bdd,
-    #e37322dd,
-    #d42b26dd,
-    #8042bfdd,
-    // #3F51B5DD,
-  );
-  color: black;
-  text-shadow: 0 0 2px white;
+@layer global {
   .icon {
-    filter: drop-shadow(0 0 2px white);
-  }
-}
+    width: 24px;
+    vertical-align: sub;
 
-.type-indicator {
-  box-shadow: 0 0 5px -3px black;
-  padding: 0 9px 0px 9px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-
-button {
-  @extend %reset-button;
-}
-
-.btn {
-  @extend %reset-button;
-  padding: 0 6px;
-  border-radius: 4px;
-  font-size: 16px;
-  border: 2px solid $grey0;
-  background-color: $background;
-  color: black;
-  transition: background-color 0.1s;
-  &.active {
-    background-color: $active2;
-  }
-  &:hover {
-    box-shadow: $hover-shadow;
-  }
-  &:disabled {
-    color: $grey2;
-    border-color: $grey3;
-    cursor: not-allowed;
-    &:hover {
-      box-shadow: none;
+    &.loading {
+      animation: spin 1s infinite linear;
     }
   }
-}
 
-.btn-inv {
-  @extend .btn;
-  background-color: $background-inv;
-  border-color: white;
-  color: white;
-  &:hover {
-    box-shadow: $hover-shadow-inv;
+  @keyframes spin {
+    from {
+      transform: rotateZ(0deg);
+    }
+
+    to {
+      transform: rotateZ(360deg);
+    }
   }
-}
 
-.unreleased {
-  background-color: #eacac0;
-}
-
-.exact-placement-unknown {
-  background-color: #ded9dc;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="search"],
-input[type="url"],
-input[type="number"] {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 5px 30px 5px 6px;
-  border: 3px solid $grey2;
-  font-size: 0.8em;
-  // width: 240px;
-  &:focus {
-    outline: none;
-    border-color: $focus;
+  .bold {
+    font-weight: $weight-bold;
   }
-  &.small {
-    padding: 3px 28px 3px 4px;
-    border-width: 2px;
+
+  .book {
+    background: $book-a-primary;
+    color: $book-secondary;
   }
-}
 
-.highlight {
-  color: red;
-  background-color: yellow;
-  font-weight: $weight-bold;
-}
-.highlight-current {
-  background-color: #df00ff;
-  color: white;
-  font-weight: $weight-bold;
-}
-
-html,
-body {
-  height: 100%;
-  color: #111;
-}
-
-body {
-  margin: 0;
-  font-family: $sans;
-  // font-weight: $weight-regular;
-  font-size: 18px;
-  background-color: $background;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-}
-
-ul {
-  margin: 0;
-}
-
-*:focus {
-  outline-color: $focus;
-}
-
-#root {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-a,
-.link {
-  @extend %link;
-}
-
-a.external {
-  .icon {
-    width: 1em;
+  .book-a {
+    background: $book-a-primary;
+    color: $book-a-secondary;
   }
-}
 
-.circle-button {
-  @extend %reset-button;
-  align-self: flex-end;
-  cursor: pointer;
-  border-radius: 40px;
-  box-shadow: 0 0 3px black;
-  &:hover {
-    box-shadow: 0 0 5px black;
+  .book-ya {
+    background: $book-ya-primary;
+    color: $book-ya-secondary;
   }
-  width: 70px;
-  height: 70px;
-  font-weight: $weight-bold;
-  font-size: 2em;
-  .icon {
-    // width: 36px;
-  }
-}
 
-.error {
-  @extend %inline-alert;
-  .icon {
+  .book-jr {
+    background: $book-jr-primary;
+    color: $book-jr-secondary;
+  }
+
+  .book-reversed {
+    background: $book-secondary;
+    color: $book-a-primary;
+  }
+
+  .book-a-reversed {
+    background: $book-a-secondary;
+    color: $book-a-primary;
+  }
+
+  .book-ya-reversed {
+    background: $book-ya-secondary;
+    color: $book-ya-primary;
+  }
+
+  .book-jr-reversed {
+    background: $book-jr-secondary;
+    color: $book-jr-primary;
+  }
+
+  .audio-drama {
+    background: $audio-drama-primary;
+    color: $audio-drama-secondary;
+  }
+
+  .audio-drama-reversed {
+    background: $audio-drama-secondary;
+    color: $audio-drama-primary;
+  }
+
+  .comic {
+    background-color: $comic-primary;
+    color: $comic-secondary;
+  }
+
+  .comic-reversed {
+    background-color: $comic-secondary;
+    color: $comic-primary;
+  }
+
+  .comic-story {
+    background-color: $comic-story-primary;
+    color: $comic-story-secondary;
+  }
+
+  .comic-story-reversed {
+    background-color: $comic-story-secondary;
+    color: $comic-story-primary;
+  }
+
+  .comic-strip {
+    background-color: $comic-strip-primary;
+    color: $comic-strip-secondary;
+  }
+
+  .comic-strip-reversed {
+    background-color: $comic-strip-secondary;
+    color: $comic-strip-primary;
+  }
+
+  .comic-manga {
+    background-color: $comic-manga-primary;
+    color: $comic-manga-secondary;
+  }
+
+  .comic-manga-reversed {
+    background-color: $comic-manga-secondary;
+    color: $comic-manga-primary;
+  }
+
+  .short-story {
+    background-color: $short-story-primary;
+    color: $short-story-secondary;
+  }
+
+  .short-story-reversed {
+    background-color: $short-story-secondary;
+    color: $short-story-primary;
+  }
+
+  .tv,
+  .tv-live-action {
+    background-color: $tv-primary;
+    color: $tv-secondary;
+  }
+
+  .tv-animated {
+    background-color: $tv-animated-primary;
+    color: $tv-animated-secondary;
+  }
+
+  .tv-micro-series {
+    background-color: $tv-micro-series-primary;
+    color: $tv-micro-series-secondary;
+  }
+
+  .tv-reversed,
+  .tv-live-action-reversed {
+    background-color: $tv-secondary;
+    color: $tv-primary;
+  }
+
+  .tv-animated-reversed {
+    background-color: $tv-animated-secondary;
+    color: $tv-animated-primary;
+  }
+
+  .tv-micro-series-reversed {
+    background-color: $tv-micro-series-secondary;
+    color: $tv-micro-series-primary;
+  }
+
+  .film {
+    background-color: $film-primary;
+    color: $film-secondary;
+  }
+
+  .film-reversed {
+    background-color: $film-secondary;
+    color: $film-primary;
+  }
+
+  .yr {
+    background-color: $yr-primary;
+    color: $yr-secondary;
+  }
+
+  .yr-reversed {
+    background-color: $yr-secondary;
+    color: $yr-primary;
+  }
+
+  .game {
+    background-color: $game-primary;
+    color: $game-secondary;
+  }
+
+  .game-vr {
+    background-color: $game-vr-primary;
+    color: $game-vr-secondary;
+  }
+
+  .game-mobile,
+  .game-browser {
+    background-color: $game-mobile-primary;
+    color: $game-mobile-secondary;
+  }
+
+  .game-reversed {
+    background-color: $game-secondary;
+    color: $game-primary;
+  }
+
+  .unknown {
+    background-color: $unknown-primary;
+    color: $unknown-secondary;
+  }
+
+  .unknown-reversed {
+    background-color: $unknown-secondary;
+    color: $unknown-primary;
+  }
+
+  .reference-book {
+    background-color: $reference-book-primary;
+    color: $reference-book-secondary;
+  }
+
+  .multimedia {
+    background: linear-gradient(145deg,
+        #3f51b5dd,
+        #00c8e1dd,
+        #4caf50dd,
+        #ffeb3bdd,
+        #e37322dd,
+        #d42b26dd,
+        #8042bfdd,
+        // #3F51B5DD,
+      );
+    color: black;
+    text-shadow: 0 0 2px white;
+
+    .icon {
+      filter: drop-shadow(0 0 2px white);
+    }
+  }
+
+  .type-indicator {
+    box-shadow: 0 0 5px -3px black;
+    padding: 0 9px 0px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  button {
+    @extend %reset-button;
+  }
+
+  .btn {
+    @extend %reset-button;
+    padding: 0 6px;
+    border-radius: 4px;
+    font-size: 16px;
+    border: 2px solid $grey0;
+    background-color: $background;
+    color: black;
+    transition: background-color 0.1s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &.active {
+      background-color: $active2;
+    }
+
+    &:hover {
+      box-shadow: $hover-shadow;
+    }
+
+    &:disabled {
+      color: $grey2;
+      border-color: $grey3;
+      cursor: not-allowed;
+
+      &:hover {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .btn-inv {
+    @extend .btn;
+    background-color: $background-inv;
+    border-color: white;
+    color: white;
+
+    &:hover {
+      box-shadow: $hover-shadow-inv;
+    }
+  }
+
+  .btn-soft {
+    @extend .btn;
+    border: 1px solid $grey1;
+  }
+
+  .unreleased {
+    background-color: #eacac0;
+  }
+
+  .exact-placement-unknown {
+    background-color: #ded9dc;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="url"],
+  input[type="number"] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px 30px 5px 6px;
+    border: 3px solid $grey2;
+    font-size: 0.8em;
+
+    // width: 240px;
+    &:focus-visible {
+      outline: none;
+      border-color: $focus;
+    }
+
+    &.small {
+      padding: 3px 28px 3px 4px;
+      border-width: 2px;
+    }
+  }
+
+  .highlight {
+    color: red;
+    background-color: yellow;
+    font-weight: $weight-bold;
+  }
+
+  .highlight-current {
+    background-color: #df00ff;
+    color: white;
+    font-weight: $weight-bold;
+  }
+
+  html,
+  body {
+    height: 100%;
+    color: #111;
+  }
+
+  body {
+    margin: 0;
+    font-family: $sans;
+    // font-weight: $weight-regular;
+    font-size: 18px;
+    background-color: $background;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
+
+  ul {
+    margin: 0;
+  }
+
+  *:focus-visible {
+    outline-color: $focus;
+  }
+
+  #root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a,
+  .link {
+    @extend %link;
+  }
+
+  a.external {
+    .icon {
+      width: 1em;
+    }
+  }
+
+  .circle-button {
+    @extend %reset-button;
+    align-self: flex-end;
+    cursor: pointer;
+    border-radius: 40px;
+    box-shadow: 0 0 3px black;
+
+    &:hover {
+      box-shadow: 0 0 5px black;
+    }
+
+    width: 70px;
+    height: 70px;
+    font-weight: $weight-bold;
+    font-size: 2em;
+
+    .icon {
+      // width: 36px;
+    }
+  }
+
+  .error {
+    @extend %inline-alert;
+
+    .icon {
+      color: #e13232;
+    }
+
     color: #e13232;
+    border: 1px solid #e13232;
+    background: #f7dddd;
   }
-  color: #e13232;
-  border: 1px solid #e13232;
-  background: #f7dddd;
-}
 
-.warning {
-  @extend %inline-alert;
-  .icon {
-    color: #ed6c02;
+  .warning {
+    @extend %inline-alert;
+
+    .icon {
+      color: #ed6c02;
+    }
+
+    color: #966e08;
+    border: 1px solid #966e08;
+    background: #f6efdf;
+    // background: #fff4e5;
   }
-  color: #966e08;
-  border: 1px solid #966e08;
-  background: #f6efdf;
-  // background: #fff4e5;
-}
 
-.success {
-  @extend %inline-alert;
-  .icon {
+  .info {
+    @extend %inline-alert;
+
+    .icon {
+      color: #ed6c02;
+    }
+
+    color: #234a57;
+    border: 1px solid #234a57;
+    background: #dff2f6;
+  }
+
+  .success {
+    @extend %inline-alert;
+
+    .icon {
+      color: #2e7d32;
+    }
+
     color: #2e7d32;
+    border: 1px solid #2e7d32;
+    background: #e8f5e9;
   }
-  color: #2e7d32;
-  border: 1px solid #2e7d32;
-  background: #e8f5e9;
+
+  .icon-text-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .floating-content {
+    overflow: hidden;
+    background-color: $background;
+    border: 1px solid $grey2;
+    padding: 4px;
+    z-index: 10;
+    box-shadow:
+      0px 10px 38px -10px rgba(22, 23, 24, 0.35),
+      0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+  }
+
+  .dialog-overlay {
+    @extend %dialog-overlay;
+  }
+
+  .dialog-content {
+    @include dialog-content;
+  }
 }

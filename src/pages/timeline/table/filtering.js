@@ -317,6 +317,26 @@ export function createTextStrategy(filterText, filterCategory, appearances, appe
     );
 }
 
+export function createListStrategy(listFilters) {
+  let defaultRet = true;
+  // If any list filter is set to "show", then hide all other media
+  if (listFilters.some((filter) => filter.show)) defaultRet = false;
+
+  return (item) => {
+    let ret = defaultRet;
+    for (let filter of listFilters) {
+      if (filter.show) {
+        if (filter.items.includes(item.pageid)) ret = true;
+      } else {
+        // Return early because hiding has the priority.
+        // If list is set to "hide", never show its items, even if they're in another list set to "show"
+        if (filter.items.includes(item.pageid)) return false;
+      }
+    }
+    return ret;
+  };
+}
+
 export class Filterer {
   constructor(rawData, strategies) {
     this.data = [...rawData];

@@ -1,0 +1,45 @@
+@use "@/vars.scss" as *;
+
+.filter-bullet {
+  font-size: 0.9em;
+  width: fit-content;
+  margin: 4px 0;
+  display: flex;
+  // justify-content: space-between;
+  border-radius: 32px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background-color: $active7;
+}
+
+.content {
+  margin: 2px 6px;
+  // https://stackoverflow.com/questions/36150458/flex-item-overflows-container-due-to-long-word-even-after-using-word-wrap
+  min-width: 1%;
+}
+
+.close-button {
+  @extend %reset-button;
+  cursor: pointer;
+  background: $active4;
+  color: $active7;
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+  padding-right: 2px;
+  border: 2px solid;
+
+  &:global(.multimedia-reversed) {
+    border: none;
+    padding-right: 4px;
+  }
+
+  &:hover :global(.icon) {
+    transform: rotateZ(90deg);
+  }
+
+  :global(.icon) {
+    transition: transform 0.12s;
+    vertical-align: text-bottom;
+    width: 22px;
+  }
+}

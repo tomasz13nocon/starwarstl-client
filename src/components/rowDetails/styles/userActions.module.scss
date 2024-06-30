@@ -1,0 +1,87 @@
+@use "@/vars.scss" as *;
+
+.actions {
+  background: $background3;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 8px;
+}
+
+.list-btns {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+button.sign-in-btn {
+  // background: transparent;
+  // border: none;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+
+.watched,
+.watchlist {
+  color: $active9;
+}
+
+.toast-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toast-item-title {
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: $weight-bold;
+  border: 1px solid black;
+}
+
+.toast-icon-add {
+  color: $active9;
+}
+
+.toast-icon-remove {
+  color: $error1;
+}
+
+.separator {
+  height: 1px;
+  background-color: $grey2;
+  margin: 8px;
+}
+
+.create-list-dialog-contents {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+
+  button {
+    width: min-content;
+    margin: auto;
+  }
+}
+
+.list-dropdown-content {
+  max-width: 300px;
+  padding: 8px !important;
+  overflow-y: auto;
+  max-height: var(--radix-popover-content-available-height);
+  box-sizing: border-box;
+
+  [role="menuitem"]:focus {
+    outline: none;
+  }
+}
+
+.checkbox-text {
+  word-break: break-word;
+}
+
+.add-list-btn {
+  margin: auto;
+}

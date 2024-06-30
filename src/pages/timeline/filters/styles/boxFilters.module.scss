@@ -1,0 +1,26 @@
+@use "@/vars.scss" as *;
+
+.text {
+  margin-top: 2px;
+
+  .wookiee-link {
+    position: relative;
+    top: 1px;
+  }
+
+  &:not(:first-child) {
+    border-left: 1px solid $active4;
+    padding-left: 6px;
+  }
+}
+
+.category-icon {
+  padding-right: 4px;
+  align-self: center;
+  flex-shrink: 0;
+  color: $active4;
+}
+
+.include-all-checkbox {
+  margin-bottom: 8px;
+}

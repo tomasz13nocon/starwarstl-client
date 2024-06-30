@@ -1,0 +1,23 @@
+@use "@/vars.scss" as *;
+
+.button {
+  @extend %reset-button;
+  cursor: pointer;
+  line-height: 0;
+
+  &:focus {
+    z-index: 1;
+  }
+
+  &.animated {
+    transition: transform 0.12s;
+
+    &:hover {
+      transform: translateY(-50%) rotateZ(90deg);
+    }
+  }
+
+  &.colored:hover {
+    color: $active1;
+  }
+}

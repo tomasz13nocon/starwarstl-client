@@ -1,7 +1,8 @@
 import React, { forwardRef, useEffect, useState } from "react";
 import { Icon } from "@mdi/react";
 import { mdiClose } from "@mdi/js";
-import "./styles/clearableTextInput.scss";
+import c from "./styles/clearableTextInput.module.scss";
+import clsx from "clsx";
 
 export default forwardRef(function ClearableTextInput(
   { children, small, active, value, onChange, bullet, clearBullet, ...props },
@@ -16,18 +17,17 @@ export default forwardRef(function ClearableTextInput(
 
   return (
     <>
-      <label htmlFor={id.current} className="range-input-label">
-        {children}
-      </label>
-      <div id={id.current} className="clear-input-container">
+      <label htmlFor={id.current}>{children}</label>
+      <div className={c.clearInputContainer}>
         {bullet && (
-          <button className="bullet" ref={bulletRef} onClick={clearBullet}>
+          <button className={c.bullet} ref={bulletRef} onClick={clearBullet}>
             {bullet}:
           </button>
         )}
         <input
           type="text"
-          className={`${small ? "small" : ""} ${active ? "active" : ""}`}
+          id={id.current}
+          className={clsx(small && "small", active && c.active)}
           style={bullet ? { paddingLeft: `${bulletPadding + 10}px` } : {}}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -36,7 +36,7 @@ export default forwardRef(function ClearableTextInput(
         />
         {(value || bullet) && (
           <button
-            className="clear-input"
+            className={c.clearInput}
             onClick={() => {
               onChange("");
               if (clearBullet) clearBullet();

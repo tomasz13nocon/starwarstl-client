@@ -1,16 +1,24 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import c from "./styles/loginDialog.module.scss";
 import { AuthContext } from "@/context/authContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Icon from "@mdi/react";
 import { mdiClose } from "@mdi/js";
 import Spinner from "@components/spinner";
+import DialogContents from "@components/dialogContents";
 
 export default function LoginDialog({ children, ...props }) {
-  const { signup, login } = useContext(AuthContext);
+  const { signup, login, resetPassword } = useContext(AuthContext);
   const [screen, setScreen] = useState("login"); // login | signup | reset
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState("");
+  const [info, setInfo] = useState("");
+
+  // Clear messages when changing screens
+  useEffect(() => {
+    setError("");
+    setInfo("");
+  }, [screen]);
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -39,7 +47,10 @@ export default function LoginDialog({ children, ...props }) {
     const email = e.target.email.value;
     setError("");
     setFetching(true);
-    // TODO
+    resetPassword(email)
+      .then((msg) => setInfo(msg))
+      .catch((e) => setError(e.message))
+      .finally(() => setFetching(false));
   };
 
   let form = null,
@@ -47,12 +58,12 @@ export default function LoginDialog({ children, ...props }) {
   if (screen === "login") {
     title = "Log in";
     form = (
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} className={c.form}>
         <Input type="email" name="email" required label="Email" />
         <Input type="password" name="password" required minLength={6} label="Password" />
-        <button type="button" className={c.forgot} onClick={() => setScreen("reset")}>
-          Forgot password?
-        </button>
+        {/* <button type="button" className={c.forgot} onClick={() => setScreen("reset")}> */}
+        {/*   Forgot password? */}
+        {/* </button> */}
         <button className={c.submit + " btn"} disabled={fetching}>
           {fetching ? <Spinner /> : "Log in"}
         </button>
@@ -67,7 +78,7 @@ export default function LoginDialog({ children, ...props }) {
   } else if (screen === "signup") {
     title = "Sign up";
     form = (
-      <form onSubmit={handleSignup}>
+      <form onSubmit={handleSignup} className={c.form}>
         <Input type="email" name="email" required label="Email" />
         <Input type="password" name="password" required minLength={6} label="Password" />
         <button type="submit" className={c.submit + " btn"} disabled={fetching}>
@@ -84,7 +95,7 @@ export default function LoginDialog({ children, ...props }) {
   } else if (screen === "reset") {
     title = "Reset password";
     form = (
-      <form onSubmit={handleReset}>
+      <form onSubmit={handleReset} className={c.form}>
         <Input type="email" name="email" required minLength={4} label="Email" />
         <button type="submit" className={c.submit + " btn"} disabled={fetching}>
           {fetching ? <Spinner /> : "Reset password"}
@@ -101,19 +112,11 @@ export default function LoginDialog({ children, ...props }) {
   return (
     <Dialog.Root>
       <Dialog.Trigger {...props}>{children}</Dialog.Trigger>
-      <Dialog.Portal>
-        <Dialog.Overlay className={c.overlay} />
-        <Dialog.Content className={c.content}>
-          <div className={c.header}>
-            <Dialog.Title className={c.title}>{title}</Dialog.Title>
-            <Dialog.Close className={c.close}>
-              <Icon className={`icon`} path={mdiClose} size={1.5} />
-            </Dialog.Close>
-          </div>
-          {error && <div className="error">{error}</div>}
-          {form}
-        </Dialog.Content>
-      </Dialog.Portal>
+      <DialogContents title={title}>
+        {error && <div className="error">{error}</div>}
+        {info && <div className="info">{info}</div>}
+        {form}
+      </DialogContents>
     </Dialog.Root>
   );
 }

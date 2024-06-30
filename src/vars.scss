@@ -112,91 +112,93 @@ $width-sm: 576px;
 // $active6: #ebf7ff;
 // $active5: #586778;
 
-%link {
-  color: $active9;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
+@keyframes overlayShow {
+  from {
+    opacity: 0;
   }
-  &:active {
-    color: rgb(18, 61, 141);
-  }
-}
-%nav-link {
-  color: $active6;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-  &:active {
-    color: rgba($active6, 0.8);
-  }
-  &[aria-current="page"] {
-    background-color: $active5;
-    pointer-events: none;
+
+  to {
+    opacity: 1;
   }
 }
 
-%inline-alert {
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  width: fit-content;
-  margin: 0.5rem 0;
-  font-style: normal;
-  font-size: 1rem;
-  &.center {
-    margin: 0.5rem auto;
+@keyframes overlayHide {
+  from {
+    opacity: 1;
   }
-  &.slim {
-    padding: 0.2rem 0.5rem;
+
+  to {
+    opacity: 0;
   }
 }
 
-%reset-button {
-  border: none;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  overflow: visible;
-
-  background: transparent;
-
-  color: inherit;
-  font: inherit;
-
-  line-height: normal;
-
-  -webkit-font-smoothing: inherit;
-  -moz-osx-font-smoothing: inherit;
-
-  -webkit-appearance: none;
-  appearance: none;
-
-  cursor: pointer;
-}
-
-%cell-fit-content {
-  // TODO: this acts weird with lots of content in columns. test it
-  width: 1px;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-%cta-button {
-  @extend %reset-button;
-
-  &:hover {
-    text-decoration: none;
-    opacity: 0.85;
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.95);
   }
 
-  padding: 14px 26px;
-  border-radius: 10px;
-  font-size: 1.2em;
-  font-weight: $weight-bold;
-  cursor: pointer;
-  background-color: $active0;
-  color: white;
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes contentHide {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.95);
+  }
+}
+
+@keyframes contentShowSlide {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes contentHideSlide {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.95);
+  }
+}
+
+$dialog-anim-duration: 200ms;
+$dialog-anim-ease: cubic-bezier(0.09, 0.31, 0.28, 0.99);
+
+@mixin dialog-content($slide: false) {
+  z-index: 100;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    hsl(206 22% 7%) 0px 10px 38px -10px,
+    hsl(206 22% 7%) 0px 10px 20px -15px;
+  background-color: $background;
+
+  animation: if($slide, contentShowSlide, contentShow) $dialog-anim-duration $dialog-anim-ease;
+
+  &[data-state="closed"] {
+    animation: if($slide, contentHideSlide, contentHide) $dialog-anim-duration $dialog-anim-ease;
+  }
 }
 
 @mixin lightsaber($color) {
@@ -213,29 +215,144 @@ $width-sm: 576px;
     0 0 70px $color;
 }
 
-%cell {
-  $padding: 2px;
-  padding: $padding $padding + 5px;
+@layer base {
+  %link {
+    color: $active9;
+    text-decoration: none;
 
-  border: 1px solid #111;
-  margin: -1px 0 0 -1px;
+    &:hover {
+      text-decoration: underline;
+    }
 
-  flex-shrink: 0;
-  &.date {
-    width: 80px;
+    &:active {
+      color: rgb(18, 61, 141);
+    }
   }
-  &.cover {
-    width: 55px;
+
+  %nav-link {
+    color: $active6;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: rgba($active6, 0.8);
+    }
+
+    &[aria-current="page"] {
+      background-color: $active5;
+      pointer-events: none;
+    }
+  }
+
+  %inline-alert {
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    width: fit-content;
+    margin: 0.5rem 0;
+    font-style: normal;
+    font-size: 1rem;
+
+    &.center {
+      margin: 0.5rem auto;
+    }
+
+    &.slim {
+      padding: 0.2rem 0.5rem;
+    }
+  }
+
+  %reset-button {
+    border: none;
+    margin: 0;
     padding: 0;
+    width: auto;
+    overflow: visible;
+
+    background: transparent;
+
+    color: inherit;
+    font: inherit;
+
+    line-height: normal;
+
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+
+    -webkit-appearance: none;
+    appearance: none;
+
+    cursor: pointer;
   }
-  &.title {
-    flex-grow: 1;
-    flex-shrink: 1;
+
+  %cell-fit-content {
+    // TODO: this acts weird with lots of content in columns. test it
+    width: 1px;
+    white-space: nowrap;
+    overflow: hidden;
   }
-  &.writer {
-    width: 140px;
+
+  %cta-button {
+    @extend %reset-button;
+
+    &:hover {
+      text-decoration: none;
+      opacity: 0.85;
+    }
+
+    padding: 14px 26px;
+    border-radius: 10px;
+    font-size: 1.2em;
+    font-weight: $weight-bold;
+    cursor: pointer;
+    background-color: $active0;
+    color: white;
   }
-  &.releaseDate {
-    width: 84px;
+
+  %cell {
+    $padding: 2px;
+    padding: $padding $padding + 5px;
+
+    border: 1px solid #111;
+    margin: -1px 0 0 -1px;
+
+    flex-shrink: 0;
+
+    &.date {
+      width: 80px;
+    }
+
+    &.cover {
+      width: 55px;
+      padding: 0;
+    }
+
+    &.title {
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
+
+    &.writer {
+      width: 140px;
+    }
+
+    &.releaseDate {
+      width: 84px;
+    }
+  }
+
+  %dialog-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+
+    animation: overlayShow $dialog-anim-duration $dialog-anim-ease;
+
+    &[data-state="closed"] {
+      animation: overlayHide $dialog-anim-duration $dialog-anim-ease;
+    }
   }
 }

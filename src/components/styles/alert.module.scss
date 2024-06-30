@@ -1,0 +1,47 @@
+.alert {
+  @extend %inline-alert;
+  padding: 1rem;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.error {
+  .icon {
+    color: #e13232;
+  }
+
+  color: #e13232;
+  border: 1px solid #e13232;
+  background: #f7dddd;
+}
+
+.warning {
+  .icon {
+    color: #ed6c02;
+  }
+
+  color: #966e08;
+  border: 1px solid #966e08;
+  background: #f6efdf;
+  // background: #fff4e5;
+}
+
+.info {
+  .icon {
+    color: #ed6c02;
+  }
+
+  color: #234a57;
+  border: 1px solid #234a57;
+  background: #dff2f6;
+}
+
+.success {
+  .icon {
+    color: #2e7d32;
+  }
+
+  color: #2e7d32;
+  border: 1px solid #2e7d32;
+  background: #e8f5e9;
+}

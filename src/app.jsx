@@ -11,6 +11,8 @@ import emailVerificationLoader from "@pages/email-verification/loader";
 import Layout from "@layouts/layout";
 import Toasts from "@components/toasts";
 import { ToastProvider } from "./context/toastContext";
+import Lists from "@pages/lists/lists";
+import List from "@pages/lists/list";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,8 @@ const router = createBrowserRouter([
         loader: emailVerificationLoader,
         Component: EmailVerification,
       },
+      { path: "/lists/:listName", Component: List },
+      { path: "/lists", Component: Lists },
       { path: "/settings", Component: Settings },
       { path: "/timeline", Component: Timeline },
       { path: "/changelog", Component: Changelog },
@@ -33,12 +37,12 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <StrictMode>
-      <AuthProvider>
-        <ToastProvider>
+      <ToastProvider>
+        <AuthProvider>
           <RouterProvider router={router} />
           <Toasts />
-        </ToastProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ToastProvider>
     </StrictMode>
   );
 }

@@ -6,24 +6,27 @@ import { useEffect, useState } from "react";
 import { redirect, useNavigate } from "react-router-dom";
 
 export default function Settings() {
-  const { fetching: fetchingUser, user, sendVerificationEmail } = useAuth();
+  const { fetchingAuth, user, sendVerificationEmail } = useAuth();
   const [error, setError] = useState(null);
+  const [info, setInfo] = useState(null);
   const [fetching, setFetching] = useState(false);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!fetchingUser && !user) {
+    if (!fetchingAuth && !user) {
       navigate("/timeline");
     }
-  }, [fetchingUser, user]);
+  }, [fetchingAuth, user]);
 
   const handleVerifyEmail = async () => {
     setError(null);
+    setInfo(null);
     setSuccess(false);
     setFetching(true);
     try {
-      await sendVerificationEmail();
+      let res = await sendVerificationEmail();
+      if (res?.info) setInfo(res.info);
       setSuccess(true);
     } catch (e) {
       setError(e.message);
@@ -32,7 +35,7 @@ export default function Settings() {
     }
   };
 
-  if (fetchingUser) {
+  if (fetchingAuth) {
     return (
       <Shell>
         <h1>Settings</h1>
@@ -63,6 +66,7 @@ export default function Settings() {
             )}
           </button>
           {error && <div className="error slim">{error}</div>}
+          {info && <div className="info slim">{info}</div>}
           {success && <div className="success slim">Email sent!</div>}
         </div>
       )}

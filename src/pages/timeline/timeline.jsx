@@ -20,6 +20,8 @@ import AppearancesFilterSettings from "./filters/appearancesFilterSettings";
 import { FiltersContext } from "./context";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import Shell from "@layouts/shell";
+import ListFilters from "./filters/listFilters";
+import { useAuth } from "@/context/authContext";
 
 function areAllBoolsFalse(obj) {
   return Object.values(obj).every((v) => (typeof v === "boolean" ? !v : areAllBoolsFalse(v)));
@@ -39,7 +41,9 @@ export default function Timeline() {
   const [showFilters, setShowFilters] = useState(false);
   const [rangeFromStr, setRangeFrom] = useLocalStorage("rangeFromStr", "");
   const [rangeToStr, setRangeTo] = useLocalStorage("rangeToStr", "");
+  const [listFilters, setListFilters] = useLocalStorage("listFilters", []);
   const [appearances, setAppearances] = useState({});
+  const { user } = useAuth();
   const [appearancesFilters, setAppearancesFilters] = useLocalStorage("appearancesFilters", {
     hideMentions: false,
     hideIndirectMentions: false,
@@ -219,6 +223,7 @@ export default function Timeline() {
               filtersChanged={dispatchTypeFilters}
               filtersTemplate={filtersTemplate}
             />
+            {user ? <ListFilters listFilters={listFilters} setListFilters={setListFilters} /> : ""}
             <TimelineRange
               timelineRangeBy={timelineRangeBy}
               setTimelineRangeBy={setTimelineRangeBy}
@@ -250,6 +255,7 @@ export default function Timeline() {
             rangeFrom={rangeFrom}
             rangeTo={rangeTo}
             timelineRangeBy={timelineRangeBy}
+            listFilters={listFilters}
             appearances={appearances}
             appearancesFilters={appearancesFilters}
           />

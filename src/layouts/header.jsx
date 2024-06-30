@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 import Icon from "@mdi/react";
-import { mdiAccount, mdiChevronDown, mdiCog, mdiMenu } from "@mdi/js";
+import { mdiAccount, mdiChevronDown, mdiCog, mdiMenu, mdiPlaylistEdit } from "@mdi/js";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { useAuth } from "@context/authContext";
@@ -11,7 +11,7 @@ import Spinner from "@components/spinner";
 import clsx from "clsx";
 
 export default function Header() {
-  const { user, logout, fetching } = useAuth();
+  const { user, logout, fetchingAuth } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { pathname } = useLocation();
 
@@ -29,6 +29,12 @@ export default function Header() {
       <small className={c.loggedInText}>Logged in as</small>
       {user?.email}
     </div>
+  );
+  const listsBtn = (
+    <NavLink to="/lists" className={c.settingsLink}>
+      <Icon path={mdiPlaylistEdit} size={1.0} />
+      <span>Lists</span>
+    </NavLink>
   );
   const settingsBtn = (
     <NavLink to="/settings" className={c.settingsLink}>
@@ -57,7 +63,7 @@ export default function Header() {
                 </>
               ) : (
                 <div className={c.loginDialog}>
-                  <LoginDialog />
+                  <LoginDialog className={clsx(c.trigger, "btn-inv")}>Log in</LoginDialog>
                 </div>
               )}
             </Collapsible.Content>
@@ -68,7 +74,7 @@ export default function Header() {
           <Nav />
           <div className={c.right}>
             <SecondaryNav />
-            {fetching ? (
+            {fetchingAuth ? (
               <Spinner color="white" />
             ) : user ? (
               <DropdownMenu.Root open={dropdownOpen} onOpenChange={(open) => setDropdownOpen(open)}>
@@ -81,7 +87,10 @@ export default function Header() {
                     <DropdownMenu.Arrow className={c.arrow} width={16} height={8} />
                     <DropdownMenu.Label>{name}</DropdownMenu.Label>
                     <DropdownMenu.Separator className={c.separator} />
-                    <DropdownMenu.Item>{settingsBtn}</DropdownMenu.Item>
+                    <div className={c.linkList}>
+                      <DropdownMenu.Item>{listsBtn}</DropdownMenu.Item>
+                      <DropdownMenu.Item>{settingsBtn}</DropdownMenu.Item>
+                    </div>
                     <DropdownMenu.Separator className={c.separator} />
                     <DropdownMenu.Item>{logoutBtn}</DropdownMenu.Item>
                   </DropdownMenu.Content>

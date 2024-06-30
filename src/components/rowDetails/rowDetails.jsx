@@ -1,19 +1,6 @@
-import React, { useContext, useReducer, useState } from "react";
+import React, { useReducer } from "react";
 import { Icon } from "@mdi/react";
-import {
-  mdiChevronDown,
-  mdiChevronUp,
-  mdiClock,
-  mdiClockOutline,
-  mdiClockPlusOutline,
-  mdiClockRemove,
-  mdiClockRemoveOutline,
-  mdiEye,
-  mdiEyeOutline,
-  mdiEyePlusOutline,
-  mdiEyeRemove,
-  mdiStarOutline,
-} from "@mdi/js";
+import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
 import _ from "lodash";
 import WookieeLink from "@components/wookieeLink";
 import ExternalLink from "@components/externalLink";
@@ -24,12 +11,7 @@ import { AppearancesContext } from "./context";
 import { AnalyticsCategories, analytics } from "@/analytics";
 import MediaCover from "@components/mediaCover";
 import c from "./styles/rowDetails.module.scss";
-import * as api from "@/fetch";
-import { useAuth } from "@/context/authContext";
-import Spinner from "@components/spinner";
-import LoginDialog from "@layouts/loginDialog";
-import clsx from "clsx";
-import { ToastContext } from "@/context/toastContext";
+import UserActions from "./userActions";
 
 const render = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -161,87 +143,12 @@ const getData = (item) => {
   return ret;
 };
 
-function HoverIcon({ path, hoverPath, ...props }) {
-  const [hover, setHover] = useState(false);
-  return (
-    <Icon
-      {...props}
-      path={hover ? hoverPath : path}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    />
-  );
-}
-
-const icons = {
-  addToWatched: mdiEye,
-  addToWatchlist: mdiClock,
-  removeFromWatched: mdiEyeRemove,
-  removeFromWatchlist: mdiClockRemove,
-};
-const notifications = {
-  addToWatched: "Added to watched",
-  addToWatchlist: "Added to watchlist",
-  removeFromWatched: "Removed from watched",
-  removeFromWatchlist: "Removed from watchlist",
-};
-const iconClass = {
-  addToWatched: c.toastIconAdd,
-  addToWatchlist: c.toastIconAdd,
-  removeFromWatched: c.toastIconRemove,
-  removeFromWatchlist: c.toastIconRemove,
-};
-
 export default React.memo(function RowDetails({ item, dataState }) {
   const [appearancesVisible, toggleAppearancesVisible] = useReducer((s) => !s, false);
   const [hideMentions, toggleHideMentions] = useReducer((s) => !s, false);
   const [hideIndirectMentions, toggleHideIndirectMentions] = useReducer((s) => !s, false);
   const [hideFlashbacks, toggleHideFlashbacks] = useReducer((s) => !s, false);
   const [hideHolograms, toggleHideHolograms] = useReducer((s) => !s, false);
-  const { fetching, user, setUser } = useAuth();
-  const { pushToast } = useContext(ToastContext);
-
-  async function listAction(action, id) {
-    await api[action](id);
-    pushToast({
-      title: notifications[action],
-      description: (
-        <div className={c.toastDescription}>
-          <Icon className={clsx("icon", iconClass[action])} path={icons[action]} size={1} />
-          <span className={clsx(item.fullType, c.toastItemTitle)}>{item.title}</span>
-        </div>
-      ),
-    });
-  }
-
-  async function addToWatched(id) {
-    await listAction("addToWatched", id);
-    setUser((prev) => ({
-      ...prev,
-      lists: { ...prev.lists, watched: [...prev.lists.watched, id] },
-    }));
-  }
-  async function addToWatchlist(id) {
-    await listAction("addToWatchlist", id);
-    setUser((prev) => ({
-      ...prev,
-      lists: { ...prev.lists, watchlist: [...prev.lists.watchlist, id] },
-    }));
-  }
-  async function removeFromWatched(id) {
-    await listAction("removeFromWatched", id);
-    setUser((prev) => ({
-      ...prev,
-      lists: { ...prev.lists, watched: prev.lists.watched.filter((e) => e !== id) },
-    }));
-  }
-  async function removeFromWatchlist(id) {
-    await listAction("removeFromWatchlist", id);
-    setUser((prev) => ({
-      ...prev,
-      lists: { ...prev.lists, watchlist: prev.lists.watchlist.filter((e) => e !== id) },
-    }));
-  }
 
   return (
     <article className={c.tr}>
@@ -269,58 +176,7 @@ export default React.memo(function RowDetails({ item, dataState }) {
                   )}
                 </h2>
 
-                <div className={c.actions}>
-                  {fetching ? (
-                    <Spinner />
-                  ) : user ? (
-                    <>
-                      <div className={c.listBtns}>
-                        {user.lists.watched.includes(item.pageid) ? (
-                          <button onClick={() => removeFromWatched(item.pageid)}>
-                            <HoverIcon
-                              className={clsx("icon", c.watched)}
-                              path={mdiEye}
-                              hoverPath={mdiEyeRemove}
-                              size={1.5}
-                            />
-                          </button>
-                        ) : (
-                          <button onClick={() => addToWatched(item.pageid)}>
-                            <HoverIcon
-                              className="icon"
-                              path={mdiEyeOutline}
-                              hoverPath={mdiEyePlusOutline}
-                              size={1.5}
-                            />
-                          </button>
-                        )}
-                        {user.lists.watchlist.includes(item.pageid) ? (
-                          <button onClick={() => removeFromWatchlist(item.pageid)}>
-                            <HoverIcon
-                              className={clsx("icon", c.watchlist)}
-                              path={mdiClock}
-                              hoverPath={mdiClockRemove}
-                              size={1.5}
-                            />
-                          </button>
-                        ) : (
-                          <button onClick={() => addToWatchlist(item.pageid)}>
-                            <HoverIcon
-                              className="icon"
-                              path={mdiClockOutline}
-                              hoverPath={mdiClockPlusOutline}
-                              size={1.5}
-                            />
-                          </button>
-                        )}
-                      </div>
-                    </>
-                  ) : (
-                    <LoginDialog className={clsx("btn", c.signInBtn)}>
-                      Sign in to perform actions
-                    </LoginDialog>
-                  )}
-                </div>
+                <UserActions item={item} />
 
                 {item.notUnique && item.title !== item.href && (
                   <div className={c.notUnique}>

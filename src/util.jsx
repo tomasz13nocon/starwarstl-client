@@ -181,6 +181,10 @@ export const appearancesIcons = {
   miscellanea: mdiShape,
 };
 
+export const watchedName = "Watched";
+export const watchlistName = "Watchlist";
+export const builtinLists = [watchedName, watchlistName];
+
 // Blur focus from the element if event is a mouse event (e.g. to hide focus ring)
 export function blurIfMouse(event) {
   if (event.nativeEvent.clientX !== 0 && event.nativeEvent.clientY !== 0) {

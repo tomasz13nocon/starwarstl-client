@@ -2,9 +2,12 @@ import { mdiClose } from "@mdi/js";
 import { Icon } from "@mdi/react";
 import WookieeLink from "@components/wookieeLink";
 import FiltersSection from "./filtersSection";
-import "./styles/boxFilters.scss";
 import { appearancesIcons } from "@/util";
 import Checkbox from "@components/checkbox";
+import FilterBullet from "@components/filterBullet";
+
+import c from "./styles/boxFilters.module.scss";
+import clsx from "clsx";
 
 export default function BoxFilters({ boxFilters, setBoxFilters, boxFiltersAnd, setBoxFiltersAnd }) {
   return (
@@ -12,35 +15,31 @@ export default function BoxFilters({ boxFilters, setBoxFilters, boxFiltersAnd, s
       {boxFilters.length > 0 && (
         <FiltersSection title="Active filters">
           {boxFilters.length > 1 && boxFilters.find((f) => f.category) && (
-            <div className="include-all-checkbox">
+            <div className={c.includeAllCheckbox}>
               <Checkbox name="Must include all" value={boxFiltersAnd} onChange={setBoxFiltersAnd} />
             </div>
           )}
           {boxFilters.map((boxFilter) => (
-            <div
+            <FilterBullet
               key={boxFilter._id}
-              className={`type-indicator2 ${boxFilter.type} ${boxFilter.fullType}`}
+              className={`${boxFilter.type} ${boxFilter.fullType}`}
+              buttonClassName={`${boxFilter.type}-reversed ${boxFilter.fullType}-reversed`}
+              buttonOnClick={() =>
+                setBoxFilters([...boxFilters.filter((el) => el._id !== boxFilter._id)])
+              }
             >
               {boxFilter.category && (
                 <Icon
                   path={appearancesIcons[boxFilter.category]}
                   size={0.8333333333}
-                  className="icon box-filter-category-icon"
+                  className={clsx("icon", c.categoryIcon)}
                 />
               )}
-              <span className="text">
+              <span className={c.text}>
                 {boxFilter.displayTitle || boxFilter.title || boxFilter.name}
                 <WookieeLink title={boxFilter.title || boxFilter.name}></WookieeLink>
               </span>
-              <button
-                className={`remove-box-filter ${boxFilter.type}-reversed ${boxFilter.fullType}-reversed`}
-                onClick={() =>
-                  setBoxFilters([...boxFilters.filter((el) => el._id !== boxFilter._id)])
-                }
-              >
-                <Icon className={`icon`} path={mdiClose} />
-              </button>
-            </div>
+            </FilterBullet>
           ))}
         </FiltersSection>
       )}
