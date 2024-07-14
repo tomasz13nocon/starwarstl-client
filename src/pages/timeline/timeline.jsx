@@ -22,6 +22,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import Shell from "@layouts/shell";
 import ListFilters from "./filters/listFilters";
 import { useAuth } from "@/context/authContext";
+import Button from "@components/button";
 
 function areAllBoolsFalse(obj) {
   return Object.values(obj).every((v) => (typeof v === "boolean" ? !v : areAllBoolsFalse(v)));
@@ -54,6 +55,7 @@ export default function Timeline() {
   // Keys: names of columns corresponding to keys in data
   // Values: wheter they're to be displayed
   const [columns, setColumns] = useLocalStorage("columns", {
+    selection: true,
     date: true,
     cover: false,
     title: true,
@@ -158,8 +160,7 @@ export default function Timeline() {
         {/* TODO context */}
         <FiltersContext.Provider value={""}>
           <Filters showFilters={showFilters} setShowFilters={setShowFilters}>
-            <button
-              className="btn"
+            <Button
               disabled={
                 !(
                   filterText ||
@@ -168,7 +169,8 @@ export default function Timeline() {
                   hideAdaptations ||
                   rangeFromStr ||
                   rangeToStr ||
-                  !areAllBoolsFalse(typeFilters)
+                  !areAllBoolsFalse(typeFilters) ||
+                  listFilters.length
                 )
               }
               onClick={() => {
@@ -181,10 +183,11 @@ export default function Timeline() {
                 setRangeFrom("");
                 setRangeTo("");
                 dispatchTypeFilters({ path: "type", to: false });
+                setListFilters([]);
               }}
             >
               Reset all filters
-            </button>
+            </Button>
             <TextFilter
               filterText={filterText}
               setFilterText={setFilterText}

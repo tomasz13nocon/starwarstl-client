@@ -1,10 +1,11 @@
 @use "@/vars.scss" as *;
 
-.checkbox-group-title {
-}
+.checkbox-group-title {}
+
 .checkbox-group-contents {
   margin-left: 25px;
 }
+
 .grouping-title {
   margin-left: 25px;
   font-weight: $weight-bold;
@@ -20,10 +21,12 @@ $delay-transitions: all 0s $checkbox-appear-duration;
 .checkbox-wrapper {
   display: flex;
   justify-content: space-between;
+
   &.level-1 {
     // font-size: 1.20em;
     font-weight: $weight-bold;
   }
+
   &.level-2 {
     // font-size: 1.10em;
     font-weight: $weight-bolder;
@@ -31,6 +34,7 @@ $delay-transitions: all 0s $checkbox-appear-duration;
 
   label {
     cursor: pointer;
+
     input {
       opacity: 0;
     }
@@ -39,10 +43,12 @@ $delay-transitions: all 0s $checkbox-appear-duration;
     &:hover span.checkbox {
       box-shadow: $hover-shadow;
     }
+
     // FOCUS
-    input:focus + span.checkbox {
+    input:focus-visible+span.checkbox {
       outline: 2px solid $focus;
       outline-offset: 3px;
+      // border-color: $focus;
     }
 
     span.checkbox-text {
@@ -50,6 +56,7 @@ $delay-transitions: all 0s $checkbox-appear-duration;
       margin-left: 4px;
       user-select: none;
     }
+
     span.checkbox {
       vertical-align: middle;
       bottom: 2px;
@@ -63,6 +70,7 @@ $delay-transitions: all 0s $checkbox-appear-duration;
       transition:
         background-color $checkbox-appear-duration,
         border-color 0.1s;
+
       &::before,
       &::after {
         content: "";
@@ -76,12 +84,14 @@ $delay-transitions: all 0s $checkbox-appear-duration;
       &.checked {
         background-color: $active1;
         border-color: $active3;
+
         &::before {
           height: 8px;
           top: 8px;
           left: 2px;
           transform: rotate(-45deg);
         }
+
         &::after {
           height: 9px;
           top: 12px;
@@ -89,7 +99,9 @@ $delay-transitions: all 0s $checkbox-appear-duration;
           transform: rotate(-135deg);
         }
       }
+
       &.unchecked {
+
         &::before,
         &::after {
           height: 0;
@@ -98,14 +110,17 @@ $delay-transitions: all 0s $checkbox-appear-duration;
           transform: none;
         }
       }
+
       &.indeterminate {
         background-color: $active2;
+
         &::before {
           height: 0;
           top: 0;
           left: 0;
           transform: none;
         }
+
         &::after {
           height: 11px;
           transform: rotate(-90deg);
@@ -119,29 +134,32 @@ $delay-transitions: all 0s $checkbox-appear-duration;
         &::before {
           transition: height $checkbox-appear-duration-first $checkbox-appear-function 0s;
         }
+
         &::after {
-          transition: height $checkbox-appear-duration-second $checkbox-appear-function
-            $checkbox-appear-duration-first;
+          transition: height $checkbox-appear-duration-second $checkbox-appear-function $checkbox-appear-duration-first;
         }
       }
+
       &.checked-to-unchecked {
         &::before {
           transition:
             $delay-transitions,
-            height $checkbox-appear-duration-first $checkbox-appear-function
-              $checkbox-appear-duration-second;
+            height $checkbox-appear-duration-first $checkbox-appear-function $checkbox-appear-duration-second;
         }
+
         &::after {
           transition:
             $delay-transitions,
             height $checkbox-appear-duration-second $checkbox-appear-function 0s;
         }
       }
+
       &.unchecked-to-indeterminate {
         &::after {
           transition: height $checkbox-appear-duration $checkbox-appear-function 0s;
         }
       }
+
       &.indeterminate-to-unchecked {
         &::after {
           transition:
@@ -149,16 +167,19 @@ $delay-transitions: all 0s $checkbox-appear-duration;
             height $checkbox-appear-duration $checkbox-appear-function 0s;
         }
       }
+
       &.checked-to-indeterminate {
         &::before {
           transition:
             $delay-transitions,
             height $checkbox-appear-duration * 0.8 0s;
         }
+
         &::after {
           transition: all $checkbox-appear-duration * 0.8 0s;
         }
       }
+
       &.indeterminate-to-checked {
         &::before {
           transition:
@@ -166,6 +187,7 @@ $delay-transitions: all 0s $checkbox-appear-duration;
             top 0s,
             left 0s;
         }
+
         &::after {
           transition: all $checkbox-appear-duration * 0.8 0s;
         }

@@ -9,20 +9,34 @@ import c from "./styles/header.module.scss";
 import { useEffect, useState } from "react";
 import Spinner from "@components/spinner";
 import clsx from "clsx";
+import { useToast } from "@/context/toastContext";
+import Button from "@components/button";
 
 export default function Header() {
-  const { user, logout, fetchingAuth } = useAuth();
+  const { user, fetchingAuth, actions } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { pathname } = useLocation();
+  const { pushToast, pushErrorToast } = useToast();
 
   useEffect(() => {
     setDropdownOpen(false);
   }, [pathname]);
 
+  async function handleLogout() {
+    try {
+      await actions.logout();
+      pushToast({
+        title: "Logged out",
+      });
+    } catch (e) {
+      pushErrorToast(e);
+    }
+  }
+
   const logoutBtn = (
-    <button onClick={logout} className={c.logoutBtn}>
+    <Button onClick={handleLogout} inverted className={c.logoutBtn}>
       Logout
-    </button>
+    </Button>
   );
   const name = (
     <div className={c.username}>
@@ -63,7 +77,11 @@ export default function Header() {
                 </>
               ) : (
                 <div className={c.loginDialog}>
-                  <LoginDialog className={clsx(c.trigger, "btn-inv")}>Log in</LoginDialog>
+                  <LoginDialog asChild>
+                    <Button inverted className={c.trigger}>
+                      Log in
+                    </Button>
+                  </LoginDialog>
                 </div>
               )}
             </Collapsible.Content>
@@ -97,7 +115,11 @@ export default function Header() {
                 </DropdownMenu.Portal>
               </DropdownMenu.Root>
             ) : (
-              <LoginDialog className={clsx(c.trigger, "btn-inv")}>Log in</LoginDialog>
+              <LoginDialog asChild>
+                <Button inverted className={c.trigger}>
+                  Log in
+                </Button>
+              </LoginDialog>
             )}
           </div>
         </div>

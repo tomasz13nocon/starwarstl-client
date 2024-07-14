@@ -1,40 +1,29 @@
 @use "@/vars.scss" as *;
 
 .list-container {
-  // display: flex;
-  // flex-direction: column;
   margin: 1rem 0;
 }
 
 .list {
-  border: 1px solid $grey0;
+  border: 1px solid $grey4;
   width: 100%;
   margin-top: -1px;
   padding: 4px 10px;
+}
 
+.list-inner {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
 }
 
-.list-name {
-  word-break: break-word;
-}
-
-.actions {
+.editing-input-group {
+  flex-grow: 1;
   display: flex;
-  gap: 0.5rem;
-  flex-shrink: 0;
-
-  >* {
-    align-self: center;
-  }
+  gap: 1rem;
 }
 
-.delete-btn {
-  // transition: background-color 0s;
-  //
-  // &:hover {
-  //   background-color: $error1;
-  // }
+.list-name {
+  @extend %nav-link-inv;
+  word-break: break-word;
 }

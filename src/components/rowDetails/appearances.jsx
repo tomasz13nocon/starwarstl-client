@@ -1,9 +1,10 @@
-import { API, appearancesCategoriesNames } from "@/util";
+import { API, appearancesCategoriesNames, fetchHelper } from "@/util";
 import { useEffect, useState } from "react";
-import "./styles/appearances.scss";
 import AppearancesNode from "./appearancesList";
 import NetworkError from "@components/inlineAlerts/networkError";
 import Fetching from "@components/inlineAlerts/fetching";
+import c from "./styles/appearances.module.scss";
+import clsx from "clsx";
 
 export default function Appearances({ id }) {
   const [appearances, setAppearances] = useState([]);
@@ -13,8 +14,7 @@ export default function Appearances({ id }) {
 
   useEffect(() => {
     setFetching(true);
-    fetch(`${API}media/${id}/appearances`)
-      .then((res) => res.json())
+    fetchHelper(`media/${id}/appearances`)
       .then((data) => {
         setAppearances(data);
         setActiveCategory(data.find((cat) => cat.value.length > 0));
@@ -29,28 +29,31 @@ export default function Appearances({ id }) {
   const legendsCat = appearances.find((cat) => cat.name === legendsCatName);
   let displayedCats = [];
   return (
-    <div className="apps-container">
+    <div className={c.appsContainer}>
       {fetching && <Fetching />}
       {error && <NetworkError />}
       {!fetching && !error && (
         <>
-          <ul className="apps-cat-list">
+          <ul className={c.appsCatList}>
             {appearances.map((category) => {
               if (displayedCats.includes(appearancesCategoriesNames[category.name])) return null;
               displayedCats.push(appearancesCategoriesNames[category.name]);
+              // TODO: chnage these into Radix tabs
               return (
                 <li
                   key={category.name}
-                  className={`apps-cat apps-cat-btn-container ${
+                  className={clsx(
+                    c.appsCat,
+                    c.appsCatBtnContainer,
                     category.name === activeCategory?.name ||
-                    category.name === canonCatName ||
-                    category.name === legendsCatName
-                      ? "active"
-                      : ""
-                  }`}
+                      category.name === canonCatName ||
+                      category.name === legendsCatName
+                      ? c.active
+                      : "",
+                  )}
                 >
                   <button
-                    className="apps-cat-btn"
+                    className={c.appsCatBtn}
                     disabled={category.value.length === 0}
                     onClick={() => setActiveCategory(category)}
                   >
@@ -62,22 +65,26 @@ export default function Appearances({ id }) {
           </ul>
 
           {canonCat && legendsCat && (
-            <ul className="apps-cat-list">
+            <ul className={c.appsCatList}>
               <li
-                className={`apps-cat-canonicity apps-cat-btn-container ${
-                  activeCategory?.name === canonCatName ? "active" : ""
-                }`}
+                className={clsx(
+                  c.appsCatCanonicity,
+                  c.appsCatBtnContainer,
+                  activeCategory?.name === canonCatName && c.active,
+                )}
               >
-                <button onClick={() => setActiveCategory(canonCat)} className="apps-cat-btn">
+                <button onClick={() => setActiveCategory(canonCat)} className={c.appsCatBtn}>
                   Canon
                 </button>
               </li>
               <li
-                className={`apps-cat-canonicity apps-cat-btn-container ${
-                  activeCategory?.name === legendsCatName ? "active" : ""
-                }`}
+                className={clsx(
+                  c.appsCatCanonicity,
+                  c.appsCatBtnContainer,
+                  activeCategory?.name === legendsCatName && c.active,
+                )}
               >
-                <button onClick={() => setActiveCategory(legendsCat)} className="apps-cat-btn">
+                <button onClick={() => setActiveCategory(legendsCat)} className={c.appsCatBtn}>
                   Legends
                 </button>
               </li>

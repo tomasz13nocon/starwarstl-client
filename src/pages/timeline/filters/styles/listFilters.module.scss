@@ -64,6 +64,9 @@
 }
 
 .list-entry-name-and-icon {
+  @extend %icon-text-container;
+  gap: 0.25rem;
+
   border-bottom: 1px solid $grey0;
   padding-bottom: 2px;
   margin-bottom: 6px;

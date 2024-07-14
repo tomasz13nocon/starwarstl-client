@@ -1,9 +1,9 @@
-// import "./styles/appearancesList.scss";
-
 import { Fragment, useContext } from "react";
 import WookieeLink from "@components/wookieeLink";
 import { AppearancesContext } from "./context";
 import AppearanceShield from "./appearanceShield";
+
+import c from "./styles/appearances.module.scss";
 
 export default function AppearancesNode({ appearances }) {
   const { hideMentions, hideIndirectMentions, hideFlashbacks, hideHolograms } =
@@ -11,10 +11,10 @@ export default function AppearancesNode({ appearances }) {
 
   if ("List" in appearances) {
     return (
-      <ul className="apps-list">
+      <ul className={c.appsList}>
         {appearances.List.map((nodes, i) => {
           return (
-            <li key={i} className="apps-list-item">
+            <li key={i} className={c.appsListItem}>
               {nodes.map((node, j) => (
                 <Fragment key={j}>
                   <AppearancesNode appearances={node} />

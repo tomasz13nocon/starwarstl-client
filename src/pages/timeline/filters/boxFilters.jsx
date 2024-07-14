@@ -1,5 +1,3 @@
-import { mdiClose } from "@mdi/js";
-import { Icon } from "@mdi/react";
 import WookieeLink from "@components/wookieeLink";
 import FiltersSection from "./filtersSection";
 import { appearancesIcons } from "@/util";
@@ -7,7 +5,7 @@ import Checkbox from "@components/checkbox";
 import FilterBullet from "@components/filterBullet";
 
 import c from "./styles/boxFilters.module.scss";
-import clsx from "clsx";
+import Icon from "@components/icon";
 
 export default function BoxFilters({ boxFilters, setBoxFilters, boxFiltersAnd, setBoxFiltersAnd }) {
   return (
@@ -32,12 +30,12 @@ export default function BoxFilters({ boxFilters, setBoxFilters, boxFiltersAnd, s
                 <Icon
                   path={appearancesIcons[boxFilter.category]}
                   size={0.8333333333}
-                  className={clsx("icon", c.categoryIcon)}
+                  className={c.categoryIcon}
                 />
               )}
               <span className={c.text}>
                 {boxFilter.displayTitle || boxFilter.title || boxFilter.name}
-                <WookieeLink title={boxFilter.title || boxFilter.name}></WookieeLink>
+                <WookieeLink title={boxFilter.title || boxFilter.name} />
               </span>
             </FilterBullet>
           ))}

@@ -1,3 +1,4 @@
+import ItemShield from "@components/itemShield";
 import {
   mdiAccount,
   mdiCat,
@@ -11,6 +12,16 @@ import {
   mdiSpaceStation,
   mdiSwordCross,
   mdiChip,
+  mdiEyeOutline,
+  mdiClockOutline,
+  mdiClock,
+  mdiClockRemove,
+  mdiEyeRemove,
+  mdiEye,
+  mdiEyePlusOutline,
+  mdiClockPlusOutline,
+  mdiEyePlus,
+  mdiClockPlus,
 } from "@mdi/js";
 
 export const API = (import.meta.env.VITE_API_HOST ?? "") + "/api/";
@@ -185,6 +196,67 @@ export const watchedName = "Watched";
 export const watchlistName = "Watchlist";
 export const builtinLists = [watchedName, watchlistName];
 
+// TODO clean up icons from the codebase, put them all here
+const listPath = "M4 6H20V8H4M4 11H20V13H4M4 16H20V18H4";
+const listPathPlus =
+  "M4 6H20V8H4M4 11H20V13H4M4 16H13.5V18H4M18,14.5V17.5H15V19.5H18V22.5H20V19.5H23V17.5H20V14.5H18Z";
+const listPathMinus = "M4 6H20V8H4M4 11H20V13H4M4 16H13.5V18H4M15,17.5V19.5H23V17.5Z";
+const listPathX =
+  "M4 6H20V8H4M4 11H20V13H4M4 16H13.5V18H4M22.54 16.88L20.41 19L22.54 21.12L21.12 22.54L19 20.41L16.88 22.54L15.47 21.12L17.59 19L15.47 16.88L16.88 15.47L19 17.59L21.12 15.47L22.54 16.88";
+export const listIcons = {
+  [watchedName]: {
+    default: mdiEyeOutline,
+    defaultIn: mdiEye,
+    add: mdiEyePlusOutline,
+    added: mdiEyePlus,
+    remove: mdiEyeRemove,
+  },
+  [watchlistName]: {
+    default: mdiClockOutline,
+    defaultIn: mdiClock,
+    add: mdiClockPlusOutline,
+    added: mdiClockPlus,
+    remove: mdiClockRemove,
+  },
+  generic: {
+    default: listPath,
+    defaultIn: listPath,
+    add: listPathPlus,
+    added: listPathPlus,
+    remove: listPathX,
+  },
+};
+export function createListActionToast(action, listName, item) {
+  switch (action) {
+    case "added":
+      return {
+        title: `Added to ${listName}`,
+        description: <ItemShield item={item} />,
+        icon: (listIcons[listName] ?? listIcons.generic).added,
+        type: "added",
+      };
+    case "removed":
+      return {
+        title: `Removed from ${listName}`,
+        description: <ItemShield item={item} />,
+        icon: (listIcons[listName] ?? listIcons.generic).remove,
+        type: "removed",
+      };
+    case "created":
+      return {
+        title: `Created list ${listName}`,
+        icon: listIcons.generic.added,
+        type: "created",
+      };
+    case "deleted":
+      return {
+        title: `Deleted list ${listName}`,
+        icon: listIcons.generic.remove,
+        type: "deleted",
+      };
+  }
+}
+
 // Blur focus from the element if event is a mouse event (e.g. to hide focus ring)
 export function blurIfMouse(event) {
   if (event.nativeEvent.clientX !== 0 && event.nativeEvent.clientY !== 0) {
@@ -252,3 +324,28 @@ export const wt2str = (wt) => {
   }
   return str;
 };
+
+// Return json from response and throw error if present
+export async function jsonErrors(res) {
+  let json = await res.json();
+  if (!res.ok || json?.error) {
+    let err = new Error(json.error ?? "An unexpected error occured");
+    err.status = res.status;
+    throw err;
+  }
+  return json;
+}
+
+export async function fetchHelper(path, method = "GET", body) {
+  const opts = {
+    method,
+    headers: {},
+  };
+  if (body !== undefined) {
+    opts.body = JSON.stringify(body);
+    opts.headers["Content-Type"] = "application/json";
+  }
+
+  let res = await fetch(API + path, opts);
+  return await jsonErrors(res);
+}

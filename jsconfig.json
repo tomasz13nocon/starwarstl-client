@@ -17,23 +17,14 @@
             "@/*": [
                 "src/*"
             ],
-            "@inlineAlerts/*": [
-                "src/components/inlineAlerts/*"
-            ],
             "@context/*": [
                 "src/context/*"
             ],
-            "@email-verification/*": [
-                "src/pages/email-verification/*"
+            "@loaders/*": [
+                "src/loaders/*"
             ],
-            "@settings/*": [
-                "src/pages/settings/*"
-            ],
-            "@changelog/*": [
-                "src/pages/changelog/*"
-            ],
-            "@lists/*": [
-                "src/pages/lists/*"
+            "@fetch/*": [
+                "src/fetch/*"
             ]
         }
     }

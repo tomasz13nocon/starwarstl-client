@@ -1,0 +1,57 @@
+@use "@/vars.scss" as *;
+
+.btn {
+  @extend %reset-button;
+  padding: 0 6px;
+  border-radius: 4px;
+  font-size: 16px;
+  border: 2px solid $grey0;
+  background-color: $background;
+  color: black;
+  transition: background-color 0.1s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+  }
+
+  &:disabled {
+    color: $grey2;
+    border-color: $grey3;
+    cursor: not-allowed;
+
+    &:hover {
+      box-shadow: none;
+    }
+  }
+
+  &.active {
+    background-color: $active2;
+  }
+
+  &.primary {
+    background-color: $active1;
+    border-color: black;
+    // border-radius: 0;
+  }
+
+  &.inverted {
+    background-color: $background-inv;
+    border-color: white;
+    color: white;
+
+    &:hover {
+      box-shadow: $hover-shadow-inv;
+    }
+  }
+
+  &.soft {
+    border: 1px solid $grey1;
+  }
+
+  &.danger {
+    @extend %error;
+  }
+}

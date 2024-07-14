@@ -1,5 +1,4 @@
 import React, { useReducer } from "react";
-import { Icon } from "@mdi/react";
 import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
 import _ from "lodash";
 import WookieeLink from "@components/wookieeLink";
@@ -12,6 +11,8 @@ import { AnalyticsCategories, analytics } from "@/analytics";
 import MediaCover from "@components/mediaCover";
 import c from "./styles/rowDetails.module.scss";
 import UserActions from "./userActions";
+import Button from "@components/button";
+import Icon from "@components/icon";
 
 const render = (value, link = true) => {
   if (!Array.isArray(value)) return value;
@@ -199,8 +200,8 @@ export default React.memo(function RowDetails({ item, dataState }) {
                 <div className={c.bottomBtns}>
                   {item.hasAppearances && (
                     <div className={c.appearancesBtnWrapper}>
-                      <button
-                        className={`btn ${appearancesVisible ? "active" : ""} ${c.appearancesBtn}`}
+                      <Button
+                        active={appearancesVisible}
                         onClick={() => {
                           toggleAppearancesVisible(true);
                           if (!appearancesVisible) {
@@ -213,11 +214,8 @@ export default React.memo(function RowDetails({ item, dataState }) {
                         }}
                       >
                         <span>{appearancesVisible ? "Hide appearances" : "Show appearances"}</span>
-                        <Icon
-                          className="icon"
-                          path={appearancesVisible ? mdiChevronUp : mdiChevronDown}
-                        />
-                      </button>
+                        <Icon path={appearancesVisible ? mdiChevronUp : mdiChevronDown} />
+                      </Button>
                     </div>
                   )}
                 </div>

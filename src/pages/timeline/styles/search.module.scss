@@ -3,21 +3,25 @@
 .search-container {
   align-self: flex-end;
   position: relative;
+
   .button-container {
     position: absolute;
     right: 18px;
     top: 18px;
     display: flex;
     align-items: center;
+
     button {
       @extend %reset-button;
       cursor: pointer;
     }
+
     .result-count {
       margin-right: 4px;
     }
   }
-  input.input-default {
+
+  .search-input {
     max-width: 90vw;
     width: 500px;
     height: 70px;
@@ -26,11 +30,16 @@
     padding-right: 172px;
     font-size: 1em;
   }
+
   &.clear-input-container button.clear-input {
     // right: 17px;
   }
+
   .search-button {
     color: black;
     background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

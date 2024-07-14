@@ -1,28 +1,87 @@
 import { useAuth } from "@/context/authContext";
 import c from "./styles/list.module.scss";
 import { useParams } from "react-router-dom";
-import Shell from "@layouts/shell";
+import Spinner from "@components/spinner";
+import clsx from "clsx";
+import Icon from "@components/icon";
+import { mdiDelete } from "@mdi/js";
+import { useEffect, useState } from "react";
+import NotFound from "@/notFound";
+import Alert from "@components/alert";
+import Unauthenticated from "@components/inlineAlerts/unauthenticated";
+import { useToast } from "@/context/toastContext";
+import { createListActionToast } from "@/util";
+import { produce } from "immer";
+import { useFetch } from "@hooks/useFetch";
+import { FetchButton } from "@components/fetchButton";
 
-export default function List() {
-  const { user } = useAuth();
-  const { listName } = useParams();
+function Item({ item, list, setList }) {
+  const { actions } = useAuth();
+  const { pushToast } = useToast();
+  const [fetchRemove, fetchingRemove] = useFetch(actions.removeFromList, { toastOnError: true });
 
-  // TODO if user null, show login form or sth
-
-  const list = user.lists.find((list) => list.name === listName);
-
-  if (!list) {
-    // TODO show 404?
+  async function removeFromList(item) {
+    await fetchRemove(list.name, item.pageid);
+    setList(
+      produce((draft) => {
+        draft.items.splice(
+          draft.items.findIndex((v) => v.pageid === item.pageid),
+          1,
+        );
+      }),
+    );
+    pushToast(createListActionToast("removed", list.name, item));
   }
 
-  // TODO Layout for Lists subroutes to show Shell and h1 Lists
+  return (
+    <div className={c.listItem} key={item.pageid}>
+      <FetchButton fetching={fetchingRemove} onClick={() => removeFromList(item)}>
+        <span className="icon-text-container">
+          <Icon path={mdiDelete} />
+          <span>Remove</span>
+        </span>
+      </FetchButton>
+      <div className={clsx(item.type, item.fullType, c.listItemTitle)}>{item.title}</div>
+    </div>
+  );
+}
 
-  // TODO we need access to rawData here. Consider react router's loader
+export default function List() {
+  const { listName } = useParams();
+  const { fetchingAuth, user, actions } = useAuth();
+  const [list, setList] = useState(null);
+  const [_, fetching, alert] = useFetch(actions.getList.bind(null, listName), {
+    onMount: true,
+    onSuccess: (res) => setList(res),
+  });
+
+  // const [fetchGetList, fetching, alert] = useFetch(actions.getList);
+  //
+  // useEffect(() => {
+  //   fetchGetList(listName).then((res) => setList(res));
+  // }, []);
+
+  if (fetchingAuth || fetching) return <Spinner size={36} />;
+  if (!user) return <Unauthenticated />;
+  if (alert) return <Alert alert={alert} />;
+  if (!list) return <NotFound />;
 
   return (
-    <Shell>
-      <h2>{list.name}</h2>
-      <div>{/* {list.items.map(pageid => )} */}</div>
-    </Shell>
+    <>
+      <div className={c.header}>
+        <h2 className={clsx(c.listName, "icon-text-container")}>
+          {list.icon && <Icon size={1.5} path={list.icon} className={c.listIcon} />}
+          <span>{list.name}</span>
+        </h2>
+        <div>
+          {list.items.length} item{list.items.length === 1 ? "" : "s"}
+        </div>
+      </div>
+      <div className={c.listItemsContainer}>
+        {list.items.map((item) => (
+          <Item item={item} key={item.pageid} list={list} setList={setList} />
+        ))}
+      </div>
+    </>
   );
 }

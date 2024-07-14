@@ -2,6 +2,7 @@
 
 .sorting-mobile {
   display: none;
+
   @media (max-width: $width-lg) {
     display: initial;
   }
@@ -16,8 +17,8 @@
 
   .sorting-btn {
     border: 2px solid $grey2;
-    // margin: 3px;
-    display: inline-block;
+    display: flex;
+    gap: 4px;
     width: fit-content;
     padding: 1px 3px;
     cursor: pointer;
@@ -28,10 +29,6 @@
       background-color: $active1;
       border-color: $active3;
       color: $active3;
-    }
-
-    .icon {
-      margin-left: 4px;
     }
   }
 }

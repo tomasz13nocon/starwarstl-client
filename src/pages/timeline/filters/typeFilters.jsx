@@ -1,3 +1,4 @@
+import Button from "@components/button";
 import CheckboxGroup from "./checkboxGroup";
 import FiltersSection from "./filtersSection";
 import "./styles/typeFilters.scss";
@@ -6,12 +7,8 @@ export default function TypeFilters({ typeFilters, filtersChanged, filtersTempla
   return (
     <FiltersSection title="Media type" gaps>
       <div className="check-buttons">
-        <button className="btn" onClick={() => filtersChanged({ path: "type", to: true })}>
-          CHECK ALL
-        </button>
-        <button className="btn" onClick={() => filtersChanged({ path: "type", to: false })}>
-          UNCHECK ALL
-        </button>
+        <Button onClick={() => filtersChanged({ path: "type", to: true })}>CHECK ALL</Button>
+        <Button onClick={() => filtersChanged({ path: "type", to: false })}>UNCHECK ALL</Button>
       </div>
 
       <div className="checkbox-filters">

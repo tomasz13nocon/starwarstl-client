@@ -9,8 +9,8 @@ const createTypeFilters = (obj) => {
       typeof value === "boolean"
         ? value
         : value.value !== undefined
-        ? value.value
-        : createTypeFilters(value.children || value);
+          ? value.value
+          : createTypeFilters(value.children || value);
     // value.value - object representing a single filter
     // value.children - standard structure
     // value - object with direct children
@@ -50,9 +50,7 @@ const setChildren = (children, to) => {
   }
 };
 
-export const typeFiltersReducer = (state, { path, to }) => {
-  return produce(state, (draft) => {
-    let atPath = _.get(draft, path);
-    typeof atPath === "boolean" ? _.set(draft, path, to) : setChildren(atPath, to);
-  });
-};
+export const typeFiltersReducer = produce((draft, { path, to }) => {
+  let atPath = _.get(draft, path);
+  typeof atPath === "boolean" ? _.set(draft, path, to) : setChildren(atPath, to);
+});

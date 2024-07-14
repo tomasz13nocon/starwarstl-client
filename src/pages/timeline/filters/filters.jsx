@@ -1,10 +1,10 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { memo, useLayoutEffect, useRef, useState } from "react";
 import { mdiFilterMultiple } from "@mdi/js";
-import { Icon } from "@mdi/react";
 import "./styles/filters.scss";
 import useResponsive from "@hooks/useResponsive";
+import Icon from "@components/icon";
 
-export default React.memo(function Filters({ showFilters, setShowFilters, children }) {
+export default memo(function Filters({ showFilters, setShowFilters, children }) {
   const smallScreen = useResponsive(1086);
   const filtersContainerRef = useRef(null);
   const [containerOffset, setContainerOffset] = useState(0);
@@ -30,7 +30,7 @@ export default React.memo(function Filters({ showFilters, setShowFilters, childr
           className={`filters-btn ${showFilters ? "filters-visible" : ""}`}
           onClick={() => setShowFilters(!showFilters)}
         >
-          <Icon path={mdiFilterMultiple} size={1.6} className="icon" />
+          <Icon path={mdiFilterMultiple} size={1.6} />
         </button>
       ) : null}
     </div>

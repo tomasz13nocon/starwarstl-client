@@ -13,6 +13,10 @@ const imgs = {
     src: "/img/TheVoid.webp",
     alt: "The Void on Abafar from D-squad Clone Wars arc",
   },
+  sith: {
+    src: "/img/sith.webp",
+    alt: "Maul and Sidious scheming",
+  },
 };
 
 export default function MessageBox({ img, children }) {
@@ -20,7 +24,6 @@ export default function MessageBox({ img, children }) {
     <div className={c.msgContainer} style={{ width: "100%" }}>
       {img && <img src={imgs[img].src} alt={imgs[img].alt} />}
       <div className={c.msgText}>{children}</div>
-      {/* <div className="spinner-text">Reaching out to the force...</div> */}
     </div>
   );
 }

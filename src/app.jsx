@@ -1,18 +1,18 @@
 import { StrictMode } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, defer } from "react-router-dom";
+import { AuthProvider } from "@context/authContext";
 import Timeline from "@pages/timeline/timeline";
 import Home from "@pages/home/home";
 import Settings from "@pages/settings/settings";
 import Changelog from "@pages/changelog/changelog";
-import EmailVerification from "@pages/email-verification";
-import NotFound from "./NotFound";
-import { AuthProvider } from "@context/authContext";
-import emailVerificationLoader from "@pages/email-verification/loader";
+import EmailVerification from "@pages/email-verification/emailVerification";
+import NotFound from "./notFound";
 import Layout from "@layouts/layout";
 import Toasts from "@components/toasts";
 import { ToastProvider } from "./context/toastContext";
 import Lists from "@pages/lists/lists";
 import List from "@pages/lists/list";
+import ListsLayout from "@layouts/listsLayout";
 
 const router = createBrowserRouter([
   {
@@ -20,11 +20,16 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/email-verification/:token",
-        loader: emailVerificationLoader,
         Component: EmailVerification,
       },
-      { path: "/lists/:listName", Component: List },
-      { path: "/lists", Component: Lists },
+      {
+        path: "/lists",
+        Component: ListsLayout,
+        children: [
+          { path: "", Component: Lists },
+          { path: ":listName", Component: List },
+        ],
+      },
       { path: "/settings", Component: Settings },
       { path: "/timeline", Component: Timeline },
       { path: "/changelog", Component: Changelog },

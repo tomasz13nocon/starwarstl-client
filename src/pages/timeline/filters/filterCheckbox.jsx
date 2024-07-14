@@ -1,7 +1,7 @@
 import React from "react";
-import { Icon } from "@mdi/react";
 import Checkbox from "@components/checkbox";
 import { blurIfMouse } from "@/util";
+import Icon from "@components/icon";
 // import "./styles/checkbox.scss"; // TODO resolve
 
 export default React.memo(function FilterCheckbox({
@@ -21,24 +21,18 @@ export default React.memo(function FilterCheckbox({
   };
 
   return (
-      <>
-        <Checkbox
-          name={name}
-          value={value}
-          onChange={to => onChange({ path: path, to: to })}
-          indeterminate={indeterminate}
-          wrapperClassName={`level-${(path?.match(/\./g) || []).length}`}
-          textClassName={`${path ? "type-indicator-filter" : ""} ${path ? path.split(".").pop() : ""}`}
-          labelProps={{onContextMenu: path === undefined ? undefined : solo}}
-        >
-          {icon !== undefined && (
-            <Icon
-              onClick={iconOnClick}
-              path={icon}
-              className="icon expand-button"
-            />
-          )}
-        </Checkbox>
-      </>
-    );
-  });
+    <>
+      <Checkbox
+        name={name}
+        value={value}
+        onChange={(to) => onChange({ path: path, to: to })}
+        indeterminate={indeterminate}
+        wrapperClassName={`level-${(path?.match(/\./g) || []).length}`}
+        textClassName={`${path ? "type-indicator-filter" : ""} ${path ? path.split(".").pop() : ""}`}
+        labelProps={{ onContextMenu: path === undefined ? undefined : solo }}
+      >
+        {icon !== undefined && <Icon onClick={iconOnClick} path={icon} className="expand-button" />}
+      </Checkbox>
+    </>
+  );
+});

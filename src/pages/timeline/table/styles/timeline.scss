@@ -4,9 +4,11 @@
   display: flex;
   gap: 10px;
   margin: 0 12px;
+
   @media (max-width: $width-md) {
     margin: 0 6px;
   }
+
   @media (max-width: $width-lg) {
     .filters-container {
       height: 100%;
@@ -17,6 +19,7 @@
 .table {
   border-collapse: collapse;
   flex-grow: 1;
+
   @media (max-width: $width-lg) {
     margin-left: 0;
   }
@@ -24,6 +27,7 @@
 
 .th {
   @extend %cell;
+
   &.not-sortable {
     pointer-events: none;
   }
@@ -32,6 +36,7 @@
 .tr-outer:last-child .td.continuity {
   border-bottom: 1px solid black;
 }
+
 .td.cover:not(.no-cover) {
   background-color: black;
 }
@@ -41,6 +46,7 @@
   font-weight: normal;
   // border-bottom: 1px solid #0000002f;
   padding-bottom: 1px;
+
   :not(.apps-list-item-text) {
     opacity: 0.9;
   }
@@ -51,34 +57,38 @@
   overflow: hidden;
 }
 
+.matched-text {
+  font-weight: $weight-bold;
+}
+
 .thead {
   position: sticky;
   top: 0;
   z-index: 5;
   display: flex;
   text-align: center;
+
   @media (max-width: $width-md) {
     display: none;
   }
 }
+
 .th {
   background-color: #444;
   color: white;
   cursor: pointer;
+
   &:hover {
     box-shadow: 0 0 2px black;
     z-index: 4;
   }
+
   user-select: none;
+
   .th-inner {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-  }
-  .icon {
-    padding-left: 4px;
-    vertical-align: sub;
-    color: $accent;
   }
 }
 

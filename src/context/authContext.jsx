@@ -1,109 +1,198 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { API, watchedName, watchlistName } from "@/util";
-import { jsonErrors } from "@/fetch";
-import { ToastContext } from "./toastContext";
-import { mdiClockOutline, mdiEyeOutline } from "@mdi/js";
+import { createContext, useCallback, useContext, useEffect, useReducer, useState } from "react";
+import { listIcons, fetchHelper } from "@/util";
+import { produce } from "immer";
+import _ from "lodash";
 
-export const AuthContext = createContext({});
+const AuthContext = createContext({});
 
 export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-const listIcons = {
-  Watched: mdiEyeOutline,
-  Watchlist: mdiClockOutline,
-};
+const userReducer = produce((draft, action) => {
+  switch (action.type) {
+    case "set": {
+      // We need to clone because we can't mutate reducer payload
+      let clonedUser = _.cloneDeep(action.user);
+      if (clonedUser) {
+        for (let list of clonedUser.lists) {
+          if (list.name in listIcons) list.icon = listIcons[list.name].default;
+        }
+      }
+      return clonedUser;
+    }
+
+    case "unset": {
+      return null;
+    }
+
+    case "addToList": {
+      let list = draft.lists.find((list) => list.name === action.listName);
+      list.items.push(action.pageid);
+      break;
+    }
+
+    case "removeFromList": {
+      let list = draft.lists.find((list) => list.name === action.listName);
+      let idIndex = list.items.findIndex((v) => v === action.pageid);
+      if (idIndex !== -1) list.items.splice(idIndex, 1);
+      break;
+    }
+
+    case "createList": {
+      draft.lists.push(action.createdList);
+      break;
+    }
+
+    case "renameList": {
+      draft.lists.find((list) => list.name === action.listName).name = action.newListName;
+      break;
+    }
+
+    case "deleteList": {
+      let listIndex = draft.lists.findIndex((list) => list.name === action.listName);
+      if (listIndex !== -1) draft.lists.splice(listIndex, 1);
+      break;
+    }
+  }
+});
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, dispatchUser] = useReducer(userReducer, null);
   const [fetchingAuth, setFetchingAuth] = useState(true);
-  const { pushToast } = useContext(ToastContext);
 
   useEffect(() => {
-    console.log("EFFECT");
     setFetchingAuth(true);
-    fetch(API + "auth/user")
-      .then((res) => (res.status === 401 ? null : jsonErrors(res)))
-      .then((json) => {
-        if (json !== null) {
-          for (let list of json.lists) {
-            if (list.name in listIcons) list.icon = listIcons[list.name];
-          }
-          console.log(json.lists);
-          setUser(json);
-        }
-      })
-      .catch((e) => {
-        // network or server error
-        console.log(e);
-      })
-      .finally(() => setFetchingAuth(false));
+    (async () => {
+      try {
+        let res = await fetchHelper("auth/user");
+
+        dispatchUser({ type: "set", user: res });
+      } catch (e) {
+        if (e.status === 401) return;
+
+        // 500 or network error
+        // TODO perhaps show a global error box here
+        console.error("Failed to authenticate", e.status, e.message);
+      } finally {
+        setFetchingAuth(false);
+      }
+    })();
   }, []);
 
-  const signup = async (email, password) => {
-    let res = await fetch(API + "auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    let json = await jsonErrors(res);
-    setUser(json);
-    pushToast({
-      title: "Account created. Confirmation email sent to: " + json.email,
-    });
-  };
+  const signup = useCallback(async (email, password) => {
+    let res = await fetchHelper("auth/signup", "POST", { email, password });
 
-  const login = async (email, password) => {
-    let res = await fetch(API + "auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    let json = await jsonErrors(res);
-    setUser(json);
-    pushToast({
-      title: "Logged in as " + json.email,
-    });
-  };
+    dispatchUser({ type: "set", user: res });
+    return res;
+  }, []);
 
-  const logout = async () => {
-    let res = await fetch(API + "auth/logout", {
-      method: "POST",
-    });
-    await jsonErrors(res);
-    setUser(null);
-    pushToast({
-      title: "Logged out",
-    });
-  };
+  const login = useCallback(async (email, password) => {
+    let res = await fetchHelper("auth/login", "POST", { email, password });
 
-  const sendVerificationEmail = async () => {
-    let res = await fetch(API + "auth/email-verification", {
-      method: "POST",
-    });
-    return await jsonErrors(res);
-  };
+    dispatchUser({ type: "set", user: res });
+    return res;
+  }, []);
 
-  const resetPassword = async () => {
-    let res = await fetch(API + "auth/reset-password", {
-      method: "POST",
+  const logout = useCallback(async () => {
+    await fetchHelper("auth/logout", "POST");
+
+    dispatchUser({ type: "unset" });
+  }, []);
+
+  const sendVerificationEmail = useCallback(async () => {
+    return await fetchHelper("auth/email-verification", "POST");
+  }, []);
+
+  const verifyEmail = useCallback(async (token) => {
+    let res = await fetchHelper("auth/email-verification/" + token);
+
+    if (res.info) return res;
+    else dispatchUser({ type: "set", user: res });
+  }, []);
+
+  const resetPassword = useCallback(async () => {
+    return await fetchHelper("auth/reset-password", "POST");
+  }, []);
+
+  const getList = useCallback(async (listName) => {
+    try {
+      let list = await fetchHelper("lists/" + encodeURIComponent(listName));
+      if (list.name in listIcons) list.icon = listIcons[list.name].default;
+      return list;
+    } catch (e) {
+      if (e.status === 404) return null;
+      throw e;
+    }
+  }, []);
+
+  // This optimistic update implementation has a race condition,
+  // but it's a corner case where you spam add/remove on a list that's already been deleted
+  // Fixable with Aborts
+
+  // Optimistic
+  const addToList = useCallback(async (listName, pageid) => {
+    dispatchUser({ type: "addToList", listName, pageid });
+
+    try {
+      await fetchHelper("lists/" + encodeURIComponent(listName), "POST", { pageid });
+    } catch (e) {
+      dispatchUser({ type: "removeFromList", listName, pageid });
+      throw e;
+    }
+  }, []);
+
+  // Optimistic
+  const removeFromList = useCallback(async (listName, pageid) => {
+    dispatchUser({ type: "removeFromList", listName, pageid });
+
+    try {
+      await fetchHelper("lists/" + encodeURIComponent(listName) + "/" + pageid, "DELETE");
+    } catch (e) {
+      dispatchUser({ type: "addToList", listName, pageid });
+      throw e;
+    }
+  }, []);
+
+  const createList = useCallback(async (listName) => {
+    const createdList = await fetchHelper("lists", "POST", { name: listName });
+
+    dispatchUser({ type: "createList", createdList });
+  }, []);
+
+  const renameList = useCallback(async (listName, newListName) => {
+    await fetchHelper("lists/" + encodeURIComponent(listName), "PATCH", {
+      name: newListName,
     });
-    await jsonErrors(res);
-    return res.message;
-  };
+
+    dispatchUser({ type: "renameList", listName, newListName });
+  }, []);
+
+  const deleteList = useCallback(async (listName) => {
+    await fetchHelper("lists/" + encodeURIComponent(listName), "DELETE");
+
+    dispatchUser({ type: "deleteList", listName });
+  }, []);
 
   return (
     <AuthContext.Provider
       value={{
         fetchingAuth,
         user,
-        setUser,
-        signup,
-        login,
-        logout,
-        sendVerificationEmail,
-        resetPassword,
+        actions: {
+          signup,
+          login,
+          logout,
+          sendVerificationEmail,
+          verifyEmail,
+          resetPassword,
+          getList,
+          addToList,
+          removeFromList,
+          createList,
+          renameList,
+          deleteList,
+        },
       }}
     >
       {children}

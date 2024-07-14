@@ -10,6 +10,7 @@ export function useLocalStorage(key, initialValue) {
       return initialValue;
     }
   });
+
   const setValue = (value) => {
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value;
@@ -19,5 +20,6 @@ export function useLocalStorage(key, initialValue) {
       console.log(error);
     }
   };
+
   return [storedValue, setValue];
 }

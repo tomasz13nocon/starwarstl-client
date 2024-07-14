@@ -1,9 +1,11 @@
-import { API, appearancesCategories, suggestionPriority } from "@/util";
+import { appearancesCategories, fetchHelper, suggestionPriority } from "@/util";
 import ClearableTextInput from "@components/clearableTextInput";
 import AppearancesIcons from "./appearancesIcons";
 import { useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import { AnalyticsCategories, analytics } from "@/analytics";
+import Alert from "@components/alert";
+import clsx from "clsx";
 
 export default function TextFilter({
   filterText,
@@ -39,8 +41,7 @@ export default function TextFilter({
         setFetchingAppearances(name);
         setError(null);
         try {
-          let res = await fetch(`${API}appearances/${name}`);
-          apps = await res.json();
+          apps = await fetchHelper(`appearances/${name}`);
         } catch (err) {
           setError(err.message);
         } finally {
@@ -121,7 +122,7 @@ export default function TextFilter({
         activeCategory={filterCategory}
         fetching={fetchingAppearances}
       />
-      {error && <div className="error">{error}</div>}
+      {error && <Alert type="error">{error}</Alert>}
       {suggestions.length > 0 && (
         <>
           <span className="suggestions-heading">Suggestions:</span>
@@ -133,7 +134,13 @@ export default function TextFilter({
                 data={suggestions}
                 itemContent={(index, el) => (
                   <button
-                    className={`suggestion ${el.type} ${el.fullType}`}
+                    className={clsx(
+                      "suggestion",
+                      el.type,
+                      el.fullType,
+                      filterCategory && "non-media-suggestion",
+                      index === 0 && "first-suggestion",
+                    )}
                     onClick={() => {
                       setBoxFilters([...boxFilters, el]);
                       analytics.logEvent(

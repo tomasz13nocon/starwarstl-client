@@ -1,0 +1,6 @@
+@use "@/vars.scss" as *;
+
+.nav-link {
+  @extend %nav-link-inv;
+  @extend %icon-text-container;
+}

@@ -1,0 +1,15 @@
+@use "@/vars.scss" as *;
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+
+  >* {
+    align-self: center;
+  }
+}
+
+.delete-dialog-description {
+  word-break: break-word;
+}

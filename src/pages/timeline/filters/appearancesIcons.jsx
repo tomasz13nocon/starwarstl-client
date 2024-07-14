@@ -1,22 +1,23 @@
-import { Icon } from "@mdi/react";
-import "./styles/appearancesIcons.scss";
 import { appearancesCategoriesNames, appearancesIcons } from "@/util";
+import Icon from "@components/icon";
 import { mdiLoading } from "@mdi/js";
+import c from "./styles/appearancesIcons.module.scss";
+import clsx from "clsx";
 
 export default function AppearancesIcons({ handleClick, activeCategory, fetching }) {
   return (
-    <div className="appearances-icons">
+    <div className={c.appearancesIcons}>
       {Object.entries(appearancesIcons).map(([name, icon]) => (
         <button
           key={name}
-          className={`appearances-icon ${activeCategory === name ? "active" : ""}`}
+          className={clsx(c.appearancesIcon, activeCategory === name && c.active)}
           onClick={() => handleClick(name)}
           title={appearancesCategoriesNames[name]}
         >
           {fetching === name ? (
-            <Icon path={mdiLoading} className="icon loading" alt={name} />
+            <Icon path={mdiLoading} size={null} className={clsx(c.icon, c.spin)} alt={name} />
           ) : (
-            <Icon path={icon} className="icon" alt={name} />
+            <Icon path={icon} size={null} className={c.icon} alt={name} />
           )}
         </button>
       ))}

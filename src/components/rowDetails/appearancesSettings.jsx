@@ -1,6 +1,7 @@
 import Checkbox from "@components/checkbox";
 import { useContext } from "react";
 import { AppearancesContext } from "./context";
+import c from "./styles/appearances.module.scss";
 
 export default function AppearancesSettings() {
   const {
@@ -15,7 +16,7 @@ export default function AppearancesSettings() {
   } = useContext(AppearancesContext);
 
   return (
-    <div className="apps-filters">
+    <div className={c.appsFilters}>
       <Checkbox name="Hide mentions" value={hideMentions} onChange={toggleHideMentions} />
       <Checkbox
         name="Hide indirect mentions"

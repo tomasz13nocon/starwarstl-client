@@ -3,14 +3,25 @@ import c from "./styles/settings.module.scss";
 import { useAuth } from "@/context/authContext";
 import Spinner from "@components/spinner";
 import { useEffect, useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Button from "@components/button";
+import Alert from "@components/alert";
+import { useLocalStorage } from "@hooks/useLocalStorage";
+import { useAlert } from "@hooks/useAlert";
+
+const resendEmailTimeout = 60_000;
 
 export default function Settings() {
-  const { fetchingAuth, user, sendVerificationEmail } = useAuth();
-  const [error, setError] = useState(null);
-  const [info, setInfo] = useState(null);
+  const { fetchingAuth, user, actions } = useAuth();
+  const { alert, setSuccess, setInfo, setError, resetAlert } = useAlert();
   const [fetching, setFetching] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [lastVerificationTime, setLastVerificationTime] = useLocalStorage(
+    "lastEmailVerificationTime",
+    0,
+  );
+  const [verificationTimeout, setVerificationTimeout] = useState(
+    Math.round(Math.max(0, lastVerificationTime + resendEmailTimeout - Date.now()) / 1000),
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,20 +31,35 @@ export default function Settings() {
   }, [fetchingAuth, user]);
 
   const handleVerifyEmail = async () => {
-    setError(null);
-    setInfo(null);
-    setSuccess(false);
+    resetAlert(null);
     setFetching(true);
     try {
-      let res = await sendVerificationEmail();
-      if (res?.info) setInfo(res.info);
-      setSuccess(true);
+      let res = await actions.sendVerificationEmail();
+      if (res.info) setInfo(res.info);
+      else {
+        setSuccess("Email sent!");
+        setLastVerificationTime(Date.now());
+        setVerificationTimeout(resendEmailTimeout / 1000);
+      }
     } catch (e) {
-      setError(e.message);
+      setError(e);
     } finally {
       setFetching(false);
     }
   };
+
+  useEffect(() => {
+    let intervalID = setInterval(() => {
+      setVerificationTimeout((old) => {
+        let newTimeout = Math.max(0, old - 1);
+        // This technically makes this function unpure, but surely it's fine (clearInterval is idempotent)
+        if (newTimeout === 0) clearInterval(intervalID);
+        return newTimeout;
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalID);
+  }, [lastVerificationTime]);
 
   if (fetchingAuth) {
     return (
@@ -43,32 +69,32 @@ export default function Settings() {
       </Shell>
     );
   }
+  // TODO use FetchButton
   return (
     <Shell>
       <h1>Settings</h1>
 
       <h2>Account</h2>
       {user?.emailUnverified && (
-        <div className="warning">
+        <Alert type="warning">
           <div className={c.emailUnverifiedWarningText}>
             Your email is unverified. Please check your inbox for a verification email.
           </div>
-          <button
+          <Button
             className={c.resendEmailBtn}
             onClick={handleVerifyEmail}
             aria-busy={fetching}
-            disabled={fetching}
+            disabled={fetching || verificationTimeout > 0}
           >
             {fetching ? (
               <Spinner size={16} className={c.btnSpinner} />
             ) : (
-              "Resend verification email"
+              "Resend verification email" +
+              (verificationTimeout > 0 ? ` (${verificationTimeout}s)` : "")
             )}
-          </button>
-          {error && <div className="error slim">{error}</div>}
-          {info && <div className="info slim">{info}</div>}
-          {success && <div className="success slim">Email sent!</div>}
-        </div>
+          </Button>
+          <Alert alert={alert} slim />
+        </Alert>
       )}
     </Shell>
   );

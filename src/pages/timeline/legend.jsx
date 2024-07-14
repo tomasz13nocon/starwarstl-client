@@ -1,13 +1,15 @@
-import React from "react";
-import "./styles/legend.scss";
+import { useEffect, useReducer, useRef } from "react";
+import clsx from "clsx";
+import c from "./styles/legend.module.scss";
+import CircleButton from "./circleButton";
 
 const ANIMATION_TIME = 180;
 
-export default function Legend(props) {
-  const [expanded, toggleExpanded] = React.useReducer((state) => !state, false);
-  const btnRef = React.useRef();
+export default function Legend() {
+  const [expanded, toggleExpanded] = useReducer((state) => !state, false);
+  const btnRef = useRef();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (btnRef.current) {
       btnRef.current.style.transition =
         "height " +
@@ -18,66 +20,54 @@ export default function Legend(props) {
         ANIMATION_TIME +
         "ms ease-out";
       btnRef.current.style.height = expanded
-        ? Math.min(
-            btnRef.current.scrollHeight /* + 4*/,
-            window.innerHeight - 70 - 12 - 10 - 12
-          ) + "px" // The "4" is padding
+        ? Math.min(btnRef.current.scrollHeight /* + 4*/, window.innerHeight - 70 - 12 - 10 - 12) +
+          "px" // The "4" is padding
         : "70px";
-      btnRef.current.style.width = expanded
-        ? btnRef.current.scrollWidth + 4 + "px"
-        : "70px";
+      btnRef.current.style.width = expanded ? btnRef.current.scrollWidth + 4 + "px" : "70px";
     }
   }, [expanded]);
 
   return (
-    <div
+    <CircleButton
       ref={btnRef}
       onClick={toggleExpanded}
-      className={`legend-button circle-button button ${
-        expanded ? "expanded" : ""
-      }`}
+      className={clsx(c.legendButton, expanded && c.expanded)}
     >
       {expanded ? (
         <>
-          <div className="type-indicator book-a">Novel</div>
-          <div className="type-indicator book-ya small">Young Adult Novel</div>
-          <div className="type-indicator book-jr small">Junior Novel</div>
-          <div className="hr"></div>
-          <div className="type-indicator yr">Young Reader</div>
-          <div className="hr"></div>
-          <div className="type-indicator comic">Comic</div>
-          <div className="type-indicator comic-strip small">Comic strip</div>
-          <div className="type-indicator comic-story small">Comic story</div>
-          <div className="type-indicator comic-manga small">Manga</div>
-          <div className="hr"></div>
-          <div className="type-indicator short-story">Short Story</div>
-          <div className="hr"></div>
-          <div className="type-indicator tv">TV Series</div>
-          <div className="type-indicator tv-animated small">
-            Animated TV series
-          </div>
-          <div className="type-indicator tv-micro-series small">
-            Micro-series
-          </div>
-          <div className="hr"></div>
-          <div className="type-indicator game">Video game</div>
-          <div className="type-indicator game-vr small">VR game</div>
-          <div className="type-indicator game-mobile small">
-            Mobile/browser game
-          </div>
-          <div className="hr"></div>
-          <div className="type-indicator audio-drama">Audio drama</div>
-          <div className="hr"></div>
-          <div className="type-indicator film">Film</div>
-          <div className="hr"></div>
-          <div className="type-indicator multimedia">Multimedia project</div>
-          <div className="hr"></div>
-          <div className="unreleased table-cell type-indicator small">
+          <div className={clsx("type-indicator", "book-a")}>Novel</div>
+          <div className={clsx("type-indicator", "book-ya", c.small)}>Young Adult Novel</div>
+          <div className={clsx("type-indicator", "book-jr", c.small)}>Junior Novel</div>
+          <div className={clsx(c.hr)}></div>
+          <div className={clsx("type-indicator", "yr")}>Young Reader</div>
+          <div className={clsx(c.hr)}></div>
+          <div className={clsx("type-indicator", "comic")}>Comic</div>
+          <div className={clsx("type-indicator", "comic-strip", c.small)}>Comic strip</div>
+          <div className={clsx("type-indicator", "comic-story", c.small)}>Comic story</div>
+          <div className={clsx("type-indicator", "comic-manga", c.small)}>Manga</div>
+          <div className={clsx(c.hr)}></div>
+          <div className={clsx("type-indicator", "short-story")}>Short Story</div>
+          <div className={clsx(c.hr)}></div>
+          <div className={clsx("type-indicator", "tv")}>TV Series</div>
+          <div className={clsx("type-indicator", "tv-animated", c.small)}>Animated TV series</div>
+          <div className={clsx("type-indicator", "tv-micro-series", c.small)}>Micro-series</div>
+          <div className={clsx(c.hr)}></div>
+          <div className={clsx("type-indicator", "game")}>Video game</div>
+          <div className={clsx("type-indicator", "game-vr", c.small)}>VR game</div>
+          <div className={clsx("type-indicator", "game-mobile", c.small)}>Mobile/browser game</div>
+          <div className={clsx(c.hr)}></div>
+          <div className={clsx("type-indicator", "audio-drama")}>Audio drama</div>
+          <div className={clsx(c.hr)}></div>
+          <div className={clsx("type-indicator", "film")}>Film</div>
+          <div className={clsx(c.hr)}></div>
+          <div className={clsx("type-indicator", "multimedia")}>Multimedia project</div>
+          <div className={clsx(c.hr)}></div>
+          <div className={clsx("type-indicator", "unreleased", c.tableCell, c.small)}>
             Unreleased
             <br />
             <small>(release date column)</small>
           </div>
-          <div className="exact-placement-unknown table-cell type-indicator small">
+          <div className={clsx("type-indicator", "exact-placement-unknown", c.tableCell, c.small)}>
             Exact placement currently
             <br />
             unknown <small>(date column)</small>
@@ -86,6 +76,6 @@ export default function Legend(props) {
       ) : (
         "?"
       )}
-    </div>
+    </CircleButton>
   );
 }

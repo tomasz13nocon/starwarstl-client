@@ -104,19 +104,23 @@ $filters-width: 250px;
 .suggestion {
   @extend %reset-button;
   border: 1px solid black;
-  background-color: $active7;
   margin-top: -1px;
+  position: relative;
 
-  &:first-child {
+  &.first-suggestion {
     margin-top: 0;
   }
 
   &:hover {
-    // box-shadow: 0 0 0 2px inset $focus;
-    box-shadow: 0 0 2px black;
+    box-shadow: $hover-shadow;
+    z-index: 1;
   }
 
   cursor: pointer;
   width: 100%;
   padding: 0 2px;
+
+  &.non-media-suggestion {
+    background-color: $active7;
+  }
 }

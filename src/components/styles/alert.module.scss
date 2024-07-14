@@ -1,47 +1,33 @@
+@use "@/vars.scss" as *;
+
 .alert {
-  @extend %inline-alert;
-  padding: 1rem;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  width: fit-content;
+  margin: 0.5rem 0;
+  font-style: normal;
+  font-size: 1rem;
+
   border-width: 1px;
   border-style: solid;
-}
 
-.error {
-  .icon {
-    color: #e13232;
+  &.slim {
+    padding: 0.2rem 0.5rem;
   }
 
-  color: #e13232;
-  border: 1px solid #e13232;
-  background: #f7dddd;
-}
-
-.warning {
-  .icon {
-    color: #ed6c02;
+  &.error {
+    @extend %error;
   }
 
-  color: #966e08;
-  border: 1px solid #966e08;
-  background: #f6efdf;
-  // background: #fff4e5;
-}
-
-.info {
-  .icon {
-    color: #ed6c02;
+  &.warning {
+    @extend %warning;
   }
 
-  color: #234a57;
-  border: 1px solid #234a57;
-  background: #dff2f6;
-}
-
-.success {
-  .icon {
-    color: #2e7d32;
+  &.info {
+    @extend %info;
   }
 
-  color: #2e7d32;
-  border: 1px solid #2e7d32;
-  background: #e8f5e9;
+  &.success {
+    @extend %success;
+  }
 }

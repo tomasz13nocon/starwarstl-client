@@ -1,5 +1,3 @@
-import React from "react";
-import { Icon } from "@mdi/react";
 import {
   mdiSortAlphabeticalAscending,
   mdiSortAlphabeticalDescending,
@@ -8,7 +6,9 @@ import {
   mdiSortCalendarAscending,
   mdiSortCalendarDescending,
 } from "@mdi/js";
+import Icon from "./icon";
 
+import c from "./styles/sortingIcon.module.scss";
 
 const sortingIcons = new Proxy(
   {
@@ -30,7 +30,7 @@ const sortingIcons = new Proxy(
       for (let k in target) if (new RegExp(k).test(property)) return target[k];
       return target.default;
     },
-  }
+  },
 );
 
 export default function SortingIcon({ sorting, name }) {
@@ -38,12 +38,8 @@ export default function SortingIcon({ sorting, name }) {
     <>
       {sorting.by === name ? (
         <Icon
-          path={
-            sortingIcons[name][
-              sorting.ascending ? "ascending" : "descending"
-            ]
-          }
-          className="icon"
+          className={c.sortingIcon}
+          path={sortingIcons[name][sorting.ascending ? "ascending" : "descending"]}
         />
       ) : null}
     </>

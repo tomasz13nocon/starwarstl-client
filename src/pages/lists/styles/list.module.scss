@@ -1,0 +1,31 @@
+@use "@/vars.scss" as *;
+
+.header {
+  margin: 1rem 0;
+}
+
+.list-name {
+  word-break: break-word;
+}
+
+.list-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.list-item {
+  display: flex;
+  gap: 1rem;
+}
+
+.list-item-title {
+  width: fit-content;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+.list-icon {
+  margin-bottom: 2px;
+}

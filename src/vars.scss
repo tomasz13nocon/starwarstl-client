@@ -80,6 +80,7 @@ $success1: #4caf50;
 $success2: #8bc34a;
 $error1: #f44336;
 $error2: #e57373;
+$error3: #e13232;
 
 $hover-shadow: 0 0 2px black;
 $hover-shadow-inv: 0 0 4px white;
@@ -247,20 +248,18 @@ $dialog-anim-ease: cubic-bezier(0.09, 0.31, 0.28, 0.99);
     }
   }
 
-  %inline-alert {
-    border-radius: 4px;
-    padding: 0.5rem 1rem;
-    width: fit-content;
-    margin: 0.5rem 0;
-    font-style: normal;
-    font-size: 1rem;
+  %nav-link-inv {
+    @extend %nav-link;
+    color: $active3;
 
-    &.center {
-      margin: 0.5rem auto;
+    &:active {
+      color: rgba($active3, 0.8);
     }
 
-    &.slim {
-      padding: 0.2rem 0.5rem;
+    &[aria-current="page"] {
+      background-color: inherit;
+      color: inherit;
+      pointer-events: none;
     }
   }
 
@@ -355,4 +354,53 @@ $dialog-anim-ease: cubic-bezier(0.09, 0.31, 0.28, 0.99);
       animation: overlayHide $dialog-anim-duration $dialog-anim-ease;
     }
   }
+
+  %icon-text-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+%error {
+
+  // TODO remove .icon probably
+  .icon {
+    color: #e13232;
+  }
+
+  color: #e13232;
+  border-color: #e13232;
+  background-color: #f7dddd;
+}
+
+%warning {
+  .icon {
+    color: #ed6c02;
+  }
+
+  color: #8b5a04;
+  border-color: #8b5a04;
+  background-color: #f6efdf;
+  // background: #fff4e5;
+}
+
+%info {
+  .icon {
+    color: #ed6c02;
+  }
+
+  color: #234a57;
+  border-color: #234a57;
+  background-color: #dff2f6;
+}
+
+%success {
+  .icon {
+    color: #2e7d32;
+  }
+
+  color: #2e7d32;
+  border-color: #2e7d32;
+  background-color: #e8f5e9;
 }

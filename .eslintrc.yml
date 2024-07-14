@@ -14,7 +14,11 @@ parserOptions:
 plugins:
   - react
 rules:
-  "no-unused-vars": warn
+  "no-unused-vars":
+    - warn
+    - varsIgnorePattern: "^_"
+      argsIgnorePattern: "^_"
+      caughtErrorsIgnorePattern: "^_"
   "react/jsx-uses-react": off
   "react/prop-types": off
   "react/react-in-jsx-scope": off

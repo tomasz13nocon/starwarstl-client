@@ -17,7 +17,7 @@ export default function SortingMobile({ columns, sorting, toggleSorting }) {
                 key={column}
                 onClick={(e) => toggleSorting(column)}
               >
-                {columnNames[column]}
+                <span>{columnNames[column]}</span>
                 <SortingIcon sorting={sorting} name={column} />
               </button>
             ))}

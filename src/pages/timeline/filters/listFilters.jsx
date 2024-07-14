@@ -1,22 +1,16 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import Icon from "@mdi/react";
-import {
-  mdiChevronDown,
-  mdiClockOutline,
-  mdiClose,
-  mdiEyeOutline,
-  mdiFormatListBulleted,
-  mdiFormatListBulletedType,
-} from "@mdi/js";
+import { mdiFormatListBulleted } from "@mdi/js";
 
 import FiltersSection from "./filtersSection";
 import { useAuth } from "@/context/authContext";
 
 import c from "./styles/listFilters.module.scss";
 import Radio from "@components/radio";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import clsx from "clsx";
 import FilterBullet from "@components/filterBullet";
+import Button from "@components/button";
+import Icon from "@components/icon";
 
 export default function ListFilters({ listFilters, setListFilters }) {
   const { user } = useAuth();
@@ -31,7 +25,12 @@ export default function ListFilters({ listFilters, setListFilters }) {
         console.log("user doesn't have this list. removing", listFilter.name);
         removeListFilter(listFilter);
       } else {
-        newListFilters.push({ name: userList.name, show: listFilter.show, items: userList.items });
+        newListFilters.push({
+          name: userList.name,
+          show: listFilter.show,
+          items: userList.items,
+          icon: userList.icon,
+        });
       }
     }
     setListFilters(newListFilters);
@@ -65,13 +64,15 @@ export default function ListFilters({ listFilters, setListFilters }) {
     <FiltersSection title="Lists">
       <div className={c.label}>
         <DropdownMenu.Root disabled={addableLists.length === 0}>
-          <DropdownMenu.Trigger
-            className={clsx(c.trigger, "icon-text-container", "btn")}
-            aria-label="Add list to filters"
-            disabled={addableLists.length === 0}
-          >
-            <Icon className="icon" path={mdiFormatListBulleted} />
-            <span>{addableLists.length > 0 ? "Select a list…" : "No more lists"}</span>
+          <DropdownMenu.Trigger asChild>
+            <Button
+              className={clsx(c.trigger, "icon-text-container")}
+              aria-label="Add list to filters"
+              disabled={addableLists.length === 0}
+            >
+              <Icon path={mdiFormatListBulleted} />
+              <span>{addableLists.length > 0 ? "Select a list…" : "No more lists"}</span>
+            </Button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Portal>
             <DropdownMenu.Content className={clsx(c.content, "floating-content")} sideOffset={5}>
@@ -82,7 +83,7 @@ export default function ListFilters({ listFilters, setListFilters }) {
                   onClick={() => addListFilter(list.name)}
                 >
                   <div className={c.itemText}>
-                    {list.icon ? <Icon className="icon" path={list.icon} size={0.9} /> : null}
+                    {list.icon ? <Icon path={list.icon} size={0.9} /> : null}
                     <span>{list.name}</span>
                   </div>
                 </DropdownMenu.Item>
@@ -101,7 +102,7 @@ export default function ListFilters({ listFilters, setListFilters }) {
         >
           <div className={clsx(c.listEntry)}>
             <div className={c.listEntryNameAndIcon}>
-              {listFilter.icon ? <Icon className="icon" path={listFilter.icon} size={0.8} /> : null}
+              {listFilter.icon ? <Icon path={listFilter.icon} size={0.8} /> : null}
 
               <span className={c.listEntryName}>{listFilter.name}</span>
             </div>

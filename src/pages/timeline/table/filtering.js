@@ -193,21 +193,42 @@ export function createSorter(by, ascending) {
   const aFirst = ascending ? -1 : 1;
   const bFirst = ascending ? 1 : -1;
 
-  return (a, b) => {
-    let av = a[by],
-      bv = b[by];
+  switch (by) {
+    case "releaseDate":
+      return (a, b) => {
+        let av = a[by],
+          bv = b[by];
+        if (a.releaseDateEffective) av = a.releaseDateEffective;
+        if (b.releaseDateEffective) bv = b.releaseDateEffective;
 
-    if (by === "releaseDate") {
-      if (a.releaseDateEffective) av = a.releaseDateEffective;
-      if (b.releaseDateEffective) bv = b.releaseDateEffective;
-      // Unknown release date always means unreleased, therefore the newest
-      if (av == null || isNaN(av)) return bFirst;
-      if (bv == null || isNaN(bv)) return aFirst;
-    }
-    if (av < bv) return aFirst;
-    if (av > bv) return bFirst;
-    return 0;
-  };
+        // Unknown release date always means unreleased, therefore the newest
+        if (av == null || isNaN(av)) return bFirst;
+        if (bv == null || isNaN(bv)) return aFirst;
+
+        if (av < bv) return aFirst;
+        if (av > bv) return bFirst;
+        return 0;
+      };
+
+    case "writer":
+      return (a, b) => {
+        // Put no writer entries at the end to reduce clutter
+        if (!a[by]?.length) return 1;
+        if (!b[by]?.length) return -1;
+
+        // Only look at the first writer, this is what wookieepedia does also
+        if (a[by][0] < b[by][0]) return aFirst;
+        if (a[by][0] > b[by][0]) return bFirst;
+        return 0;
+      };
+
+    default:
+      return (a, b) => {
+        if (a[by] < b[by]) return aFirst;
+        if (a[by] > b[by]) return bFirst;
+        return 0;
+      };
+  }
 }
 
 export function createRangeStrategy(rangeFrom, rangeTo, timelineRangeBy) {
@@ -335,15 +356,4 @@ export function createListStrategy(listFilters) {
     }
     return ret;
   };
-}
-
-export class Filterer {
-  constructor(rawData, strategies) {
-    this.data = [...rawData];
-    this.strategies = strategies;
-  }
-
-  filter() {
-    return this.data.filter((item) => this.strategies.every((strategy) => strategy(item)));
-  }
 }

@@ -16,9 +16,7 @@
   gap: 1rem;
 }
 
-button.sign-in-btn {
-  // background: transparent;
-  // border: none;
+.sign-in-btn {
   margin-bottom: 8px;
   width: fit-content;
 }
@@ -26,19 +24,6 @@ button.sign-in-btn {
 .watched,
 .watchlist {
   color: $active9;
-}
-
-.toast-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.toast-item-title {
-  padding: 1px 6px;
-  border-radius: 3px;
-  font-weight: $weight-bold;
-  border: 1px solid black;
 }
 
 .toast-icon-add {
@@ -59,10 +44,10 @@ button.sign-in-btn {
   display: flex;
   gap: 0.5rem;
   flex-direction: column;
+  align-items: center;
 
   button {
     width: min-content;
-    margin: auto;
   }
 }
 
@@ -72,10 +57,6 @@ button.sign-in-btn {
   overflow-y: auto;
   max-height: var(--radix-popover-content-available-height);
   box-sizing: border-box;
-
-  [role="menuitem"]:focus {
-    outline: none;
-  }
 }
 
 .checkbox-text {

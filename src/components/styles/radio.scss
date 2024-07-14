@@ -4,6 +4,7 @@
   label {
     cursor: pointer;
     user-select: none;
+
     input {
       opacity: 0;
     }
@@ -43,6 +44,7 @@
         transform: scale(0);
       }
     }
+
     .radio.checked {
       background-color: $active1;
       border-color: $active3;
@@ -58,7 +60,7 @@
     }
 
     // FOCUS
-    input:focus + .radio {
+    input:focus-visible+.radio {
       outline: 2px solid $focus;
       outline-offset: 3px;
     }

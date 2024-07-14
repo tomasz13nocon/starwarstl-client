@@ -8,6 +8,7 @@
   z-index: 20;
   background-color: #fff;
   border: black;
+  // TODO unused
 }
 
 .viewport {
@@ -40,6 +41,10 @@
   grid-template-columns: auto max-content;
   column-gap: 15px;
   align-items: center;
+
+  &.error {
+    @extend %error;
+  }
 }
 
 .root[data-state="open"] {
@@ -94,10 +99,33 @@
 }
 
 .title {
+  @extend %icon-text-container;
   grid-area: title;
   font-weight: 500;
-  color: black;
+  // color: black;
   font-size: 15px;
+  word-break: break-word;
+}
+
+.error-icon {
+  color: $error1;
+}
+
+.icon {
+  flex-shrink: 0;
+
+  &.added {
+    color: $active9;
+  }
+
+  &.created {
+    color: $success1;
+  }
+
+  &.removed,
+  &.deleted {
+    color: $error1;
+  }
 }
 
 .description {
@@ -117,6 +145,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  color: black;
 
   &:hover {
     color: $active1;

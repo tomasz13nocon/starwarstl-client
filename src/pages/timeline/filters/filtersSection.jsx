@@ -1,7 +1,7 @@
-import { Icon } from "@mdi/react";
 import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
 import "./styles/filtersSection.scss";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import Icon from "@components/icon";
 
 export default function FiltersSection({ title, gaps, titlebarContent, children }) {
   const [expanded, setExpanded] = useLocalStorage("filtersSectionExpanded_" + title, true);
@@ -13,7 +13,7 @@ export default function FiltersSection({ title, gaps, titlebarContent, children 
         <Icon
           onClick={() => setExpanded(!expanded)}
           path={expanded ? mdiChevronUp : mdiChevronDown}
-          className="icon expand-button"
+          className="expand-button"
         />
       </div>
       <hr />

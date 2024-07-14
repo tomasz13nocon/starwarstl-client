@@ -7,7 +7,6 @@ import { escapeRegex, searchFields, notSortable, columnNames } from "@/util";
 import Row from "./row";
 import "./styles/timeline.scss";
 import {
-  Filterer,
   collapseAdjacentEntries,
   createFieldStrategy,
   createListStrategy,
@@ -72,23 +71,6 @@ function Table({
     }
   }, [searchResults.highlight]);
 
-  // useEffect(() => console.log("changed: appearancesFilters"), [appearancesFilters]);
-  // useEffect(() => console.log("changed: appearances"), [appearances]);
-  // useEffect(() => console.log("changed: timelineRangeBy"), [timelineRangeBy]);
-  // useEffect(() => console.log("changed: rangeTo"), [rangeTo]);
-  // useEffect(() => console.log("changed: rangeFrom"), [rangeFrom]);
-  // useEffect(() => console.log("changed: collapseAdjacent"), [collapseAdjacent]);
-  // useEffect(() => console.log("changed: hideAdaptations"), [hideAdaptations]);
-  // useEffect(() => console.log("changed: hideUnreleased"), [hideUnreleased]);
-  // useEffect(() => console.log("changed: boxFiltersAnd"), [boxFiltersAnd]);
-  // useEffect(() => console.log("changed: boxFilters"), [boxFilters]);
-  // useEffect(() => console.log("changed: sorting"), [sorting]);
-  // useEffect(() => console.log("changed: filterCategory"), [filterCategory]);
-  // useEffect(() => console.log("changed: filterText"), [filterText]);
-  // useEffect(() => console.log("changed: typeFilters"), [typeFilters]);
-  // useEffect(() => console.log("changed: rawData"), [rawData]);
-  // useEffect(() => console.log("changed: listFilters"), [listFilters]);
-
   // We need this for scroll effect as well
   const sortFilterDeps = [
     rawData,
@@ -109,51 +91,64 @@ function Table({
     listFilters,
   ];
 
+  const rangeStrategy = useMemo(() => {
+    if (rangeFrom || rangeTo) {
+      return createRangeStrategy(rangeFrom, rangeTo, timelineRangeBy);
+    }
+  }, [rangeFrom, rangeTo, timelineRangeBy]);
+
+  const unreleasedStrategy = useMemo(() => {
+    if (hideUnreleased) {
+      return (item) => !item.unreleased;
+    }
+  }, [hideUnreleased]);
+
+  const adaptationsStrategy = useMemo(() => {
+    if (hideAdaptations) {
+      return (item) => !item.adaptation;
+    }
+  }, [hideAdaptations]);
+
+  const typeStrategy = useMemo(() => {
+    return createTypeStrategy(typeFilters);
+  }, [typeFilters]);
+
+  const fieldStrategy = useMemo(() => {
+    if (boxFilters.length) {
+      return createFieldStrategy(boxFilters, boxFiltersAnd, appearancesFilters);
+    }
+  }, [boxFilters, boxFiltersAnd, appearancesFilters]);
+
+  const listStrategy = useMemo(() => {
+    if (listFilters.length) {
+      return createListStrategy(listFilters);
+    }
+  }, [listFilters]);
+
+  const textStrategy = useMemo(() => {
+    if (filterText) {
+      return createTextStrategy(filterText, filterCategory, appearances, appearancesFilters);
+    }
+  }, [filterText, filterCategory, appearances, appearancesFilters]);
+
   // Sort and filter data
   const data = useMemo(() => {
     if (rawData.length === 0) return [];
 
-    const strategies = [];
+    const strategies = [
+      rangeStrategy,
+      unreleasedStrategy,
+      adaptationsStrategy,
+      typeStrategy,
+      fieldStrategy,
+      listStrategy,
+      textStrategy,
+    ].filter((s) => s !== undefined); // Remove inactive strategies
 
-    if (rangeFrom || rangeTo) {
-      strategies.push(createRangeStrategy(rangeFrom, rangeTo, timelineRangeBy));
-    }
-
-    if (hideUnreleased) {
-      strategies.push((item) => !item.unreleased);
-    }
-
-    if (hideAdaptations) {
-      strategies.push((item) => !item.adaptation);
-    }
-
-    strategies.push(createTypeStrategy(typeFilters));
-
-    if (boxFilters.length) {
-      strategies.push(createFieldStrategy(boxFilters, boxFiltersAnd, appearancesFilters));
-    }
-
-    if (listFilters.length) {
-      strategies.push(createListStrategy(listFilters));
-    }
-
-    if (filterText) {
-      strategies.push(
-        createTextStrategy(filterText, filterCategory, appearances, appearancesFilters),
-      );
-    }
-
-    if (sorting.by === "chronology") {
-      // Remove items with unknown placement, the ones from the other table
-      // TODO: maybe notify user that some items have been hidden?
-      strategies.push((item) => item.chronology != null);
-    }
-
-    const filterer = new Filterer(rawData, strategies);
-    let tempData = filterer.filter();
+    let tempData = rawData.filter((item) => strategies.every((strategy) => strategy(item)));
 
     let by = sorting.by === "date" ? "chronology" : sorting.by;
-    tempData = tempData.sort(createSorter(by, sorting.ascending));
+    tempData.sort(createSorter(by, sorting.ascending));
 
     // Collapse adjacent entries. This must be the last step
     if (collapseAdjacent && tempData.length > 2) {
@@ -250,7 +245,7 @@ function Table({
             } else if (item[field] !== undefined) {
               console.error(
                 "Unknown field type while searching. Expected string or array of strings. Got: " +
-                  typeof item[field],
+                typeof item[field],
               );
             }
           }
@@ -312,10 +307,6 @@ function Table({
           data={data}
           rangeChanged={(range) => {
             renderedRange.current = range;
-            // console.log("data length:", data.length);
-            // console.log(
-            //   `New range is from ${range.startIndex} to ${range.endIndex}.\nFrom ${data[range.startIndex]?.title} to ${data[range.endIndex]?.title}`,
-            // );
           }}
           itemContent={(index, item) => {
             // The index in searchResults.results array of the first result in this row
@@ -345,9 +336,9 @@ function Table({
                   searchResultsHighlight={
                     searchResults.highlight
                       ? {
-                          resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
-                          indicesIndex: searchResults.highlight.indicesIndex,
-                        }
+                        resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
+                        indicesIndex: searchResults.highlight.indicesIndex,
+                      }
                       : null
                   }
                   rowSearchResults={rowSearchResults}
@@ -359,7 +350,7 @@ function Table({
                   {filterCategory && filterText && (
                     <MatchedAppearances appearances={matchedApps[item._id]}>
                       {/* TODO maybe limit the amount of shown matches */}
-                      <span className="bold">Matched {filterCategory}: </span>
+                      <span className="matched-text">Matched {filterCategory}: </span>
                     </MatchedAppearances>
                   )}
                   {matchedBoxFilterApps.length !== 0 && (

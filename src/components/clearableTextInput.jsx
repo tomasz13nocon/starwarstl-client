@@ -1,8 +1,8 @@
 import React, { forwardRef, useEffect, useState } from "react";
-import { Icon } from "@mdi/react";
 import { mdiClose } from "@mdi/js";
 import c from "./styles/clearableTextInput.module.scss";
 import clsx from "clsx";
+import Icon from "./icon";
 
 export default forwardRef(function ClearableTextInput(
   { children, small, active, value, onChange, bullet, clearBullet, ...props },
@@ -43,7 +43,7 @@ export default forwardRef(function ClearableTextInput(
             }}
             aria-label="Clear search"
           >
-            <Icon className={`icon`} path={mdiClose} size={small ? 0.94 : 1.12} />
+            <Icon path={mdiClose} size={small ? 0.94 : 1.12} />
           </button>
         )}
       </div>

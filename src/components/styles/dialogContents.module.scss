@@ -16,10 +16,6 @@
     padding: 1rem;
     max-width: 350px;
   }
-
-  &:focus {
-    outline: none;
-  }
 }
 
 .header {
@@ -37,11 +33,6 @@
 }
 
 .close {
-  // position: absolute;
-  // top: 20px;
-  // right: 20px;
-  cursor: pointer;
-
   &:hover {
     color: $active1;
   }

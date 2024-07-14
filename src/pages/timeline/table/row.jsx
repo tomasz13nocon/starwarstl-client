@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Icon } from "@mdi/react";
 import { mdiVolumeHigh } from "@mdi/js";
 import RowDetails from "@components/rowDetails/rowDetails";
 import EpisodeNumber from "@components/episodeNumber";
 import { imgAddress, Size, buildTvImagePath, searchFields } from "@/util";
 import c from "./styles/row.module.scss";
 import clsx from "clsx";
+import Icon from "@components/icon";
 
 const highlightText = (
   text,
@@ -199,11 +199,7 @@ export default React.memo(function Row({
                 </>
               ) : null}
               {item.audiobook && (
-                <Icon
-                  path={mdiVolumeHigh}
-                  className={clsx("icon", c.audiobookIcon)}
-                  title="audiobook"
-                />
+                <Icon path={mdiVolumeHigh} className={c.audiobookIcon} title="audiobook" />
               )}
             </div>
           </Cell>

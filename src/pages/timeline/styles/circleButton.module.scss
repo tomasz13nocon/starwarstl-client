@@ -1,0 +1,18 @@
+@use "@/vars.scss" as *;
+
+.circle-button {
+  @extend %reset-button;
+  align-self: flex-end;
+  cursor: pointer;
+  border-radius: 40px;
+  box-shadow: 0 0 3px black;
+
+  &:hover {
+    box-shadow: 0 0 5px black;
+  }
+
+  width: 70px;
+  height: 70px;
+  font-weight: $weight-bold;
+  font-size: 2em;
+}

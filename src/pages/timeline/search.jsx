@@ -1,7 +1,8 @@
 import React from "react";
-import { Icon } from "@mdi/react";
 import { mdiMagnify, mdiClose, mdiChevronUp, mdiChevronDown } from "@mdi/js";
-import "./styles/search.scss";
+import c from "./styles/search.module.scss";
+import Icon from "@components/icon";
+import CircleButton from "./circleButton";
 
 export default function Search({ expanded, toggleExpanded, searchResults, dispatchSearchResults }) {
   const searchInputRef = React.useRef();
@@ -25,10 +26,11 @@ export default function Search({ expanded, toggleExpanded, searchResults, dispat
   }, []);
 
   return (
-    <div className="search-container">
+    <div className={c.searchContainer}>
       {expanded ? (
         <>
           <input
+            className={c.searchInput}
             ref={searchInputRef}
             type="text"
             placeholder="Search..."
@@ -42,35 +44,31 @@ export default function Search({ expanded, toggleExpanded, searchResults, dispat
             autoFocus
             onKeyDown={(e) => e.key === "Escape" && toggleExpanded()}
           />
-          <div className="button-container">
-            <span className="result-count">
+          <div className={c.buttonContainer}>
+            <span className={c.resultCount}>
               {searchResults.highlight?.overallIndex ?? 0}/{searchResults.overallSize}
             </span>
             <button
               onClick={(e) => dispatchSearchResults({ type: "highlightPrev" })}
               aria-label="Clear search"
             >
-              <Icon path={mdiChevronUp} size={1.5} className="icon" />
+              <Icon path={mdiChevronUp} size={1.5} />
             </button>
             <button
               onClick={(e) => dispatchSearchResults({ type: "highlightNext" })}
               aria-label="Clear search"
             >
-              <Icon path={mdiChevronDown} size={1.5} className="icon" />
+              <Icon path={mdiChevronDown} size={1.5} />
             </button>
             <button onClick={(e) => toggleExpanded()} aria-label="Clear search">
-              <Icon path={mdiClose} size={1.5} className="icon" />
+              <Icon path={mdiClose} size={1.5} />
             </button>
           </div>
         </>
       ) : (
-        <button
-          className={`circle-button search-button`}
-          onClick={toggleExpanded}
-          aria-label="Search"
-        >
-          <Icon path={mdiMagnify} size={1.5} className="icon" />
-        </button>
+        <CircleButton className={c.searchButton} onClick={toggleExpanded} aria-label="Search">
+          <Icon path={mdiMagnify} size={1.5} />
+        </CircleButton>
       )}
     </div>
   );
