@@ -18,6 +18,9 @@ import {
 } from "./filtering";
 import Fetching from "@components/inlineAlerts/fetching";
 import MatchedAppearances from "./matchedAppearances";
+import Checkbox from "@components/checkbox";
+import { produce } from "immer";
+import clsx from "clsx";
 
 function Table({
   filterText,
@@ -42,6 +45,8 @@ function Table({
   listFilters,
   appearances,
   appearancesFilters,
+  selected,
+  setSelected,
 }) {
   const [expanded, setExpanded] = useState(null);
 
@@ -159,6 +164,8 @@ function Table({
     return tempData;
   }, sortFilterDeps);
 
+  const dataSelectable = useMemo(() => data.filter((item) => item.pageid != null), [data]);
+
   const scrollToId = useCallback(
     (id) => {
       let index = data.findIndex((e) => e._id === id);
@@ -245,7 +252,7 @@ function Table({
             } else if (item[field] !== undefined) {
               console.error(
                 "Unknown field type while searching. Expected string or array of strings. Got: " +
-                typeof item[field],
+                  typeof item[field],
               );
             }
           }
@@ -274,17 +281,32 @@ function Table({
       return acc;
     }, {});
 
+  console.log(data.length);
+  console.log(dataSelectable.length);
+
   return (
     <main className="container table">
       <div className="thead">
         {activeColumns.map((name) => (
           <div
-            onClick={(e) => toggleSorting(name)}
+            onClick={() => {
+              if (!notSortable.includes(name)) toggleSorting(name);
+            }}
             key={name}
-            className={name + " th" + (notSortable.includes(name) ? " not-sortable" : "")}
+            className={clsx(name, "th", notSortable.includes(name) && "not-sortable")}
           >
             <div className="th-inner">
-              {columnNames[name] || name}
+              {name === "selection" ? (
+                <Checkbox
+                  value={selected.size !== 0}
+                  indeterminate={selected.size > 0 && selected.size < dataSelectable.length}
+                  onChange={(value) =>
+                    setSelected(value ? new Set(dataSelectable.map((i) => i.pageid)) : new Set())
+                  }
+                />
+              ) : (
+                columnNames[name]
+              )}
               <SortingIcon sorting={sorting} name={name} />
             </div>
           </div>
@@ -336,9 +358,9 @@ function Table({
                   searchResultsHighlight={
                     searchResults.highlight
                       ? {
-                        resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
-                        indicesIndex: searchResults.highlight.indicesIndex,
-                      }
+                          resultsOffset: searchResults.highlight.resultsIndex - resultsIndex,
+                          indicesIndex: searchResults.highlight.indicesIndex,
+                        }
                       : null
                   }
                   rowSearchResults={rowSearchResults}
@@ -346,6 +368,15 @@ function Table({
                   collapseAdjacent={collapseAdjacent}
                   dataState={dataState}
                   scrollToId={scrollToId}
+                  selected={selected.has(item.pageid)}
+                  onSelect={(value) =>
+                    setSelected(
+                      produce((draft) => {
+                        if (value) draft.add(item.pageid);
+                        else draft.delete(item.pageid);
+                      }),
+                    )
+                  }
                 >
                   {filterCategory && filterText && (
                     <MatchedAppearances appearances={matchedApps[item._id]}>

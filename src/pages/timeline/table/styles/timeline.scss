@@ -29,7 +29,11 @@
   @extend %cell;
 
   &.not-sortable {
-    pointer-events: none;
+    cursor: default;
+
+    &:hover {
+      box-shadow: none;
+    }
   }
 }
 

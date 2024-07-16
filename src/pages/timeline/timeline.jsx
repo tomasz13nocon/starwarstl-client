@@ -23,6 +23,7 @@ import Shell from "@layouts/shell";
 import ListFilters from "./filters/listFilters";
 import { useAuth } from "@/context/authContext";
 import Button from "@components/button";
+import SelectedActions from "./selectedActions";
 
 function areAllBoolsFalse(obj) {
   return Object.values(obj).every((v) => (typeof v === "boolean" ? !v : areAllBoolsFalse(v)));
@@ -44,6 +45,7 @@ export default function Timeline() {
   const [rangeToStr, setRangeTo] = useLocalStorage("rangeToStr", "");
   const [listFilters, setListFilters] = useLocalStorage("listFilters", []);
   const [appearances, setAppearances] = useState({});
+  const [selected, setSelected] = useState(new Set());
   const { user } = useAuth();
   const [appearancesFilters, setAppearancesFilters] = useLocalStorage("appearancesFilters", {
     hideMentions: false,
@@ -54,14 +56,22 @@ export default function Timeline() {
   const [boxFiltersAnd, setBoxFiltersAnd] = useLocalStorage("boxFiltersAnd", false);
   // Keys: names of columns corresponding to keys in data
   // Values: wheter they're to be displayed
-  const [columns, setColumns] = useLocalStorage("columns", {
-    selection: true,
-    date: true,
-    cover: false,
-    title: true,
-    writer: true,
-    releaseDate: true,
-  });
+  const [columns, setColumns] = useLocalStorage(
+    "columns",
+    {
+      selection: false,
+      date: true,
+      cover: false,
+      title: true,
+      writer: true,
+      releaseDate: true,
+    },
+    (prev) => {
+      console.log("performing migration");
+      if (prev.selection === undefined) prev.selection = false;
+      return prev;
+    },
+  );
   const [searchExpanded, toggleSearchExpanded] = useReducer(
     (state, value) => (value === undefined ? !state : value),
     false,
@@ -155,6 +165,7 @@ export default function Timeline() {
           searchResults={searchResults}
           dispatchSearchResults={dispatchSearchResults}
         />
+        {selected.size > 0 && <SelectedActions selected={selected} />}
       </div>
       <div className="timeline-container">
         {/* TODO context */}
@@ -261,6 +272,8 @@ export default function Timeline() {
             listFilters={listFilters}
             appearances={appearances}
             appearancesFilters={appearancesFilters}
+            selected={selected}
+            setSelected={setSelected}
           />
         </FiltersContext.Provider>
       </div>

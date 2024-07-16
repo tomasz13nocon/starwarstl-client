@@ -1,6 +1,9 @@
 import { createRoot } from "react-dom/client";
 import App from "./app";
 import "./global.scss";
+import { enableMapSet } from "immer";
+
+enableMapSet();
 
 const container = document.getElementById("root");
 const root = createRoot(container);

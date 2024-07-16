@@ -50,8 +50,9 @@ export const searchFields = [
   "collapseUntilSe",
 ];
 // Column names which aren't meant to be sorted by
-export const notSortable = ["cover"];
+export const notSortable = ["cover", "selection"];
 export const columnNames = {
+  selection: "Selection",
   date: "Date",
   continuity: "Continuity",
   cover: "Cover",

@@ -2,28 +2,36 @@
 
 .standard-row-inner {
   display: flex;
+
   @media (max-width: $width-md) {
     flex-wrap: wrap;
+
     &.compact {
       flex-wrap: nowrap;
+
       .td.cover {
         order: -3;
       }
     }
   }
+
   .td {
     @extend %cell;
+
     .td-inner {
       position: relative;
       top: 50%;
       transform: translateY(-50%);
     }
+
     font-size: 0.8em;
+
     ul {
       list-style: "・";
       padding-left: 13px;
       margin: 0;
     }
+
     @media (max-width: $width-md) {
       min-width: auto;
       width: auto;
@@ -31,12 +39,16 @@
       word-break: break-word;
     }
   }
+
+  .td.selection {}
+
   .td.releaseDate {
     @media (max-width: $width-md) {
       flex-basis: 84px;
       flex-grow: 1;
     }
   }
+
   .td.date {
     @media (max-width: $width-md) {
       // Huge numbers because we want releaseDate to grow, but only when it's the only item in the row.
@@ -44,37 +56,45 @@
       flex-basis: 0;
     }
   }
+
   .td.writer {
     @media (max-width: $width-md) {
       flex-grow: 400;
       flex-basis: 0;
     }
+
     @media (max-width: $width-sm) {
       flex-grow: 300;
     }
   }
+
   .td.cover {
     @media (max-width: $width-md) {
       flex-grow: 0;
       order: -1;
+
       &.no-cover {
         display: none;
       }
     }
   }
+
   .td.title {
     font-weight: $weight-bolder;
     font-size: 1em;
     cursor: pointer;
+
     &:hover {
       box-shadow: 0 0 2px black;
       z-index: 4;
     }
+
     button {
       @extend %reset-button;
       pointer-events: none;
       text-align: left;
     }
+
     .tv-image {
       margin-right: 8px;
       position: relative;
@@ -82,21 +102,25 @@
       border-radius: 2px;
       float: left;
       font-size: 0.8em;
+
       &[title="Obi-Wan Kenobi (television series)"] {
         // Remedy for poor visibility
         background: #0f0f0f;
       }
+
       &.text-fallback {
         border: 1px solid black;
         padding: 0 4px;
         border-radius: 4px;
       }
     }
+
     .icon.audiobook-icon {
       font-size: 1.2em;
       vertical-align: bottom;
       margin: 0 4px;
     }
+
     @media (max-width: $width-md) {
       width: 100%;
       order: -2;

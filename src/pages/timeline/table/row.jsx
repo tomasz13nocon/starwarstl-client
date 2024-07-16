@@ -6,6 +6,7 @@ import { imgAddress, Size, buildTvImagePath, searchFields } from "@/util";
 import c from "./styles/row.module.scss";
 import clsx from "clsx";
 import Icon from "@components/icon";
+import Checkbox from "@components/checkbox";
 
 const highlightText = (
   text,
@@ -94,6 +95,8 @@ export default React.memo(function Row({
   collapseAdjacent,
   dataState,
   scrollToId,
+  selected,
+  onSelect,
   children,
 }) {
   const [hideTvImage, setHideTvImage] = useState(false);
@@ -129,6 +132,11 @@ export default React.memo(function Row({
             : ""
         }`}
       >
+        {activeColumns.includes("selection") && (
+          <Cell className={c.selection}>
+            {item.pageid != null && <Checkbox value={selected} onChange={onSelect} />}
+          </Cell>
+        )}
         {activeColumns.includes("date") && (
           <Cell
             className={clsx(c.date, item.exactPlacementUnknown && "exact-placement-unknown")}
