@@ -4,7 +4,29 @@
   @extend %floating-content;
   position: fixed;
   bottom: 0.5rem;
-  left: 50%;
-  transform: translate(-50%);
+  // left: 50%;
+  // transform: translate(-50%);
+  margin: auto;
+  left: 0;
+  right: 0;
+  width: fit-content;
   padding: 0.5rem 1rem;
+  text-align: center;
+
+  animation: floatingShow $dialog-anim-ease $dialog-anim-duration;
+}
+
+.popover-content {
+  @extend %popover;
+}
+
+.compound-note {
+  font-size: 14px;
+  margin-right: 1px;
+}
+
+.buttons {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
 }

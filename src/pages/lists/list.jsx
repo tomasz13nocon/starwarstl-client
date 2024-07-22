@@ -5,7 +5,7 @@ import Spinner from "@components/spinner";
 import clsx from "clsx";
 import Icon from "@components/icon";
 import { mdiDelete } from "@mdi/js";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NotFound from "@/notFound";
 import Alert from "@components/alert";
 import Unauthenticated from "@components/inlineAlerts/unauthenticated";
@@ -13,7 +13,8 @@ import { useToast } from "@/context/toastContext";
 import { createListActionToast } from "@/util";
 import { produce } from "immer";
 import { useFetch } from "@hooks/useFetch";
-import { FetchButton } from "@components/fetchButton";
+import FetchButton from "@components/fetchButton";
+import ListName from "@components/listName";
 
 function Item({ item, list, setList }) {
   const { actions } = useAuth();
@@ -21,7 +22,7 @@ function Item({ item, list, setList }) {
   const [fetchRemove, fetchingRemove] = useFetch(actions.removeFromList, { toastOnError: true });
 
   async function removeFromList(item) {
-    await fetchRemove(list.name, item.pageid);
+    await fetchRemove(list.name, [item.pageid]);
     setList(
       produce((draft) => {
         draft.items.splice(
@@ -69,9 +70,8 @@ export default function List() {
   return (
     <>
       <div className={c.header}>
-        <h2 className={clsx(c.listName, "icon-text-container")}>
-          {list.icon && <Icon size={1.5} path={list.icon} className={c.listIcon} />}
-          <span>{list.name}</span>
+        <h2>
+          <ListName name={list.name} iconSize={1.5} />
         </h2>
         <div>
           {list.items.length} item{list.items.length === 1 ? "" : "s"}

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
+import { produce } from "immer";
 import { mdiVolumeHigh } from "@mdi/js";
 import RowDetails from "@components/rowDetails/rowDetails";
 import EpisodeNumber from "@components/episodeNumber";
@@ -96,7 +97,7 @@ export default React.memo(function Row({
   dataState,
   scrollToId,
   selected,
-  onSelect,
+  setSelected,
   children,
 }) {
   const [hideTvImage, setHideTvImage] = useState(false);
@@ -107,6 +108,17 @@ export default React.memo(function Row({
       setExpanded(item._id);
     }
   };
+
+  const onSelect = useCallback(
+    (value) =>
+      setSelected(
+        produce((draft) => {
+          if (value) draft.add(item.pageid);
+          else draft.delete(item.pageid);
+        }),
+      ),
+    [item],
+  );
 
   // For given text, returns JSX with highlighted search results
   const withSearch = (text, columnName) => {

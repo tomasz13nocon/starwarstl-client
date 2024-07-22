@@ -7,44 +7,8 @@
   margin-bottom: 0.5rem;
 }
 
-.trigger[disabled] {
-  color: $grey2;
-  cursor: not-allowed;
-}
-
-.content {
-  max-width: 300px;
-  overflow-y: auto;
-  max-height: var(--radix-dropdown-menu-content-available-height);
-  box-sizing: border-box;
-}
-
-.item {
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  // height: 25px;
-  padding: 4px 35px 4px 25px;
-  position: relative;
-  user-select: none;
-  cursor: pointer;
-}
-
-.item[data-highlighted] {
-  outline: none;
-  background-color: $active2;
-  // box-shadow: $hover-shadow;
-}
-
-.item-text {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  word-break: break-word;
-
-  &>svg {
-    margin-bottom: 2px;
-  }
+.trigger {
+  @extend %icon-text-container;
 }
 
 .filter-bullet {
@@ -63,17 +27,10 @@
   // width: 100%;
 }
 
-.list-entry-name-and-icon {
-  @extend %icon-text-container;
-  gap: 0.25rem;
-
+.list-entry-name {
   border-bottom: 1px solid $grey0;
   padding-bottom: 2px;
   margin-bottom: 6px;
-}
-
-.list-entry-name {
-  margin-left: 0.25rem;
 }
 
 .list-entry-controls {

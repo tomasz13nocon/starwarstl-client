@@ -1,0 +1,39 @@
+@use "@/vars.scss" as *;
+
+.trigger {
+  border-radius: 999px;
+  border: 1px solid $grey1;
+  color: $grey1;
+  padding: 2px;
+  line-height: 0;
+  position: relative;
+  bottom: 1px;
+  margin-left: 8px;
+  display: inline-block;
+
+  width: 18px;
+  height: 18px;
+  max-width: 18px;
+  max-height: 18px;
+  box-sizing: border-box;
+}
+
+.trigger-icon {}
+
+.content {
+  @extend %floating-content;
+  display: flex;
+  font-size: 14px;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+
+  animation: floatingShow $dialog-anim-ease $dialog-anim-duration;
+
+  &.info {
+    @extend %info;
+
+    .arrow {
+      @extend %info-fill;
+    }
+  }
+}

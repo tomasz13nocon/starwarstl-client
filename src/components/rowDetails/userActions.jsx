@@ -57,13 +57,13 @@ export default function UserActions({ item }) {
     }
   }
 
-  async function addToList(listName, pageid) {
-    await fetchAdd(listName, pageid);
+  async function addToList(listName) {
+    await fetchAdd(listName, [item.pageid]);
     pushToast(createListActionToast("added", listName, item));
   }
 
-  async function removeFromList(listName, pageid) {
-    await fetchRemove(listName, pageid);
+  async function removeFromList(listName) {
+    await fetchRemove(listName, [item.pageid]);
     pushToast(createListActionToast("removed", listName, item));
   }
 
@@ -97,7 +97,7 @@ export default function UserActions({ item }) {
             <Fragment key={list.name}>
               {list.items.includes(item.pageid) ? (
                 <button
-                  onClick={() => removeFromList(list.name, item.pageid)}
+                  onClick={() => removeFromList(list.name)}
                   title={`Remove from ${list.name}`}
                 >
                   <HoverIcon
@@ -108,10 +108,7 @@ export default function UserActions({ item }) {
                   />
                 </button>
               ) : (
-                <button
-                  onClick={() => addToList(list.name, item.pageid)}
-                  title={`Add to ${list.name}`}
-                >
+                <button onClick={() => addToList(list.name)} title={`Add to ${list.name}`}>
                   <HoverIcon
                     path={listIcons[list.name].default}
                     hoverPath={listIcons[list.name].add}
@@ -132,10 +129,7 @@ export default function UserActions({ item }) {
               />
             </Popover.Trigger>
             <Popover.Portal>
-              <Popover.Content
-                side="right"
-                className={clsx("floating-content", c.listDropdownContent)}
-              >
+              <Popover.Content side="right" className={c.listDropdownContent}>
                 {user.lists
                   .filter((list) => !builtinLists.includes(list.name))
                   .map((list) => {

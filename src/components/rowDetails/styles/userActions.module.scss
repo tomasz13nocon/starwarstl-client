@@ -52,11 +52,7 @@
 }
 
 .list-dropdown-content {
-  max-width: 300px;
-  padding: 8px !important;
-  overflow-y: auto;
-  max-height: var(--radix-popover-content-available-height);
-  box-sizing: border-box;
+  @extend %popover;
 }
 
 .checkbox-text {

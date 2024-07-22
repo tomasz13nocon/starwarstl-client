@@ -3,7 +3,7 @@ import c from "./styles/listActions.module.scss";
 import { builtinLists } from "@/util";
 import DialogContents from "@components/dialogContents";
 import Button from "@components/button";
-import { FetchButton } from "@components/fetchButton";
+import FetchButton from "@components/fetchButton";
 
 export default function ListActions({ list, onRename, onDelete, fetchingDelete }) {
   return (

@@ -46,7 +46,7 @@ export default function Timeline() {
   const [listFilters, setListFilters] = useLocalStorage("listFilters", []);
   const [appearances, setAppearances] = useState({});
   const [selected, setSelected] = useState(new Set());
-  const { user } = useAuth();
+  const { fetchingAuth, user } = useAuth();
   const [appearancesFilters, setAppearancesFilters] = useLocalStorage("appearancesFilters", {
     hideMentions: false,
     hideIndirectMentions: false,
@@ -67,7 +67,6 @@ export default function Timeline() {
       releaseDate: true,
     },
     (prev) => {
-      console.log("performing migration");
       if (prev.selection === undefined) prev.selection = false;
       return prev;
     },
@@ -99,6 +98,13 @@ export default function Timeline() {
       ascending: true,
     },
   );
+
+  useEffect(() => {
+    // Remove list filters when logged out
+    if (!fetchingAuth && !user) {
+      setListFilters([]);
+    }
+  }, [fetchingAuth, user]);
 
   useEffect(() => {
     localStorage.setItem("typeFilters", JSON.stringify(typeFilters));
@@ -165,7 +171,9 @@ export default function Timeline() {
           searchResults={searchResults}
           dispatchSearchResults={dispatchSearchResults}
         />
-        {selected.size > 0 && <SelectedActions selected={selected} />}
+        {selected.size > 0 && (
+          <SelectedActions selected={selected} rawData={rawData} dataState={dataState} />
+        )}
       </div>
       <div className="timeline-container">
         {/* TODO context */}

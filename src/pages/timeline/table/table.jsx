@@ -19,7 +19,6 @@ import {
 import Fetching from "@components/inlineAlerts/fetching";
 import MatchedAppearances from "./matchedAppearances";
 import Checkbox from "@components/checkbox";
-import { produce } from "immer";
 import clsx from "clsx";
 
 function Table({
@@ -164,7 +163,10 @@ function Table({
     return tempData;
   }, sortFilterDeps);
 
-  const dataSelectable = useMemo(() => data.filter((item) => item.pageid != null), [data]);
+  const dataSelectable = useMemo(
+    () => new Set(data.filter((item) => item.pageid != null).map((item) => item.pageid)),
+    [data],
+  );
 
   const scrollToId = useCallback(
     (id) => {
@@ -281,8 +283,12 @@ function Table({
       return acc;
     }, {});
 
-  console.log(data.length);
-  console.log(dataSelectable.length);
+  const selectAllOnChange = useCallback(
+    (value) => {
+      setSelected(value ? dataSelectable : new Set());
+    },
+    [dataSelectable],
+  );
 
   return (
     <main className="container table">
@@ -299,10 +305,8 @@ function Table({
               {name === "selection" ? (
                 <Checkbox
                   value={selected.size !== 0}
-                  indeterminate={selected.size > 0 && selected.size < dataSelectable.length}
-                  onChange={(value) =>
-                    setSelected(value ? new Set(dataSelectable.map((i) => i.pageid)) : new Set())
-                  }
+                  indeterminate={selected.size > 0 && selected.size < dataSelectable.size}
+                  onChange={selectAllOnChange}
                 />
               ) : (
                 columnNames[name]
@@ -369,14 +373,7 @@ function Table({
                   dataState={dataState}
                   scrollToId={scrollToId}
                   selected={selected.has(item.pageid)}
-                  onSelect={(value) =>
-                    setSelected(
-                      produce((draft) => {
-                        if (value) draft.add(item.pageid);
-                        else draft.delete(item.pageid);
-                      }),
-                    )
-                  }
+                  setSelected={setSelected}
                 >
                   {filterCategory && filterText && (
                     <MatchedAppearances appearances={matchedApps[item._id]}>

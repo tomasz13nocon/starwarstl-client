@@ -1,0 +1,36 @@
+@use "@/vars.scss" as *;
+
+.content {
+  @extend %popover;
+  margin-bottom: 5px;
+}
+
+.item-container {
+  display: flex;
+  align-items: center;
+}
+
+.item {
+  font-size: 16px;
+  padding: 4px 35px 4px 25px;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  justify-content: start;
+  text-align: start;
+}
+
+.watched-tooltip {
+  margin: 0 1rem;
+}
+
+.item:hover {
+  // outline: none;
+  // background-color: $active2;
+  // box-shadow: $hover-shadow;
+  z-index: 1;
+}
+
+.list-name {
+  margin-left: 0.35rem;
+}

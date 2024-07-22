@@ -4,15 +4,15 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import Spinner from "@components/spinner";
 import ListActions from "./listActions";
-import Icon from "@components/icon";
 import { useState } from "react";
 import Alert from "@components/alert";
 import { useToast } from "@/context/toastContext";
 import { createListActionToast } from "@/util";
 import Unauthenticated from "@components/inlineAlerts/unauthenticated";
 import Button from "@components/button";
-import { FetchButton } from "@components/fetchButton";
+import FetchButton from "@components/fetchButton";
 import { useFetch } from "@hooks/useFetch";
+import ListName from "@components/listName";
 
 // TODO: redo this component at some point, it's messy
 export default function Lists() {
@@ -54,7 +54,6 @@ export default function Lists() {
   }
 
   function onEditInputKeyDown(e) {
-    console.log(e.key);
     const disabled = inputError || editingName === newName || fetchingRenameList;
     if (e.key === "Enter" && !disabled) {
       renameList();
@@ -103,12 +102,8 @@ export default function Lists() {
               </>
             ) : (
               <div className={c.listInner}>
-                <Link
-                  to={encodeURIComponent(list.name)}
-                  className={clsx(c.listName, "icon-text-container")}
-                >
-                  {list.icon ? <Icon path={list.icon} /> : null}
-                  <span>{list.name}</span>
+                <Link to={encodeURIComponent(list.name)} className={clsx(c.listName)}>
+                  <ListName name={list.name} />
                 </Link>
                 <ListActions
                   list={list}

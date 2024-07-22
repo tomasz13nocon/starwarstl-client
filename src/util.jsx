@@ -291,6 +291,17 @@ export const testArrayOrValue = (value, predicate) => {
   return Array.isArray(value) ? value.some((v) => predicate(v)) : predicate(value);
 };
 
+export function plural(word, value) {
+  if (value !== 1) {
+    if (word === "was") return "were";
+    if (word === "is") return "are";
+    if (word.endsWith("s")) return word + "es";
+    else return word + "s";
+  }
+
+  return word;
+}
+
 // If wt is null or undef returns null or undef. Otherwise returns string.
 export const wt2str = (wt) => {
   if (wt == null) return wt;

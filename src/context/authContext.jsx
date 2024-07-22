@@ -1,7 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useReducer, useState } from "react";
-import { listIcons, fetchHelper } from "@/util";
+import { fetchHelper } from "@/util";
 import { produce } from "immer";
-import _ from "lodash";
 
 const AuthContext = createContext({});
 
@@ -12,30 +11,32 @@ export const useAuth = () => {
 const userReducer = produce((draft, action) => {
   switch (action.type) {
     case "set": {
-      // We need to clone because we can't mutate reducer payload
-      let clonedUser = _.cloneDeep(action.user);
-      if (clonedUser) {
-        for (let list of clonedUser.lists) {
-          if (list.name in listIcons) list.icon = listIcons[list.name].default;
-        }
-      }
-      return clonedUser;
+      return action.user;
     }
 
     case "unset": {
       return null;
     }
 
+    case "setLists": {
+      draft.lists = action.lists;
+      break;
+    }
+
     case "addToList": {
       let list = draft.lists.find((list) => list.name === action.listName);
-      list.items.push(action.pageid);
+      list.items = Array.from(new Set([...list.items, ...action.pageids]));
       break;
     }
 
     case "removeFromList": {
       let list = draft.lists.find((list) => list.name === action.listName);
-      let idIndex = list.items.findIndex((v) => v === action.pageid);
-      if (idIndex !== -1) list.items.splice(idIndex, 1);
+      list.items = list.items.filter((pageid) => !action.pageids.includes(pageid));
+      // for (let i = list.items.length; i >= 0; i--) {
+      //   if (action.pageids.includes(list.items[i])) list.items.splice(i, 1);
+      // }
+      // let idIndex = list.items.findIndex((v) => v === action.pageid);
+      // if (idIndex !== -1) list.items.splice(idIndex, 1);
       break;
     }
 
@@ -118,7 +119,6 @@ export const AuthProvider = ({ children }) => {
   const getList = useCallback(async (listName) => {
     try {
       let list = await fetchHelper("lists/" + encodeURIComponent(listName));
-      if (list.name in listIcons) list.icon = listIcons[list.name].default;
       return list;
     } catch (e) {
       if (e.status === 404) return null;
@@ -131,25 +131,29 @@ export const AuthProvider = ({ children }) => {
   // Fixable with Aborts
 
   // Optimistic
-  const addToList = useCallback(async (listName, pageid) => {
-    dispatchUser({ type: "addToList", listName, pageid });
+  const addToList = useCallback(async (listName, pageids) => {
+    dispatchUser({ type: "addToList", listName, pageids });
 
     try {
-      await fetchHelper("lists/" + encodeURIComponent(listName), "POST", { pageid });
+      let res = await fetchHelper("lists/" + encodeURIComponent(listName), "POST", { pageids });
+      dispatchUser({ type: "setLists", lists: res.lists });
     } catch (e) {
-      dispatchUser({ type: "removeFromList", listName, pageid });
+      dispatchUser({ type: "removeFromList", listName, pageids });
       throw e;
     }
   }, []);
 
   // Optimistic
-  const removeFromList = useCallback(async (listName, pageid) => {
-    dispatchUser({ type: "removeFromList", listName, pageid });
+  const removeFromList = useCallback(async (listName, pageids) => {
+    dispatchUser({ type: "removeFromList", listName, pageids });
 
     try {
-      await fetchHelper("lists/" + encodeURIComponent(listName) + "/" + pageid, "DELETE");
+      await fetchHelper("lists/" + encodeURIComponent(listName), "PATCH", {
+        action: "removeItems",
+        pageids,
+      });
     } catch (e) {
-      dispatchUser({ type: "addToList", listName, pageid });
+      dispatchUser({ type: "addToList", listName, pageids });
       throw e;
     }
   }, []);
@@ -162,6 +166,7 @@ export const AuthProvider = ({ children }) => {
 
   const renameList = useCallback(async (listName, newListName) => {
     await fetchHelper("lists/" + encodeURIComponent(listName), "PATCH", {
+      action: "renameList",
       name: newListName,
     });
 

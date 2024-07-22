@@ -1,0 +1,13 @@
+@use "@/vars.scss" as *;
+
+.container {
+  @extend %icon-text-container;
+
+  gap: 0.3333em;
+  word-break: break-word;
+
+  svg {
+    position: relative;
+    bottom: 0.055555em;
+  }
+}

@@ -1,10 +1,11 @@
 import Checkbox from "@components/checkbox";
 import FiltersSection from "./filtersSection";
 import { columnNames } from "@/util";
+import { memo } from "react";
 
 // import "./styles/columnSettings.scss";
 
-export default function ColumnSettings({ columns, setColumns }) {
+export default memo(function ColumnSettings({ columns, setColumns }) {
   return (
     <FiltersSection title={"Show columns"}>
       {Object.entries(columns)
@@ -19,4 +20,4 @@ export default function ColumnSettings({ columns, setColumns }) {
         ))}
     </FiltersSection>
   );
-}
+});
