@@ -1,0 +1,22 @@
+@use "@/vars.scss" as *;
+
+.check-buttons {
+  display: flex;
+  gap: 0.5rem;
+
+  button {
+    font-size: 0.75em;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+}
+
+.checkbox-filters {
+  margin-top: 10px 0;
+  line-height: 1.25;
+}
+
+.checkbox-wrapper {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}

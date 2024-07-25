@@ -6,12 +6,13 @@ export const useToast = () => {
   return useContext(ToastContext);
 };
 
+let counter = 0;
+
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
   const pushToast = useCallback((toast) => {
-    // TODO timestamps are not really safe, adding two toasts within 1ms will cause errors
-    toast.timestamp = Date.now();
+    toast.id = counter++;
     setToasts((prev) => [...prev, toast]);
   }, []);
 
@@ -20,7 +21,7 @@ export const ToastProvider = ({ children }) => {
   }, []);
 
   const removeToast = useCallback((toast) => {
-    setToasts((prev) => prev.filter((t) => t.timestamp !== toast.timestamp));
+    setToasts((prev) => prev.filter((t) => t.id !== toast.id));
   }, []);
 
   return (

@@ -4,17 +4,18 @@ import { useAuth } from "@/context/authContext";
 import Spinner from "@components/spinner";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "@components/button";
 import Alert from "@components/alert";
 import { useLocalStorage } from "@hooks/useLocalStorage";
-import { useAlert } from "@hooks/useAlert";
+import { useFetch } from "@hooks/useFetch";
+import FetchButton from "@components/fetchButton";
 
 const resendEmailTimeout = 60_000;
 
 export default function Settings() {
   const { fetchingAuth, user, actions } = useAuth();
-  const { alert, setSuccess, setInfo, setError, resetAlert } = useAlert();
-  const [fetching, setFetching] = useState(false);
+  const [fetchVerifyEmail, fetching, alert] = useFetch(actions.sendVerificationEmail, {
+    successAlert: "Email sent!",
+  });
   const [lastVerificationTime, setLastVerificationTime] = useLocalStorage(
     "lastEmailVerificationTime",
     0,
@@ -31,21 +32,9 @@ export default function Settings() {
   }, [fetchingAuth, user]);
 
   const handleVerifyEmail = async () => {
-    resetAlert(null);
-    setFetching(true);
-    try {
-      let res = await actions.sendVerificationEmail();
-      if (res.info) setInfo(res.info);
-      else {
-        setSuccess("Email sent!");
-        setLastVerificationTime(Date.now());
-        setVerificationTimeout(resendEmailTimeout / 1000);
-      }
-    } catch (e) {
-      setError(e);
-    } finally {
-      setFetching(false);
-    }
+    await fetchVerifyEmail();
+    setLastVerificationTime(Date.now());
+    setVerificationTimeout(resendEmailTimeout / 1000);
   };
 
   useEffect(() => {
@@ -69,7 +58,7 @@ export default function Settings() {
       </Shell>
     );
   }
-  // TODO use FetchButton
+
   return (
     <Shell>
       <h1>Settings</h1>
@@ -80,19 +69,15 @@ export default function Settings() {
           <div className={c.emailUnverifiedWarningText}>
             Your email is unverified. Please check your inbox for a verification email.
           </div>
-          <Button
+          <FetchButton
             className={c.resendEmailBtn}
             onClick={handleVerifyEmail}
-            aria-busy={fetching}
-            disabled={fetching || verificationTimeout > 0}
+            fetching={fetching}
+            disabled={verificationTimeout > 0}
           >
-            {fetching ? (
-              <Spinner size={16} className={c.btnSpinner} />
-            ) : (
-              "Resend verification email" +
-              (verificationTimeout > 0 ? ` (${verificationTimeout}s)` : "")
-            )}
-          </Button>
+            Resend verification email
+            {verificationTimeout > 0 ? ` (${verificationTimeout}s)` : ""}
+          </FetchButton>
           <Alert alert={alert} slim />
         </Alert>
       )}

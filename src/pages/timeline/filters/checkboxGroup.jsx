@@ -1,6 +1,8 @@
 import React from "react";
 import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
 import FilterCheckbox from "./filterCheckbox";
+import clsx from "clsx";
+import c from "./styles/checkboxGroup.module.scss";
 
 // for a given object returns, depending on the state of its children, recursively:
 // 0 - all unchecked
@@ -35,78 +37,82 @@ export default React.memo(function CheckboxGroup({
   onChange,
   path,
   children,
+  wrapperClassName,
 }) {
-    const [expanded, setExpanded] = React.useState(() => localStorage.getItem("checkboxGroup_" + path) === "true");
+  const [expanded, setExpanded] = React.useState(
+    () => localStorage.getItem("checkboxGroup_" + path) === "true",
+  );
 
-    let childrenChecked = areChildrenChecked(state);
+  let childrenChecked = areChildrenChecked(state);
 
-    let recursiveGroupOrLeafs = Object.entries(children).map(([key, value]) => {
-      let finalPath = path ? path + "." + key : key;
-      // Leaf Checkbox
-      // both of these ↓      ↓ should provide the same result
-      if (
-        typeof (/*value*/ state[key]) === "boolean" ||
-          value.value !== undefined
-      ) {
-        return (
+  let recursiveGroupOrLeafs = Object.entries(children).map(([key, value]) => {
+    let finalPath = path ? path + "." + key : key;
+    // Leaf Checkbox
+    // both of these ↓      ↓ should provide the same result
+    if (typeof (/*value*/ state[key]) === "boolean" || value.value !== undefined) {
+      return (
+        <FilterCheckbox
+          key={finalPath}
+          name={value.name || key}
+          value={state[key]}
+          onChange={onChange}
+          path={finalPath}
+          wrapperClassName={wrapperClassName}
+        />
+      );
+    }
+    // Recursive group
+    else {
+      return (
+        <CheckboxGroup
+          key={finalPath}
+          name={value.name !== undefined ? value.name : key}
+          state={state[key]}
+          onChange={onChange}
+          path={finalPath}
+          wrapperClassName={wrapperClassName}
+        >
+          {value.children || value}
+        </CheckboxGroup>
+      );
+    }
+  });
+
+  // If name was not passed or is null, just recurse without creating the outer divs.
+  if (!name) return recursiveGroupOrLeafs;
+
+  let grouping = path.split(".").length % 2 !== 0,
+    additionalClass = "";
+
+  return (
+    <div>
+      {/* group checkbox */}
+      <div>
+        {grouping ? (
+          <div className={c.groupingTitle}>{name}</div>
+        ) : (
           <FilterCheckbox
-            key={finalPath}
-            name={value.name || key}
-            value={state[key]}
+            name={name}
+            value={childrenChecked === 2}
+            indeterminate={childrenChecked === 1}
             onChange={onChange}
-            path={finalPath}
-          />
-        );
-      }
-      // Recursive group
-      else {
-        return (
-          <CheckboxGroup
-            key={finalPath}
-            name={value.name !== undefined ? value.name : key}
-            state={state[key]}
-            onChange={onChange}
-            path={finalPath}
-          >
-            {value.children || value}
-          </CheckboxGroup>
-        );
-      }
-    });
-
-    // If name was not passed or is null, just recurse without creating the outer divs.
-    if (!name) return recursiveGroupOrLeafs;
-
-    let grouping = (path.split(".").length) % 2 !== 0, additionalClass = "";
-
-    return (
-      <div className="checkbox-group">
-        {/* group checkbox */}
-        <div className={`checkbox-group-title`}>
-          {grouping ?
-            <div className="checkbox-wrapper grouping-title">
-              {name}
-            </div>
-            :
-            <FilterCheckbox
-              name={name}
-              value={childrenChecked === 2}
-              indeterminate={childrenChecked === 1}
-              onChange={onChange}
-              path={path}
-              icon={expanded ? mdiChevronUp : mdiChevronDown}
-              iconOnClick={() => setExpanded((prev) => {
+            path={path}
+            icon={expanded ? mdiChevronUp : mdiChevronDown}
+            iconOnClick={() =>
+              setExpanded((prev) => {
                 localStorage.setItem("checkboxGroup_" + path, !prev);
-                return !prev
-              })}
-            />
-          }
-        </div>
-
-        {/* leaf checkboxes or recursive contents of a group */}
-        {(expanded || grouping) && (
-          <div className={grouping ? "checkbox-group-contents" : ""}>{recursiveGroupOrLeafs}</div>
+                return !prev;
+              })
+            }
+            wrapperClassName={wrapperClassName}
+          />
         )}
       </div>
-    );
-  });
+
+      {/* leaf checkboxes or recursive contents of a group */}
+      {(expanded || grouping) && (
+        <div className={clsx(grouping && c.checkboxGroupContents)}>{recursiveGroupOrLeafs}</div>
+      )}
+    </div>
+  );
+});

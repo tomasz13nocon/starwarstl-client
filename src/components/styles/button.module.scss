@@ -17,6 +17,10 @@
     box-shadow: $hover-shadow;
   }
 
+  &:active {
+    border-style: inset;
+  }
+
   &:disabled {
     color: $grey2;
     border-color: $grey3;

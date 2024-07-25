@@ -22,9 +22,6 @@
             ],
             "@loaders/*": [
                 "src/loaders/*"
-            ],
-            "@fetch/*": [
-                "src/fetch/*"
             ]
         }
     }

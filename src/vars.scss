@@ -298,13 +298,6 @@ $dialog-anim-ease: cubic-bezier(0.09, 0.31, 0.28, 0.99);
     cursor: pointer;
   }
 
-  %cell-fit-content {
-    // TODO: this acts weird with lots of content in columns. test it
-    width: 1px;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
   %cta-button {
     @extend %reset-button;
 

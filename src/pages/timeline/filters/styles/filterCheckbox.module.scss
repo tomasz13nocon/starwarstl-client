@@ -1,0 +1,17 @@
+@use "@/vars.scss" as *;
+
+.type-indicator-filter {
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 40px;
+}
+
+.level-1 {
+  // font-size: 1.20em;
+  font-weight: $weight-bold;
+}
+
+.level-2 {
+  // font-size: 1.10em;
+  font-weight: $weight-bolder;
+}

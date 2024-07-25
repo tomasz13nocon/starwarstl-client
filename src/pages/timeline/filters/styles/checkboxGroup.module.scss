@@ -1,0 +1,12 @@
+@use "@/vars.scss" as *;
+
+.checkbox-group-contents {
+  margin-left: 25px;
+}
+
+.grouping-title {
+  margin-left: 25px;
+  font-weight: $weight-bold;
+  display: flex;
+  justify-content: space-between;
+}

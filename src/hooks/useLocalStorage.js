@@ -16,13 +16,19 @@ export function useLocalStorage(key, initialValue, migration) {
 
   const setValue = useCallback(
     (value) => {
-      try {
-        const valueToStore = value instanceof Function ? value(storedValue) : value;
-        setStoredValue(valueToStore);
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
-      } catch (error) {
-        console.log(error);
-      }
+      // const valueToStore = value instanceof Function ? value(storedValue) : value;
+      // setStoredValue(valueToStore);
+      // window.localStorage.setItem(key, JSON.stringify(valueToStore));
+
+      setStoredValue((prev) => {
+        const next = value instanceof Function ? value(prev) : value;
+        try {
+          window.localStorage.setItem(key, JSON.stringify(next));
+        } catch (e) {
+          console.error(e);
+        }
+        return next;
+      });
     },
     [key],
   );

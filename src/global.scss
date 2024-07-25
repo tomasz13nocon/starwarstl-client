@@ -3,8 +3,6 @@
 @layer base, global;
 
 @layer global {
-
-  // TODO maybe remove, we should use <Button> everywhere
   button {
     @extend %reset-button;
   }

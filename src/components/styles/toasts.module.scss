@@ -1,16 +1,5 @@
 @use "@/vars.scss" as *;
 
-.toast {
-  position: fixed;
-  bottom: 10px;
-  right: 50%;
-  transform: translateX(50%);
-  z-index: 20;
-  background-color: #fff;
-  border: black;
-  // TODO unused
-}
-
 .viewport {
   --viewport-padding: 25px;
   position: fixed;

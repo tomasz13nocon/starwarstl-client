@@ -28,11 +28,10 @@ export default function LoginDialog({ children, ...props }) {
       switch (action) {
         case "signup": {
           let res = await actions.signup(e.target.email.value, e.target.password.value);
-          setAlert({
-            type: "info",
-            message: "Account created. Confirmation email sent to: " + res.email,
+          pushToast({
+            title: "Account created.",
+            description: "Confirmation email sent to: " + res.email,
           });
-          // TODO dialog closes here, so alert is not visible
           break;
         }
         case "login": {

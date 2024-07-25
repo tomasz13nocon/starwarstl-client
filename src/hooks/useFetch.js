@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAlert } from "./useAlert";
 import { useToast } from "@/context/toastContext";
 
@@ -55,8 +55,13 @@ export function useFetch(
     ],
   );
 
+  // TODO probably remove for prod, this is only needed for strict mode
+  const onMountRan = useRef(false);
   useEffect(() => {
-    if (onMount) fetcher();
+    if (onMount && !onMountRan.current) {
+      onMountRan.current = true;
+      fetcher();
+    }
   }, []);
 
   return [fetcher, fetching, alert, resetAlert];

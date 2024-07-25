@@ -16,7 +16,7 @@ export default function Toasts() {
       {toasts.map((toast) => (
         <Toast.Root
           className={clsx(c.root, toast.error && c.error)}
-          key={toast.timestamp}
+          key={toast.id}
           onOpenChange={(open) => {
             if (!open) setTimeout(() => removeToast(toast), TOAST_CLOSE_DURATION);
           }}
