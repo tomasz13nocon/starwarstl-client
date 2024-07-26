@@ -9,6 +9,8 @@ import { listIcons, plural } from "@/util";
 import Icon from "@components/icon";
 import Spinner from "@components/spinner";
 import FetchButton from "@components/fetchButton";
+import LoginDialog from "@layouts/loginDialog";
+import Button from "@components/button";
 
 export default function SelectedActions({ selected, rawData, dataState }) {
   const { fetchingAuth, user, actions } = useAuth();
@@ -76,6 +78,15 @@ export default function SelectedActions({ selected, rawData, dataState }) {
       </div>
     );
 
+  if (!user)
+    return (
+      <div className={c.container}>
+        <LoginDialog asChild>
+          <Button>Log in to perform actions</Button>
+        </LoginDialog>
+      </div>
+    );
+
   return (
     <div className={c.container}>
       {selected.size} item{selected.size !== 1 && "s"} selected
@@ -95,7 +106,13 @@ export default function SelectedActions({ selected, rawData, dataState }) {
       )}
       <br />
       <div className={c.buttons}>
-        <ListPopover lists={user.lists} onSelect={addToList} showWatchedTooltip>
+        <ListPopover
+          lists={user.lists}
+          side="top"
+          onSelect={addToList}
+          showWatchedTooltip
+          showCreateList
+        >
           <FetchButton
             disabled={fetchingAdd || fetchingRemove}
             fetching={fetchingAdd}
@@ -105,7 +122,7 @@ export default function SelectedActions({ selected, rawData, dataState }) {
             <span>Add to list</span>
           </FetchButton>
         </ListPopover>
-        <ListPopover lists={user.lists} onSelect={removeFromList}>
+        <ListPopover lists={user.lists} side="top" onSelect={removeFromList}>
           <FetchButton
             disabled={fetchingAdd || fetchingRemove}
             fetching={fetchingRemove}

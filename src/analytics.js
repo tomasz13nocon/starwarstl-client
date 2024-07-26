@@ -10,4 +10,5 @@ export const analytics = {
 
 export const AnalyticsCategories = {
   appearances: "Appearances",
+  errors: "Errors",
 };

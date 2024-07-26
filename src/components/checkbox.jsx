@@ -1,6 +1,6 @@
 import { blurIfMouse } from "@/util";
 import c from "./styles/checkbox.module.scss";
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
 import clsx from "clsx";
 
 export default memo(function Checkbox({
@@ -26,14 +26,15 @@ export default memo(function Checkbox({
   // make animClass {previousState}-to-{currentState}, empty by default
   const current = indeterminate ? "indeterminate" : value ? "checked" : "unchecked";
   const prevRef = useRef();
-  let animClass = prevRef.current
-    ? prevRef.current + "To" + current[0].toUpperCase() + current.slice(1)
-    : "";
+  let animClass = useMemo(() => {
+    return prevRef.current
+      ? prevRef.current + "To" + current[0].toUpperCase() + current.slice(1)
+      : "";
+  }, [current]);
   useEffect(() => {
     prevRef.current = current;
-  }, [current]);
+  });
 
-  console.log(animClass);
   return (
     <div className={clsx(c.checkboxWrapper, wrapperClassName)}>
       <label {...labelProps}>

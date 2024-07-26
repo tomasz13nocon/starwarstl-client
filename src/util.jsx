@@ -23,6 +23,7 @@ import {
   mdiEyePlus,
   mdiClockPlus,
 } from "@mdi/js";
+import { AnalyticsCategories, analytics } from "./analytics";
 
 export const API = (import.meta.env.VITE_API_HOST ?? "") + "/api/";
 export const IMAGE_PATH = (import.meta.env.VITE_IMG_HOST ?? "") + "/img/covers/";
@@ -354,7 +355,16 @@ export async function fetchHelper(path, method = "GET", body) {
     headers: {},
   };
   if (body !== undefined) {
-    opts.body = JSON.stringify(body);
+    try {
+      opts.body = JSON.stringify(body);
+    } catch (e) {
+      analytics.logEvent(
+        AnalyticsCategories.errors,
+        "JSON.stringify error in fetchHelper(), circular reference or BigInt encountered",
+        e.message,
+      );
+      throw new Error("An unexpected error occured");
+    }
     opts.headers["Content-Type"] = "application/json";
   }
 

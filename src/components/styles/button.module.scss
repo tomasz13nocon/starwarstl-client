@@ -17,9 +17,9 @@
     box-shadow: $hover-shadow;
   }
 
-  &:active {
-    border-style: inset;
-  }
+  // &:active {
+  //   border-style: inset;
+  // }
 
   &:disabled {
     color: $grey2;

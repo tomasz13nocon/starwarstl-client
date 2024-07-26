@@ -6,8 +6,17 @@ import { watchedName, watchlistName } from "@/util";
 import Tooltip from "./tooltip";
 import Button from "./button";
 import { useState } from "react";
+import CreateListDialog from "./createListDialog";
+import Separator from "./separator";
 
-export default function ListPopover({ lists, onSelect, showWatchedTooltip, children }) {
+export default function ListPopover({
+  lists,
+  onSelect,
+  side = "right",
+  showWatchedTooltip,
+  showCreateList,
+  children,
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -15,7 +24,7 @@ export default function ListPopover({ lists, onSelect, showWatchedTooltip, child
       <Popover.Trigger asChild>{children}</Popover.Trigger>
       <Popover.Anchor />
       <Popover.Portal>
-        <Popover.Content side="right" className={c.content}>
+        <Popover.Content side={side} className={c.content}>
           {lists.map((list) => (
             <div key={list.name} className={c.itemContainer}>
               <Button
@@ -38,6 +47,12 @@ export default function ListPopover({ lists, onSelect, showWatchedTooltip, child
               )}
             </div>
           ))}
+          {showCreateList && (
+            <>
+              <Separator />
+              <CreateListDialog />
+            </>
+          )}
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>

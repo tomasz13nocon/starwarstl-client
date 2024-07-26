@@ -1,0 +1,18 @@
+@use "@/vars.scss" as *;
+
+.separator {
+  background-color: var(--violet-6);
+  background-color: $grey2;
+}
+
+.separator[data-orientation="horizontal"] {
+  height: 1px;
+  width: 100%;
+  margin: 8px 0;
+}
+
+.separator[data-orientation="vertical"] {
+  height: 100%;
+  width: 1px;
+  margin: 0 8px;
+}
