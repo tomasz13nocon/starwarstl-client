@@ -63,7 +63,7 @@ export default function Timeline() {
       date: true,
       cover: false,
       title: true,
-      writer: true,
+      // writer: true,
       releaseDate: true,
     },
     (prev) => {
