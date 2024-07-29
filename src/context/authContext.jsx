@@ -102,7 +102,12 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const sendVerificationEmail = useCallback(async () => {
-    return await fetchHelper("auth/email-verification", "POST");
+    try {
+      await fetchHelper("auth/email-verification", "POST");
+    } catch (e) {
+      if (e.status === 410) return { info: "Email already verified. Please refresh the browser." };
+      throw e;
+    }
   }, []);
 
   const verifyEmail = useCallback(async (token) => {

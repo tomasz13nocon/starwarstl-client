@@ -133,21 +133,6 @@ export default function SelectedActions({ selected, rawData, dataState }) {
           </FetchButton>
         </ListPopover>
       </div>
-      {/* <Popover.Root> */}
-      {/*   <Popover.Trigger asChild> */}
-      {/*     <Button>Add to list</Button> */}
-      {/*   </Popover.Trigger> */}
-      {/*   <Popover.Anchor /> */}
-      {/*   <Popover.Portal> */}
-      {/*     <Popover.Content side="right" className={c.popoverContent}> */}
-      {/*       <Popover.Close /> */}
-      {/*       <Popover.Arrow /> */}
-      {/*       {user.lists.map((list) => ( */}
-      {/*         <>{list.name}</> */}
-      {/*       ))} */}
-      {/*     </Popover.Content> */}
-      {/*   </Popover.Portal> */}
-      {/* </Popover.Root> */}
     </div>
   );
 }

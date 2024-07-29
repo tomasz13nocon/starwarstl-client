@@ -22,9 +22,8 @@ export default function ListPopover({
   return (
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger asChild>{children}</Popover.Trigger>
-      <Popover.Anchor />
       <Popover.Portal>
-        <Popover.Content side={side} className={c.content}>
+        <Popover.Content side={side} sideOffset={5} className={c.content}>
           {lists.map((list) => (
             <div key={list.name} className={c.itemContainer}>
               <Button

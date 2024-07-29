@@ -12,6 +12,7 @@ import Button from "@components/button";
 import Icon from "@components/icon";
 import ListName from "@components/listName";
 import ListPopover from "@components/listPopover";
+import { plural } from "@/util";
 
 export default function ListFilters({ listFilters, setListFilters }) {
   const { user } = useAuth();
@@ -83,6 +84,9 @@ export default function ListFilters({ listFilters, setListFilters }) {
           <div className={clsx(c.listEntry)}>
             <div className={c.listEntryName}>
               <ListName name={listFilter.name} iconSize={0.8} />
+              <small className={c.itemCount}>
+                {listFilter.items.length} {plural("item", listFilter.items.length)}
+              </small>
             </div>
 
             <div className={c.listEntryControls}>
