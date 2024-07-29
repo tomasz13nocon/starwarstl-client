@@ -124,7 +124,7 @@ export const appearancesCategoriesNames = {
   "dramatis personae": "Dramatis personae",
   "other characters": "Other characters",
   characters: "Characters",
-  creatures: "Creatures",
+  organisms: "Organisms",
   droids: "Droid models",
   events: "Events",
   locations: "Locations",
@@ -136,7 +136,7 @@ export const appearancesCategoriesNames = {
   "l-dramatis personae": "Dramatis personae",
   "l-other characters": "Other characters",
   "l-characters": "Characters",
-  "l-creatures": "Creatures",
+  "l-organisms": "Organisms",
   "l-droids": "Droid models",
   "l-events": "Events",
   "l-locations": "Locations",
@@ -148,7 +148,7 @@ export const appearancesCategoriesNames = {
   "c-dramatis personae": "Dramatis personae",
   "c-other characters": "Other characters",
   "c-characters": "Characters",
-  "c-creatures": "Creatures",
+  "c-organisms": "Organisms",
   "c-droids": "Droid models",
   "c-events": "Events",
   "c-locations": "Locations",
@@ -160,7 +160,7 @@ export const appearancesCategoriesNames = {
 };
 export const appearancesCategories = [
   "characters",
-  "creatures",
+  "organisms",
   "droids",
   "events",
   "locations",
@@ -183,7 +183,7 @@ export const appearancesTemplateNames = {
 };
 export const appearancesIcons = {
   characters: mdiAccount,
-  creatures: mdiCat,
+  organisms: mdiCat,
   droids: mdiRobot,
   events: mdiCalendar,
   locations: mdiMapMarker,
