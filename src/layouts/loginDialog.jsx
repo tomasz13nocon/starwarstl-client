@@ -7,6 +7,7 @@ import DialogContents from "@components/dialogContents";
 import { useToast } from "@/context/toastContext";
 import Button from "@components/button";
 import Alert from "@components/alert";
+import GoogleIcon from "@components/googleIcon";
 
 export default function LoginDialog({ children, ...props }) {
   const { actions } = useAuth();
@@ -27,7 +28,11 @@ export default function LoginDialog({ children, ...props }) {
     try {
       switch (action) {
         case "signup": {
-          let res = await actions.signup(e.target.email.value, e.target.password.value);
+          let res = await actions.signup(
+            e.target.email.value,
+            e.target.name.value,
+            e.target.password.value,
+          );
           pushToast({
             title: "Account created.",
             description: "Confirmation email sent to: " + res.email,
@@ -52,6 +57,13 @@ export default function LoginDialog({ children, ...props }) {
     } finally {
       setFetching(false);
     }
+  }
+
+  async function handleGoogleLogin() {
+    let res = await actions.loginWithGoogle();
+    // TODO err handle
+    const newWindow = window.open(res.authorizationUrl, "_self", "noopener,noreferrer");
+    if (newWindow) newWindow.opener = null;
   }
 
   let form = null,
@@ -81,6 +93,7 @@ export default function LoginDialog({ children, ...props }) {
     form = (
       <form onSubmit={(e) => handleForm(e, "signup")} className={c.form}>
         <Input type="email" name="email" required label="Email" />
+        <Input type="text" name="name" required label="Username" minLength={3} maxLength={32} />
         <Input type="password" name="password" required minLength={6} label="Password" />
         <Button type="submit" className={c.submit} disabled={fetching} primary>
           {fetching ? <Spinner /> : "Sign up"}
@@ -116,6 +129,21 @@ export default function LoginDialog({ children, ...props }) {
       <DialogContents title={title}>
         <Alert alert={alert} />
         {form}
+        <div className={c.loginDivider}>
+          <div></div>
+          <span>or</span>
+          <div></div>
+        </div>
+        <button onClick={handleGoogleLogin} className={c.gsiMaterialButton}>
+          <div className={c.gsiMaterialButtonState}></div>
+          <div className={c.gsiMaterialButtonContentWrapper}>
+            <div className={c.gsiMaterialButtonIcon}>
+              <GoogleIcon />
+            </div>
+            <span className={c.gsiMaterialButtonContents}>Sign in with Google</span>
+            <span style={{ display: "none" }}>Sign in with Google</span>
+          </div>
+        </button>
       </DialogContents>
     </Dialog.Root>
   );

@@ -18,6 +18,11 @@ const userReducer = produce((draft, action) => {
       return null;
     }
 
+    case "setName": {
+      draft.name = action.name;
+      break;
+    }
+
     case "setLists": {
       draft.lists = action.lists;
       break;
@@ -81,8 +86,8 @@ export const AuthProvider = ({ children }) => {
     })();
   }, []);
 
-  const signup = useCallback(async (email, password) => {
-    let res = await fetchHelper("auth/signup", "POST", { email, password });
+  const signup = useCallback(async (email, name, password) => {
+    let res = await fetchHelper("auth/signup", "POST", { email, name, password });
 
     dispatchUser({ type: "set", user: res });
     return res;
@@ -93,6 +98,16 @@ export const AuthProvider = ({ children }) => {
 
     dispatchUser({ type: "set", user: res });
     return res;
+  }, []);
+
+  const loginWithGoogle = useCallback(async () => {
+    return await fetchHelper("auth/login/google");
+  }, []);
+
+  const changeName = useCallback(async (name) => {
+    await fetchHelper("auth/user", "PATCH", { name });
+
+    dispatchUser({ type: "setName", name });
   }, []);
 
   const logout = useCallback(async () => {
@@ -192,9 +207,11 @@ export const AuthProvider = ({ children }) => {
         actions: {
           signup,
           login,
+          loginWithGoogle,
           logout,
           sendVerificationEmail,
           verifyEmail,
+          changeName,
           resetPassword,
           getList,
           addToList,

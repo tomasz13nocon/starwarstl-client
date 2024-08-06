@@ -13,11 +13,13 @@ import { ToastProvider } from "./context/toastContext";
 import Lists from "@pages/lists/lists";
 import List from "@pages/lists/list";
 import ListsLayout from "@layouts/listsLayout";
+import GoogleCallback from "@pages/login/googleCallback";
 
 const router = createBrowserRouter([
   {
     Component: Layout,
     children: [
+      { path: "/login/google/callback", Component: GoogleCallback },
       {
         path: "/email-verification/:token",
         Component: EmailVerification,

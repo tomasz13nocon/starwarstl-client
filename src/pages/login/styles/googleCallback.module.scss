@@ -1,0 +1,24 @@
+@use "@/vars.scss" as *;
+
+.container {
+  width: 400px;
+  margin: auto;
+}
+
+.submit {
+  margin: 1rem auto;
+  display: block;
+}
+
+.note {
+  margin-bottom: 1rem;
+  display: inline-block;
+  color: $grey1;
+}
+
+.alert {
+  margin: 1rem auto;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}

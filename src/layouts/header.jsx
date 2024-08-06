@@ -8,7 +8,6 @@ import LoginDialog from "./loginDialog";
 import c from "./styles/header.module.scss";
 import { useEffect, useState } from "react";
 import Spinner from "@components/spinner";
-import clsx from "clsx";
 import { useToast } from "@/context/toastContext";
 import Button from "@components/button";
 
@@ -41,7 +40,7 @@ export default function Header() {
   const name = (
     <div className={c.username}>
       <small className={c.loggedInText}>Logged in as</small>
-      {user?.email}
+      {user?.name}
     </div>
   );
   const listsBtn = (

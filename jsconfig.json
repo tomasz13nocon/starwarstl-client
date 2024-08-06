@@ -22,6 +22,9 @@
             ],
             "@loaders/*": [
                 "src/loaders/*"
+            ],
+            "@login/*": [
+                "src/pages/login/*"
             ]
         }
     }
