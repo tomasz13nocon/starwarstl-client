@@ -8,12 +8,24 @@ import c from "./styles/googleCallback.module.scss";
 import { useFetch } from "@hooks/useFetch";
 import Alert from "@components/alert";
 import { useToast } from "@/context/toastContext";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function GoogleCallback() {
   const { user, fetchingAuth, actions } = useAuth();
   const [fetchChangeName, fetching, alert] = useFetch(actions.changeName);
   const navigate = useNavigate();
   const { pushToast } = useToast();
+  const [searchParams] = useSearchParams();
+  console.log(searchParams.get("newaccount"));
+
+  useEffect(() => {
+    if (!fetchingAuth && user && searchParams.get("newaccount") !== "true") {
+      pushToast({ title: "Logged in as " + user.name });
+      // TODO save prev url in session storage
+      navigate("/timeline", { replace: true });
+    }
+  }, [fetchingAuth, user]);
 
   async function handleNameChange(e) {
     e.preventDefault();
@@ -24,7 +36,7 @@ export default function GoogleCallback() {
     navigate("/timeline");
   }
 
-  if (fetchingAuth) return <Spinner />;
+  if (fetchingAuth || searchParams.get("newaccount") !== "true") return <Spinner />;
   if (!user) return <Unauthenticated />;
 
   return (

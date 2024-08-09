@@ -98,7 +98,7 @@ export default function SelectedActions({ selected, rawData, dataState }) {
           </span>
           <Tooltip info>
             Compound items are multiple entries in the timeline that all refer to one Wookieepedia
-            article.
+            article (e.g. Battlefront missions).
             <br />
             They are treated as one item in the context of lists.
           </Tooltip>
