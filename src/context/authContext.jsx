@@ -146,6 +146,16 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  const isNameAvailable = useCallback(async (name) => {
+    try {
+      await fetchHelper("auth/users/" + name);
+      return false;
+    } catch (e) {
+      if (e.status === 404) return true;
+      throw e;
+    }
+  }, []);
+
   // This optimistic update implementation has a race condition,
   // but it's a corner case where you spam add/remove on a list that's already been deleted
   // Fixable with Aborts
@@ -213,6 +223,7 @@ export const AuthProvider = ({ children }) => {
           verifyEmail,
           changeName,
           resetPassword,
+          isNameAvailable,
           getList,
           addToList,
           removeFromList,

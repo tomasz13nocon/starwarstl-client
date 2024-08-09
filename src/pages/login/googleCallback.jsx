@@ -35,7 +35,7 @@ export default function GoogleCallback() {
         <small className={c.note}>You can change it at any time in the settings</small>
         <Alert className={c.alert} alert={alert} />
         <form onSubmit={handleNameChange}>
-          <input type="text" name="name" defaultValue={user.name} />
+          <input type="text" name="name" defaultValue={user.name} minLength={3} maxLength={32} />
           <FetchButton className={c.submit} fetching={fetching}>
             Submit
           </FetchButton>

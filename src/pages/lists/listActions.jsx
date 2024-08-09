@@ -9,9 +9,6 @@ export default function ListActions({ list, onRename, onDelete, fetchingDelete }
   return (
     <>
       <div className={c.actions}>
-        <div>
-          {list.items.length} item{list.items.length === 1 ? "" : "s"}
-        </div>
         {builtinLists.includes(list.name) ? null : (
           <>
             <Button onClick={onRename}>Rename</Button>
@@ -35,6 +32,9 @@ export default function ListActions({ list, onRename, onDelete, fetchingDelete }
             </Dialog.Root>
           </>
         )}
+        <div>
+          {list.items.length} item{list.items.length === 1 ? "" : "s"}
+        </div>
       </div>
     </>
   );
