@@ -1,26 +1,31 @@
 @use "@/vars.scss" as *;
 
 .changelog {
-  margin-left: 1rem;
-  margin-right: 1rem;
+  // margin-left: 1rem;
+  // margin-right: 1rem;
 }
+
 .title {
   font-size: 1.9rem;
   margin-bottom: 1rem;
 }
+
 .version-section {
   .version-number {
     font-size: 1.5rem;
   }
+
   .release-date {
     font-size: 1rem;
     font-weight: $weight-regular;
   }
+
   .version-heading {
     border-bottom: 1px solid $grey3;
     margin-bottom: 0.5rem;
     padding-bottom: 0.25rem;
   }
+
   border-radius: 6px;
   padding: 0.5rem 1rem;
   background-color: $grey4;

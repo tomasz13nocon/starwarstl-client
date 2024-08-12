@@ -164,7 +164,7 @@ export default function Timeline() {
   );
 
   return (
-    <Shell>
+    <Shell noMargin>
       <div className="circle-buttons">
         <Legend />
         <Search

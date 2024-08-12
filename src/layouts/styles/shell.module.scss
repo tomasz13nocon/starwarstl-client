@@ -8,5 +8,10 @@
   @media (max-width: $width-xl) {
     width: calc(100% - 1rem);
     margin: 1rem 0.5rem;
+
+    &.no-margin {
+      width: 100%;
+      margin: 1rem 0;
+    }
   }
 }
