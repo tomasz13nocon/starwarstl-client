@@ -13,6 +13,7 @@ $filters-width: 250px;
   scrollbar-gutter: stable;
   box-sizing: border-box;
   background: $background;
+  overscroll-behavior: contain;
 
   @media (max-width: $width-lg) {
     position: fixed;
@@ -38,6 +39,7 @@ $filters-width: 250px;
   @media (max-width: $width-lg) {
     background: $background;
     padding: 12px;
+    overscroll-behavior: contain;
     display: inline-flex;
     overflow-y: auto;
     border-right: 2px solid #444;

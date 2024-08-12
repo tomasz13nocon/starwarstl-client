@@ -151,7 +151,6 @@ export default function Timeline() {
     return () => (cancelled = true);
   }, []);
 
-  console.log(swiping);
   useSidebar(setShowFilters, swiping);
 
   // Process timeline range input
