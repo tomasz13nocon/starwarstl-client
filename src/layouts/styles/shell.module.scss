@@ -3,8 +3,10 @@
 .shell {
   flex: 1 0 auto;
   width: $main-width;
-  margin: 16px auto;
+  margin: 1rem auto;
+
   @media (max-width: $width-xl) {
-    width: 100%;
+    width: calc(100% - 1rem);
+    margin: 1rem 0.5rem;
   }
 }

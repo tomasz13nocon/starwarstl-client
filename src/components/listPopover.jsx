@@ -38,10 +38,10 @@ export default function ListPopover({
 
               {list.name === watchedName && showWatchedTooltip && (
                 <Tooltip className={c.watchedTooltip} info>
-                  When adding to{" "}
-                  <ListName name={watchedName} className={c.listName} iconSize={0.7} />, items are
-                  automatically removed from{" "}
-                  <ListName name={watchlistName} className={c.listName} iconSize={0.7} />.
+                  <span className={c.tooltipText}>When adding to </span>
+                  <ListName name={watchedName} iconSize={0.7} />
+                  <span className={c.tooltipText}>, items are automatically removed from </span>
+                  <ListName name={watchlistName} iconSize={0.7} />.
                 </Tooltip>
               )}
             </div>

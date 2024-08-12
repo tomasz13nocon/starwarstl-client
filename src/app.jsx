@@ -14,6 +14,7 @@ import Lists from "@pages/lists/lists";
 import List from "@pages/lists/list";
 import ListsLayout from "@layouts/listsLayout";
 import GoogleCallback from "@pages/login/googleCallback";
+import { SwipeProvider } from "./context/swipeContext";
 
 const router = createBrowserRouter([
   {
@@ -46,8 +47,10 @@ export default function App() {
     <StrictMode>
       <ToastProvider>
         <AuthProvider>
-          <RouterProvider router={router} />
-          <Toasts />
+          <SwipeProvider>
+            <RouterProvider router={router} />
+            <Toasts />
+          </SwipeProvider>
         </AuthProvider>
       </ToastProvider>
     </StrictMode>

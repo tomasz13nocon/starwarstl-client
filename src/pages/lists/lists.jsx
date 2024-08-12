@@ -13,6 +13,7 @@ import Button from "@components/button";
 import FetchButton from "@components/fetchButton";
 import { useFetch } from "@hooks/useFetch";
 import ListName from "@components/listName";
+import Shell from "@layouts/shell";
 
 // TODO: redo this component at some point, it's messy
 export default function Lists() {
@@ -64,7 +65,7 @@ export default function Lists() {
   if (!user) return <Unauthenticated />;
 
   return (
-    <>
+    <Shell>
       <div className={c.listContainer}>
         {user.lists.map((list) => (
           <div key={list.name} className={clsx(c.list)}>
@@ -116,6 +117,6 @@ export default function Lists() {
           </div>
         ))}
       </div>
-    </>
+    </Shell>
   );
 }

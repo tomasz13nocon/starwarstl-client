@@ -16,6 +16,11 @@
 .setting {
   display: flex;
   gap: 2rem;
+  row-gap: 0.5rem;
+
+  @media (max-width: $width-md) {
+    flex-direction: column;
+  }
 
   .label {
     font-size: 20px;
@@ -47,6 +52,11 @@
 
 .not-allowed {
   color: $error1;
+
+  @media (max-width: $width-md) {
+    display: block;
+    margin-top: 0.5rem;
+  }
 }
 
 .apply-button {

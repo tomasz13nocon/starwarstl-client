@@ -18,7 +18,8 @@
   box-sizing: border-box;
 }
 
-.trigger-icon {}
+.trigger-icon {
+}
 
 .content {
   @extend %floating-content;
@@ -27,6 +28,11 @@
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   max-width: 450px;
+
+  @media (max-width: $width-md) {
+    box-sizing: border-box;
+    max-width: 320px;
+  }
 
   animation: floatingShow $dialog-anim-ease $dialog-anim-duration;
 

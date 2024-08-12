@@ -39,7 +39,7 @@ function Item({ item, list, setList }) {
       <FetchButton fetching={fetchingRemove} onClick={() => removeFromList(item)}>
         <span className="icon-text-container">
           <Icon path={mdiDelete} />
-          <span>Remove</span>
+          <span className={c.removeText}>Remove</span>
         </span>
       </FetchButton>
       <div className={clsx(item.type, item.fullType, c.listItemTitle)}>{item.title}</div>

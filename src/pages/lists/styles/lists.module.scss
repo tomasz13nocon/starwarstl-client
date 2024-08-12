@@ -5,16 +5,26 @@
 }
 
 .list {
-  border: 1px solid $grey4;
+  border: 1px solid $grey3;
   width: 100%;
   margin-top: -1px;
   padding: 4px 10px;
+  box-sizing: border-box;
+
+  @media (max-width: $width-md) {
+    padding: 0.5rem 0.6rem;
+  }
 }
 
 .list-inner {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+  row-gap: 0.5rem;
+
+  @media (max-width: $width-md) {
+    flex-direction: column;
+  }
 }
 
 .editing-input-group {

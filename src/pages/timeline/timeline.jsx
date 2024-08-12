@@ -24,6 +24,7 @@ import ListFilters from "./filters/listFilters";
 import { useAuth } from "@/context/authContext";
 import Button from "@components/button";
 import SelectedActions from "./selectedActions";
+import { useSwipeContext } from "@/context/swipeContext";
 
 function areAllBoolsFalse(obj) {
   return Object.values(obj).every((v) => (typeof v === "boolean" ? !v : areAllBoolsFalse(v)));
@@ -98,6 +99,7 @@ export default function Timeline() {
       ascending: true,
     },
   );
+  const { swiping } = useSwipeContext();
 
   useEffect(() => {
     // Remove list filters when logged out
@@ -149,7 +151,8 @@ export default function Timeline() {
     return () => (cancelled = true);
   }, []);
 
-  useSidebar(setShowFilters);
+  console.log(swiping);
+  useSidebar(setShowFilters, swiping);
 
   // Process timeline range input
   let rangeFrom = useMemo(

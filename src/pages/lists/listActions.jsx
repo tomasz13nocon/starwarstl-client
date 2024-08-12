@@ -32,7 +32,7 @@ export default function ListActions({ list, onRename, onDelete, fetchingDelete }
             </Dialog.Root>
           </>
         )}
-        <div>
+        <div className={c.itemCount}>
           {list.items.length} item{list.items.length === 1 ? "" : "s"}
         </div>
       </div>

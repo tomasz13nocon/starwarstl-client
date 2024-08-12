@@ -13,6 +13,10 @@
 .list-item {
   display: flex;
   gap: 1rem;
+
+  @media (max-width: $width-md) {
+    gap: 0.5rem;
+  }
 }
 
 .list-item-title {
@@ -24,4 +28,10 @@
 
 .list-icon {
   margin-bottom: 2px;
+}
+
+.remove-text {
+  @media (max-width: $width-md) {
+    display: none;
+  }
 }

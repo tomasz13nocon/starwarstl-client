@@ -6,6 +6,7 @@ import EpisodeNumber from "@components/episodeNumber";
 import { imgAddress, Size, buildTvImagePath, searchFields } from "@/util";
 import c from "./styles/row.module.scss";
 import clsx from "clsx";
+import { useMediaQuery } from "react-responsive";
 import Icon from "@components/icon";
 import Checkbox from "@components/checkbox";
 
@@ -101,6 +102,7 @@ export default React.memo(function Row({
   children,
 }) {
   const [hideTvImage, setHideTvImage] = useState(false);
+  const compact = useMediaQuery({ query: `(max-width: ${c.compactThreshold})` });
 
   const expand = () => {
     if (expanded) setExpanded(null);
@@ -133,121 +135,133 @@ export default React.memo(function Row({
     );
   };
 
-  return (
-    <>
-      <div
-        className={`${c.standardRowInner} ${
-          !activeColumns.includes("date") &&
-          !activeColumns.includes("releaseDate") &&
-          !activeColumns.includes("writer")
-            ? c.compact
-            : ""
-        }`}
-      >
-        {activeColumns.includes("selection") && (
-          <Cell className={c.selection}>
-            {item.pageid != null && <Checkbox value={selected} onChange={onSelect} />}
-          </Cell>
-        )}
-        {activeColumns.includes("date") && (
-          <Cell
-            className={clsx(c.date, item.exactPlacementUnknown && "exact-placement-unknown")}
-            title={item.exactPlacementUnknown && "exact placement currently unknown"}
-          >
-            {withSearch(item.date, "date")}
-          </Cell>
-        )}
+  const selection = activeColumns.includes("selection") && (
+    <Cell className={c.selection}>
+      {item.pageid != null && <Checkbox value={selected} onChange={onSelect} />}
+    </Cell>
+  );
 
-        {activeColumns.includes("cover") && (
-          <Cell
-            className={clsx(c.cover, !item.cover && c.noCover)}
-            title={item.cover ? item.title : ""}
-          >
-            {item.cover ? <img src={imgAddress(item.cover, Size.THUMB)} /> : null}
-          </Cell>
-        )}
+  const date = activeColumns.includes("date") && (
+    <Cell
+      className={clsx(c.date, item.exactPlacementUnknown && "exact-placement-unknown")}
+      title={item.exactPlacementUnknown && "exact placement currently unknown"}
+    >
+      {withSearch(item.date, "date")}
+    </Cell>
+  );
 
-        {activeColumns.includes("title") && (
-          <Cell
-            className={`${c.title} ${item.type} ${item.fullType}`}
-            title={item.title}
-            onClick={expand}
-          >
-            <div name="expand" tabIndex="0" onKeyDown={(e) => e.keyCode === 13 && expand()}>
-              {children}
-              {item.type === "tv" && item.series?.length ? (
-                <>
-                  {!hideTvImage ? (
-                    <img
-                      title={item.series[0]}
-                      alt={item.series[0] + " logo"}
-                      className={c.tvImage}
-                      height="20"
-                      src={buildTvImagePath(item.series[0])}
-                      onError={() => setHideTvImage(true)}
-                    />
-                  ) : (
-                    <small className={clsx(c.tvImage, c.textFallback)}>{item.series[0]}</small>
-                  )}
-                  <EpisodeNumber item={item}>
-                    {highlightSearchResults(
-                      item.se,
-                      "se",
-                      rowSearchResults,
-                      searchText.length,
-                      searchResultsHighlight,
-                    )}
-                  </EpisodeNumber>
-                </>
-              ) : null}
-              {withSearch(item.title, "title")}
-              {collapseAdjacent && item.collapseUntil ? (
-                <>
-                  <br />
-                  <span>・・・</span>
-                  <br />
-                  <EpisodeNumber item={item.collapseUntil}>
-                    {highlightSearchResults(
-                      item.collapseUntil.se,
-                      "collapseUntilSe",
-                      rowSearchResults,
-                      searchText.length,
-                      searchResultsHighlight,
-                    )}
-                  </EpisodeNumber>
-                  {withSearch(item.collapseUntilTitle, "collapseUntilTitle")}
-                </>
-              ) : null}
-              {item.audiobook && (
-                <Icon path={mdiVolumeHigh} className={c.audiobookIcon} title="audiobook" />
-              )}
-            </div>
-          </Cell>
-        )}
+  const cover = activeColumns.includes("cover") && (
+    <Cell className={clsx(c.cover, !item.cover && c.noCover)} title={item.cover ? item.title : ""}>
+      {item.cover ? <img src={imgAddress(item.cover, Size.THUMB)} /> : null}
+    </Cell>
+  );
 
-        {activeColumns.includes("writer") && (
-          <Cell className={c.writer}>
-            {item.writer?.length > 1 ? (
-              <ul>
-                {withSearch(item.writer, "writer").map((jsx, i) => (
-                  <li key={i}>{jsx}</li>
-                ))}
-              </ul>
+  const title = activeColumns.includes("title") && (
+    <Cell
+      className={`${c.title} ${item.type} ${item.fullType}`}
+      title={item.title}
+      onClick={expand}
+    >
+      <div name="expand" tabIndex="0" onKeyDown={(e) => e.keyCode === 13 && expand()}>
+        {children}
+        {item.type === "tv" && item.series?.length ? (
+          <>
+            {!hideTvImage ? (
+              <img
+                title={item.series[0]}
+                alt={item.series[0] + " logo"}
+                className={c.tvImage}
+                height="20"
+                src={buildTvImagePath(item.series[0])}
+                onError={() => setHideTvImage(true)}
+              />
             ) : (
-              withSearch(item.writer, "writer")
+              <small className={clsx(c.tvImage, c.textFallback)}>{item.series[0]}</small>
             )}
-          </Cell>
-        )}
-
-        {activeColumns.includes("releaseDate") && (
-          <Cell
-            className={clsx(c.releaseDate, item.unreleased && "unreleased")}
-            title={item.unreleased && "unreleased"}
-          >
-            {withSearch(item.releaseDate, "releaseDate")}
-          </Cell>
+            <EpisodeNumber item={item}>
+              {highlightSearchResults(
+                item.se,
+                "se",
+                rowSearchResults,
+                searchText.length,
+                searchResultsHighlight,
+              )}
+            </EpisodeNumber>
+          </>
+        ) : null}
+        {withSearch(item.title, "title")}
+        {collapseAdjacent && item.collapseUntil ? (
+          <>
+            <br />
+            <span>・・・</span>
+            <br />
+            <EpisodeNumber item={item.collapseUntil}>
+              {highlightSearchResults(
+                item.collapseUntil.se,
+                "collapseUntilSe",
+                rowSearchResults,
+                searchText.length,
+                searchResultsHighlight,
+              )}
+            </EpisodeNumber>
+            {withSearch(item.collapseUntilTitle, "collapseUntilTitle")}
+          </>
+        ) : null}
+        {item.audiobook && (
+          <Icon path={mdiVolumeHigh} className={c.audiobookIcon} title="audiobook" />
         )}
       </div>
+    </Cell>
+  );
+
+  const writer = activeColumns.includes("writer") && (
+    <Cell className={c.writer}>
+      {item.writer?.length > 1 ? (
+        <ul>
+          {withSearch(item.writer, "writer").map((jsx, i) => (
+            <li key={i}>{jsx}</li>
+          ))}
+        </ul>
+      ) : (
+        withSearch(item.writer, "writer")
+      )}
+    </Cell>
+  );
+
+  const releaseDate = activeColumns.includes("releaseDate") && (
+    <Cell
+      className={clsx(c.releaseDate, item.unreleased && "unreleased")}
+      title={item.unreleased && "unreleased"}
+    >
+      {withSearch(item.releaseDate, "releaseDate")}
+    </Cell>
+  );
+
+  return (
+    <>
+      <div className={clsx(c.row, compact && c.compact)}>
+        {compact ? (
+          <>
+            <div className={c.compactCover}>{cover}</div>
+            <div className={c.compactTitle}>
+              {selection} {title}
+            </div>
+            <div className={c.compactOther}>
+              {date} {releaseDate}
+            </div>
+          </>
+        ) : (
+          <>
+            {selection}
+            {date}
+            {cover}
+            {title}
+            {writer}
+            {releaseDate}
+          </>
+        )}
+      </div>
+
       {expanded && <RowDetails item={item} dataState={dataState} />}
     </>
   );

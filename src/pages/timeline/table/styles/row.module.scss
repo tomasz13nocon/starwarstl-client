@@ -1,137 +1,143 @@
 @use "@/vars.scss" as *;
 
-.standard-row-inner {
+:export {
+  compact-threshold: $width-md;
+}
+
+.row {
   display: flex;
 
   @media (max-width: $width-md) {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-areas:
+      "cover title"
+      "cover other";
 
-    &.compact {
-      flex-wrap: nowrap;
+    grid-template-columns: auto 1fr;
+  }
+}
 
-      .td.cover {
-        order: -3;
-      }
-    }
+.compact-cover {
+  grid-area: cover;
+}
+
+.compact-title {
+  grid-area: title;
+  display: flex;
+}
+
+.compact-other {
+  grid-area: other;
+  display: flex;
+
+  > * {
+    flex-grow: 1;
+  }
+}
+
+.td {
+  @extend %cell;
+  display: flex;
+  align-items: center;
+
+  // .td-inner {
+  //   position: relative;
+  //   top: 50%;
+  //   transform: translateY(-50%);
+  // }
+
+  font-size: 0.8em;
+
+  ul {
+    list-style: "・";
+    padding-left: 13px;
+    margin: 0;
   }
 
-  .td {
-    @extend %cell;
+  @media (max-width: $width-md) {
+    min-width: auto;
+    width: auto;
+    min-height: 18px;
+    word-break: break-word;
+  }
+}
 
-    .td-inner {
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
+.td.selection {
+  @media (max-width: $width-md) {
+  }
+}
+
+.td.date {
+  @media (max-width: $width-md) {
+  }
+}
+
+.td.cover {
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  @media (max-width: $width-md) {
+    min-width: 55px;
+    // -1px due to negative margin. This fixes double border on covers not filling height.
+    height: calc(100% - 1px);
+
+    &.no-cover {
+      // display: none;
     }
+  }
+}
 
+.td.title {
+  font-weight: $weight-bolder;
+  font-size: 1em;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 2px black;
+    z-index: 4;
+  }
+
+  button {
+    @extend %reset-button;
+    pointer-events: none;
+    text-align: left;
+  }
+
+  .tv-image {
+    margin-right: 8px;
+    position: relative;
+    top: 2px;
+    border-radius: 2px;
+    float: left;
     font-size: 0.8em;
 
-    ul {
-      list-style: "・";
-      padding-left: 13px;
-      margin: 0;
+    &[title="Obi-Wan Kenobi (television series)"] {
+      // Remedy for poor visibility
+      background: #0f0f0f;
     }
 
-    @media (max-width: $width-md) {
-      min-width: auto;
-      width: auto;
-      min-height: 18px;
-      word-break: break-word;
+    &.text-fallback {
+      border: 1px solid black;
+      padding: 0 4px;
+      border-radius: 4px;
     }
   }
 
-  .td.selection {}
-
-  .td.releaseDate {
-    @media (max-width: $width-md) {
-      flex-basis: 84px;
-      flex-grow: 1;
-    }
+  .icon.audiobook-icon {
+    font-size: 1.2em;
+    vertical-align: bottom;
+    margin: 0 4px;
   }
 
-  .td.date {
-    @media (max-width: $width-md) {
-      // Huge numbers because we want releaseDate to grow, but only when it's the only item in the row.
-      flex-grow: 200;
-      flex-basis: 0;
-    }
+  @media (max-width: $width-md) {
+    // width: 100%;
   }
+}
 
-  .td.writer {
-    @media (max-width: $width-md) {
-      flex-grow: 400;
-      flex-basis: 0;
-    }
-
-    @media (max-width: $width-sm) {
-      flex-grow: 300;
-    }
-  }
-
-  .td.cover {
-    @media (max-width: $width-md) {
-      flex-grow: 0;
-      order: -1;
-
-      &.no-cover {
-        display: none;
-      }
-    }
-  }
-
-  .td.title {
-    font-weight: $weight-bolder;
-    font-size: 1em;
-    cursor: pointer;
-
-    &:hover {
-      box-shadow: 0 0 2px black;
-      z-index: 4;
-    }
-
-    button {
-      @extend %reset-button;
-      pointer-events: none;
-      text-align: left;
-    }
-
-    .tv-image {
-      margin-right: 8px;
-      position: relative;
-      top: 2px;
-      border-radius: 2px;
-      float: left;
-      font-size: 0.8em;
-
-      &[title="Obi-Wan Kenobi (television series)"] {
-        // Remedy for poor visibility
-        background: #0f0f0f;
-      }
-
-      &.text-fallback {
-        border: 1px solid black;
-        padding: 0 4px;
-        border-radius: 4px;
-      }
-    }
-
-    .icon.audiobook-icon {
-      font-size: 1.2em;
-      vertical-align: bottom;
-      margin: 0 4px;
-    }
-
-    @media (max-width: $width-md) {
-      width: 100%;
-      order: -2;
-    }
-  }
-
-  .td.cover {
-    img {
-      max-width: 100%;
-      display: block;
-    }
+.td.releaseDate {
+  @media (max-width: $width-md) {
   }
 }
 

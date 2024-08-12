@@ -4,17 +4,22 @@ import { useToast } from "@/context/toastContext";
 import { mdiClose, mdiExclamationThick } from "@mdi/js";
 import Icon from "./icon";
 import clsx from "clsx";
+import { useSwipeContext } from "@/context/swipeContext";
 
 // Can be larger that the actual animation
 const TOAST_CLOSE_DURATION = 1000;
 
 export default function Toasts() {
   const { toasts, removeToast } = useToast();
+  const { onSwipeStart, onSwipeEnd } = useSwipeContext();
 
   return (
     <Toast.Provider className={c.provider} duration="3000">
       {toasts.map((toast) => (
         <Toast.Root
+          onSwipeStart={onSwipeStart}
+          onSwipeEnd={onSwipeEnd}
+          onSwipeCancel={onSwipeEnd}
           className={clsx(c.root, toast.error && c.error)}
           key={toast.id}
           onOpenChange={(open) => {

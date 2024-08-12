@@ -13,3 +13,10 @@
 .delete-dialog-description {
   word-break: break-word;
 }
+
+.item-count {
+  @media (max-width: $width-md) {
+    order: -1;
+    margin-right: auto;
+  }
+}

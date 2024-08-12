@@ -61,19 +61,9 @@ export default function Header() {
       <header>
         <div className={c.mobileHeader}>
           <Collapsible.Root>
-            <Collapsible.Trigger className={c.hamburger}>
-              <Icon path={mdiMenu} size={2.0} className={c.hamburgerIcon} />
-            </Collapsible.Trigger>
-            <Collapsible.Content className={c.content}>
-              <Nav />
-              <div className={c.separator} />
-              <SecondaryNav />
+            <div className={c.baseBar}>
               {user ? (
-                <>
-                  <div className={c.separator} />
-                  {name}
-                  {logoutBtn}
-                </>
+                name
               ) : (
                 <div className={c.loginDialog}>
                   <LoginDialog asChild>
@@ -82,6 +72,24 @@ export default function Header() {
                     </Button>
                   </LoginDialog>
                 </div>
+              )}
+
+              <Collapsible.Trigger className={c.hamburger}>
+                <Icon path={mdiMenu} size={2.0} className={c.hamburgerIcon} />
+              </Collapsible.Trigger>
+            </div>
+            <Collapsible.Content className={c.content}>
+              <Nav />
+              <SecondaryNav />
+              {user && (
+                <>
+                  <div className={c.separator} />
+                  <div className={c.userNav}>
+                    {listsBtn}
+                    {settingsBtn}
+                    {logoutBtn}
+                  </div>
+                </>
               )}
             </Collapsible.Content>
           </Collapsible.Root>
@@ -129,19 +137,13 @@ export default function Header() {
 
 function Nav() {
   return (
-    <nav>
-      <ul className={c.navList}>
-        <li>
-          <NavLink end to="/" className={c.navLink}>
-            Home
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/timeline" className={c.navLink}>
-            Timeline
-          </NavLink>
-        </li>
-      </ul>
+    <nav className={c.navList}>
+      <NavLink end to="/" className={c.navLink}>
+        Home
+      </NavLink>
+      <NavLink to="/timeline" className={c.navLink}>
+        Timeline
+      </NavLink>
     </nav>
   );
 }
