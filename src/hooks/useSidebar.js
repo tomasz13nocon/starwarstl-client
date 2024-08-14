@@ -1,7 +1,7 @@
 import React from "react";
 import { useSwipeable } from "react-swipeable";
 
-export default function (setShow, preventSwipe) {
+export default function(setShow, preventSwipe) {
   const { ref: documentRef } = useSwipeable({
     onSwipedRight: (e) => {
       if (e.deltaX > 100 && !preventSwipe) {
@@ -13,6 +13,7 @@ export default function (setShow, preventSwipe) {
         setShow(false);
       }
     },
+    preventScrollOnSwipe: true,
   });
 
   React.useEffect(() => {

@@ -7,7 +7,7 @@
   .button-container {
     position: absolute;
     right: 18px;
-    top: 18px;
+    top: 12px;
     display: flex;
     align-items: center;
 
@@ -22,9 +22,9 @@
   }
 
   .search-input {
-    max-width: 90vw;
+    max-width: calc(100vw - 8px * 2);
     width: 500px;
-    height: 70px;
+    height: 60px;
     border-radius: 35px;
     padding-left: 22px;
     padding-right: 172px;

@@ -1,5 +1,7 @@
 @use "@/vars.scss" as *;
 
+$circle-btn-height: 60px;
+
 .legend-button {
   background-image: conic-gradient(#3f51b5,
       #00c8e1,
@@ -27,11 +29,11 @@
     }
 
     overflow-x: hidden;
-    max-height: calc(100vh - 70px - 12px - 10px - 12px);
+    max-height: calc(100vh - $circle-btn-height - 12px - 10px - 12px);
     // put it out of flow for animation to work
     position: absolute;
     right: 0;
-    bottom: 80px;
+    bottom: calc($circle-btn-height + 10px);
     text-shadow: none;
     background: $background3;
     padding: 4px;

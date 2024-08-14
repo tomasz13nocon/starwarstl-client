@@ -3,6 +3,8 @@ import c from "./styles/changelog.module.scss";
 // import Markdown from "react-markdown";
 // import changelogMd from "./changelog.md?raw";
 
+// TODO scroll to top, explain selection
+
 export default function Changelog() {
   return (
     <Shell>

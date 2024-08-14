@@ -10,12 +10,18 @@ import { useEffect, useState } from "react";
 import Spinner from "@components/spinner";
 import { useToast } from "@/context/toastContext";
 import Button from "@components/button";
+import clsx from "clsx";
 
 export default function Header() {
   const { user, fetchingAuth, actions } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [collapsibleOpen, setCollapsibleOpen] = useState(false);
   const { pathname } = useLocation();
   const { pushToast, pushErrorToast } = useToast();
+
+  function closeCollapsible() {
+    setCollapsibleOpen(false);
+  }
 
   useEffect(() => {
     setDropdownOpen(false);
@@ -24,6 +30,7 @@ export default function Header() {
   async function handleLogout() {
     try {
       await actions.logout();
+      closeCollapsible();
       pushToast({
         title: "Logged out",
       });
@@ -44,13 +51,13 @@ export default function Header() {
     </div>
   );
   const listsBtn = (
-    <NavLink to="/lists" className={c.settingsLink}>
+    <NavLink to="/lists" className={c.settingsLink} onClick={closeCollapsible}>
       <Icon path={mdiPlaylistEdit} size={1.0} />
       <span>Lists</span>
     </NavLink>
   );
   const settingsBtn = (
-    <NavLink to="/settings" className={c.settingsLink}>
+    <NavLink to="/settings" className={c.settingsLink} onClick={closeCollapsible}>
       <Icon path={mdiCog} size={1.0} />
       <span>Settings</span>
     </NavLink>
@@ -60,7 +67,10 @@ export default function Header() {
     <div className={c.headerContainer}>
       <header>
         <div className={c.mobileHeader}>
-          <Collapsible.Root>
+          <Collapsible.Root
+            open={collapsibleOpen}
+            onOpenChange={(open) => setCollapsibleOpen(open)}
+          >
             <div className={c.baseBar}>
               {user ? (
                 name
@@ -79,8 +89,8 @@ export default function Header() {
               </Collapsible.Trigger>
             </div>
             <Collapsible.Content className={c.content}>
-              <Nav />
-              <SecondaryNav />
+              <Nav onClick={closeCollapsible} />
+              <SecondaryNav onClick={closeCollapsible} />
               {user && (
                 <>
                   <div className={c.separator} />
@@ -96,9 +106,9 @@ export default function Header() {
         </div>
 
         <div className={c.desktopHeader}>
-          <Nav />
+          <Nav onClick={closeCollapsible} />
           <div className={c.right}>
-            <SecondaryNav />
+            <SecondaryNav onClick={closeCollapsible} />
             {fetchingAuth ? (
               <Spinner color="white" />
             ) : user ? (
@@ -135,22 +145,22 @@ export default function Header() {
   );
 }
 
-function Nav() {
+function Nav({ onClick }) {
   return (
     <nav className={c.navList}>
-      <NavLink end to="/" className={c.navLink}>
+      <NavLink end to="/" className={c.navLink} onClick={onClick}>
         Home
       </NavLink>
-      <NavLink to="/timeline" className={c.navLink}>
+      <NavLink to="/timeline" className={clsx(c.navLink, c.timelineLink)} onClick={onClick}>
         Timeline
       </NavLink>
     </nav>
   );
 }
 
-function SecondaryNav() {
+function SecondaryNav({ onClick }) {
   return (
-    <NavLink to="/changelog" className={c.navLink}>
+    <NavLink to="/changelog" className={c.navLink} onClick={onClick}>
       Changelog <small className={c.version}>v0.5</small>
     </NavLink>
   );

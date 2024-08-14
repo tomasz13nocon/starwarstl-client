@@ -25,6 +25,9 @@ import { useAuth } from "@/context/authContext";
 import Button from "@components/button";
 import SelectedActions from "./selectedActions";
 import { useSwipeContext } from "@/context/swipeContext";
+import CircleButton from "./circleButton";
+import Icon from "@components/icon";
+import { mdiArrowUp } from "@mdi/js";
 
 function areAllBoolsFalse(obj) {
   return Object.values(obj).every((v) => (typeof v === "boolean" ? !v : areAllBoolsFalse(v)));
@@ -166,6 +169,9 @@ export default function Timeline() {
   return (
     <Shell noMargin>
       <div className="circle-buttons">
+        <CircleButton title="Scroll to top" onClick={() => window.scrollTo({ top: 0 })}>
+          <Icon path={mdiArrowUp} size={1.5} />
+        </CircleButton>
         <Legend />
         <Search
           expanded={searchExpanded}

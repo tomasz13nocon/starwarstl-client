@@ -4,6 +4,7 @@ import c from "./styles/legend.module.scss";
 import CircleButton from "./circleButton";
 
 const ANIMATION_TIME = 180;
+const CIRCLE_HEIGHT = 60;
 
 export default function Legend() {
   const [expanded, toggleExpanded] = useReducer((state) => !state, false);
@@ -20,10 +21,14 @@ export default function Legend() {
         ANIMATION_TIME +
         "ms ease-out";
       btnRef.current.style.height = expanded
-        ? Math.min(btnRef.current.scrollHeight /* + 4*/, window.innerHeight - 70 - 12 - 10 - 12) +
-          "px" // The "4" is padding
-        : "70px";
-      btnRef.current.style.width = expanded ? btnRef.current.scrollWidth + 4 + "px" : "70px";
+        ? Math.min(
+          btnRef.current.scrollHeight /* + 4*/,
+          window.innerHeight - CIRCLE_HEIGHT - 12 - 10 - 12,
+        ) + "px" // The "4" is padding
+        : CIRCLE_HEIGHT + "px";
+      btnRef.current.style.width = expanded
+        ? btnRef.current.scrollWidth + 4 + "px"
+        : CIRCLE_HEIGHT + "px";
     }
   }, [expanded]);
 

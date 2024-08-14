@@ -6,13 +6,17 @@
   cursor: pointer;
   border-radius: 40px;
   box-shadow: 0 0 3px black;
+  background-color: $background;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     box-shadow: 0 0 5px black;
   }
 
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   font-weight: $weight-bold;
-  font-size: 2em;
+  font-size: 1.75em;
 }
