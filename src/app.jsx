@@ -15,6 +15,16 @@ import List from "@pages/lists/list";
 import ListsLayout from "@layouts/listsLayout";
 import GoogleCallback from "@pages/login/googleCallback";
 import { SwipeProvider } from "./context/swipeContext";
+import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import dayjs from "dayjs";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(relativeTime);
+dayjs.extend(LocalizedFormat);
 
 const router = createBrowserRouter([
   {

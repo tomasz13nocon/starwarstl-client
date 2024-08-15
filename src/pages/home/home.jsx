@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { mdiArrowDown } from "@mdi/js";
 import Faq from "./faq";
@@ -6,6 +6,14 @@ import Showcase from "./showcase";
 import c from "./styles/home.module.scss";
 import Icon from "@components/icon";
 import clsx from "clsx";
+import { useFetch } from "@hooks/useFetch";
+import { fetchHelper } from "@/util";
+import Ellipsis from "@components/ellipsis";
+import Alert from "@components/alert";
+import dayjs from "dayjs";
+import Tooltip from "@components/tooltip";
+import Spinner from "@components/spinner";
+import WookieeLink from "@components/wookieeLink";
 
 const stopAndPlay = (audioEl) => {
   if (audioEl) {
@@ -58,8 +66,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className={c.random}>
-          <h1>TODO</h1>
+        <div className={c.metaContainer}>
+          <MetaInfo />
         </div>
         <div className={c.bg2}></div>
       </div>
@@ -132,5 +140,49 @@ export default function Home() {
       <audio ref={audioOn} src="/sfx/on.mp3" />
       <audio ref={audioOff} src="/sfx/off.mp3" />
     </main>
+  );
+}
+
+function MetaInfo() {
+  const [info, setInfo] = useState();
+  const [_, fetching, alert] = useFetch(
+    async () => {
+      let res = await fetchHelper("/meta");
+      setInfo(res);
+    },
+    { onMount: true },
+  );
+
+  if (alert) return <Alert alert={alert} />;
+
+  const updatedAgo = dayjs(info?.dataUpdatedAt).fromNow();
+  const updatedTime = dayjs(info?.dataUpdatedAt).local().format("lll"); //"ddd, D MMM YYYY HH:mm");
+
+  return (
+    <>
+      <div className={c.metaInfo}>
+        {fetching ? (
+          <Spinner />
+        ) : (
+          <>
+            <div className={c.section}>
+              <span>Timeline last updated: </span>
+              <span className={c.bold}>
+                {updatedAgo}
+                <Tooltip>{updatedTime}</Tooltip>
+              </span>
+            </div>
+            <div className={c.section}>
+              The timeline has <span className={c.bold}>{info.mediaCount}</span> canon media entries
+              featuring <span className={c.bold}>{info.characterCount}</span> unique characters like{" "}
+              <WookieeLink title={info.randomCharacter}>
+                <span className={c.bold}>{info.randomCharacter}</span>
+              </WookieeLink>
+              .
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }

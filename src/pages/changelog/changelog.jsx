@@ -17,7 +17,10 @@ export default function Changelog() {
         <VersionChangelog version="0.5" releaseDate="2024-08-??">
           <ul>
             <li>Added this changelog page to keep track of the updates.</li>
-            <li>User accounts. Create an account with email or google sign-in.</li>
+            <li>
+              User accounts. Create an account with email or google sign-in. Usernames are kinda
+              useless now, but they might become useful later ;)
+            </li>
             <li>
               Lists (requires an account):
               <ul>
@@ -33,20 +36,23 @@ export default function Changelog() {
                 <li>You can create custom lists.</li>
                 <li>In the timeline you can filter out a list, or show only its elements.</li>
                 <li>
-                  You can view your lists and delete them from the <Link to="/lists">lists</Link>{" "}
+                  You can view, rename and delete your lists from the <Link to="/lists">lists</Link>{" "}
                   page.
                 </li>
               </ul>
             </li>
-            <li>Fixed "Collapse adjacent episodes" sometimes breaking the website.</li>
             <li>Fixed date range filter breaking if "From" date was after "To" date.</li>
             <li>Added a "scroll to top" button in the bottom right in the timeline.</li>
             <li>
               Removed the "Writer" column to match the same removal in the Wookieepedia timeline.
             </li>
             <li>
-              Replaced the randomly generated media card in the homepage with some useful info (more
-              to come).
+              Replaced the randomly generated media card in the homepage with some useful (and some
+              less useful) info (more to come).
+            </li>
+            <li>
+              Did a lot of refactoring to improve the codebase, which will hopefully allow me to add
+              new features faster.
             </li>
           </ul>
         </VersionChangelog>
@@ -54,6 +60,7 @@ export default function Changelog() {
         <article className={c.versionSection}>
           <h2 className={`${c.versionNumber} ${c.versionHeading}`}>Prior to 0.5</h2>
           <ul>
+            <li>Fixed "Collapse adjacent episodes" sometimes breaking the website.</li>
             <li>
               Appearances!
               <ul>

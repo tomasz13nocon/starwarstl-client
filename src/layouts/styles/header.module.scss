@@ -1,6 +1,7 @@
 @use "@/vars.scss" as *;
 @use "@/global.scss" as *;
 
+$mobile: $width-md;
 $dropdown-padding: 1rem;
 
 .settings-link {
@@ -13,7 +14,7 @@ $dropdown-padding: 1rem;
   justify-content: center;
   align-items: center;
 
-  @media (max-width: $width-sm) {
+  @media (max-width: $mobile) {
     padding: 0.75rem 1.5rem;
   }
 }
@@ -28,7 +29,7 @@ $dropdown-padding: 1rem;
   background-color: $active4;
   color: white;
 
-  @media (max-width: $width-sm) {
+  @media (max-width: $mobile) {
     width: 100%;
     box-sizing: border-box;
     // position: fixed;
@@ -39,7 +40,7 @@ $dropdown-padding: 1rem;
 }
 
 .desktop-header {
-  @media (max-width: $width-sm) {
+  @media (max-width: $mobile) {
     display: none;
     // width: 100%;
   }
@@ -56,7 +57,7 @@ $dropdown-padding: 1rem;
   display: none;
   border-bottom: 1px solid $active6;
 
-  @media (max-width: $width-sm) {
+  @media (max-width: $mobile) {
     display: block;
   }
 
@@ -73,7 +74,7 @@ $dropdown-padding: 1rem;
     display: inline-block;
     padding: 0.5rem;
 
-    @media (max-width: $width-sm) {
+    @media (max-width: $mobile) {
       padding: 0.75rem;
     }
   }
@@ -88,7 +89,7 @@ $dropdown-padding: 1rem;
     padding: 0.5rem 1rem;
     margin: auto;
 
-    @media (max-width: $width-sm) {
+    @media (max-width: $mobile) {
       margin-top: 0.25rem;
     }
   }
@@ -103,7 +104,7 @@ $dropdown-padding: 1rem;
   .login-dialog {
     padding: 1rem;
 
-    @media (max-width: $width-sm) {
+    @media (max-width: $mobile) {
       display: inline-block;
       padding: 0 1rem;
     }
@@ -111,6 +112,7 @@ $dropdown-padding: 1rem;
 
   .timeline-link {
     font-weight: $weight-bold;
+    color: white;
   }
 }
 
@@ -128,7 +130,7 @@ $dropdown-padding: 1rem;
 .nav-list {
   margin: 0;
 
-  @media (max-width: $width-sm) {
+  @media (max-width: $mobile) {
     padding: 0;
     display: block;
   }
@@ -140,7 +142,7 @@ $dropdown-padding: 1rem;
   text-align: center;
   padding: 1rem 1.5rem;
 
-  @media (max-width: $width-sm) {
+  @media (max-width: $mobile) {
     padding: 0.75rem 1.5rem;
   }
 }
@@ -166,7 +168,7 @@ $dropdown-padding: 1rem;
 }
 
 .user-dropdown {
-  @media (max-width: $width-sm) {
+  @media (max-width: $mobile) {
     display: none;
   }
 
@@ -199,7 +201,7 @@ $dropdown-padding: 1rem;
   background-color: $active5;
   margin: 1rem 0;
 
-  @media (max-width: $width-sm) {
+  @media (max-width: $mobile) {
     margin: 0.5rem 0;
   }
 }

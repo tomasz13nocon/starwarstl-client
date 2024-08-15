@@ -242,3 +242,21 @@
     }
   }
 }
+
+.meta-container {
+  display: flex;
+  align-items: center;
+}
+
+.meta-info {
+  margin: 2rem;
+  font-size: 1.12em;
+}
+
+.bold {
+  font-weight: $weight-bold;
+}
+
+.section {
+  margin-bottom: 0.5rem;
+}
