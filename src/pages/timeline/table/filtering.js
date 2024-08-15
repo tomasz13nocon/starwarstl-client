@@ -210,18 +210,6 @@ export function createSorter(by, ascending) {
         return 0;
       };
 
-    case "writer":
-      return (a, b) => {
-        // Put no writer entries at the end to reduce clutter
-        if (!a[by]?.length) return 1;
-        if (!b[by]?.length) return -1;
-
-        // Only look at the first writer, this is what wookieepedia does also
-        if (a[by][0] < b[by][0]) return aFirst;
-        if (a[by][0] > b[by][0]) return bFirst;
-        return 0;
-      };
-
     default:
       return (a, b) => {
         if (a[by] < b[by]) return aFirst;
@@ -286,7 +274,7 @@ export function createFieldStrategy(boxFilters, boxFiltersAnd, appearancesFilter
 let matchedApps = {};
 export const getMatchedApps = () => matchedApps;
 
-// filter by text. Searches title, writer, series
+// filter by text. Searches title, series
 // if filterCategory is truthy, filter by appearances of that category
 export function createTextStrategy(filterText, filterCategory, appearances, appearancesFilters) {
   let queries = filterText
@@ -332,7 +320,6 @@ export function createTextStrategy(filterText, filterCategory, appearances, appe
       (acc, query) =>
         acc &&
         (item.title.toLowerCase().includes(query) ||
-          item.writer?.reduce((acc, v) => acc || v?.toLowerCase().includes(query), false) ||
           item.series?.reduce((acc, v) => acc || v?.toLowerCase().includes(query), false)),
       true,
     );

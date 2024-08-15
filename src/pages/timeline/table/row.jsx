@@ -214,20 +214,6 @@ export default React.memo(function Row({
     </Cell>
   );
 
-  const writer = activeColumns.includes("writer") && (
-    <Cell className={c.writer}>
-      {item.writer?.length > 1 ? (
-        <ul>
-          {withSearch(item.writer, "writer").map((jsx, i) => (
-            <li key={i}>{jsx}</li>
-          ))}
-        </ul>
-      ) : (
-        withSearch(item.writer, "writer")
-      )}
-    </Cell>
-  );
-
   const releaseDate = activeColumns.includes("releaseDate") && (
     <Cell
       className={clsx(c.releaseDate, item.unreleased && "unreleased")}
@@ -256,7 +242,6 @@ export default React.memo(function Row({
             {date}
             {cover}
             {title}
-            {writer}
             {releaseDate}
           </>
         )}

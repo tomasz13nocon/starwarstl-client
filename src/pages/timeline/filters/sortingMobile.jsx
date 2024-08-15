@@ -1,24 +1,25 @@
-import React from "react";
 import SortingIcon from "@components/sortingIcon";
 import { columnNames, notSortable } from "@/util";
 import FiltersSection from "./filtersSection";
-import "./styles/sortingMobile.scss";
+import c from "./styles/sortingMobile.module.scss";
+import clsx from "clsx";
 
 export default function SortingMobile({ columns, sorting, toggleSorting }) {
   return (
-    <div className="sorting-mobile">
+    <div className={c.sortingMobile}>
       <FiltersSection title="Sort by">
-        <div className="sorting-btns">
+        <div className={c.sortingBtns}>
+          {/* <div className={c.sortByText}>Sort by:</div> */}
           {Object.keys(columns)
             .filter((c) => !notSortable.includes(c))
             .map((column) => (
               <button
-                className={`sorting-btn ${sorting.by === column ? "active" : ""}`}
+                className={clsx(c.sortingBtn, sorting.by === column && c.active)}
                 key={column}
-                onClick={(e) => toggleSorting(column)}
+                onClick={() => toggleSorting(column)}
               >
                 <span>{columnNames[column]}</span>
-                <SortingIcon sorting={sorting} name={column} />
+                <SortingIcon sorting={sorting} name={column} className={c.icon} />
               </button>
             ))}
         </div>

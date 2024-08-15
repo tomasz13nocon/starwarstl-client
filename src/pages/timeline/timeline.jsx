@@ -17,7 +17,6 @@ import TextFilter from "./filters/textFilter";
 import { initialSearchResults, searchResultsReducer } from "./searchResults";
 import { typeFiltersInitializer, typeFiltersReducer } from "./typeFilters";
 import AppearancesFilterSettings from "./filters/appearancesFilterSettings";
-import { FiltersContext } from "./context";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import Shell from "@layouts/shell";
 import ListFilters from "./filters/listFilters";
@@ -67,11 +66,11 @@ export default function Timeline() {
       date: true,
       cover: false,
       title: true,
-      // writer: true,
       releaseDate: true,
     },
     (prev) => {
       if (prev.selection === undefined) prev.selection = false;
+      if (prev.writer !== undefined) delete prev.writer;
       return prev;
     },
   );
@@ -184,114 +183,111 @@ export default function Timeline() {
         )}
       </div>
       <div className="timeline-container">
-        {/* TODO context */}
-        <FiltersContext.Provider value={""}>
-          <Filters showFilters={showFilters} setShowFilters={setShowFilters}>
-            <Button
-              disabled={
-                !(
-                  filterText ||
-                  boxFilters.length ||
-                  hideUnreleased ||
-                  hideAdaptations ||
-                  rangeFromStr ||
-                  rangeToStr ||
-                  !areAllBoolsFalse(typeFilters) ||
-                  listFilters.length
-                )
-              }
-              onClick={() => {
-                setFilterText("");
-                setFilterCategory("");
-                setBoxFilters([]);
-                setHideUnreleased(false);
-                setHideAdaptations(false);
-                setTimelineRangeBy("date");
-                setRangeFrom("");
-                setRangeTo("");
-                dispatchTypeFilters({ path: "type", to: false });
-                setListFilters([]);
-              }}
-            >
-              Reset all filters
-            </Button>
-            <TextFilter
-              filterText={filterText}
-              setFilterText={setFilterText}
-              seriesArr={seriesArr}
-              boxFilters={boxFilters}
-              setBoxFilters={setBoxFilters}
-              filterCategory={filterCategory}
-              setFilterCategory={setFilterCategory}
-              appearances={appearances}
-              setAppearances={setAppearances}
-            />
-            <BoxFilters
-              boxFilters={boxFilters}
-              setBoxFilters={setBoxFilters}
-              boxFiltersAnd={boxFiltersAnd}
-              setBoxFiltersAnd={setBoxFiltersAnd}
-            />
-            {(filterCategory || boxFilters.some((box) => box.category)) && (
-              <AppearancesFilterSettings
-                appearancesFilters={appearancesFilters}
-                setAppearancesFilters={setAppearancesFilters}
-              />
-            )}
-            <SortingMobile columns={columns} sorting={sorting} toggleSorting={toggleSorting} />
-            <ColumnSettings columns={columns} setColumns={setColumns} />
-            <MiscFilters
-              hideUnreleased={hideUnreleased}
-              setHideUnreleased={setHideUnreleased}
-              hideAdaptations={hideAdaptations}
-              setHideAdaptations={setHideAdaptations}
-              collapseAdjacent={collapseAdjacent}
-              setCollapseAdjacent={setCollapseAdjacent}
-            />
-            <TypeFilters
-              typeFilters={typeFilters}
-              filtersChanged={dispatchTypeFilters}
-              filtersTemplate={filtersTemplate}
-            />
-            {user ? <ListFilters listFilters={listFilters} setListFilters={setListFilters} /> : ""}
-            <TimelineRange
-              timelineRangeBy={timelineRangeBy}
-              setTimelineRangeBy={setTimelineRangeBy}
-              rangeFrom={rangeFromStr}
-              setRangeFrom={setRangeFrom}
-              rangeTo={rangeToStr}
-              setRangeTo={setRangeTo}
-              fromValid={rangeFrom !== undefined}
-              toValid={rangeTo !== undefined}
-            />
-          </Filters>
-          <Table
+        <Filters showFilters={showFilters} setShowFilters={setShowFilters}>
+          <Button
+            disabled={
+              !(
+                filterText ||
+                boxFilters.length ||
+                hideUnreleased ||
+                hideAdaptations ||
+                rangeFromStr ||
+                rangeToStr ||
+                !areAllBoolsFalse(typeFilters) ||
+                listFilters.length
+              )
+            }
+            onClick={() => {
+              setFilterText("");
+              setFilterCategory("");
+              setBoxFilters([]);
+              setHideUnreleased(false);
+              setHideAdaptations(false);
+              setTimelineRangeBy("date");
+              setRangeFrom("");
+              setRangeTo("");
+              dispatchTypeFilters({ path: "type", to: false });
+              setListFilters([]);
+            }}
+          >
+            Reset all filters
+          </Button>
+          <TextFilter
             filterText={filterText}
-            filterCategory={filterCategory}
-            typeFilters={typeFilters}
-            rawData={rawData}
+            setFilterText={setFilterText}
+            seriesArr={seriesArr}
             boxFilters={boxFilters}
-            boxFiltersAnd={boxFiltersAnd}
-            searchExpanded={searchExpanded}
-            searchResults={searchResults}
-            dispatchSearchResults={dispatchSearchResults}
-            hideUnreleased={hideUnreleased}
-            hideAdaptations={hideAdaptations}
-            collapseAdjacent={collapseAdjacent}
-            columns={columns}
-            dataState={dataState}
-            sorting={sorting}
-            toggleSorting={toggleSorting}
-            rangeFrom={rangeFrom}
-            rangeTo={rangeTo}
-            timelineRangeBy={timelineRangeBy}
-            listFilters={listFilters}
+            setBoxFilters={setBoxFilters}
+            filterCategory={filterCategory}
+            setFilterCategory={setFilterCategory}
             appearances={appearances}
-            appearancesFilters={appearancesFilters}
-            selected={selected}
-            setSelected={setSelected}
+            setAppearances={setAppearances}
           />
-        </FiltersContext.Provider>
+          <BoxFilters
+            boxFilters={boxFilters}
+            setBoxFilters={setBoxFilters}
+            boxFiltersAnd={boxFiltersAnd}
+            setBoxFiltersAnd={setBoxFiltersAnd}
+          />
+          {(filterCategory || boxFilters.some((box) => box.category)) && (
+            <AppearancesFilterSettings
+              appearancesFilters={appearancesFilters}
+              setAppearancesFilters={setAppearancesFilters}
+            />
+          )}
+          <SortingMobile columns={columns} sorting={sorting} toggleSorting={toggleSorting} />
+          <ColumnSettings columns={columns} setColumns={setColumns} />
+          <MiscFilters
+            hideUnreleased={hideUnreleased}
+            setHideUnreleased={setHideUnreleased}
+            hideAdaptations={hideAdaptations}
+            setHideAdaptations={setHideAdaptations}
+            collapseAdjacent={collapseAdjacent}
+            setCollapseAdjacent={setCollapseAdjacent}
+          />
+          <TypeFilters
+            typeFilters={typeFilters}
+            filtersChanged={dispatchTypeFilters}
+            filtersTemplate={filtersTemplate}
+          />
+          {user ? <ListFilters listFilters={listFilters} setListFilters={setListFilters} /> : ""}
+          <TimelineRange
+            timelineRangeBy={timelineRangeBy}
+            setTimelineRangeBy={setTimelineRangeBy}
+            rangeFrom={rangeFromStr}
+            setRangeFrom={setRangeFrom}
+            rangeTo={rangeToStr}
+            setRangeTo={setRangeTo}
+            fromValid={rangeFrom !== undefined}
+            toValid={rangeTo !== undefined}
+          />
+        </Filters>
+        <Table
+          filterText={filterText}
+          filterCategory={filterCategory}
+          typeFilters={typeFilters}
+          rawData={rawData}
+          boxFilters={boxFilters}
+          boxFiltersAnd={boxFiltersAnd}
+          searchExpanded={searchExpanded}
+          searchResults={searchResults}
+          dispatchSearchResults={dispatchSearchResults}
+          hideUnreleased={hideUnreleased}
+          hideAdaptations={hideAdaptations}
+          collapseAdjacent={collapseAdjacent}
+          columns={columns}
+          dataState={dataState}
+          sorting={sorting}
+          toggleSorting={toggleSorting}
+          rangeFrom={rangeFrom}
+          rangeTo={rangeTo}
+          timelineRangeBy={timelineRangeBy}
+          listFilters={listFilters}
+          appearances={appearances}
+          appearancesFilters={appearancesFilters}
+          selected={selected}
+          setSelected={setSelected}
+        />
       </div>
     </Shell>
   );

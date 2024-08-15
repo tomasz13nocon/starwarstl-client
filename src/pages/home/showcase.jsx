@@ -10,7 +10,7 @@ export default function Showcase() {
       <div className="showcase-feature">
         <section className="text">
           <h3>Filter by text</h3>
-          <p>Title, writer and series fields are searched.</p>
+          <p>Title and series fields are searched.</p>
           <img
             src="/img/screenshots/text-filters.webp"
             alt="Claudia Gray as text filter"

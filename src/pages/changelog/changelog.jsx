@@ -1,5 +1,8 @@
 import Shell from "@layouts/shell";
 import c from "./styles/changelog.module.scss";
+import ListName from "@components/listName";
+import { watchedName, watchlistName } from "@/util";
+import { Link } from "react-router-dom";
 // import Markdown from "react-markdown";
 // import changelogMd from "./changelog.md?raw";
 
@@ -11,24 +14,40 @@ export default function Changelog() {
       <main className={c.changelog}>
         <h1 className={c.title}>Changelog</h1>
 
-        <VersionChangelog version="0.5" releaseDate="2023-??-??">
+        <VersionChangelog version="0.5" releaseDate="2024-08-??">
           <ul>
-            <li>Added this changelog page</li>
+            <li>Added this changelog page to keep track of the updates.</li>
+            <li>User accounts. Create an account with email or google sign-in.</li>
             <li>
-              User accounts:
+              Lists (requires an account):
               <ul>
-                <li>You can now mark media as seen, or add them to your watchlist.</li>
+                <li>
+                  You can add media to lists. Add/remove a single entry with the buttons that show
+                  up in an expanded entry in the timeline, or enable the "Selection" column to
+                  add/remove multiple entries to a list at once.
+                </li>
+                <li>
+                  There are two built-in lists: <ListName name={watchedName} /> and{" "}
+                  <ListName name={watchlistName} />
+                </li>
+                <li>You can create custom lists.</li>
+                <li>In the timeline you can filter out a list, or show only its elements.</li>
+                <li>
+                  You can view your lists and delete them from the <Link to="/lists">lists</Link>{" "}
+                  page.
+                </li>
               </ul>
             </li>
-            <li>
-              Added a feedback form. If you see a bug, or have ideas about improving the website, I
-              would love to hear about it!
-            </li>
-            <li>
-              Fixed "Collapse adjacent episodes" sometimes breaking the website.{" "}
-              <small className={c.tinyNote}>(error boundary? never heard of her)</small>
-            </li>
+            <li>Fixed "Collapse adjacent episodes" sometimes breaking the website.</li>
             <li>Fixed date range filter breaking if "From" date was after "To" date.</li>
+            <li>Added a "scroll to top" button in the bottom right in the timeline.</li>
+            <li>
+              Removed the "Writer" column to match the same removal in the Wookieepedia timeline.
+            </li>
+            <li>
+              Replaced the randomly generated media card in the homepage with some useful info (more
+              to come).
+            </li>
           </ul>
         </VersionChangelog>
 

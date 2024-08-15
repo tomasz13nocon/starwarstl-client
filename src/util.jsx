@@ -43,7 +43,6 @@ export const Size = Object.freeze({
 });
 export const searchFields = [
   "title",
-  "writer",
   "releaseDate",
   "date",
   "collapseUntilTitle",
@@ -58,7 +57,6 @@ export const columnNames = {
   continuity: "Continuity",
   cover: "Cover",
   title: "Title",
-  writer: "Writer",
   releaseDate: "Release Date",
 };
 export const suggestionPriority = [

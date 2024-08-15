@@ -9,10 +9,11 @@ import {
 import Icon from "./icon";
 
 import c from "./styles/sortingIcon.module.scss";
+import clsx from "clsx";
 
 const sortingIcons = new Proxy(
   {
-    "title|writer": {
+    title: {
       ascending: mdiSortAlphabeticalAscending,
       descending: mdiSortAlphabeticalDescending,
     },
@@ -33,12 +34,12 @@ const sortingIcons = new Proxy(
   },
 );
 
-export default function SortingIcon({ sorting, name }) {
+export default function SortingIcon({ sorting, name, className }) {
   return (
     <>
       {sorting.by === name ? (
         <Icon
-          className={c.sortingIcon}
+          className={clsx(c.sortingIcon, className)}
           path={sortingIcons[name][sorting.ascending ? "ascending" : "descending"]}
         />
       ) : null}
