@@ -18,12 +18,10 @@
   box-sizing: border-box;
 }
 
-.trigger-icon {
-}
+.trigger-icon {}
 
 .content {
   @extend %floating-content;
-  display: flex;
   font-size: 14px;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;

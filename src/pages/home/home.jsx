@@ -8,7 +8,6 @@ import Icon from "@components/icon";
 import clsx from "clsx";
 import { useFetch } from "@hooks/useFetch";
 import { fetchHelper } from "@/util";
-import Ellipsis from "@components/ellipsis";
 import Alert from "@components/alert";
 import dayjs from "dayjs";
 import Tooltip from "@components/tooltip";

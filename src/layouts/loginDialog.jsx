@@ -1,7 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import c from "./styles/loginDialog.module.scss";
 import { useAuth } from "@/context/authContext";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import Spinner from "@components/spinner";
 import DialogContents from "@components/dialogContents";
 import { useToast } from "@/context/toastContext";
@@ -149,11 +149,11 @@ export default function LoginDialog({ children, ...props }) {
   );
 }
 
-function Input({ label, ...props }) {
+const Input = forwardRef(function Input({ label, ...props }, ref) {
   return (
     <label>
       <span className={c.labelText}>{label}</span>
-      <input {...props} className={c.input} />
+      <input {...props} className={c.input} ref={ref} />
     </label>
   );
-}
+});
