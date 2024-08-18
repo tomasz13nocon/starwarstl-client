@@ -14,7 +14,7 @@ export default function Changelog() {
       <main className={c.changelog}>
         <h1 className={c.title}>Changelog</h1>
 
-        <VersionChangelog version="0.5" releaseDate="2024-08-??">
+        <VersionChangelog version="0.5" releaseDate="2024-08-18">
           <ul>
             <li>Added this changelog page to keep track of the updates.</li>
             <li>
