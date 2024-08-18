@@ -218,4 +218,9 @@ $dropdown-padding: 1rem;
 button.trigger {
   font-size: inherit;
   padding: 6px 16px;
+  margin: 0 1rem;
+
+  @media (max-width: $mobile) {
+    margin: 0;
+  }
 }
