@@ -6,7 +6,7 @@
   "scripts": {
     "start": "vite --port 8080 --host",
     "build": "vite build --emptyOutDir",
-    "build:staging": "vite build --outDir /var/www/starwarstl/staging --emptyOutDir",
+    "build:staging": "vite build --outDir ../staging --emptyOutDir && sudo rm -rf /var/www/starwarstl/staging && sudo cp -r staging /var/www/starwarstl/staging",
     "build:prod": "vite build --emptyOutDir && sudo cp -r dist /var/www/starwarstl/dist2 && sudo rm -rf /var/www/starwarstl/dist && sudo mv /var/www/starwarstl/dist2 /var/www/starwarstl/dist",
     "preview": "vite preview --host",
     "test": "echo \"Error: no test specified\" && exit 1"
