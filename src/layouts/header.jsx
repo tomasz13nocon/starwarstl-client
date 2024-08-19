@@ -11,6 +11,7 @@ import Spinner from "@components/spinner";
 import { useToast } from "@/context/toastContext";
 import Button from "@components/button";
 import clsx from "clsx";
+import { updates } from "@/changelogData";
 
 export default function Header() {
   const { user, fetchingAuth, actions } = useAuth();
@@ -161,7 +162,7 @@ function Nav({ onClick }) {
 function SecondaryNav({ onClick }) {
   return (
     <NavLink to="/changelog" className={c.navLink} onClick={onClick}>
-      Changelog <small className={c.version}>v0.5</small>
+      Changelog
     </NavLink>
   );
 }
