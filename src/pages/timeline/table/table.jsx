@@ -3,7 +3,7 @@ import { Virtuoso } from "react-virtuoso";
 import MessageBox from "@components/inlineAlerts/messageBox";
 import SortingIcon from "@components/sortingIcon";
 import NetworkError from "@components/inlineAlerts/networkError";
-import { escapeRegex, searchFields, notSortable, columnNames } from "@/util";
+import { escapeRegex, searchFields, notSortable, columnNames, columnSorter } from "@/util";
 import Row from "./row";
 import "./styles/timeline.scss";
 import {
@@ -52,7 +52,10 @@ function Table({
   const virtuoso = useRef(null);
   const renderedRange = useRef(null);
   const activeColumns = useMemo(
-    () => Object.keys(columns).filter((name) => columns[name]),
+    () =>
+      Object.keys(columns)
+        .sort(columnSorter)
+        .filter((name) => columns[name]),
     [columns],
   );
 

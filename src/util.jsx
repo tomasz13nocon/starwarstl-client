@@ -196,6 +196,9 @@ export const watchedName = "Watched";
 export const watchlistName = "Watchlist";
 export const builtinLists = [watchedName, watchlistName];
 
+export const columnOrder = ["selection", "date", "cover", "title", "releaseDate"];
+export const columnSorter = (a, b) => columnOrder.indexOf(a) - columnOrder.indexOf(b);
+
 export const mdiTick = "M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59z";
 // TODO clean up icons from the codebase, put them all here
 const listPath = "M4 6H20V8H4M4 11H20V13H4M4 16H20V18H4";
