@@ -93,8 +93,8 @@ export default function LoginDialog({ children, ...props }) {
     form = (
       <form onSubmit={(e) => handleForm(e, "signup")} className={c.form}>
         <Input type="email" name="email" required label="Email" />
-        <Input type="text" name="name" required label="Username" minLength={3} maxLength={32} />
         <Input type="password" name="password" required minLength={6} label="Password" />
+        <Input type="text" name="name" required label="Username" minLength={3} maxLength={32} />
         <Button type="submit" className={c.submit} disabled={fetching} primary>
           {fetching ? <Spinner /> : "Sign up"}
         </Button>
