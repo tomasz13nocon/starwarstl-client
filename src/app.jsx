@@ -1,5 +1,5 @@
-import { StrictMode } from "react";
-import { createBrowserRouter, RouterProvider, defer } from "react-router-dom";
+import React, { StrictMode } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "@context/authContext";
 import Timeline from "@pages/timeline/timeline";
 import Home from "@pages/home/home";
@@ -20,16 +20,25 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
+import ErrorBoundary from "./errorBoundary";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(relativeTime);
 dayjs.extend(LocalizedFormat);
 
+function ErrorTestXD() {
+  throw new Error("error test xd");
+}
+
 const router = createBrowserRouter([
   {
     Component: Layout,
     children: [
+      {
+        path: "/error-test",
+        Component: ErrorTestXD,
+      },
       { path: "/login/google/callback", Component: GoogleCallback },
       {
         path: "/email-verification/:token",
@@ -55,14 +64,16 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <StrictMode>
-      <ToastProvider>
-        <AuthProvider>
-          <SwipeProvider>
-            <RouterProvider router={router} />
-            <Toasts />
-          </SwipeProvider>
-        </AuthProvider>
-      </ToastProvider>
+      <ErrorBoundary>
+        <ToastProvider>
+          <AuthProvider>
+            <SwipeProvider>
+              <RouterProvider router={router} />
+              <Toasts />
+            </SwipeProvider>
+          </AuthProvider>
+        </ToastProvider>
+      </ErrorBoundary>
     </StrictMode>
   );
 }

@@ -8,6 +8,7 @@ export default defineConfig({
   envDir: "../",
   build: {
     outDir: "../dist",
+    sourcemap: "inline",
   },
   publicDir: "../public",
   plugins: [react({}), ViteAliases({ prefix: "@" })],
