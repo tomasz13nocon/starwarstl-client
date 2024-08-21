@@ -27,18 +27,10 @@ dayjs.extend(timezone);
 dayjs.extend(relativeTime);
 dayjs.extend(LocalizedFormat);
 
-function ErrorTestXD() {
-  throw new Error("error test xd");
-}
-
 const router = createBrowserRouter([
   {
     Component: Layout,
     children: [
-      {
-        path: "/error-test",
-        Component: ErrorTestXD,
-      },
       { path: "/login/google/callback", Component: GoogleCallback },
       {
         path: "/email-verification/:token",

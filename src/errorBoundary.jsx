@@ -15,7 +15,7 @@ export default class ErrorBoundary extends React.Component {
     analytics.logEvent(
       "Error boundary reached",
       error.message ?? "No message",
-      info.componentStack + "\n\n  Native stack:" + error.stack,
+      info.componentStack ?? "No stack",
     );
   }
 
