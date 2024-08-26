@@ -14,7 +14,7 @@ import ListName from "@components/listName";
 import ListPopover from "@components/listPopover";
 import { plural } from "@/util";
 
-export default function ListFilters({ listFilters, setListFilters, pageIds }) {
+export default function ListFilters({ listFilters, setListFilters, pageIds, dataState }) {
   const { user } = useAuth();
 
   // Recreate the filter when user's lists change
@@ -89,7 +89,7 @@ export default function ListFilters({ listFilters, setListFilters, pageIds }) {
                 <ListName name={listFilter.name} iconSize={0.8} />
                 <small className={c.itemCount}>
                   {listLength} {plural("item", listLength)}
-                  {missingLength > 0 && (
+                  {missingLength > 0 && dataState === "ok" && (
                     <span>
                       {", "}
                       {missingLength} missing

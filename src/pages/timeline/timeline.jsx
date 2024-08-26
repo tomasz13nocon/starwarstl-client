@@ -259,6 +259,7 @@ export default function Timeline() {
               listFilters={listFilters}
               setListFilters={setListFilters}
               pageIds={pageIds}
+              dataState={dataState}
             />
           ) : (
             ""
