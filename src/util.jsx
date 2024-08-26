@@ -299,7 +299,7 @@ export function plural(word, value) {
     if (word === "was") return "were";
     if (word === "is") return "are";
     if (word.endsWith("s")) return word + "es";
-    else return word + "s";
+    return word + "s";
   }
 
   return word;

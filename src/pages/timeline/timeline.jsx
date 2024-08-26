@@ -49,6 +49,10 @@ export default function Timeline() {
   const [listFilters, setListFilters] = useLocalStorage("listFilters", []);
   const [appearances, setAppearances] = useState({});
   const [selected, setSelected] = useState(new Set());
+  const pageIds = useMemo(
+    () => new Set(rawData.map((i) => i.pageid).filter((p) => p != null)),
+    [rawData],
+  );
   const { fetchingAuth, user } = useAuth();
   const [appearancesFilters, setAppearancesFilters] = useLocalStorage("appearancesFilters", {
     hideMentions: false,

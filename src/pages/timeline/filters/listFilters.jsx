@@ -59,6 +59,8 @@ export default function ListFilters({ listFilters, setListFilters }) {
     (list) => !listFilters.find((filter) => filter.name === list.name),
   );
 
+  console.log(listFilters[0].items);
+
   return (
     <FiltersSection title="Lists">
       <div className={c.label}>
