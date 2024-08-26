@@ -14,7 +14,7 @@ import ListName from "@components/listName";
 import ListPopover from "@components/listPopover";
 import { plural } from "@/util";
 
-export default function ListFilters({ listFilters, setListFilters }) {
+export default function ListFilters({ listFilters, setListFilters, pageIds }) {
   const { user } = useAuth();
 
   // Recreate the filter when user's lists change
@@ -74,56 +74,66 @@ export default function ListFilters({ listFilters, setListFilters }) {
         </ListPopover>
       </div>
 
-      {listFilters.map((listFilter) => (
-        <FilterBullet
-          className={c.filterBullet}
-          contentClassName={c.filterBulletContent}
-          buttonOnClick={() => removeListFilter(listFilter)}
-          key={listFilter.name}
-        >
-          <div className={clsx(c.listEntry)}>
-            <div className={c.listEntryName}>
-              <ListName name={listFilter.name} iconSize={0.8} />
-              <small className={c.itemCount}>
-                {listFilter.items.length} {plural("item", listFilter.items.length)}
-              </small>
-            </div>
+      {listFilters.map((listFilter) => {
+        const listLength = listFilter.items.filter((i) => pageIds.has(i)).length;
+        const missingLength = listFilter.items.length - listLength;
+        return (
+          <FilterBullet
+            className={c.filterBullet}
+            contentClassName={c.filterBulletContent}
+            buttonOnClick={() => removeListFilter(listFilter)}
+            key={listFilter.name}
+          >
+            <div className={clsx(c.listEntry)}>
+              <div className={c.listEntryName}>
+                <ListName name={listFilter.name} iconSize={0.8} />
+                <small className={c.itemCount}>
+                  {listLength} {plural("item", listLength)}
+                  {missingLength > 0 && (
+                    <span>
+                      {", "}
+                      {missingLength} missing
+                    </span>
+                  )}
+                </small>
+              </div>
 
-            <div className={c.listEntryControls}>
-              <Radio
-                checked={listFilter.show}
-                onChange={() =>
-                  setListFilters((old) =>
-                    old.map((f) => {
-                      if (f.name === listFilter.name) {
-                        f.show = true;
-                      }
-                      return f;
-                    }),
-                  )
-                }
-              >
-                Show
-              </Radio>
-              <Radio
-                checked={!listFilter.show}
-                onChange={() =>
-                  setListFilters((old) =>
-                    old.map((f) => {
-                      if (f.name === listFilter.name) {
-                        f.show = false;
-                      }
-                      return f;
-                    }),
-                  )
-                }
-              >
-                Hide
-              </Radio>
+              <div className={c.listEntryControls}>
+                <Radio
+                  checked={listFilter.show}
+                  onChange={() =>
+                    setListFilters((old) =>
+                      old.map((f) => {
+                        if (f.name === listFilter.name) {
+                          f.show = true;
+                        }
+                        return f;
+                      }),
+                    )
+                  }
+                >
+                  Show
+                </Radio>
+                <Radio
+                  checked={!listFilter.show}
+                  onChange={() =>
+                    setListFilters((old) =>
+                      old.map((f) => {
+                        if (f.name === listFilter.name) {
+                          f.show = false;
+                        }
+                        return f;
+                      }),
+                    )
+                  }
+                >
+                  Hide
+                </Radio>
+              </div>
             </div>
-          </div>
-        </FilterBullet>
-      ))}
+          </FilterBullet>
+        );
+      })}
     </FiltersSection>
   );
 }

@@ -254,7 +254,15 @@ export default function Timeline() {
             filtersChanged={dispatchTypeFilters}
             filtersTemplate={filtersTemplate}
           />
-          {user ? <ListFilters listFilters={listFilters} setListFilters={setListFilters} /> : ""}
+          {user ? (
+            <ListFilters
+              listFilters={listFilters}
+              setListFilters={setListFilters}
+              pageIds={pageIds}
+            />
+          ) : (
+            ""
+          )}
           <TimelineRange
             timelineRangeBy={timelineRangeBy}
             setTimelineRangeBy={setTimelineRangeBy}

@@ -92,19 +92,20 @@ export default function List() {
         {list.missingItems?.length > 0 && (
           <div>
             <h3 className={c.missingHeading}>
-              Missing items{" "}
+              Missing items
               <Tooltip info side="right">
-                {
-                  "These items are in this list, but they've been removed from Wookieepedia's timeline and therefore this timeline."
-                }
-                <br />
+                <div style={{ marginBottom: "0.5rem" }}>
+                  {
+                    "These items are in this list, but they've been removed from Wookieepedia's timeline and therefore this timeline."
+                  }
+                </div>
                 Possible reasons:
                 <ul>
                   <li>
                     It was split into multiple items, like a comic book containg multiple stories,
                     or an upcoming TV show being replaced with individual episodes.
                   </li>
-                  <li>It was deemed to not have an original story.</li>
+                  <li>{`Wookieepedians decided it shouldn't be a timeline entry.`}</li>
                   <li>In rare cases it could be a bug in the bot.</li>
                 </ul>
               </Tooltip>
