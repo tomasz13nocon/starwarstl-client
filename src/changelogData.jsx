@@ -4,6 +4,19 @@ import { Link } from "react-router-dom";
 
 export const updates = [
   {
+    date: "2024-08-26",
+    changelog: (
+      <ul>
+        <li>
+          Added handling of missing media. If Wookieepedia removes an item from the timeline, and
+          you had it in a list, it will show up as "missing item" in that list's page. This most
+          commonly happens, when an item is split into individual stories, like a TV show being
+          replaced by its episodes.
+        </li>
+      </ul>
+    ),
+  },
+  {
     title: "v0.5",
     date: "2024-08-19",
     changelog: (
