@@ -4,24 +4,28 @@ footer {
   margin-top: auto;
   flex-shrink: 0;
   text-align: center;
-
   background-color: $active4;
   color: white;
+
   .footer-container {
     width: $main-width;
     margin: 0 auto;
     padding: 16px;
     box-sizing: border-box;
+
     @media (max-width: $width-xl) {
       width: 100%;
     }
   }
+
   a {
     color: #b3ceff;
   }
+
   .legal {
     font-size: 0.75rem;
     line-height: 0.9rem;
+
     p {
       margin: 0.3rem 0;
     }

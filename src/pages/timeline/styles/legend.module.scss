@@ -16,20 +16,19 @@ $circle-btn-height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-
   overflow: hidden;
 
   &.expanded {
     align-items: initial;
     justify-content: initial;
-    overflow-y: auto;
+    overflow: hidden auto;
 
-    @media (min-height: 720px) {
+    @media (height >= 720px) {
       overflow-y: hidden;
     }
 
-    overflow-x: hidden;
     max-height: calc(100vh - $circle-btn-height - 12px - 10px - 12px);
+
     // put it out of flow for animation to work
     position: absolute;
     right: 0;

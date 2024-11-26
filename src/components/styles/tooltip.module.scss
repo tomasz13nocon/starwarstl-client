@@ -10,7 +10,6 @@
   bottom: 1px;
   margin-left: 8px;
   display: inline-block;
-
   width: 18px;
   height: 18px;
   max-width: 18px;
@@ -22,6 +21,7 @@
 
 .content {
   @extend %floating-content;
+
   font-size: 14px;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;

@@ -1,5 +1,4 @@
 @use "@/vars.scss" as *;
-
 @layer base, global;
 
 @layer global {
@@ -56,6 +55,7 @@
   body {
     margin: 0;
     font-family: $sans;
+
     // font-weight: $weight-regular;
     font-size: 18px;
     background-color: $background;
@@ -325,7 +325,7 @@
 
 .type-indicator {
   box-shadow: 0 0 5px -3px black;
-  padding: 0 9px 0px 9px;
+  padding: 0 9px;
   border-radius: 999px;
   white-space: nowrap;
 }

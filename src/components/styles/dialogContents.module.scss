@@ -6,6 +6,7 @@
 
 .content {
   @include dialog-content;
+
   max-height: 85vh;
   width: 90vw;
   max-width: 450px;

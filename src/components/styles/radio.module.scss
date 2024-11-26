@@ -27,7 +27,7 @@
         background-color 0.1s,
         border-color 0.1s;
 
-      &:before {
+      &::before {
         content: "";
         position: absolute;
         top: 4px;
@@ -48,7 +48,7 @@
       background-color: $active1;
       border-color: $active3;
 
-      &:before {
+      &::before {
         transform: scale(1);
       }
     }

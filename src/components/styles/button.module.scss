@@ -2,6 +2,7 @@
 
 .btn {
   @extend %reset-button;
+
   padding: 0 6px;
   border-radius: 4px;
   font-size: 16px;
@@ -38,6 +39,7 @@
   &.primary {
     background-color: $active1;
     border-color: black;
+
     // border-radius: 0;
   }
 

@@ -37,7 +37,6 @@ $delay-transitions: all 0s $checkbox-appear-duration;
     .checkbox {
       vertical-align: middle;
       bottom: 2px;
-
       position: relative;
       display: inline-block;
       margin-left: -20px;
@@ -78,7 +77,6 @@ $delay-transitions: all 0s $checkbox-appear-duration;
       }
 
       &.unchecked {
-
         &::before,
         &::after {
           height: 0;

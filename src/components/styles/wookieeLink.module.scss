@@ -2,6 +2,7 @@
 
 .wookiee-link {
   user-select: none;
+
   img {
     margin-left: 0.3em;
     width: 1em;
@@ -9,6 +10,7 @@
     top: 0.15em;
     transition: transform 0.1s;
   }
+
   &:hover img {
     transform: scale(1.5);
   }

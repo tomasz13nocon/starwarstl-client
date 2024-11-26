@@ -6,8 +6,10 @@ $dropdown-padding: 1rem;
 
 .settings-link {
   @extend %nav-link;
+
   margin: calc(-1 * $dropdown-padding / 2) (-$dropdown-padding);
   padding: calc($dropdown-padding / 2);
+
   // text-align: center;
   display: flex;
   gap: 0.5rem;
@@ -32,6 +34,7 @@ $dropdown-padding: 1rem;
   @media (max-width: $mobile) {
     width: 100%;
     box-sizing: border-box;
+
     // position: fixed;
     // top: 0;
     // z-index: 15;
@@ -42,6 +45,7 @@ $dropdown-padding: 1rem;
 .desktop-header {
   @media (max-width: $mobile) {
     display: none;
+
     // width: 100%;
   }
 
@@ -139,6 +143,7 @@ $dropdown-padding: 1rem;
 
 .nav-link {
   @extend %nav-link;
+
   display: block;
   text-align: center;
   padding: 1rem 1.5rem;
@@ -150,6 +155,7 @@ $dropdown-padding: 1rem;
 
 .hamburger-icon {
   @extend .icon;
+
   display: block;
 }
 
@@ -158,6 +164,7 @@ $dropdown-padding: 1rem;
 
   .arrow-icon {
     @extend .icon;
+
     transition: transform 0.1s;
   }
 

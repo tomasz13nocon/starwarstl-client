@@ -37,6 +37,7 @@
 
 .overlay {
   @extend %dialog-overlay;
+
   backdrop-filter: blur(6px);
 }
 

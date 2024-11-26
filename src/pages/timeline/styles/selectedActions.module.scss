@@ -2,8 +2,10 @@
 
 .container {
   @extend %floating-content;
+
   position: fixed;
   bottom: 0.5rem;
+
   // left: 50%;
   // transform: translate(-50%);
   margin: auto;
@@ -12,7 +14,6 @@
   width: fit-content;
   padding: 0.5rem 1rem;
   text-align: center;
-
   animation: floatingShow $dialog-anim-ease $dialog-anim-duration;
 }
 

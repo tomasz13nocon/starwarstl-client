@@ -12,7 +12,6 @@
     grid-template-areas:
       "cover title"
       "cover other";
-
     grid-template-columns: auto 1fr;
   }
 }
@@ -30,7 +29,7 @@
   grid-area: other;
   display: flex;
 
-  >* {
+  > * {
     flex-grow: 1;
     flex-basis: 50%;
     box-sizing: border-box;
@@ -40,15 +39,9 @@
 
 .td {
   @extend %cell;
+
   display: flex;
   align-items: center;
-
-  // .td-inner {
-  //   position: relative;
-  //   top: 50%;
-  //   transform: translateY(-50%);
-  // }
-
   font-size: 0.8em;
 
   ul {
@@ -65,14 +58,6 @@
   }
 }
 
-.td.selection {
-  @media (max-width: $width-md) {}
-}
-
-.td.date {
-  @media (max-width: $width-md) {}
-}
-
 .td.cover {
   img {
     max-width: 100%;
@@ -81,12 +66,9 @@
 
   @media (max-width: $width-md) {
     min-width: 55px;
+
     // -1px due to negative margin. This fixes double border on covers not filling height.
     height: calc(100% - 1px);
-
-    &.no-cover {
-      // display: none;
-    }
   }
 }
 
@@ -102,6 +84,7 @@
 
   button {
     @extend %reset-button;
+
     pointer-events: none;
     text-align: left;
   }
@@ -131,14 +114,6 @@
     vertical-align: bottom;
     margin: 0 4px;
   }
-
-  @media (max-width: $width-md) {
-    // width: 100%;
-  }
-}
-
-.td.releaseDate {
-  @media (max-width: $width-md) {}
 }
 
 .not-unique {

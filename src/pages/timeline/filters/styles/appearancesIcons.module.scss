@@ -23,10 +23,12 @@
 
 .appearances-icon {
   @extend %reset-button;
+
   color: $grey0;
   width: 20px;
   height: 20px;
   box-sizing: content-box;
+
   // padding: 2px;
   border-radius: 4px;
   border: 1px solid $grey2;

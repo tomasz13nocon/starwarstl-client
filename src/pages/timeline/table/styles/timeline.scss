@@ -25,18 +25,6 @@
   }
 }
 
-.th {
-  @extend %cell;
-
-  &.not-sortable {
-    cursor: default;
-
-    &:hover {
-      box-shadow: none;
-    }
-  }
-}
-
 .tr-outer:last-child .td.continuity {
   border-bottom: 1px solid black;
 }
@@ -48,6 +36,7 @@
 .filter-indicator {
   font-size: 14px;
   font-weight: normal;
+
   // border-bottom: 1px solid #0000002f;
   padding-bottom: 1px;
 
@@ -78,16 +67,25 @@
 }
 
 .th {
+  @extend %cell;
+
   background-color: #444;
   color: white;
   cursor: pointer;
+  user-select: none;
+
+  &.not-sortable {
+    cursor: default;
+
+    &:hover {
+      box-shadow: none;
+    }
+  }
 
   &:hover {
     box-shadow: 0 0 2px black;
     z-index: 4;
   }
-
-  user-select: none;
 
   .th-inner {
     position: relative;

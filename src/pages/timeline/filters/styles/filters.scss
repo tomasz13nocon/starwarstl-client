@@ -34,7 +34,7 @@ $filters-width: 250px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 12px 6px 12px 6px;
+  padding: 12px 6px;
 
   @media (max-width: $width-lg) {
     background: $background;
@@ -57,6 +57,7 @@ $filters-width: 250px;
   display: inline-block;
   vertical-align: top;
   transition: transform 0.3s;
+
   // &.filters-visible {
   //   transform: translateX(271px);
   // }
@@ -64,19 +65,22 @@ $filters-width: 250px;
   z-index: 7;
   background: #444;
   color: $accent;
+
   // left: 0;
   top: 160px;
   padding: 4px 6px 4px 2px;
   cursor: pointer;
   border-radius: 0 14px 14px 0;
 
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     border-bottom-left-radius: 24px;
+
     // border-radius: 21px;
     // box-shadow: 0 0 0 9px black;
     border-left: 12px solid #444;
     border-bottom: 12px solid #444;
+
     // border: 10px solid black;
     // transform: rotate(45deg);
     // box-sizing: border-box;
@@ -89,7 +93,7 @@ $filters-width: 250px;
     z-index: -1;
   }
 
-  &:after {
+  &::after {
     top: calc(100% - 14px);
     transform: rotate(90deg);
   }
@@ -105,6 +109,7 @@ $filters-width: 250px;
 
 .suggestion {
   @extend %reset-button;
+
   border: 1px solid black;
   margin-top: -1px;
   position: relative;
