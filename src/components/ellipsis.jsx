@@ -3,7 +3,7 @@ import React from "react";
 export default function Ellipsis() {
   const [num, setNum] = React.useState(0);
   React.useEffect(() => {
-    let id = setInterval(() => setNum(s => s > 2 ? 0 : s+1), 200);
+    const id = setInterval(() => setNum(s => s > 2 ? 0 : s+1), 200);
     return () => clearInterval(id);
   }, []);
   return (

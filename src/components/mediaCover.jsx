@@ -15,9 +15,9 @@ export default function MediaCover({ src, alt, width, height, hash }) {
   let fullCoverWidth, fullCoverHeight;
   if (width && height) {
     const margin = 20;
-    let ar = width / height;
-    let clampedW = Math.min(windowWidth - margin, width);
-    let clampedH = Math.min(windowHeight - margin, height);
+    const ar = width / height;
+    const clampedW = Math.min(windowWidth - margin, width);
+    const clampedH = Math.min(windowHeight - margin, height);
     fullCoverWidth = clampedH * ar;
     if (fullCoverWidth <= windowWidth - margin) {
       fullCoverHeight = clampedH;

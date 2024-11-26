@@ -54,7 +54,7 @@ export default function TextFilter({
 
   // Suggestions are derived state, hence useEffect
   useEffect(() => {
-    let query = filterText.toLowerCase().trim();
+    const query = filterText.toLowerCase().trim();
 
     // if (query.length < 2) {
     //   setSuggestions([]);
@@ -81,7 +81,7 @@ export default function TextFilter({
         return;
       }
 
-      let found = seriesArr.filter((item) =>
+      const found = seriesArr.filter((item) =>
         item.displayTitle
           ? item.displayTitle.toLowerCase().includes(query)
           : item.title.toLowerCase().includes(query),
@@ -92,7 +92,7 @@ export default function TextFilter({
           found
             .filter((el) => !boxFilters.includes(el))
             .sort((a, b) => {
-              let ap = suggestionPriority.indexOf(a.fullType || a.type),
+              const ap = suggestionPriority.indexOf(a.fullType || a.type),
                 bp = suggestionPriority.indexOf(b.fullType || b.type);
               if (ap > bp) return 1;
               if (ap < bp) return -1;

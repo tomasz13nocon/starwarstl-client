@@ -6,7 +6,7 @@ export default function useResponsive(breakpoint) {
   const [smallScreen, setSmallScreen] = useState(window.matchMedia(mediaQuery).matches);
 
   useEffect(() => {
-    let e = window
+    const e = window
       .matchMedia(mediaQuery)
       .addEventListener("change", (e) => setSmallScreen(e.matches));
     return () => window.removeEventListener("change", e);

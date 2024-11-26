@@ -10,11 +10,11 @@ import c from "./styles/checkboxGroup.module.scss";
 // 2 - all checked
 const areChildrenChecked = (children) => {
   let prev, checked;
-  for (let value of Object.values(children)) {
+  for (const value of Object.values(children)) {
     if (typeof value === "boolean") {
       checked = value;
     } else {
-      let childrenChecked = areChildrenChecked(value);
+      const childrenChecked = areChildrenChecked(value);
       if (childrenChecked === 1) return 1;
       checked = childrenChecked === 2;
     }
@@ -43,10 +43,10 @@ export default React.memo(function CheckboxGroup({
     () => localStorage.getItem("checkboxGroup_" + path) === "true",
   );
 
-  let childrenChecked = areChildrenChecked(state);
+  const childrenChecked = areChildrenChecked(state);
 
-  let recursiveGroupOrLeafs = Object.entries(children).map(([key, value]) => {
-    let finalPath = path ? path + "." + key : key;
+  const recursiveGroupOrLeafs = Object.entries(children).map(([key, value]) => {
+    const finalPath = path ? path + "." + key : key;
     // Leaf Checkbox
     // both of these ↓      ↓ should provide the same result
     if (typeof (/*value*/ state[key]) === "boolean" || value.value !== undefined) {
@@ -81,7 +81,7 @@ export default React.memo(function CheckboxGroup({
   // If name was not passed or is null, just recurse without creating the outer divs.
   if (!name) return recursiveGroupOrLeafs;
 
-  let grouping = path.split(".").length % 2 !== 0,
+  const grouping = path.split(".").length % 2 !== 0,
     additionalClass = "";
 
   return (

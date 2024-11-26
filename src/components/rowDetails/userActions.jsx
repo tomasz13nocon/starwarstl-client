@@ -97,8 +97,8 @@ export default function UserActions({ item }) {
           <Popover.Portal>
             <Popover.Content side="right" className={c.listDropdownContent}>
               {userLists.map((list) => {
-                let value = list.items.includes(item.pageid);
-                let onChange = value
+                const value = list.items.includes(item.pageid);
+                const onChange = value
                   ? () => removeFromList(list.name, item.pageid)
                   : () => addToList(list.name, item.pageid);
                 return (

@@ -57,7 +57,7 @@ function AccountSettings() {
     if (nameChangeTimeoutId.current) clearTimeout(nameChangeTimeoutId.current);
     if (e.target.value !== user.name && e.target.value.length >= 3 && e.target.value.length <= 32) {
       nameChangeTimeoutId.current = setTimeout(async () => {
-        let res = await fetchIsNameAvailable(e.target.value);
+        const res = await fetchIsNameAvailable(e.target.value);
         setNameAvailable(res);
       }, 500);
     }
@@ -135,9 +135,9 @@ function VerifyEmail() {
   };
 
   useEffect(() => {
-    let intervalID = setInterval(() => {
+    const intervalID = setInterval(() => {
       setVerificationTimeout((old) => {
-        let newTimeout = Math.max(0, old - 1);
+        const newTimeout = Math.max(0, old - 1);
         // This technically makes this function unpure, but surely it's fine (clearInterval is idempotent)
         if (newTimeout === 0) clearInterval(intervalID);
         return newTimeout;

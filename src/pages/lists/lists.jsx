@@ -45,7 +45,7 @@ export default function Lists() {
   }
 
   function newNameChanged(e) {
-    let nextName = e.target.value;
+    const nextName = e.target.value;
     setNewName(nextName);
 
     if (user.lists.find((list) => list.name === nextName && list.name !== editingName))

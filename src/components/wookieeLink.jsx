@@ -17,7 +17,7 @@ export default React.memo(function WookieeLink({ title, legends = false, childre
     }
     title = children;
   }
-  let linkTitle = title.replace(" ", "_");
+  const linkTitle = title.replace(" ", "_");
   return (
     <>
       {children}
@@ -29,7 +29,7 @@ export default React.memo(function WookieeLink({ title, legends = false, childre
         }
         target="_blank"
         className={c.wookieeLink}
-        title="See on Wookieepedia"
+        title="See on Wookieepedia" rel="noreferrer"
       >
         <img src="/img/Wiki-shrinkable.webp" alt="wookieepedia icon" />
       </a>

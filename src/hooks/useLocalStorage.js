@@ -5,7 +5,7 @@ export function useLocalStorage(key, initialValue, migration) {
     try {
       const item = window.localStorage.getItem(key);
       if (item) {
-        let itemParsed = JSON.parse(item);
+        const itemParsed = JSON.parse(item);
         return migration ? migration(itemParsed) : itemParsed;
       } else return initialValue;
     } catch (error) {

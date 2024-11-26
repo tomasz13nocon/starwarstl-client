@@ -3,7 +3,7 @@ import _ from "lodash";
 
 const createTypeFilters = (obj) => {
   if (!obj) throw new Error("Incorrect template structure!");
-  let ret = {};
+  const ret = {};
   for (const [key, value] of Object.entries(obj)) {
     ret[key] =
       typeof value === "boolean"
@@ -41,7 +41,7 @@ export const typeFiltersInitializer = (template) => {
 };
 
 const setChildren = (children, to) => {
-  for (let [key, value] of Object.entries(children)) {
+  for (const [key, value] of Object.entries(children)) {
     if (typeof value === "boolean") {
       children[key] = to;
     } else {
@@ -51,6 +51,6 @@ const setChildren = (children, to) => {
 };
 
 export const typeFiltersReducer = produce((draft, { path, to }) => {
-  let atPath = _.get(draft, path);
+  const atPath = _.get(draft, path);
   typeof atPath === "boolean" ? _.set(draft, path, to) : setChildren(atPath, to);
 });

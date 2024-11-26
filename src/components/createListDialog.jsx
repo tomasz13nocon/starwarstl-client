@@ -30,7 +30,7 @@ export default function CreateListDialog() {
   const userListNames = user?.lists.map((list) => list.name.toLowerCase());
 
   function newListNameChanged(e) {
-    let value = e.target.value;
+    const value = e.target.value;
     setNewListName(value);
     if (userListNames.includes(value.toLowerCase())) {
       setNewListError("List with this name already exists.");

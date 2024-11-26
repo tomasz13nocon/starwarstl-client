@@ -8,7 +8,7 @@ export default function useLocalStorageToggle(key, defaultValue) {
     },
     defaultValue,
     (d) => {
-      let ls = localStorage.getItem(key);
+      const ls = localStorage.getItem(key);
       if (ls === null) return d;
       return ls === "true";
     }

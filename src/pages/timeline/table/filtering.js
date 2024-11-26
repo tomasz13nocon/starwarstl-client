@@ -36,7 +36,7 @@ const rangeFilterStrategies = {
     return (item) => item.chronology <= to;
   },
   dateFromYearToTitle: (from, to, dates) => {
-    let titleDate = dates.reduce(
+    const titleDate = dates.reduce(
       (acc, v) => Math.max(acc, v.date2 ?? v.date1),
       Number.MIN_SAFE_INTEGER,
     );
@@ -46,7 +46,7 @@ const rangeFilterStrategies = {
       ) && item.chronology <= to;
   },
   dateFromTitleToYear: (from, to, dates) => {
-    let titleDate = dates.reduce((acc, v) => Math.min(acc, v.date1), Number.MAX_SAFE_INTEGER);
+    const titleDate = dates.reduce((acc, v) => Math.min(acc, v.date1), Number.MAX_SAFE_INTEGER);
     return (item) =>
       item.chronology >= from &&
       item.dateParsed?.some((date) => (date.date2 ?? date.date1) >= titleDate && date.date1 <= to);
@@ -54,7 +54,7 @@ const rangeFilterStrategies = {
 
   releaseDateFromYearToYear: (from, to) => {
     return (item) => {
-      let rd = new Date(item.releaseDate);
+      const rd = new Date(item.releaseDate);
       return rd >= from && rd <= to;
     };
   },
@@ -66,7 +66,7 @@ const rangeFilterStrategies = {
   },
   releaseDateFromTitleToTitle: (from, to) => {
     return (item) => {
-      let rd = new Date(item.releaseDate);
+      const rd = new Date(item.releaseDate);
       return rd >= from && rd <= to;
     };
   },
@@ -78,13 +78,13 @@ const rangeFilterStrategies = {
   },
   releaseDateFromYearToTitle: (from, to) => {
     return (item) => {
-      let rd = new Date(item.releaseDate);
+      const rd = new Date(item.releaseDate);
       return rd >= from && rd <= to;
     };
   },
   releaseDateFromTitleToYear: (from, to) => {
     return (item) => {
-      let rd = new Date(item.releaseDate);
+      const rd = new Date(item.releaseDate);
       return rd >= from && rd <= to;
     };
   },
@@ -129,11 +129,11 @@ const filterItem = (filters, item) => {
 // that treat subgroups of unchecked filters as checked
 const removeAllFalses = (filters) => {
   let acc = false;
-  for (let [key, value] of Object.entries(filters)) {
+  for (const [key, value] of Object.entries(filters)) {
     if (typeof value === "boolean") {
       acc ||= value;
     } else {
-      let childrenChecked = removeAllFalses(value);
+      const childrenChecked = removeAllFalses(value);
       if (!childrenChecked) delete filters[key];
       acc ||= childrenChecked;
     }
@@ -232,7 +232,7 @@ export function createRangeStrategy(rangeFrom, rangeTo, timelineRangeBy) {
 }
 
 export function createTypeStrategy(typeFilters) {
-  let cleanFilters = _.cloneDeep(typeFilters);
+  const cleanFilters = _.cloneDeep(typeFilters);
   removeAllFalses(cleanFilters);
   return (item) => filterItem(cleanFilters, item);
 }
@@ -250,9 +250,9 @@ function filterAppearancesByTemplates(appearancesFilters) {
 
 // Filter on fields of media. Currently only supports series and appearances
 export function createFieldStrategy(boxFilters, boxFiltersAnd, appearancesFilters) {
-  let matchingIds = {};
+  const matchingIds = {};
 
-  for (let boxFilter of boxFilters) {
+  for (const boxFilter of boxFilters) {
     if (!boxFilter.category) continue;
 
     matchingIds[boxFilter.name] = new Set(
@@ -277,7 +277,7 @@ export const getMatchedApps = () => matchedApps;
 // filter by text. Searches title, series
 // if filterCategory is truthy, filter by appearances of that category
 export function createTextStrategy(filterText, filterCategory, appearances, appearancesFilters) {
-  let queries = filterText
+  const queries = filterText
     .toLowerCase()
     .trim()
     .split(" ")
@@ -293,9 +293,9 @@ export function createTextStrategy(filterText, filterCategory, appearances, appe
 
     // TODO improve naming 🙄
     matchedApps = {};
-    for (let match of matchingApps) {
+    for (const match of matchingApps) {
       // TODO add range of match (use indexOf instead of includes)
-      for (let media of match.media) {
+      for (const media of match.media) {
         matchedApps[media.id] = matchedApps[media.id] || [];
         if (matchedApps[media.id].find((app) => app.name === match.name)) continue;
         matchedApps[media.id].push({
@@ -332,7 +332,7 @@ export function createListStrategy(listFilters) {
 
   return (item) => {
     let ret = defaultRet;
-    for (let filter of listFilters) {
+    for (const filter of listFilters) {
       if (filter.show) {
         if (filter.items.includes(item.pageid)) ret = true;
       } else {

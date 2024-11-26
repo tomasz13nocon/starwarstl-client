@@ -123,7 +123,7 @@ export default function Timeline() {
     let data,
       cancelled = false;
     const fetchToJson = async (apiRoute) => {
-      let res = await fetch(API + apiRoute);
+      const res = await fetch(API + apiRoute);
       if (!res.ok) throw new Error(res.statusText);
       return await res.json();
     };
@@ -131,11 +131,11 @@ export default function Timeline() {
     (async () => {
       try {
         // bare media
-        let d = await fetchToJson("media?bare=true");
+        const d = await fetchToJson("media?bare=true");
         if (cancelled) return;
 
         // series data
-        let s = await fetchToJson("series");
+        const s = await fetchToJson("series");
         if (cancelled) return;
 
         setRawData(d);
@@ -160,11 +160,11 @@ export default function Timeline() {
   useSidebar(setShowFilters, swiping);
 
   // Process timeline range input
-  let rangeFrom = useMemo(
+  const rangeFrom = useMemo(
     () => parseRange(rangeFromStr, rawData, timelineRangeBy),
     [rangeFromStr, rawData, timelineRangeBy],
   );
-  let rangeTo = useMemo(
+  const rangeTo = useMemo(
     () => parseRange(rangeToStr, rawData, timelineRangeBy),
     [rangeToStr, rawData, timelineRangeBy],
   );

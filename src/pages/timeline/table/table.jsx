@@ -63,7 +63,7 @@ function Table({
   useEffect(() => {
     if (searchResults.highlight && renderedRange.current) {
       let behavior = "auto";
-      let highlightIndex = searchResults.results[searchResults.highlight.resultsIndex].rowIndex;
+      const highlightIndex = searchResults.results[searchResults.highlight.resultsIndex].rowIndex;
       if (
         highlightIndex >= renderedRange.current.startIndex &&
         highlightIndex <= renderedRange.current.endIndex
@@ -154,7 +154,7 @@ function Table({
 
     let tempData = rawData.filter((item) => strategies.every((strategy) => strategy(item)));
 
-    let by = sorting.by === "date" ? "chronology" : sorting.by;
+    const by = sorting.by === "date" ? "chronology" : sorting.by;
     tempData.sort(createSorter(by, sorting.ascending));
 
     // Collapse adjacent entries. This must be the last step
@@ -173,7 +173,7 @@ function Table({
 
   const scrollToId = useCallback(
     (id) => {
-      let index = data.findIndex((e) => e._id === id);
+      const index = data.findIndex((e) => e._id === id);
       if (index !== -1) {
         virtuoso.current?.scrollToIndex({
           index: index,
@@ -223,11 +223,11 @@ function Table({
           payload: { results: [], overallSize: overallSize },
         });
       } else {
-        let results = [];
-        for (let [rowIndex, item] of data.entries()) {
-          for (let field of searchFields) {
+        const results = [];
+        for (const [rowIndex, item] of data.entries()) {
+          for (const field of searchFields) {
             if (typeof item[field] === "string") {
-              let indices = findAllIndices(item[field], searchResults.text);
+              const indices = findAllIndices(item[field], searchResults.text);
               if (indices.length) {
                 results.push({
                   rowIndex: rowIndex,
@@ -238,10 +238,10 @@ function Table({
                 overallSize += indices.length;
               }
             } else if (Array.isArray(item[field])) {
-              for (let [arrayIndex, arrayItem] of item[field].entries()) {
+              for (const [arrayIndex, arrayItem] of item[field].entries()) {
                 if (typeof arrayItem !== "string")
                   console.error("Unknown field type while searching (array of non strings)");
-                let indices = findAllIndices(arrayItem, searchResults.text);
+                const indices = findAllIndices(arrayItem, searchResults.text);
                 if (indices.length) {
                   results.push({
                     // TODO should this be a dict with IDs as keys?
@@ -275,7 +275,7 @@ function Table({
   const matchedBoxFilterApps = boxFilters
     .filter((f) => f.category)
     .reduce((acc, f) => {
-      for (let media of f.media) {
+      for (const media of f.media) {
         acc[media.id] = acc[media.id] || [];
         //
         acc[media.id].push({
@@ -339,7 +339,7 @@ function Table({
           }}
           itemContent={(index, item) => {
             // The index in searchResults.results array of the first result in this row
-            let resultsIndex = searchResults.results.findIndex((r) => r.rowIndex === index);
+            const resultsIndex = searchResults.results.findIndex((r) => r.rowIndex === index);
             let rowResultCount = 0,
               rowSearchResults = [];
 

@@ -28,7 +28,7 @@ const sortingIcons = new Proxy(
   },
   {
     get: (target, property) => {
-      for (let k in target) if (new RegExp(k).test(property)) return target[k];
+      for (const k in target) if (new RegExp(k).test(property)) return target[k];
       return target.default;
     },
   },

@@ -11,7 +11,7 @@ export function searchResultsReducer(state, action) {
       ) {
         return state;
       } else {
-        let newHighlight = {
+        const newHighlight = {
           indicesIndex: state.highlight.indicesIndex,
           resultsIndex: state.highlight.resultsIndex,
           overallIndex: state.highlight.overallIndex - 1,
@@ -41,7 +41,7 @@ export function searchResultsReducer(state, action) {
       ) {
         return state;
       } else {
-        let newHighlight = {
+        const newHighlight = {
           indicesIndex: state.highlight.indicesIndex,
           resultsIndex: state.highlight.resultsIndex,
           overallIndex: state.highlight.overallIndex + 1,

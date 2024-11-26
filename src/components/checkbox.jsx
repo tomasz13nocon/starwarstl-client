@@ -26,7 +26,7 @@ export default memo(function Checkbox({
   // make animClass {previousState}-to-{currentState}, empty by default
   const current = indeterminate ? "indeterminate" : value ? "checked" : "unchecked";
   const prevRef = useRef();
-  let animClass = useMemo(() => {
+  const animClass = useMemo(() => {
     return prevRef.current
       ? prevRef.current + "To" + current[0].toUpperCase() + current.slice(1)
       : "";

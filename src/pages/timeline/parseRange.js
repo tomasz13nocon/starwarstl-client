@@ -1,10 +1,10 @@
 export default function (str, data, timelineRangeBy) {
   if (str) {
     // TODO: optimize: debounce or title index/array
-    let strU = str.toUpperCase();
-    for (let item of data) {
+    const strU = str.toUpperCase();
+    for (const item of data) {
       if (strU === item.title.toUpperCase()) {
-        let ret = { isTitle: true };
+        const ret = { isTitle: true };
         if (timelineRangeBy === "date") {
           if (!item.dateParsed) return undefined; // TODO display msg: Can't use this media, since its placement is a mystery
           ret.value = item.chronology;
@@ -35,7 +35,7 @@ export default function (str, data, timelineRangeBy) {
       return { value: date };
     }
   } else if (timelineRangeBy === "releaseDate") {
-    let date = new Date(str);
+    const date = new Date(str);
     if (!isNaN(date)) {
       return { value: date };
     }

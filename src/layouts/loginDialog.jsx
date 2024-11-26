@@ -28,7 +28,7 @@ export default function LoginDialog({ children, ...props }) {
     try {
       switch (action) {
         case "signup": {
-          let res = await actions.signup(
+          const res = await actions.signup(
             e.target.email.value,
             e.target.name.value,
             e.target.password.value,
@@ -40,14 +40,14 @@ export default function LoginDialog({ children, ...props }) {
           break;
         }
         case "login": {
-          let res = await actions.login(e.target.email.value, e.target.password.value);
+          const res = await actions.login(e.target.email.value, e.target.password.value);
           pushToast({
             title: "Logged in as " + res.email,
           });
           break;
         }
         case "reset": {
-          let res = await actions.resetPassword(e.target.email.value);
+          const res = await actions.resetPassword(e.target.email.value);
           setAlert({ type: "info", message: res.message });
           break;
         }
@@ -60,7 +60,7 @@ export default function LoginDialog({ children, ...props }) {
   }
 
   async function handleGoogleLogin() {
-    let res = await actions.loginWithGoogle();
+    const res = await actions.loginWithGoogle();
     // TODO err handle
     const newWindow = window.open(res.authorizationUrl, "_self", "noopener,noreferrer");
     if (newWindow) newWindow.opener = null;

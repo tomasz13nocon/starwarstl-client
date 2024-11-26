@@ -18,11 +18,11 @@ export default function SelectedActions({ selected, rawData, dataState }) {
   const [fetchRemove, fetchingRemove] = useFetch(actions.removeFromList, { toastOnError: true });
   const { pushToast } = useToast();
 
-  let compoundCount = useMemo(() => {
+  const compoundCount = useMemo(() => {
     if (dataState !== "ok") return 0;
 
     let count = 0;
-    let visited = new Set();
+    const visited = new Set();
     rawData.forEach((item) => {
       if (item.notUnique && !visited.has(item.pageid) && selected.has(item.pageid)) {
         visited.add(item.pageid);
@@ -33,9 +33,9 @@ export default function SelectedActions({ selected, rawData, dataState }) {
   }, [rawData, dataState, selected]);
 
   async function addToList(listName) {
-    let items = user.lists.find((l) => l.name === listName).items;
-    let addedCount = new Set([...items, ...selected]).size - items.length;
-    let duplicateCount = selected.size - addedCount;
+    const items = user.lists.find((l) => l.name === listName).items;
+    const addedCount = new Set([...items, ...selected]).size - items.length;
+    const duplicateCount = selected.size - addedCount;
 
     await fetchAdd(listName, [...selected]);
     pushToast({
@@ -50,14 +50,14 @@ export default function SelectedActions({ selected, rawData, dataState }) {
   }
 
   async function removeFromList(listName) {
-    let items = user.lists.find((l) => l.name === listName).items;
+    const items = user.lists.find((l) => l.name === listName).items;
     let removedCount = 0;
-    for (let item of items) {
+    for (const item of items) {
       if (selected.has(item)) {
         removedCount++;
       }
     }
-    let notRemovedCount = selected.size - removedCount;
+    const notRemovedCount = selected.size - removedCount;
 
     await fetchRemove(listName, [...selected]);
     pushToast({

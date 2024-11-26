@@ -8,7 +8,7 @@ export default function Search({ expanded, toggleExpanded, searchResults, dispat
   const searchInputRef = React.useRef();
 
   React.useEffect(() => {
-    let handler = function (e) {
+    const handler = (e) => {
       if (e.keyCode === 114 || (e.ctrlKey && e.keyCode === 70) || (e.ctrlKey && e.keyCode === 71)) {
         if (e.keyCode === 70 && document.activeElement === searchInputRef.current) return;
         e.preventDefault();

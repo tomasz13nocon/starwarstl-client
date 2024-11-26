@@ -29,7 +29,7 @@ export default function GoogleCallback() {
 
   async function handleNameChange(e) {
     e.preventDefault();
-    let name = e.target.name.value;
+    const name = e.target.name.value;
     await fetchChangeName(name);
 
     pushToast({ title: "User name set to " + name });

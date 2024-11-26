@@ -27,7 +27,7 @@ export default function Appearances({ id }) {
   const legendsCatName = "l-" + activeCategory?.name.substring(2);
   const canonCat = appearances.find((cat) => cat.name === canonCatName);
   const legendsCat = appearances.find((cat) => cat.name === legendsCatName);
-  let displayedCats = [];
+  const displayedCats = [];
   return (
     <div className={c.appsContainer}>
       {fetching && <Fetching />}

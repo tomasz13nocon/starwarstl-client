@@ -146,7 +146,7 @@ function MetaInfo() {
   const [info, setInfo] = useState();
   const [_, fetching, alert] = useFetch(
     async () => {
-      let res = await fetchHelper("meta");
+      const res = await fetchHelper("meta");
       setInfo(res);
     },
     { onMount: true },

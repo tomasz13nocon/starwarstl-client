@@ -8,7 +8,7 @@ const displayParamsTemplates = ["1stID", "1st", "1stm", "C"];
 const simultaneousTemplates = ["1st", "1stm"];
 
 export default function AppearanceShield({ template, hidden = false }) {
-  let prettyName = appearancesTemplateNames[template.name];
+  const prettyName = appearancesTemplateNames[template.name];
 
   return (
     prettyName !== undefined && (

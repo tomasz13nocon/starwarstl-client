@@ -20,8 +20,8 @@ export default function ListFilters({ listFilters, setListFilters, pageIds, data
   // Recreate the filter when user's lists change
   useEffect(() => {
     const newListFilters = [];
-    for (let listFilter of listFilters) {
-      let userList = user.lists.find((list) => list.name === listFilter.name);
+    for (const listFilter of listFilters) {
+      const userList = user.lists.find((list) => list.name === listFilter.name);
       // Handle the case of user deleting a list which is an active filter
       if (!userList) {
         removeListFilter(listFilter);

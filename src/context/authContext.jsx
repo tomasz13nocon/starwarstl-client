@@ -29,13 +29,13 @@ const userReducer = produce((draft, action) => {
     }
 
     case "addToList": {
-      let list = draft.lists.find((list) => list.name === action.listName);
+      const list = draft.lists.find((list) => list.name === action.listName);
       list.items = Array.from(new Set([...list.items, ...action.pageids]));
       break;
     }
 
     case "removeFromList": {
-      let list = draft.lists.find((list) => list.name === action.listName);
+      const list = draft.lists.find((list) => list.name === action.listName);
       list.items = list.items.filter((pageid) => !action.pageids.includes(pageid));
       // for (let i = list.items.length; i >= 0; i--) {
       //   if (action.pageids.includes(list.items[i])) list.items.splice(i, 1);
@@ -56,7 +56,7 @@ const userReducer = produce((draft, action) => {
     }
 
     case "deleteList": {
-      let listIndex = draft.lists.findIndex((list) => list.name === action.listName);
+      const listIndex = draft.lists.findIndex((list) => list.name === action.listName);
       if (listIndex !== -1) draft.lists.splice(listIndex, 1);
       break;
     }
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
     setFetchingAuth(true);
     (async () => {
       try {
-        let res = await fetchHelper("auth/user");
+        const res = await fetchHelper("auth/user");
 
         dispatchUser({ type: "set", user: res });
       } catch (e) {
@@ -87,14 +87,14 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signup = useCallback(async (email, name, password) => {
-    let res = await fetchHelper("auth/signup", "POST", { email, name, password });
+    const res = await fetchHelper("auth/signup", "POST", { email, name, password });
 
     dispatchUser({ type: "set", user: res });
     return res;
   }, []);
 
   const login = useCallback(async (email, password) => {
-    let res = await fetchHelper("auth/login", "POST", { email, password });
+    const res = await fetchHelper("auth/login", "POST", { email, password });
 
     dispatchUser({ type: "set", user: res });
     return res;
@@ -126,7 +126,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const verifyEmail = useCallback(async (token) => {
-    let res = await fetchHelper("auth/email-verification/" + token);
+    const res = await fetchHelper("auth/email-verification/" + token);
 
     if (res.info) return res;
     else dispatchUser({ type: "set", user: res });
@@ -138,7 +138,7 @@ export const AuthProvider = ({ children }) => {
 
   const getList = useCallback(async (listName) => {
     try {
-      let list = await fetchHelper("lists/" + encodeURIComponent(listName));
+      const list = await fetchHelper("lists/" + encodeURIComponent(listName));
       return list;
     } catch (e) {
       if (e.status === 404) return null;
@@ -165,7 +165,7 @@ export const AuthProvider = ({ children }) => {
     dispatchUser({ type: "addToList", listName, pageids });
 
     try {
-      let res = await fetchHelper("lists/" + encodeURIComponent(listName), "POST", { pageids });
+      const res = await fetchHelper("lists/" + encodeURIComponent(listName), "POST", { pageids });
       dispatchUser({ type: "setLists", lists: res.lists });
     } catch (e) {
       dispatchUser({ type: "removeFromList", listName, pageids });

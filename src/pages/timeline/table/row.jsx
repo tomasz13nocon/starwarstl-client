@@ -45,8 +45,8 @@ const highlightSearchResults = (
   // Surely there's a better way to do this, but perfect is the enemy of good. And good is the enemy of working. *sigh*
   if (typeof searchTarget === "string") {
     // since this field is a string, there is only one result object for it in the results array, therefore we use find, not filter, to find the indices
-    let columnResultIndex = rowSearchResults.findIndex((e) => e.field === columnName);
-    let columnResult = rowSearchResults[columnResultIndex];
+    const columnResultIndex = rowSearchResults.findIndex((e) => e.field === columnName);
+    const columnResult = rowSearchResults[columnResultIndex];
     return highlightText(
       searchTarget,
       columnResult?.indices,
@@ -57,10 +57,10 @@ const highlightSearchResults = (
     );
   } else if (Array.isArray(searchTarget) && searchTarget.every((e) => typeof e === "string")) {
     return searchTarget.map((str, i) => {
-      let columnItemResultIndex = rowSearchResults.findIndex(
+      const columnItemResultIndex = rowSearchResults.findIndex(
         (e) => e.field === columnName && e.arrayIndex === i,
       );
-      let columnItemResult = rowSearchResults[columnItemResultIndex];
+      const columnItemResult = rowSearchResults[columnItemResultIndex];
       return highlightText(
         str,
         columnItemResult?.indices,

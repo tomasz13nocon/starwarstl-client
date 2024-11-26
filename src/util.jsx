@@ -283,8 +283,8 @@ export const escapeRegex = (str) => {
 
 export const replaceInsensitive = (str, strReplace, strWith) => {
   // See http://stackoverflow.com/a/3561711/556609
-  let esc = escapeRegex(strReplace);
-  let reg = new RegExp(esc, "ig");
+  const esc = escapeRegex(strReplace);
+  const reg = new RegExp(esc, "ig");
   return str.replace(reg, strWith);
 };
 
@@ -316,7 +316,7 @@ export const wt2str = (wt) => {
 
   let str = "";
 
-  for (let item of wt) {
+  for (const item of wt) {
     switch (item.type) {
       case "text":
       case "note":
@@ -342,9 +342,9 @@ export const wt2str = (wt) => {
 
 // Return json from response and throw error if present
 export async function jsonErrors(res) {
-  let json = await res.json();
+  const json = await res.json();
   if (!res.ok || json?.error) {
-    let err = new Error(json.error ?? "An unexpected error occured");
+    const err = new Error(json.error ?? "An unexpected error occured");
     err.status = res.status;
     throw err;
   }
@@ -370,6 +370,6 @@ export async function fetchHelper(path, method = "GET", body) {
     opts.headers["Content-Type"] = "application/json";
   }
 
-  let res = await fetch(API + path, opts);
+  const res = await fetch(API + path, opts);
   return await jsonErrors(res);
 }

@@ -8,15 +8,14 @@
   width: 80%;
   left: 20px;
   position: sticky;
-  // right: -200px;
   z-index: 200;
+
   p {
     margin: 0;
   }
 }
 
 .filters-section {
-
   .hint-button {
     padding: 2px;
     &.active {
@@ -25,7 +24,7 @@
   }
 
   .range-by-selection {
-    display:flex;
+    display: flex;
     gap: 8px;
   }
 
@@ -36,19 +35,18 @@
   }
 
   .eras {
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     gap: 4px;
-
   }
 
   .era-container {
     border: 1px solid $grey2;
     padding: 2px 6px;
-    display:flex;
+    display: flex;
 
     align-items: center;
-    cursor:pointer;
+    cursor: pointer;
     user-select: none;
     &:hover {
       box-shadow: 0 0 2px black;
@@ -68,11 +66,9 @@
     order: 3;
   }
   .era-img {
-    vertical-align:middle;
+    vertical-align: middle;
     object-fit: contain;
     max-width: 26px;
     max-height: 26px;
   }
-
 }
-

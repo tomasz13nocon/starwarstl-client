@@ -30,7 +30,7 @@ export default function AppearancesNode({ appearances }) {
   } else if ("Text" in appearances) {
     return <>{appearances.Text}</>;
   } else if ("Template" in appearances) {
-    let hidden =
+    const hidden =
       (hideMentions && appearances.Template.name === "Mo") ||
       (hideIndirectMentions && appearances.Template.name === "Imo") ||
       (hideFlashbacks && appearances.Template.name === "Flash") ||

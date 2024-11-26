@@ -17,8 +17,8 @@ import Icon from "@components/icon";
 const render = (value, link = true) => {
   if (!Array.isArray(value)) return value;
   // Else it's an AST
-  let arr = [];
-  for (let item of value) {
+  const arr = [];
+  for (const item of value) {
     switch (item.type) {
       case "text":
         arr.push(item.text);
@@ -85,7 +85,7 @@ const getData = (item) => {
   if (item.audiobook) type += " (audiobook)";
   type = <span className={`type-indicator ${item.type} ${item.fullType}`}>{type}</span>;
 
-  let ret = {
+  const ret = {
     Type: type,
     "Timeline notes": render(item.timelineNotes),
     "Release date": render(item.releaseDateDetails, false),
