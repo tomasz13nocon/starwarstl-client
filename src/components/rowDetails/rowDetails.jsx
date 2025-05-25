@@ -75,6 +75,7 @@ const fullTypes = {
   "game-browser": "Browser game",
   "tv-animated": "Animated TV series",
   "tv-micro-series": "Micro-series",
+  "tv-other": "Other",
   "comic-story": "Comic story",
   "comic-strip": "Comic strip",
   "comic-manga": "Manga",

@@ -56,6 +56,7 @@ export default function Legend() {
           <div className={clsx("type-indicator", "tv")}>TV Series</div>
           <div className={clsx("type-indicator", "tv-animated", c.small)}>Animated TV series</div>
           <div className={clsx("type-indicator", "tv-micro-series", c.small)}>Micro-series</div>
+          <div className={clsx("type-indicator", "tv-other", c.small)}>Other</div>
           <div className={clsx(c.hr)}></div>
           <div className={clsx("type-indicator", "game")}>Video game</div>
           <div className={clsx("type-indicator", "game-vr", c.small)}>VR game</div>

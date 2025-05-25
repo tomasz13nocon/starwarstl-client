@@ -78,6 +78,7 @@ export const suggestionPriority = [
   "game-mobile",
   "short-story",
   "yr",
+  "tv-other",
   "game-browser",
   "unknown",
 ];

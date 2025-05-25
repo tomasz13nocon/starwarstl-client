@@ -24,6 +24,10 @@ export default {
                 name: "Micro series",
                 value: false,
               },
+              "tv-other": {
+                name: "Other",
+                value: false,
+              },
             },
           },
         },
