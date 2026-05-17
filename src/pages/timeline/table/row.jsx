@@ -1,13 +1,11 @@
 import React, { useCallback, useState } from "react";
 import { produce } from "immer";
-import { mdiVolumeHigh } from "@mdi/js";
 import RowDetails from "@components/rowDetails/rowDetails";
 import EpisodeNumber from "@components/episodeNumber";
 import { imgAddress, Size, buildTvImagePath, searchFields } from "@/util";
 import c from "./styles/row.module.scss";
 import clsx from "clsx";
 import { useMediaQuery } from "react-responsive";
-import Icon from "@components/icon";
 import Checkbox from "@components/checkbox";
 
 const highlightText = (
@@ -207,9 +205,6 @@ export default React.memo(function Row({
             {withSearch(item.collapseUntilTitle, "collapseUntilTitle")}
           </>
         ) : null}
-        {item.audiobook && (
-          <Icon path={mdiVolumeHigh} className={c.audiobookIcon} title="audiobook" />
-        )}
       </div>
     </Cell>
   );
